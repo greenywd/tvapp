@@ -11,12 +11,18 @@
 import Foundation
 import UIKit
 
-class SearchViewController : UIViewController, UITableViewDataSource, UITableViewDelegate {
+class SearchViewController : UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate {
     
+    //@IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var searchBar: UISearchBar!
+    
+    let API = TVDBAPI()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        let notificationName = Notification.Name("load")
+        searchBar.delegate = self
         
         //Looks for single or multiple taps.
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(SearchViewController.dismissKeyboard))
@@ -28,10 +34,13 @@ class SearchViewController : UIViewController, UITableViewDataSource, UITableVie
         
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        //tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        //tableView.register(self.tableView, forCellReuseIdentifier: "cell")
+        //tableView.separatorStyle = .none
+        tableView.rowHeight = 75
+
         
-        tableView.separatorStyle = .none
-        tableView.rowHeight = 50
+        NotificationCenter.default.addObserver(self, selector: #selector(loadList(notification:)), name: notificationName, object: nil)
     }
     
     //Calls this function when the tap is recognized.
@@ -45,21 +54,42 @@ class SearchViewController : UIViewController, UITableViewDataSource, UITableVie
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+        return showNamesFromSearch.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         //let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         
         let cellIdentifier = "cell"
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier)
-            ?? UITableViewCell(style: .subtitle, reuseIdentifier: cellIdentifier)
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier) ?? UITableViewCell(style: UITableViewCellStyle.subtitle, reuseIdentifier: cellIdentifier)
         
-        //let item = x.title[indexPath.row]
         //let detailItem = x.description[indexPath.row]
-        //cell.textLabel?.text = item
-        //cell.detailTextLabel?.text = detailItem
+        cell.textLabel?.text = showNamesFromSearch[indexPath.item]
+        cell.textLabel?.numberOfLines = 1
+        cell.textLabel?.lineBreakMode = .byTruncatingTail
+        
+        cell.detailTextLabel?.text = showDescFromSearch[indexPath.item]
+        cell.detailTextLabel?.numberOfLines = 3
+        cell.detailTextLabel?.lineBreakMode = .byTruncatingTail
         return cell
     }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        let showSearched: String?
+        
+        if searchBar.text != nil{
+            showSearched = searchBar.text!
+            showNamesFromSearch.removeAll()
+            showDescFromSearch.removeAll()
+            API.searchShows(show: showSearched!)
+        }
 
+        self.searchBar.endEditing(true)
+        
+    }
+    func loadList(notification: NSNotification){
+        //load data here
+        print("reloading data")
+        self.tableView.reloadData()
+    }
 }

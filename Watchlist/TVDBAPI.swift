@@ -30,7 +30,8 @@ class TVDBAPI {
                     tokenForAPI = loginResponse["token"]!
                     print("TOKEN IS: \(tokenForAPI!)")
                 }
-                self.getDeatilsOfShow(id: 289590)
+                //self.getDeatilsOfShow(id: 289590)
+                //self.searchShows(show: "Arrow")
             }
         }
     }
@@ -70,28 +71,38 @@ class TVDBAPI {
                 "Authorization": "Bearer \(tokenForAPI!)",
                 "Accept": "application/json"
             ]
-            
+            print("searching...")
             Alamofire.request(URL, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: headers).responseJSON { response in
-                
+                print(response)
                 if response.result.value != nil {
+    
                     let thing = JSON(response.result.value!).dictionaryValue
-                    let numberOfItems:Int = (thing["data"]?.count)!
-                    
-                    print("\(numberOfItems) entries.")
-                    for count in 0..<numberOfItems {
-                        //searchDetails.title.append((thing["data"]?[count]["seriesName"].string)!)
-                        //print(searchDetails.title)
+                    if thing["Error"] == nil {
+                        let numberOfItems:Int = (thing["data"]?.count)!
                         
-                        //searchDetails.id.append((thing["data"]?[count]["id"].int)!)
-                        //print(searchDetails.id)
-                        
-                        if thing["data"]?[count]["overview"].string != nil{
-                            //searchDetails.description.append((thing["data"]?[count]["overview"].string)!)
-                        //    print(searchDetails.description)
-                        } else {
-                            //searchDetails.description.append("No Overview.")
+                        print("\(numberOfItems) entries.")
+                        for count in 0..<numberOfItems {
+                            if thing["data"]?[count]["seriesName"] != nil {
+                                showNamesFromSearch.append(((thing["data"]?[count]["seriesName"])?.stringValue)!)
+                            }
+                            if thing["data"]?[count]["overview"] != nil {
+                                showDescFromSearch.append(((thing["data"]?[count]["overview"])?.stringValue)!)
+                            }
+                            
                         }
+                        print(showNamesFromSearch)
+                        print(showDescFromSearch)
+                        let notificationName = Notification.Name("load")
+                        NotificationCenter.default.post(name: notificationName, object: nil)
                     }
+                    return
+                    
+                    /*if thing["data"]?[count]["overview"].string != nil{
+                        //searchDetails.description.append((thing["data"]?[count]["overview"].string)!)
+                        //    print(searchDetails.description)
+                    } else {
+                        //searchDetails.description.append("No Overview.")
+                    }*/
                 }
             }
         }
