@@ -17,22 +17,33 @@ class ShowViewController: UIViewController {
     @IBOutlet var activityIndicator: UIActivityIndicatorView?
     @IBOutlet var bannerImage: UIImageView?
     @IBOutlet var descriptionOfShow: UILabel?
+    @IBOutlet var descriptionLabel: UILabel?
+    @IBOutlet weak var barItem: UITabBar!
     
     //let API = TVDBAPI()
+    
+    convenience init(){
+        self.init(nibName: nil, bundle: nil)
+        
+        
+    }
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         //API.getShow(id: "281662")
+        self.view.backgroundColor = UIColor.black
+        //self.parent?.view.backgroundColor = UIColor.black
         
         self.activityIndicator?.hidesWhenStopped = true
         self.activityIndicator?.startAnimating()
 
-        let title = seriesName?.rawString()
-        print(title!)
+        _ = seriesName?.rawString()
         
         self.descriptionOfShow?.text = "Matt Murdock, with his other senses superhumanly enhanced, fights crime as a blind lawyer by day, and vigilante by night."
-        
+        self.descriptionOfShow?.textColor = UIColor.white
+        self.descriptionLabel?.textColor = UIColor.white
         let url = URL(string: "https://thetvdb.com/banners/fanart/original/281662-7.jpg")
         
         DispatchQueue.global().async {
@@ -48,5 +59,8 @@ class ShowViewController: UIViewController {
     
     override func didReceiveMemoryWarning() {
         //do stuff
+    }
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
     }
 }
