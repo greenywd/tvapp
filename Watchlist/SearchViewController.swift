@@ -13,39 +13,40 @@ import UIKit
 
 class SearchViewController : UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate {
     
-    //@IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var searchBar: UISearchBar!
-    
-    let API = TVDBAPI()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         let notificationName = Notification.Name("load")
         searchBar.delegate = self
         
-        //Looks for single or multiple taps.
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(SearchViewController.dismissKeyboard))
         
-        //Uncomment the line below if you want the tap not not interfere and cancel other interactions.
+        //so we can still tap on the tableview
         tap.cancelsTouchesInView = false
         
         view.addGestureRecognizer(tap)
         
         tableView.dataSource = self
         tableView.delegate = self
-        //tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
-        //tableView.register(self.tableView, forCellReuseIdentifier: "cell")
-        //tableView.separatorStyle = .none
         tableView.rowHeight = 75
-
         
         NotificationCenter.default.addObserver(self, selector: #selector(loadList(notification:)), name: notificationName, object: nil)
+        
     }
     
-    //Calls this function when the tap is recognized.
+    override func viewWillAppear(_ animated: Bool) {
+        self.navigationController?.setNavigationBarHidden(true, animated: animated)
+        super.viewWillAppear(animated)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        self.navigationController?.setNavigationBarHidden(false, animated: animated)
+        super.viewWillDisappear(animated)
+    }
+    
     func dismissKeyboard() {
-        //Causes the view (or one of its embedded text fields) to resign the first responder status.
         self.view.endEditing(true)
     }
     
@@ -57,39 +58,51 @@ class SearchViewController : UIViewController, UITableViewDataSource, UITableVie
         return showNamesFromSearch.count
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        //let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {        
         let cellIdentifier = "cell"
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier) ?? UITableViewCell(style: UITableViewCellStyle.subtitle, reuseIdentifier: cellIdentifier)
         
-        //let detailItem = x.description[indexPath.row]
-        cell.textLabel?.text = showNamesFromSearch[indexPath.item]
-        cell.textLabel?.numberOfLines = 1
-        cell.textLabel?.lineBreakMode = .byTruncatingTail
+        if showNamesFromSearch.isEmpty == false {
+            cell.textLabel?.text = showNamesFromSearch[indexPath.row]
+            cell.textLabel?.numberOfLines = 1
+            cell.textLabel?.lineBreakMode = .byTruncatingTail
+        }
         
-        cell.detailTextLabel?.text = showDescFromSearch[indexPath.item]
-        cell.detailTextLabel?.numberOfLines = 3
-        cell.detailTextLabel?.lineBreakMode = .byTruncatingTail
+        if showDescFromSearch.isEmpty == false {
+            cell.detailTextLabel?.text = showDescFromSearch[indexPath.row]
+            cell.detailTextLabel?.numberOfLines = 3
+            cell.detailTextLabel?.lineBreakMode = .byTruncatingTail
+        }
         return cell
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        performSegue(withIdentifier: "segue", sender: self)
+        print(indexPath.row)
+    }
+    
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        let showSearched: String?
         
         if searchBar.text != nil{
-            showSearched = searchBar.text!
             showNamesFromSearch.removeAll()
             showDescFromSearch.removeAll()
-            API.searchShows(show: showSearched!)
+            showIDFromSearch.removeAll()
+            
+            let API = TVDBAPI()
+            API.searchShows(show: searchBar.text!)
         }
-
         self.searchBar.endEditing(true)
-        
     }
+    
     func loadList(notification: NSNotification){
-        //load data here
         print("reloading data")
         self.tableView.reloadData()
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "segue" {
+            // Setup new view controller
+        }
     }
 }

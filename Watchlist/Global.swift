@@ -18,6 +18,7 @@ var seriesName: JSON? = nil
 var favouriteShows = [String: Int]()
 var showNamesFromSearch = [String]()
 var showDescFromSearch = [String]()
+var showIDFromSearch = [UInt]()
 
 struct SearchingShows {
     var title: [String]

@@ -30,8 +30,6 @@ class TVDBAPI {
                     tokenForAPI = loginResponse["token"]!
                     print("TOKEN IS: \(tokenForAPI!)")
                 }
-                //self.getDeatilsOfShow(id: 289590)
-                //self.searchShows(show: "Arrow")
             }
         }
     }
@@ -76,33 +74,32 @@ class TVDBAPI {
                 print(response)
                 if response.result.value != nil {
     
-                    let thing = JSON(response.result.value!).dictionaryValue
-                    if thing["Error"] == nil {
-                        let numberOfItems:Int = (thing["data"]?.count)!
+                    let result = JSON(response.result.value!).dictionaryValue
+                    if result["Error"] == nil {
+                        let numberOfItems:Int = (result["data"]?.count)!
                         
                         print("\(numberOfItems) entries.")
                         for count in 0..<numberOfItems {
-                            if thing["data"]?[count]["seriesName"] != nil {
-                                showNamesFromSearch.append(((thing["data"]?[count]["seriesName"])?.stringValue)!)
+                            if result["data"]?[count]["seriesName"] != nil {
+                                showNamesFromSearch.append(((result["data"]?[count]["seriesName"])?.stringValue)!)
                             }
-                            if thing["data"]?[count]["overview"] != nil {
-                                showDescFromSearch.append(((thing["data"]?[count]["overview"])?.stringValue)!)
+                            if result["data"]?[count]["overview"] != nil {
+                                showDescFromSearch.append(((result["data"]?[count]["overview"])?.stringValue)!)
+                            }
+                            if result["data"]?[count]["id"] != nil {
+                                showIDFromSearch.append(((result["data"]?[count]["id"])?.uIntValue)!)
                             }
                             
                         }
                         print(showNamesFromSearch)
                         print(showDescFromSearch)
+                        print(showIDFromSearch)
+                        
                         let notificationName = Notification.Name("load")
                         NotificationCenter.default.post(name: notificationName, object: nil)
                     }
-                    return
                     
-                    /*if thing["data"]?[count]["overview"].string != nil{
-                        //searchDetails.description.append((thing["data"]?[count]["overview"].string)!)
-                        //    print(searchDetails.description)
-                    } else {
-                        //searchDetails.description.append("No Overview.")
-                    }*/
+                    return
                 }
             }
         }
