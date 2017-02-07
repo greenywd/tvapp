@@ -11,6 +11,8 @@
 import Foundation
 import UIKit
 
+var detailsForController = detailsOfShow
+
 class ShowViewController: UIViewController {
 	
 	//MARK: Properties
@@ -25,40 +27,39 @@ class ShowViewController: UIViewController {
     let API = TVDBAPI()
 	
 	
+	
 	//MARK: Methods
-    convenience init(showID: Int){
-        self.init()
-        
-        API.getDeatilsOfShow(id: showID)
-        print("getting details of show with ID \(showID)")
-        
-    }
 	
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        //API.getShow(id: "281662")
-        //self.view.backgroundColor = UIColor.black
-        //self.parent?.view.backgroundColor = UIColor.black
+		
+		DispatchQueue.global().async {
+
+			print("\(self): \(cellTappedForShowID)")
+			self.API.getDetailsOfShow(id: cellTappedForShowID)
+			
+			DispatchQueue.main.sync {
+
+				print(detailsForController["name"] as? String!)
+				self.navigationItem.title = detailsForController["name"] as? String
+			}
+		}
+		
+		//print(cellTappedForShowID)
+        //API.getDetailsOfShow(id: cellTappedForShowID)
         
         self.activityIndicator?.hidesWhenStopped = true
         self.activityIndicator?.startAnimating()
-
+		//print(detailsForController["name"])
+		self.navigationItem.title = "test"
         _ = seriesName?.rawString()
         
         self.descriptionOfShow?.text = "Matt Murdock, with his other senses superhumanly enhanced, fights crime as a blind lawyer by day, and vigilante by night."
         //self.descriptionOfShow?.textColor = UIColor.white
         //self.descriptionLabel?.textColor = UIColor.white
-        let url = URL(string: "https://thetvdb.com/banners/fanart/original/281662-7.jpg")
-        
-        DispatchQueue.global().async {
-            let data = try? Data(contentsOf: url!) //make sure your image in this url does exist, otherwise unwrap in a if let check / try-catch
-            DispatchQueue.main.async {
-                self.bannerImage?.image = UIImage(data: data!)
-                self.activityIndicator?.stopAnimating()
-            }
-        }
-        
+		
+		
         //self.navigationController?.isNavigationBarHidden = false
         
     }

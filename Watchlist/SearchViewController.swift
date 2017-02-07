@@ -30,8 +30,12 @@ class SearchViewController : UIViewController, UITableViewDataSource, UITableVie
         
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.rowHeight = 75
-        
+        tableView.rowHeight = 90
+		tableView.layoutMargins = .zero
+		tableView.separatorInset = .zero
+		tableView.separatorStyle = .none
+		
+		
         NotificationCenter.default.addObserver(self, selector: #selector(loadList(notification:)), name: notificationName, object: nil)
         
     }
@@ -55,13 +59,16 @@ class SearchViewController : UIViewController, UITableViewDataSource, UITableVie
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return showNamesFromSearch.count
+		return showNamesFromSearch.count
     }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {        
-        let cellIdentifier = "cell"
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier) ?? UITableViewCell(style: UITableViewCellStyle.subtitle, reuseIdentifier: cellIdentifier)
-        
+	
+
+	
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+		
+		let cellIdentifier = "cell"
+		let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier) ?? UITableViewCell(style: UITableViewCellStyle.subtitle, reuseIdentifier: cellIdentifier)
+		
         if showNamesFromSearch.isEmpty == false {
             cell.textLabel?.text = showNamesFromSearch[indexPath.row]
             cell.textLabel?.numberOfLines = 1
@@ -80,8 +87,13 @@ class SearchViewController : UIViewController, UITableViewDataSource, UITableVie
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+		
+		cellTappedForShowID = showIDFromSearch[indexPath.row]
+		print("cell tapped \(cellTappedForShowID)")
+		print(showIDFromSearch[indexPath.row])
+		
         performSegue(withIdentifier: "segue", sender: self)
-        print(indexPath.row)
+        print("row: \(indexPath.row)")
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
@@ -104,12 +116,16 @@ class SearchViewController : UIViewController, UITableViewDataSource, UITableVie
     
     func loadList(notification: NSNotification){
         print("reloading data")
+		self.tableView.separatorStyle = .singleLine
         self.tableView.reloadData()
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "segue" {
-            // Setup new view controller
+			if let showVC = segue.destination as? ShowViewController {
+				// Assign the selected title to communityName
+				showVC.navigationItem.title = "test"
+			}
         }
     }
 	

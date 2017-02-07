@@ -11,6 +11,7 @@ import Foundation
 
 
 let userDefaults = UserDefaults.standard
+var cellTappedForShowID = Int()
 
 var tokenForAPI: String? = nil
 var seriesName: JSON? = nil
@@ -18,7 +19,23 @@ var seriesName: JSON? = nil
 var favouriteShows = [String: Int]()
 var showNamesFromSearch = [String]()
 var showDescFromSearch = [String]()
-var showIDFromSearch = [UInt]()
+var showIDFromSearch = [Int]()
+
+let detailsOfShow = [
+	
+	"name" : String(),
+	"description" : String(),
+	"id" : String(),
+	"banner" : String(),
+	"runtime" : String(),
+	"network" : String(),
+	"genre" : [String](),
+	"airDay" : String(),
+	"airTime" : String(),
+	"tvRating" : String(),
+	"userRating" : String()
+	
+] as [String : Any]
 
 struct Show {
     var title: [String]

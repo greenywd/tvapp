@@ -34,7 +34,8 @@ class TVDBAPI {
         }
     }
     
-    func getDeatilsOfShow(id: Int) {
+	func getDetailsOfShow(id: Int) {
+		//var details = detailsOfShow
         let URL = "https://api.thetvdb.com/series/" + String(id)
         var headers: HTTPHeaders
         
@@ -46,11 +47,29 @@ class TVDBAPI {
             
             Alamofire.request(URL, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: headers).responseJSON { response in
                 if response.result.value != nil {
-                    let thing = JSON(response.result.value!).dictionaryValue
-                    //print(thing)
+                    let result = JSON(response.result.value!).dictionaryValue
+                    print(result)
                     
-                    if thing["Error"] == nil{
-                        //to-do
+                    if result["Error"] == nil{
+                        //TODO: Implement this
+						
+						if result["data"]?["seriesName"] != nil {
+							print("LOOK OHERE")
+							print(result["data"]?["seriesName"].stringValue)
+							detailsForController["name"] = result["data"]?["seriesName"].stringValue
+							print(detailsForController["name"]!)
+							//showNamesFromSearch.append(((result["data"]?["seriesName"])?.stringValue)!)
+						}
+						if result["data"]?["overview"] != nil {
+							//showDescFromSearch.append(((result["data"]?["overview"])?.stringValue)!)
+						}
+						if result["data"]?["id"] != nil {
+							//showIDFromSearch.append(((result["data"]?["id"])?.uIntValue)!)
+						}
+
+						//return details
+						
+						
                     } else {
                         //let error = thing["Error"]
                         //print("Error : \(error ?? "error not found")")
@@ -87,7 +106,7 @@ class TVDBAPI {
                                 showDescFromSearch.append(((result["data"]?[count]["overview"])?.stringValue)!)
                             }
                             if result["data"]?[count]["id"] != nil {
-                                showIDFromSearch.append(((result["data"]?[count]["id"])?.uIntValue)!)
+                                showIDFromSearch.append(((result["data"]?[count]["id"])?.intValue)!)
                             }
                             
                         }
