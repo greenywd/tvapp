@@ -37,7 +37,13 @@ class ShowViewController: UIViewController {
 		DispatchQueue.global().async {
 
 			print("\(self): \(cellTappedForShowID)")
-			self.API.getDetailsOfShow(id: cellTappedForShowID)
+			self.API.getDetailsOfShow(id: cellTappedForShowID, callback: { data, error in
+				guard let data = data else {
+					print(error)
+					return
+				}
+				print(data)
+			})
 			
 			DispatchQueue.main.sync {
 

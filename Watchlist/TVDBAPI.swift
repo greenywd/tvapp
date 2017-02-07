@@ -34,11 +34,11 @@ class TVDBAPI {
         }
     }
     
-	func getDetailsOfShow(id: Int) {
+	func getDetailsOfShow(id: Int, callback: @escaping ((_ data: [String: Any]?, _ err: Error?)->Void)) {
 		//var details = detailsOfShow
         let URL = "https://api.thetvdb.com/series/" + String(id)
         var headers: HTTPHeaders
-        
+		
         if tokenForAPI != nil{
             headers = [
                 "Authorization": "Bearer \(tokenForAPI!)",
@@ -66,6 +66,8 @@ class TVDBAPI {
 						if result["data"]?["id"] != nil {
 							//showIDFromSearch.append(((result["data"]?["id"])?.uIntValue)!)
 						}
+						
+						callback(result, nil)
 
 						//return details
 						
@@ -73,8 +75,11 @@ class TVDBAPI {
                     } else {
                         //let error = thing["Error"]
                         //print("Error : \(error ?? "error not found")")
+						callback(nil, NSError(domain: "WatchListErrorDomain", code: -10, userInfo: ["message": result["Error"]!]))
                     }
-                }
+				} else {
+					callback(nil, response.error)
+				}
             }
         }
     }
