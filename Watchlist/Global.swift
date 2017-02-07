@@ -20,7 +20,7 @@ var showNamesFromSearch = [String]()
 var showDescFromSearch = [String]()
 var showIDFromSearch = [UInt]()
 
-struct SearchingShows {
+struct Show {
     var title: [String]
     var id: [String]!
     var description: [String]!

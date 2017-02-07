@@ -15,7 +15,7 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
     
     @IBOutlet weak var tableView: UITableView!
     
-    var x = SearchingShows(titles: ["Arrow"], ids: ["222222"], descriptions: ["Oliver Queen and his father are lost at sea when their luxury yacht sinks. His father doesn't survive. Oliver survives on an uncharted island for five years learning to fight, but also learning about his father's corruption and unscrupulous business dealings. He returns to civilization a changed man, determined to put things right. He disguises himself with the hood of one of his mysterious island mentors, arms himself with a bow and sets about hunting down the men and women who have corrupted his city."])
+    var x = Show(titles: ["Arrow"], ids: ["222222"], descriptions: ["Oliver Queen and his father are lost at sea when their luxury yacht sinks. His father doesn't survive. Oliver survives on an uncharted island for five years learning to fight, but also learning about his father's corruption and unscrupulous business dealings. He returns to civilization a changed man, determined to put things right. He disguises himself with the hood of one of his mysterious island mentors, arms himself with a bow and sets about hunting down the men and women who have corrupted his city."])
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -50,5 +50,10 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
         cell.textLabel?.text = item
         cell.detailTextLabel?.text = detailItem
         return cell
+
     }
+	
+	override var preferredStatusBarStyle: UIStatusBarStyle{
+		return .lightContent
+	}
 }

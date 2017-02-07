@@ -66,12 +66,14 @@ class SearchViewController : UIViewController, UITableViewDataSource, UITableVie
             cell.textLabel?.text = showNamesFromSearch[indexPath.row]
             cell.textLabel?.numberOfLines = 1
             cell.textLabel?.lineBreakMode = .byTruncatingTail
+			cell.textLabel?.textColor = UIColor.lightGray
         }
         
         if showDescFromSearch.isEmpty == false {
             cell.detailTextLabel?.text = showDescFromSearch[indexPath.row]
             cell.detailTextLabel?.numberOfLines = 3
             cell.detailTextLabel?.lineBreakMode = .byTruncatingTail
+			cell.detailTextLabel?.textColor	= UIColor.lightGray
         }
         return cell
     }
@@ -94,6 +96,11 @@ class SearchViewController : UIViewController, UITableViewDataSource, UITableVie
         }
         self.searchBar.endEditing(true)
     }
+	
+	func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
+		searchBar.keyboardAppearance = .dark
+		return true
+	}
     
     func loadList(notification: NSNotification){
         print("reloading data")
@@ -105,4 +112,8 @@ class SearchViewController : UIViewController, UITableViewDataSource, UITableVie
             // Setup new view controller
         }
     }
+	
+	override var preferredStatusBarStyle: UIStatusBarStyle {
+		return .lightContent
+	}
 }

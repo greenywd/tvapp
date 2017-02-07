@@ -12,7 +12,9 @@ import Foundation
 import UIKit
 
 class ShowViewController: UIViewController {
-    
+	
+	//MARK: Properties
+	
     //@IBOutlet var showScrollView: UIScrollView?
     @IBOutlet var activityIndicator: UIActivityIndicatorView?
     @IBOutlet var bannerImage: UIImageView?
@@ -21,7 +23,9 @@ class ShowViewController: UIViewController {
     @IBOutlet weak var barItem: UITabBar!
     
     let API = TVDBAPI()
-    
+	
+	
+	//MARK: Methods
     convenience init(showID: Int){
         self.init()
         
@@ -29,7 +33,7 @@ class ShowViewController: UIViewController {
         print("getting details of show with ID \(showID)")
         
     }
-    
+	
     override func viewDidLoad() {
         super.viewDidLoad()
 
