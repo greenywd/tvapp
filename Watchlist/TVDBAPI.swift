@@ -51,10 +51,11 @@ class TVDBAPI {
                     print(result)
                     
                     if result["Error"] == nil{
-                        //TODO: Implement this
+                        //TODO: Finish implementing this for ShowVC
 						
 						if result["data"]?["seriesName"] != nil {
 							print("LOOK OHERE")
+							//FIXME: this warning
 							print(result["data"]?["seriesName"].stringValue)
 							detailsForController["name"] = result["data"]?["seriesName"].stringValue
 							print(detailsForController["name"]!)
@@ -78,7 +79,7 @@ class TVDBAPI {
 						callback(nil, NSError(domain: "WatchListErrorDomain", code: -10, userInfo: ["message": result["Error"]!]))
                     }
 				} else {
-					callback(nil, response.error)
+					callback(nil, response.result.error)
 				}
             }
         }

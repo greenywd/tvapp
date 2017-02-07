@@ -32,7 +32,6 @@ class ShowViewController: UIViewController {
 	
     override func viewDidLoad() {
         super.viewDidLoad()
-
 		
 		DispatchQueue.global().async {
 
@@ -43,6 +42,9 @@ class ShowViewController: UIViewController {
 					return
 				}
 				print(data)
+				
+				//TODO: add ui stuff here
+				//FIXME: fix these warnings :/
 			})
 			
 			DispatchQueue.main.sync {
