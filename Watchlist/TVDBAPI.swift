@@ -10,7 +10,7 @@ import Foundation
 import Alamofire
 
 class TVDBAPI {
-    let APIKey: String = "BE5F53398FC1FB01"
+    let APIKey: String = "E68919A992B81F36"
     //var detailsOfShow = SearchingShows()
     //var token: String? = nil
     
@@ -20,7 +20,7 @@ class TVDBAPI {
         var loginResponse = [String: String]()
     
         Alamofire.request("https://api.thetvdb.com/login", method: .post, parameters: parameters, encoding: JSONEncoding.default).responseJSON { response in
-            //print(response)
+            print(response)
                     
             if let result = response.result.value {
                 loginResponse = (result as? Dictionary)!
@@ -36,7 +36,8 @@ class TVDBAPI {
     
 	func getDetailsOfShow(id: Int, callback: @escaping ((_ data: [String: Any]?, _ err: Error?)->Void)) {
 		//var details = detailsOfShow
-        let URL = "https://api.thetvdb.com/series/" + String(id)
+        let seriesURL = "https://api.thetvdb.com/series/" + String(id)
+		print("URL: \(seriesURL)")
         var headers: HTTPHeaders
 		
         if tokenForAPI != nil{
@@ -45,7 +46,7 @@ class TVDBAPI {
                 "Accept": "application/json"
             ]
             
-            Alamofire.request(URL, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: headers).responseJSON { response in
+            Alamofire.request(seriesURL, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: headers).responseJSON { response in
                 if response.result.value != nil {
                     let result = JSON(response.result.value!).dictionaryValue
                     print(result)
@@ -54,41 +55,50 @@ class TVDBAPI {
                         //TODO: Finish implementing this for ShowVC
 						
 						if result["data"]?["seriesName"] != nil {
-							print("LOOK OHERE")
-							//FIXME: this warning
-							print(result["data"]?["seriesName"].stringValue)
-							detailsForController["name"] = result["data"]?["seriesName"].stringValue
-							print(detailsForController["name"]!)
-							//showNamesFromSearch.append(((result["data"]?["seriesName"])?.stringValue)!)
+							detailsForController["name"] = result["data"]!["seriesName"].stringValue
 						}
 						if result["data"]?["overview"] != nil {
-							//showDescFromSearch.append(((result["data"]?["overview"])?.stringValue)!)
+							detailsForController["description"] = result["data"]!["overview"].stringValue
 						}
 						if result["data"]?["id"] != nil {
 							//showIDFromSearch.append(((result["data"]?["id"])?.uIntValue)!)
 						}
 						
 						callback(result, nil)
-
-						//return details
 						
 						
                     } else {
-                        //let error = thing["Error"]
-                        //print("Error : \(error ?? "error not found")")
 						callback(nil, NSError(domain: "WatchListErrorDomain", code: -10, userInfo: ["message": result["Error"]!]))
                     }
 				} else {
 					callback(nil, response.result.error)
 				}
             }
-        }
-    }
-    
+			
+			//get image
+			let resolution = "1920x1080" //maybe an option to change resolution???
+			let imageURL = "https://api.thetvdb.com/series/\(String(id))/images/query?keyType=fanart&resolution=\(resolution)"
+			print("IMAGE URL: \(imageURL)")
+			Alamofire.request(imageURL, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: headers).responseJSON { response in
+				if response.result.value != nil {
+					let result = JSON(response.result.value!).dictionaryValue
+					print(result)
+					
+					if result["Error"] == nil && result["data"]?[0]["fileName"] != nil {
+						showArtworkURL = URL(string: result["data"]![0]["fileName"].stringValue)
+						
+						//TODO: GD CALLBACK WEN RELEES
+					}
+				}
+			}
+		}
+	}
+	
     func searchShows(show: String) {
         let URL = "https://api.thetvdb.com/search/series?name=" + show.replacingOccurrences(of: " ", with: "%20")
         var headers: HTTPHeaders
-        
+		print("URL: \(URL)")
+		
         if tokenForAPI != nil{
             headers = [
                 "Authorization": "Bearer \(tokenForAPI!)",

@@ -15,6 +15,7 @@ class SearchViewController : UIViewController, UITableViewDataSource, UITableVie
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var searchBar: UISearchBar!
+	@IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -73,15 +74,15 @@ class SearchViewController : UIViewController, UITableViewDataSource, UITableVie
             cell.textLabel?.text = showNamesFromSearch[indexPath.row]
             cell.textLabel?.numberOfLines = 1
             cell.textLabel?.lineBreakMode = .byTruncatingTail
-			cell.textLabel?.textColor = UIColor.lightGray
+			cell.textLabel?.textColor = UIColor.white
         }
         
         if showDescFromSearch.isEmpty == false {
             cell.detailTextLabel?.text = showDescFromSearch[indexPath.row]
             cell.detailTextLabel?.numberOfLines = 3
             cell.detailTextLabel?.lineBreakMode = .byTruncatingTail
-			cell.detailTextLabel?.textColor	= UIColor.lightGray
-        }
+			cell.detailTextLabel?.textColor	= UIColor.white
+		}
         return cell
     }
     
@@ -107,6 +108,8 @@ class SearchViewController : UIViewController, UITableViewDataSource, UITableVie
             API.searchShows(show: searchBar.text!)
         }
         self.searchBar.endEditing(true)
+		self.tableView.reloadData()
+		self.activityIndicator.startAnimating()
     }
 	
 	func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
@@ -118,9 +121,10 @@ class SearchViewController : UIViewController, UITableViewDataSource, UITableVie
         print("reloading data")
 		self.tableView.separatorStyle = .singleLine
         self.tableView.reloadData()
+		self.activityIndicator.stopAnimating()
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+/*    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "segue" {
 			if let showVC = segue.destination as? ShowViewController {
 				// Assign the selected title to communityName
@@ -128,7 +132,7 @@ class SearchViewController : UIViewController, UITableViewDataSource, UITableVie
 			}
         }
     }
-	
+*/	
 	override var preferredStatusBarStyle: UIStatusBarStyle {
 		return .lightContent
 	}

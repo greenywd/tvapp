@@ -7,8 +7,7 @@
 //
 
 import Foundation
-
-
+import UIKit
 
 let userDefaults = UserDefaults.standard
 var cellTappedForShowID = Int()
@@ -20,6 +19,8 @@ var favouriteShows = [String: Int]()
 var showNamesFromSearch = [String]()
 var showDescFromSearch = [String]()
 var showIDFromSearch = [Int]()
+
+var showArtworkURL: URL?
 
 let detailsOfShow = [
 	

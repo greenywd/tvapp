@@ -26,49 +26,39 @@ class ShowViewController: UIViewController {
     
     let API = TVDBAPI()
 	
-	
-	
 	//MARK: Methods
 	
     override func viewDidLoad() {
         super.viewDidLoad()
+		
+		//self.activityIndicator?.hidesWhenStopped = true
+		self.activityIndicator?.startAnimating()
 		
 		DispatchQueue.global().async {
 
 			print("\(self): \(cellTappedForShowID)")
 			self.API.getDetailsOfShow(id: cellTappedForShowID, callback: { data, error in
 				guard let data = data else {
-					print(error)
+					print("ERROR: \(error ?? "error not found" as! Error)")
 					return
 				}
 				print(data)
 				
 				//TODO: add ui stuff here
-				//FIXME: fix these warnings :/
-			})
-			
-			DispatchQueue.main.sync {
-
-				print(detailsForController["name"] as? String!)
 				self.navigationItem.title = detailsForController["name"] as? String
-			}
+				self.descriptionOfShow?.text = detailsForController["description"] as? String
+				
+				//FIXME: throwin nil
+				let dataForImage = try? Data(contentsOf: showArtworkURL!) //make sure your image in this url does exist, otherwise unwrap in a if let check / try-catch
+				
+				DispatchQueue.main.async {
+					self.bannerImage?.image = UIImage(data: dataForImage!)
+				}
+				
+				
+				self.activityIndicator?.stopAnimating()
+			})
 		}
-		
-		//print(cellTappedForShowID)
-        //API.getDetailsOfShow(id: cellTappedForShowID)
-        
-        self.activityIndicator?.hidesWhenStopped = true
-        self.activityIndicator?.startAnimating()
-		//print(detailsForController["name"])
-		self.navigationItem.title = "test"
-        _ = seriesName?.rawString()
-        
-        self.descriptionOfShow?.text = "Matt Murdock, with his other senses superhumanly enhanced, fights crime as a blind lawyer by day, and vigilante by night."
-        //self.descriptionOfShow?.textColor = UIColor.white
-        //self.descriptionLabel?.textColor = UIColor.white
-		
-		
-        //self.navigationController?.isNavigationBarHidden = false
         
     }
     
