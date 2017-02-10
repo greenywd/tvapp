@@ -34,7 +34,7 @@ class TVDBAPI {
         }
     }
     
-	func getDetailsOfShow(id: Int, callback: @escaping ((_ data: [String: Any]?, _ err: Error?)->Void)) {
+	func getDetailsOfShow(id: Int, callback: @escaping ((_ data: [String: Any]?, _ imageURL: String?, _ err: Error?)->Void)) {
 		//var details = detailsOfShow
         let seriesURL = "https://api.thetvdb.com/series/" + String(id)
 		print("URL: \(seriesURL)")
@@ -45,7 +45,7 @@ class TVDBAPI {
                 "Authorization": "Bearer \(tokenForAPI!)",
                 "Accept": "application/json"
             ]
-            
+			
             Alamofire.request(seriesURL, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: headers).responseJSON { response in
                 if response.result.value != nil {
                     let result = JSON(response.result.value!).dictionaryValue
@@ -64,33 +64,36 @@ class TVDBAPI {
 							//showIDFromSearch.append(((result["data"]?["id"])?.uIntValue)!)
 						}
 						
-						callback(result, nil)
-						
+//						callback(result, nil, nil)
+						let resolution = "1920x1080" //maybe an option to change resolution???
+						let imageURL = "https://api.thetvdb.com/series/\(String(id))/images/query?keyType=fanart&resolution=\(resolution)"
+						print("IMAGE URL: \(imageURL)")
+						Alamofire.request(imageURL, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: headers).responseJSON { response in
+							if response.result.value != nil {
+								let result = JSON(response.result.value!).dictionaryValue
+								print(result)
+								
+								if result["Error"] == nil && result["data"]?[0]["fileName"] != nil {
+									showArtworkURL = URL(string: result["data"]![0]["fileName"].stringValue)
+									
+									//TODO: GD CALLBACK WEN RELEES
+									callback(result, showArtworkURL?.absoluteString, nil)
+								} else {
+									callback(nil, nil, NSError(domain: "WatchListErrorDomain", code: -10, userInfo: ["message": result["Error"]!]))
+								}
+							} else {
+								callback(nil, nil, response.result.error)
+							}
+						}
+
 						
                     } else {
-						callback(nil, NSError(domain: "WatchListErrorDomain", code: -10, userInfo: ["message": result["Error"]!]))
+						callback(nil, nil, NSError(domain: "WatchListErrorDomain", code: -10, userInfo: ["message": result["Error"]!]))
                     }
 				} else {
-					callback(nil, response.result.error)
+					callback(nil, nil, response.result.error)
 				}
             }
-			
-			//get image
-			let resolution = "1920x1080" //maybe an option to change resolution???
-			let imageURL = "https://api.thetvdb.com/series/\(String(id))/images/query?keyType=fanart&resolution=\(resolution)"
-			print("IMAGE URL: \(imageURL)")
-			Alamofire.request(imageURL, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: headers).responseJSON { response in
-				if response.result.value != nil {
-					let result = JSON(response.result.value!).dictionaryValue
-					print(result)
-					
-					if result["Error"] == nil && result["data"]?[0]["fileName"] != nil {
-						showArtworkURL = URL(string: result["data"]![0]["fileName"].stringValue)
-						
-						//TODO: GD CALLBACK WEN RELEES
-					}
-				}
-			}
 		}
 	}
 	
