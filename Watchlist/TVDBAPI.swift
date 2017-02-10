@@ -65,8 +65,8 @@ class TVDBAPI {
 						}
 						
 //						callback(result, nil, nil)
-						let resolution = "1920x1080" //maybe an option to change resolution???
-						let imageURL = "https://api.thetvdb.com/series/\(String(id))/images/query?keyType=fanart&resolution=\(resolution)"
+						//let resolution = "1920x1080" //maybe an option to change resolution???
+						let imageURL = "https://api.thetvdb.com/series/257655/images/query?keyType=fanart&resolution=1920x1080"
 						print("IMAGE URL: \(imageURL)")
 						Alamofire.request(imageURL, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: headers).responseJSON { response in
 							if response.result.value != nil {
@@ -74,8 +74,8 @@ class TVDBAPI {
 								print(result)
 								
 								if result["Error"] == nil && result["data"]?[0]["fileName"] != nil {
-									showArtworkURL = URL(string: result["data"]![0]["fileName"].stringValue)
-									
+									showArtworkURL = URL(string: "https://thetvdb.com/banners/\(result["data"]![0]["fileName"].stringValue)")
+									print(showArtworkURL)
 									//TODO: GD CALLBACK WEN RELEES
 									callback(result, showArtworkURL?.absoluteString, nil)
 								} else {
