@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12106.1" systemVersion="16E154a" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="mFv-ld-y1R">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16B2555" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="mFv-ld-y1R">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12074.1"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -222,23 +222,17 @@
                                         <rect key="frame" x="0.0" y="239" width="375" height="200"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="sA6-Fi-alh" id="lXS-lB-ShV">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="199.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="200"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Lorem ipsum blah" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ywh-Kx-lhb">
-                                                    <rect key="frame" x="8" y="29" width="398" height="163"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="163" id="fFf-Qp-hVs"/>
-                                                    </constraints>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="Lorem ipsum blah" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ywh-Kx-lhb">
+                                                    <rect key="frame" x="8" y="21" width="359" height="170.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Description" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="z9L-MY-w3a">
-                                                    <rect key="frame" x="8" y="0.0" width="97" height="21"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" constant="97" id="dvC-X1-6cv"/>
-                                                    </constraints>
+                                                    <rect key="frame" x="8" y="0.0" width="359" height="21"/>
                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -246,11 +240,13 @@
                                             </subviews>
                                             <color key="backgroundColor" cocoaTouchSystemColor="viewFlipsideBackgroundColor"/>
                                             <constraints>
+                                                <constraint firstAttribute="bottomMargin" secondItem="ywh-Kx-lhb" secondAttribute="bottom" id="3Lr-vQ-Qvd"/>
                                                 <constraint firstItem="z9L-MY-w3a" firstAttribute="leading" secondItem="lXS-lB-ShV" secondAttribute="leadingMargin" id="A5i-Qb-zZd"/>
-                                                <constraint firstItem="ywh-Kx-lhb" firstAttribute="top" secondItem="z9L-MY-w3a" secondAttribute="bottom" constant="8" symbolic="YES" id="NkY-Kk-S4p"/>
-                                                <constraint firstItem="ywh-Kx-lhb" firstAttribute="leading" secondItem="z9L-MY-w3a" secondAttribute="leading" id="emj-q1-29C"/>
+                                                <constraint firstAttribute="leadingMargin" secondItem="ywh-Kx-lhb" secondAttribute="leading" id="J3Q-2z-pmb"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="z9L-MY-w3a" secondAttribute="trailing" id="Ly1-Vm-1Y7"/>
                                                 <constraint firstItem="z9L-MY-w3a" firstAttribute="top" secondItem="lXS-lB-ShV" secondAttribute="top" id="pWT-Xq-mgW"/>
                                                 <constraint firstItem="ywh-Kx-lhb" firstAttribute="trailing" secondItem="lXS-lB-ShV" secondAttribute="trailingMargin" id="u9b-tX-NmG"/>
+                                                <constraint firstItem="ywh-Kx-lhb" firstAttribute="top" secondItem="z9L-MY-w3a" secondAttribute="bottom" id="uDY-pd-D0d"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" cocoaTouchSystemColor="viewFlipsideBackgroundColor"/>

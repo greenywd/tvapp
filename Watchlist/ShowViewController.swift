@@ -77,7 +77,10 @@ class ShowViewController: UIViewController, UITableViewDataSource, UITableViewDe
 		
 		tableView.dataSource = self
 		tableView.delegate = self
-		tableView.rowHeight = 90
+		
+		tableView.rowHeight = UITableViewAutomaticDimension
+		tableView.estimatedRowHeight = 200
+		
 		tableView.layoutMargins = .zero
 		tableView.separatorInset = .zero
 		tableView.separatorStyle = .none
@@ -99,13 +102,13 @@ class ShowViewController: UIViewController, UITableViewDataSource, UITableViewDe
 		return itemsForCells.count
 	}
 	
-	func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-		return UITableViewAutomaticDimension
-	}
-	
-	func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-		return UITableViewAutomaticDimension
-	}
+//	func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+//		return UITableViewAutomaticDimension
+//	}
+//	
+//	func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+//		return UITableViewAutomaticDimension
+//	}
 	
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		
