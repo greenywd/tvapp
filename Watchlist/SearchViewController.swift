@@ -83,6 +83,7 @@ class SearchViewController : UIViewController, UITableViewDataSource, UITableVie
             cell.detailTextLabel?.lineBreakMode = .byTruncatingTail
 			cell.detailTextLabel?.textColor	= UIColor.white
 		}
+		//print("HEY")
         return cell
     }
     

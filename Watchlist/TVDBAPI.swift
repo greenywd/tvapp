@@ -20,7 +20,6 @@ class TVDBAPI {
         var loginResponse = [String: String]()
     
         Alamofire.request("https://api.thetvdb.com/login", method: .post, parameters: parameters, encoding: JSONEncoding.default).responseJSON { response in
-            print(response)
                     
             if let result = response.result.value {
                 loginResponse = (result as? Dictionary)!
@@ -66,16 +65,16 @@ class TVDBAPI {
 						
 //						callback(result, nil, nil)
 						//let resolution = "1920x1080" //maybe an option to change resolution???
-						let imageURL = "https://api.thetvdb.com/series/257655/images/query?keyType=fanart&resolution=1920x1080"
+						let imageURL = "https://api.thetvdb.com/series/\(String(id))/images/query?keyType=fanart&resolution=1920x1080"
 						print("IMAGE URL: \(imageURL)")
 						Alamofire.request(imageURL, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: headers).responseJSON { response in
 							if response.result.value != nil {
 								let result = JSON(response.result.value!).dictionaryValue
-								print(result)
+								//print(result)
 								
 								if result["Error"] == nil && result["data"]?[0]["fileName"] != nil {
 									showArtworkURL = URL(string: "https://thetvdb.com/banners/\(result["data"]![0]["fileName"].stringValue)")
-									print(showArtworkURL)
+									print("SHOW ARTWORK \(String(describing: showArtworkURL?.absoluteString))")
 									//TODO: GD CALLBACK WEN RELEES
 									callback(result, showArtworkURL?.absoluteString, nil)
 								} else {
@@ -109,7 +108,7 @@ class TVDBAPI {
             ]
             print("searching...")
             Alamofire.request(URL, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: headers).responseJSON { response in
-                print(response)
+                //print(response)
                 if response.result.value != nil {
     
                     let result = JSON(response.result.value!).dictionaryValue
@@ -129,9 +128,9 @@ class TVDBAPI {
                             }
                             
                         }
-                        print(showNamesFromSearch)
-                        print(showDescFromSearch)
-                        print(showIDFromSearch)
+                        //print(showNamesFromSearch)
+                        //print(showDescFromSearch)
+                        //print(showIDFromSearch)
                         
                         let notificationName = Notification.Name("load")
                         NotificationCenter.default.post(name: notificationName, object: nil)

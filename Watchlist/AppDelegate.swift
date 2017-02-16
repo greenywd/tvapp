@@ -18,7 +18,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         
         API.loginWithKey(key: API.APIKey)
-        
+		if userDefaults.value(forKey: "favouriteShowTitles") != nil{
+			print(userDefaults.value(forKey: "favouriteShowTitles")!)
+		}
         return true
     }
 

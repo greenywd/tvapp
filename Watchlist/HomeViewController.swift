@@ -15,19 +15,16 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
     
     @IBOutlet weak var tableView: UITableView!
     
-    var x = Show(titles: ["Arrow"], ids: ["222222"], descriptions: ["Oliver Queen and his father are lost at sea when their luxury yacht sinks. His father doesn't survive. Oliver survives on an uncharted island for five years learning to fight, but also learning about his father's corruption and unscrupulous business dealings. He returns to civilization a changed man, determined to put things right. He disguises himself with the hood of one of his mysterious island mentors, arms himself with a bow and sets about hunting down the men and women who have corrupted his city."])
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        tableView.dataSource = self
-        tableView.delegate = self
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
-        
-        tableView.separatorStyle = .none
-        tableView.rowHeight = 50
-        
-        
+		tableView.dataSource = self
+		tableView.delegate = self
+		tableView.rowHeight = 90
+		tableView.layoutMargins = .zero
+		tableView.separatorInset = .zero
+		tableView.separatorStyle = .none
+		
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -39,18 +36,23 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        //let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        
-        let cellIdentifier = "cell"
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier)
-            ?? UITableViewCell(style: .subtitle, reuseIdentifier: cellIdentifier)
-        
-        let item = x.title[indexPath.row]
-        let detailItem = x.description[indexPath.row]
-        cell.textLabel?.text = item
-        cell.detailTextLabel?.text = detailItem
-        return cell
 
+		let cellIdentifier = "favouriteShowsCell"
+		let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier) ?? UITableViewCell(style: UITableViewCellStyle.subtitle, reuseIdentifier: cellIdentifier)
+		
+
+		//favShowTitlesDict = userDefaults.value(forKey: "favouriteShowTitles") as! [String]
+		if let favShows = userDefaults.value(forKey: "favouriteShowTitles"){
+			var favShowsTitleArray = favShows as! [String]
+			favShowsTitleArray = favShowsTitleArray.sorted(by: <)
+			
+			let item = favShowsTitleArray[indexPath.row]
+			//let detailItem = x.description[indexPath.row]
+			
+			cell.textLabel?.text = item
+			//cell.detailTextLabel?.text = detailItem
+		}
+		return cell
     }
 	
 	override var preferredStatusBarStyle: UIStatusBarStyle{
