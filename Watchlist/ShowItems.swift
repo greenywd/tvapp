@@ -10,17 +10,21 @@ import Foundation
 import UIKit
 
 struct ShowItem {
+	
+	let category: ShowCategory
+	let summary: String?
+	
 	enum ShowCategory {
 		case Description
-		
+		case Episodes
 		func toString() -> String {
 			switch self {
 			case .Description:
 				return "Description"
+			case .Episodes:
+				return "Episodes"
+			
 			}
 		}
 	}
-	
-	let category: ShowCategory
-	let summary: String
 }

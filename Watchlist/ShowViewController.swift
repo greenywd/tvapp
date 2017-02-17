@@ -54,6 +54,7 @@ class ShowViewController: UIViewController, UITableViewDataSource, UITableViewDe
 				//self.descriptionOfShow?.text = detailsForController["description"] as? String
 				
 				self.itemsForCells.append(ShowItem(category: .Description, summary: (detailsForController["description"] as? String)!))
+				self.itemsForCells.append(ShowItem(category: .Episodes, summary: nil))
 				print("ITEMS FOR CELLS \(self.itemsForCells.count)")
 				self.tableView.reloadData()
 				
@@ -102,20 +103,18 @@ class ShowViewController: UIViewController, UITableViewDataSource, UITableViewDe
 		return itemsForCells.count
 	}
 	
-//	func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-//		return UITableViewAutomaticDimension
-//	}
-//	
-//	func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-//		return UITableViewAutomaticDimension
-//	}
-	
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		
 		let item = itemsForCells[indexPath.row]
+		
 		let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! ShowTableViewCell
 		cell.showItem = item
-		print("meme \(cell.showItem?.summary ?? "No summary found.")")
+		
+		if indexPath.row == 1 {
+			cell.isUserInteractionEnabled = true
+		}
+		
+		// print("meme \(cell.showItem?.summary ?? "No summary found.")")
 		
 		return cell
 	}

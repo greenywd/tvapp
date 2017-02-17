@@ -108,7 +108,7 @@ class TVDBAPI {
             ]
             print("searching...")
             Alamofire.request(URL, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: headers).responseJSON { response in
-                //print(response)
+                print(response)
                 if response.result.value != nil {
     
                     let result = JSON(response.result.value!).dictionaryValue
@@ -134,8 +134,15 @@ class TVDBAPI {
                         
                         let notificationName = Notification.Name("load")
                         NotificationCenter.default.post(name: notificationName, object: nil)
-                    }
-                    
+					} else {
+						showNamesFromSearch.append("Not Found.")
+						showDescFromSearch.removeAll()
+						showDescFromSearch.append("Not Found.")
+						
+						let notificationName = Notification.Name("load")
+						NotificationCenter.default.post(name: notificationName, object: nil)
+					}
+					
                     return
                 }
             }
