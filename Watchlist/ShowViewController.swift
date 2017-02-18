@@ -60,19 +60,25 @@ class ShowViewController: UIViewController, UITableViewDataSource, UITableViewDe
 				
 				self.navigationItem.rightBarButtonItem = rightBarButtonItem
 				
-				print("WAT2HEK: \(artworkURL!)")
-				
 				//FIXME: throwin nil
 				let dataForImage = try? Data(contentsOf: URL(string: artworkURL!)!) //make sure your image in this url does exist, otherwise unwrap in a if let check / try-catch
 				// THE URL IS BAD (only showing relative url, need to add everything else
 				
 				DispatchQueue.main.async {
 					self.bannerImage?.image = UIImage(data: dataForImage!)
-					print("WAT2HEK")
 				}
 				
-				
 				self.activityIndicator?.stopAnimating()
+			})
+			// Get episodes
+			self.API.getEpisodesForShow(id: cellTappedForShowID, callback: { seasons, error in
+				if ((error) != nil) {print(error!); return}
+				for season in seasons! {
+					print(season.number)
+					for episode in season.episodes {
+						print(episode.name)
+					}
+				}
 			})
 		}
 		
