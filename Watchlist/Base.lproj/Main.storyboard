@@ -223,7 +223,7 @@
                                         <rect key="frame" x="0.0" y="239" width="375" height="200"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="sA6-Fi-alh" id="lXS-lB-ShV">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="199.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="200"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="Lorem ipsum blah" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ywh-Kx-lhb">
@@ -270,11 +270,31 @@
                     <connections>
                         <outlet property="bannerImage" destination="FxL-5o-Tc9" id="7FK-oq-kZB"/>
                         <outlet property="tableView" destination="zmI-9U-f6K" id="Wp1-Qu-Crj"/>
+                        <segue destination="KE8-hc-w4C" kind="show" identifier="segueToEpisode" id="P8c-8g-G8K"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zqI-m8-jZY" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1524" y="-383.65817091454278"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="1A7-Ep-4lf">
+            <objects>
+                <viewController id="KE8-hc-w4C" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="i72-d4-TfF"/>
+                        <viewControllerLayoutGuide type="bottom" id="3Cz-r8-ojk"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="xgc-NT-FnB">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="618"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="viewFlipsideBackgroundColor"/>
+                        <color key="tintColor" red="0.99931198359999995" green="0.58544164899999995" blue="0.01688550971" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="rx9-sU-Lc8" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2396" y="-384"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="lf8-nr-3n2">

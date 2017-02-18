@@ -112,11 +112,20 @@ class ShowViewController: UIViewController, UITableViewDataSource, UITableViewDe
 		
 		if indexPath.row == 1 {
 			cell.isUserInteractionEnabled = true
+			cell.accessoryType = .disclosureIndicator
 		}
 		
 		// print("meme \(cell.showItem?.summary ?? "No summary found.")")
 		
 		return cell
+	}
+	
+	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+		tableView.deselectRow(at: indexPath, animated: true)
+		
+		if indexPath.row == 1 {
+			performSegue(withIdentifier: "segueToEpisode", sender: self)
+		}
 	}
 
 }
