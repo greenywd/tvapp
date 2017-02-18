@@ -34,10 +34,14 @@ class TVDBAPI {
     }
     
 	func getDetailsOfShow(id: Int, callback: @escaping ((_ data: [String: Any]?, _ imageURL: String?, _ err: Error?)->Void)) {
-		//var details = detailsOfShow
+		
         let seriesURL = "https://api.thetvdb.com/series/" + String(id)
 		print("URL: \(seriesURL)")
         var headers: HTTPHeaders
+		
+		//let resolution = "1920x1080" //maybe an option to change resolution???
+		let imageURL = "https://api.thetvdb.com/series/\(String(id))/images/query?keyType=fanart&resolution=1920x1080"
+		print("IMAGE URL: \(imageURL)")
 		
         if tokenForAPI != nil{
             headers = [
@@ -48,7 +52,6 @@ class TVDBAPI {
             Alamofire.request(seriesURL, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: headers).responseJSON { response in
                 if response.result.value != nil {
                     let result = JSON(response.result.value!).dictionaryValue
-                    print(result)
                     
                     if result["Error"] == nil{
                         //TODO: Finish implementing this for ShowVC
@@ -63,19 +66,14 @@ class TVDBAPI {
 							//showIDFromSearch.append(((result["data"]?["id"])?.uIntValue)!)
 						}
 						
-//						callback(result, nil, nil)
-						//let resolution = "1920x1080" //maybe an option to change resolution???
-						let imageURL = "https://api.thetvdb.com/series/\(String(id))/images/query?keyType=fanart&resolution=1920x1080"
-						print("IMAGE URL: \(imageURL)")
 						Alamofire.request(imageURL, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: headers).responseJSON { response in
 							if response.result.value != nil {
 								let result = JSON(response.result.value!).dictionaryValue
-								//print(result)
 								
 								if result["Error"] == nil && result["data"]?[0]["fileName"] != nil {
 									showArtworkURL = URL(string: "https://thetvdb.com/banners/\(result["data"]![0]["fileName"].stringValue)")
 									print("SHOW ARTWORK \(String(describing: showArtworkURL?.absoluteString))")
-									//TODO: GD CALLBACK WEN RELEES
+
 									callback(result, showArtworkURL?.absoluteString, nil)
 								} else {
 									callback(nil, nil, NSError(domain: "WatchListErrorDomain", code: -10, userInfo: ["message": result["Error"]!]))

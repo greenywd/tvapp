@@ -37,16 +37,3 @@ let detailsOfShow = [
 	"userRating" : String()
 	
 ] as [String : Any]
-
-struct Show {
-    var title: [String]
-    var id: [String]!
-    var description: [String]!
-    
-    init (titles: [String], ids: [String], descriptions: [String]) {
-        self.title = titles
-        self.id = ids
-        self.description = descriptions
-    }
-}
-
