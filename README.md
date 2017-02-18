@@ -27,5 +27,5 @@ An app to track TV Shows (and eventually movies - if there's a suitable api :p).
 
 ### - Settings View Controller
 - [ ] Everything ¯\\\_(ツ)\_/¯
-- [ ] An option to load 720p or 1080p images in the Show View Controller
+- [ ] An option to prefer 720p or 1080p images in the Show View Controller
 - [ ] Legal section - acknowledge libraries, tvdb, etc
