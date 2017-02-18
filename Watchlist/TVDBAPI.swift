@@ -9,6 +9,19 @@
 import Foundation
 import Alamofire
 
+struct Episode {
+	var name: String
+	var season: Int
+	var episode: Int
+	var overview: String
+	var id: Int
+}
+
+struct Season {
+	var number: Int
+	var episodes: [Episode]
+}
+
 class TVDBAPI {
     let APIKey: String = "E68919A992B81F36"
     //var detailsOfShow = SearchingShows()
@@ -146,4 +159,60 @@ class TVDBAPI {
             }
         }
     }
+	
+	func getEpisodesForShow(id: Int, callback: @escaping (_ seasons: [Season]?, _ err: Error?)->Void) {
+		let episodesURL = "https://api.thetvdb.com/series/\(id)/episodes"
+		var headers: HTTPHeaders
+		
+		if tokenForAPI != nil{
+			headers = [
+				"Authorization": "Bearer \(tokenForAPI!)",
+				"Accept": "application/json"
+			]
+			
+			Alamofire.request(episodesURL, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: headers).responseJSON { response in
+				if response.result.value != nil {
+					let result = JSON(response.result.value!).dictionaryValue
+//					print(result)
+					
+					if result["Error"] == nil {
+						var seasons = [Int: Season]()
+						
+						let episodes = result["data"]!.arrayValue
+						for episode in episodes {
+							let seasonNum = episode["airedSeason"].intValue
+							let episodeNum = episode["airedEpisodeNumber"].intValue
+							let episodeName = episode["episodeName"].stringValue
+							let overview = episode["overview"].stringValue
+							let id = episode["id"].intValue
+							
+							let newEpisode = Episode(name: episodeName, season: seasonNum, episode: episodeNum, overview: overview, id: id)
+
+							if seasons.keys.contains(seasonNum) {
+								seasons[seasonNum]!.episodes.append(newEpisode)
+							} else {
+								let newSeason = Season(number: seasonNum, episodes: [newEpisode])
+								seasons[seasonNum] = newSeason
+							}
+						}
+						var finalSeasons = seasons.map({ key, value -> Season in
+							var value = value
+							value.episodes = value.episodes.sorted { (left, right) -> Bool in
+								return left.episode < right.episode
+							}
+							return value
+						}).sorted(by: {left, right in left.number < right.number})
+						
+						callback(finalSeasons, nil)
+					} else {
+						callback(nil, NSError(domain: "WatchListErrorDomain", code: -11, userInfo: ["message": result["Error"]!]))
+					}
+				} else {
+					callback(nil, response.result.error)
+				}
+			}
+		}
+	}
+
+	
 }
