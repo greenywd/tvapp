@@ -13,6 +13,7 @@ class ShowEpisodeViewController: UIViewController, UITableViewDataSource, UITabl
 	@IBOutlet weak var tableView: UITableView!
 	let API = TVDBAPI()
 	var seasonEpisode = [String]()
+	var descriptionOfEpisodes = [String]()
 	
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,14 +28,16 @@ class ShowEpisodeViewController: UIViewController, UITableViewDataSource, UITabl
 					print(season.number)
 					for episode in season.episodes {
 						if episode.episode < 10 {
-							print("S0\(episode.season)E0\(episode.episode)")
+							//print("S0\(episode.season)E0\(episode.episode)")
 							self.seasonEpisode.append("S0\(episode.season)E0\(episode.episode) - \(episode.name)")
 						} else {
 							print("S0\(episode.season)E\(episode.episode)")
 							self.seasonEpisode.append("S0\(episode.season)E\(episode.episode) - \(episode.name)")
 						}
 //						print(self.seasonEpisode)
-						
+						if episode.overview != nil {
+							self.descriptionOfEpisodes.append(episode.overview!)
+						}
 					}
 				}
 			})
@@ -71,6 +74,15 @@ class ShowEpisodeViewController: UIViewController, UITableViewDataSource, UITabl
 		if seasonEpisode.isEmpty == false {
 			cell.textLabel?.text = seasonEpisode[indexPath.row]
 			cell.textLabel?.numberOfLines = 1
+			cell.textLabel?.backgroundColor = UIColor.clear
+			cell.textLabel?.textColor = UIColor.white
+		}
+		
+		if descriptionOfEpisodes.isEmpty == false {
+			cell.detailTextLabel?.text = descriptionOfEpisodes[indexPath.row]
+			cell.detailTextLabel?.numberOfLines = 3
+			cell.detailTextLabel?.backgroundColor = UIColor.clear
+			cell.detailTextLabel?.textColor = UIColor.white
 		}
 		
 		return cell

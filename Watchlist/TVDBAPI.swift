@@ -13,7 +13,7 @@ struct Episode {
 	var name: String
 	var season: Int
 	var episode: Int
-	var overview: String
+	var overview: String?
 	var id: Int
 }
 
@@ -223,7 +223,7 @@ class TVDBAPI {
 			Alamofire.request(episodesURL, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: headers).responseJSON { response in
 				if response.result.value != nil {
 					let result = JSON(response.result.value!).dictionaryValue
-					
+					print(result)
 					if result["Error"] == nil {
 						// Paging
 						
