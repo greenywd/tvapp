@@ -76,7 +76,7 @@ class ShowViewController: UIViewController, UITableViewDataSource, UITableViewDe
 				for season in seasons! {
 					print(season.number)
 					for episode in season.episodes {
-						print(episode.name)
+						print("\(episode.name) - \(episode.overview)")
 					}
 				}
 			})

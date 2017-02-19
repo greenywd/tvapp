@@ -53,7 +53,7 @@ class TVDBAPI {
         var headers: HTTPHeaders
 		
 		//let resolution = "1920x1080" //maybe an option to change resolution???
-		let imageURL = "https://api.thetvdb.com/series/\(String(id))/images/query?keyType=fanart&resolution=1920x1080"
+		let imageURL = "https://api.thetvdb.com/series/\(String(id))/images/query?keyType=fanart&resolution=1280x720"
 		print("IMAGE URL: \(imageURL)")
 		
         if tokenForAPI != nil{
@@ -210,6 +210,9 @@ class TVDBAPI {
 				} else {
 					callback(nil, response.result.error)
 				}
+				
+				let notificationName = Notification.Name("reloadEpisodes")
+				NotificationCenter.default.post(name: notificationName, object: nil)
 			}
 		}
 	}

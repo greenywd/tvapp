@@ -41,7 +41,7 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
 		let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier) ?? UITableViewCell(style: UITableViewCellStyle.subtitle, reuseIdentifier: cellIdentifier)
 		
 
-		//favShowTitlesDict = userDefaults.value(forKey: "favouriteShowTitles") as! [String]
+		/*favShowTitlesDict = userDefaults.value(forKey: "favouriteShowTitles") as! [String]
 		if let favShows = userDefaults.value(forKey: "favouriteShowTitles"){
 			var favShowsTitleArray = favShows as! [String]
 			favShowsTitleArray = favShowsTitleArray.sorted(by: <)
@@ -51,7 +51,8 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
 			
 			cell.textLabel?.text = item
 			//cell.detailTextLabel?.text = detailItem
-		}
+*/
+
 		return cell
     }
 	
