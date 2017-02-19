@@ -71,15 +71,15 @@ class ShowViewController: UIViewController, UITableViewDataSource, UITableViewDe
 				self.activityIndicator?.stopAnimating()
 			})
 			// Get episodes
-			self.API.getEpisodesForShow(id: cellTappedForShowID, callback: { seasons, error in
-				if ((error) != nil) {print(error!); return}
-				for season in seasons! {
-					print(season.number)
-					for episode in season.episodes {
-						print("\(episode.name) - \(episode.overview)")
-					}
-				}
-			})
+//			self.API.getEpisodesForShow(id: cellTappedForShowID, callback: { seasons, error in
+//				if ((error) != nil) {print(error!); return}
+//				for season in seasons! {
+//					print(season.number)
+//					for episode in season.episodes {
+//						print("\(episode.name) - \(episode.overview)")
+//					}
+//				}
+//			})
 		}
 		
 		tableView.dataSource = self

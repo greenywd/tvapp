@@ -160,6 +160,56 @@ class TVDBAPI {
         }
     }
 	
+	func jsonToSeasonArray(_ arr: [String: JSON]) -> [Season] {
+		var seasons = [Int: Season]()
+		
+		let episodes = arr["data"]!.arrayValue
+		for episode in episodes {
+			let seasonNum = episode["airedSeason"].intValue
+			let episodeNum = episode["airedEpisodeNumber"].intValue
+			let episodeName = episode["episodeName"].stringValue
+			let overview = episode["overview"].stringValue
+			let id = episode["id"].intValue
+			
+			let newEpisode = Episode(name: episodeName, season: seasonNum, episode: episodeNum, overview: overview, id: id)
+			
+			if seasons.keys.contains(seasonNum) {
+				seasons[seasonNum]!.episodes.append(newEpisode)
+			} else {
+				let newSeason = Season(number: seasonNum, episodes: [newEpisode])
+				seasons[seasonNum] = newSeason
+			}
+		}
+		let finalSeasons = seasons.map({ key, value -> Season in
+			var value = value
+			value.episodes = value.episodes.sorted { (left, right) -> Bool in
+				return left.episode < right.episode
+			}
+			return value
+		}).sorted(by: {left, right in left.number < right.number})
+		return finalSeasons
+	}
+	
+	func mergeSeasonArray(_ arr : [Season]) -> [Season] {
+		var seasonsDict = [Int: Season]()
+		for season in arr {
+			if seasonsDict.keys.contains(season.number) {
+				seasonsDict[season.number]!.episodes.append(contentsOf: season.episodes)
+			} else {
+				seasonsDict[season.number] = season
+			}
+		}
+		
+		let finalSeasons = seasonsDict.map({ key, value -> Season in
+			var value = value
+			value.episodes = value.episodes.sorted { (left, right) -> Bool in
+				return left.episode < right.episode
+			}
+			return value
+		}).sorted(by: {left, right in left.number < right.number})
+		return finalSeasons
+	}
+	
 	func getEpisodesForShow(id: Int, callback: @escaping (_ seasons: [Season]?, _ err: Error?)->Void) {
 		let episodesURL = "https://api.thetvdb.com/series/\(id)/episodes"
 		var headers: HTTPHeaders
@@ -173,46 +223,62 @@ class TVDBAPI {
 			Alamofire.request(episodesURL, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: headers).responseJSON { response in
 				if response.result.value != nil {
 					let result = JSON(response.result.value!).dictionaryValue
-//					print(result)
 					
 					if result["Error"] == nil {
-						var seasons = [Int: Season]()
+						// Paging
 						
-						let episodes = result["data"]!.arrayValue
-						for episode in episodes {
-							let seasonNum = episode["airedSeason"].intValue
-							let episodeNum = episode["airedEpisodeNumber"].intValue
-							let episodeName = episode["episodeName"].stringValue
-							let overview = episode["overview"].stringValue
-							let id = episode["id"].intValue
+						// URL: https://api.thetvdb.com/series/{ID}/episodes/query?page=2
+						
+						var finalSeasons = self.jsonToSeasonArray(result)
+						
+						let lastPage = result["links"]!["last"].intValue
+						
+						var pagesDone = 1
+						if pagesDone == lastPage {
+							callback(finalSeasons, nil)
 							
-							let newEpisode = Episode(name: episodeName, season: seasonNum, episode: episodeNum, overview: overview, id: id)
-
-							if seasons.keys.contains(seasonNum) {
-								seasons[seasonNum]!.episodes.append(newEpisode)
-							} else {
-								let newSeason = Season(number: seasonNum, episodes: [newEpisode])
-								seasons[seasonNum] = newSeason
-							}
+							let notificationName = Notification.Name("reloadEpisodes")
+							NotificationCenter.default.post(name: notificationName, object: nil)
+							return
 						}
-						var finalSeasons = seasons.map({ key, value -> Season in
-							var value = value
-							value.episodes = value.episodes.sorted { (left, right) -> Bool in
-								return left.episode < right.episode
-							}
-							return value
-						}).sorted(by: {left, right in left.number < right.number})
 						
-						callback(finalSeasons, nil)
+						for page in 2...lastPage {
+							Alamofire.request("https://api.thetvdb.com/series/\(id)/episodes/query?page=\(page)", method: .get, parameters: nil, encoding: JSONEncoding.default, headers: headers).responseJSON { response in
+								if response.result.value != nil {
+									let result = JSON(response.result.value!).dictionaryValue
+									
+									if result["Error"] == nil {
+										// Paging
+										
+										// URL: https://api.thetvdb.com/series/{ID}/episodes/query?page=2
+										
+										finalSeasons.append(contentsOf: self.jsonToSeasonArray(result))
+										pagesDone += 1
+										
+										if pagesDone == lastPage {
+											callback(self.mergeSeasonArray(finalSeasons), nil)
+											
+											let notificationName = Notification.Name("reloadEpisodes")
+											NotificationCenter.default.post(name: notificationName, object: nil)
+										}
+									} else {
+										callback(nil, NSError(domain: "WatchListErrorDomain", code: -11, userInfo: ["message": result["Error"]!]))
+										return
+									}
+								} else {
+									callback(nil, response.result.error)
+									return
+								}
+								
+							}
+							
+						}
 					} else {
 						callback(nil, NSError(domain: "WatchListErrorDomain", code: -11, userInfo: ["message": result["Error"]!]))
 					}
 				} else {
 					callback(nil, response.result.error)
 				}
-				
-				let notificationName = Notification.Name("reloadEpisodes")
-				NotificationCenter.default.post(name: notificationName, object: nil)
 			}
 		}
 	}

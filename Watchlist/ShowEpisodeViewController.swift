@@ -33,7 +33,7 @@ class ShowEpisodeViewController: UIViewController, UITableViewDataSource, UITabl
 							print("S0\(episode.season)E\(episode.episode)")
 							self.seasonEpisode.append("S0\(episode.season)E\(episode.episode) - \(episode.name)")
 						}
-						print(self.seasonEpisode)
+//						print(self.seasonEpisode)
 						
 					}
 				}
