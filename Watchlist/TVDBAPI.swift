@@ -24,8 +24,6 @@ struct Season {
 
 class TVDBAPI {
 	let APIKey: String = "E68919A992B81F36"
-	//var detailsOfShow = SearchingShows()
-	//var token: String? = nil
 	
 	func loginWithKey(key: String){
 		print("Grabbing token...")
@@ -36,7 +34,6 @@ class TVDBAPI {
 			
 			if let result = response.result.value {
 				loginResponse = (result as? Dictionary)!
-				//print(self.loginResponse["token"]!)
 				
 				if loginResponse["token"] != nil{
 					tokenForAPI = loginResponse["token"]!
@@ -52,7 +49,6 @@ class TVDBAPI {
 		print("URL: \(seriesURL)")
 		var headers: HTTPHeaders
 		
-		//let resolution = "1920x1080" //maybe an option to change resolution???
 		var imageURL = "https://api.thetvdb.com/series/\(String(id))/images/query?keyType=fanart&resolution=1280x720"
 		print("IMAGE URL: \(imageURL)")
 		
@@ -67,16 +63,12 @@ class TVDBAPI {
 					let result = JSON(response.result.value!).dictionaryValue
 					
 					if result["Error"] == nil{
-						//TODO: Finish implementing this for ShowVC
 						
 						if result["data"]?["seriesName"] != nil {
 							detailsForController["name"] = result["data"]!["seriesName"].stringValue
 						}
 						if result["data"]?["overview"] != nil {
 							detailsForController["description"] = result["data"]!["overview"].stringValue
-						}
-						if result["data"]?["id"] != nil {
-							//showIDFromSearch.append(((result["data"]?["id"])?.uIntValue)!)
 						}
 						
 						Alamofire.request(imageURL, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: headers).responseJSON { response in
@@ -90,7 +82,6 @@ class TVDBAPI {
 									
 									callback(result, showArtworkURL?.absoluteString, nil)
 								} else if result["Error"] != nil {
-									print("we got error rip")
 									imageURL = "https://api.thetvdb.com/series/\(String(id))/images/query?keyType=fanart&resolution=1920x1080"
 									
 									Alamofire.request(imageURL, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: headers).responseJSON { response in
@@ -130,6 +121,8 @@ class TVDBAPI {
 	func searchShows(show: String) {
 		let URL = "https://api.thetvdb.com/search/series?name=" + show.replacingOccurrences(of: " ", with: "%20")
 		var headers: HTTPHeaders
+		let notificationName = Notification.Name("load")
+		
 		print("URL: \(URL)")
 		
 		if tokenForAPI != nil{
@@ -139,14 +132,12 @@ class TVDBAPI {
 			]
 			print("searching...")
 			Alamofire.request(URL, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: headers).responseJSON { response in
-				print(response)
 				if response.result.value != nil {
 					
 					let result = JSON(response.result.value!).dictionaryValue
 					if result["Error"] == nil {
 						let numberOfItems:Int = (result["data"]?.count)!
 						
-						print("\(numberOfItems) entries.")
 						for count in 0..<numberOfItems {
 							if result["data"]?[count]["seriesName"] != nil {
 								showNamesFromSearch.append(((result["data"]?[count]["seriesName"])?.stringValue)!)
@@ -159,18 +150,14 @@ class TVDBAPI {
 							}
 							
 						}
-						//print(showNamesFromSearch)
-						//print(showDescFromSearch)
-						//print(showIDFromSearch)
 						
-						let notificationName = Notification.Name("load")
 						NotificationCenter.default.post(name: notificationName, object: nil)
+						
 					} else {
 						showNamesFromSearch.append("Not Found.")
 						showDescFromSearch.removeAll()
 						showDescFromSearch.append("Not Found.")
 						
-						let notificationName = Notification.Name("load")
 						NotificationCenter.default.post(name: notificationName, object: nil)
 					}
 					

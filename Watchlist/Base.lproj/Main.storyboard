@@ -83,7 +83,7 @@
                             <constraint firstItem="iPR-6a-vPp" firstAttribute="leading" secondItem="1qT-OE-4kS" secondAttribute="leading" id="t1c-hQ-pzu"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Home" id="RAt-5p-4ch"/>
+                    <tabBarItem key="tabBarItem" title="Home" image="ic_home" selectedImage="ic_home" id="RAt-5p-4ch"/>
                     <connections>
                         <outlet property="tableView" destination="aR2-Sr-DIa" id="gKw-OU-snL"/>
                     </connections>
@@ -223,7 +223,7 @@
                                         <rect key="frame" x="0.0" y="239" width="375" height="200"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="sA6-Fi-alh" id="lXS-lB-ShV">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="199.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="200"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="Lorem ipsum blah" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ywh-Kx-lhb">
@@ -333,7 +333,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rx9-sU-Lc8" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2396" y="-384.55772113943033"/>
+            <point key="canvasLocation" x="2498" y="-383"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="lf8-nr-3n2">
@@ -393,4 +393,7 @@
             <point key="canvasLocation" x="642" y="1297"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="ic_home" width="24" height="24"/>
+    </resources>
 </document>

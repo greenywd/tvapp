@@ -41,18 +41,6 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
 		let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier) ?? UITableViewCell(style: UITableViewCellStyle.subtitle, reuseIdentifier: cellIdentifier)
 		
 
-		/*favShowTitlesDict = userDefaults.value(forKey: "favouriteShowTitles") as! [String]
-		if let favShows = userDefaults.value(forKey: "favouriteShowTitles"){
-			var favShowsTitleArray = favShows as! [String]
-			favShowsTitleArray = favShowsTitleArray.sorted(by: <)
-			
-			let item = favShowsTitleArray[indexPath.row]
-			//let detailItem = x.description[indexPath.row]
-			
-			cell.textLabel?.text = item
-			//cell.detailTextLabel?.text = detailItem
-*/
-
 		return cell
     }
 	
