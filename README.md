@@ -25,7 +25,7 @@ An app to track TV Shows (and eventually movies - if there's a suitable api :p).
 - [ ] Fix layout of almost every label
 - [ ] Possibly an 'actors' section
 - [ ] Paged horizontal scroll view to scroll through fanart
-- [ ] If no fanart - pretty sure the view controller either doesn't work, or crashes
+- [x] If no fanart - pretty sure the view controller either doesn't work, or crashes
 
 ### - Episode View Controller
 - [ ] Pretty it up a little :p
@@ -39,4 +39,4 @@ An app to track TV Shows (and eventually movies - if there's a suitable api :p).
 
 ### - API
 - [ ] Code is a little messy, but it works. Would like to clean it up a little sometime
-- [ ] If no fanart for banner in Show View Controller is found, try searching for different resolutions
+- [x] If no fanart for banner in Show View Controller is found, try searching for different resolutions
