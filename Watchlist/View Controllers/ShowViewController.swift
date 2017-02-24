@@ -83,8 +83,7 @@ class ShowViewController: UIViewController, UITableViewDataSource, UITableViewDe
 		
 		if favouriteShows[showName!] == nil {
 			favouriteShows[showName!] = cellTappedForShowID
-			userDefaults.set(showName, forKey: "favouriteShowTitles")
-			print(userDefaults.value(forKey: "favouriteShowTitles")!)
+			userDefaults.set(favouriteShows, forKey: "favouriteShows")
 		}
 	}
 	

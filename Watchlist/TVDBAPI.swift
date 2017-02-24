@@ -155,6 +155,7 @@ class TVDBAPI {
 						NotificationCenter.default.post(name: notificationName, object: nil)
 						
 					} else {
+						showNamesFromSearch.removeAll()
 						showNamesFromSearch.append("Not Found.")
 						showDescFromSearch.removeAll()
 						showDescFromSearch.append("Not Found.")
