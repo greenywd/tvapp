@@ -18,9 +18,8 @@ class ShowViewController: UIViewController, UITableViewDataSource, UITableViewDe
 	
 	//MARK: Properties
 	
-    //@IBOutlet var showScrollView: UIScrollView?
     @IBOutlet var activityIndicator: UIActivityIndicatorView?
-    @IBOutlet var bannerImage: UIImageView?
+    @IBOutlet weak var bannerImage: UIImageView?
     @IBOutlet var descriptionOfShow: UILabel?
     @IBOutlet var descriptionLabel: UILabel?
     @IBOutlet weak var barItem: UITabBar!
@@ -35,13 +34,11 @@ class ShowViewController: UIViewController, UITableViewDataSource, UITableViewDe
         super.viewDidLoad()
 		
 		let rightBarButtonItem = UIBarButtonItem(title: "Add", style: .plain, target: self, action: #selector(self.action))
-		
-		//self.activityIndicator?.hidesWhenStopped = true
+
 		self.activityIndicator?.startAnimating()
 		
 		DispatchQueue.global().async {
-
-			print("\(self): \(cellTappedForShowID)")
+			
 			self.API.getDetailsOfShow(id: cellTappedForShowID, callback: { data, artworkURL, error in
 				guard let data = data else {
 					print("ERROR: \(error ?? "error not found" as! Error)")
@@ -51,8 +48,6 @@ class ShowViewController: UIViewController, UITableViewDataSource, UITableViewDe
 				
 				//TODO: add ui stuff here
 				self.navigationItem.title = detailsForController["name"] as? String
-				//self.descriptionOfShow?.text = detailsForController["description"] as? String
-				
 				self.itemsForCells.append(ShowItem(category: .Description, summary: (detailsForController["description"] as? String)!))
 				self.itemsForCells.append(ShowItem(category: .Episodes, summary: nil))
 				print("ITEMS FOR CELLS \(self.itemsForCells.count)")
@@ -60,9 +55,7 @@ class ShowViewController: UIViewController, UITableViewDataSource, UITableViewDe
 				
 				self.navigationItem.rightBarButtonItem = rightBarButtonItem
 				
-				//FIXME: throwin nil
-				let dataForImage = try? Data(contentsOf: URL(string: artworkURL!)!) //make sure your image in this url does exist, otherwise unwrap in a if let check / try-catch
-				// THE URL IS BAD (only showing relative url, need to add everything else
+				let dataForImage = try? Data(contentsOf: URL(string: artworkURL!)!)
 				
 				DispatchQueue.main.async {
 					self.bannerImage?.image = UIImage(data: dataForImage!)
@@ -70,16 +63,6 @@ class ShowViewController: UIViewController, UITableViewDataSource, UITableViewDe
 				
 				self.activityIndicator?.stopAnimating()
 			})
-			// Get episodes
-//			self.API.getEpisodesForShow(id: cellTappedForShowID, callback: { seasons, error in
-//				if ((error) != nil) {print(error!); return}
-//				for season in seasons! {
-//					print(season.number)
-//					for episode in season.episodes {
-//						print("\(episode.name) - \(episode.overview)")
-//					}
-//				}
-//			})
 		}
 		
 		tableView.dataSource = self
@@ -120,8 +103,6 @@ class ShowViewController: UIViewController, UITableViewDataSource, UITableViewDe
 			cell.isUserInteractionEnabled = true
 			cell.accessoryType = .disclosureIndicator
 		}
-		
-		// print("meme \(cell.showItem?.summary ?? "No summary found.")")
 		
 		return cell
 	}

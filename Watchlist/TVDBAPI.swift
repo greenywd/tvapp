@@ -74,7 +74,7 @@ class TVDBAPI {
 						Alamofire.request(imageURL, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: headers).responseJSON { response in
 							if response.result.value != nil {
 								let result = JSON(response.result.value!).dictionaryValue
-								print(result)
+								//print(result)
 								
 								if result["Error"] == nil && result["data"]?[0]["fileName"] != nil {
 									showArtworkURL = URL(string: "https://thetvdb.com/banners/\(result["data"]![0]["fileName"].stringValue)")
@@ -82,12 +82,13 @@ class TVDBAPI {
 									
 									callback(result, showArtworkURL?.absoluteString, nil)
 								} else if result["Error"] != nil {
+									print("No results for 720p found. Trying 1080p...")
 									imageURL = "https://api.thetvdb.com/series/\(String(id))/images/query?keyType=fanart&resolution=1920x1080"
 									
 									Alamofire.request(imageURL, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: headers).responseJSON { response in
 										if response.result.value != nil {
 											let result = JSON(response.result.value!).dictionaryValue
-											print(result)
+											//print(result)
 											
 											if result["Error"] == nil && result["data"]?[0]["fileName"] != nil {
 												showArtworkURL = URL(string: "https://thetvdb.com/banners/\(result["data"]![0]["fileName"].stringValue)")
@@ -130,7 +131,7 @@ class TVDBAPI {
 				"Authorization": "Bearer \(tokenForAPI!)",
 				"Accept": "application/json"
 			]
-			print("searching...")
+			print("Searching for \(show)...")
 			Alamofire.request(URL, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: headers).responseJSON { response in
 				if response.result.value != nil {
 					
