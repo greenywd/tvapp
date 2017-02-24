@@ -12,17 +12,31 @@ import Foundation
 import UIKit
 
 class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
-    
+	
     @IBOutlet weak var tableView: UITableView!
 	var favouriteShowsForTableView: Array<String>?
 	var favouriteShowIDs: Array<Int>?
 	
+	struct Show {
+		var title: String?
+		var id: Int?
+		var description: String?
+		
+		init (title: String?, id: Int?, description: String?) {
+			self.title = title
+			self.id = id
+			self.description = description
+		}
+	}
+	
+	let detailShow: [Show]? = nil
+	
 	override func awakeFromNib() {
 		
-		if let x = userDefaults.value(forKey: "favouriteShows") {
-			print(x)
+		if userDefaults.value(forKey: "favouriteShows") != nil {
 			favouriteShows = userDefaults.value(forKey: "favouriteShows") as! [String: Int]
 			favouriteShowsForTableView = Array(favouriteShows.keys)
+			favouriteShowIDs = Array(favouriteShows.values)
 		}
 
 	}
@@ -54,15 +68,13 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+        return (favouriteShowsForTableView?.count)!
     }
 	
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		tableView.deselectRow(at: indexPath, animated: true)
 		cellTappedForShowID	= Array(favouriteShows.values)[indexPath.row]
 		performSegue(withIdentifier: "segue", sender: self)
-		print("row: \(indexPath.row)")
-		print(Array(favouriteShows.values)[indexPath.row])
 	}
 	
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -70,7 +82,7 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
 		let cellIdentifier = "favouriteShowsCell"
 		let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier) ?? UITableViewCell(style: UITableViewCellStyle.subtitle, reuseIdentifier: cellIdentifier)
 	
-		if favouriteShows.isEmpty == false {
+		if favouriteShowsForTableView?.isEmpty == false {
 			cell.textLabel?.text = favouriteShowsForTableView?[indexPath.row]
 			cell.textLabel?.textColor = UIColor.white
 		}
