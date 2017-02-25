@@ -99,16 +99,19 @@ class TVDBAPI {
 												print("SHOW ARTWORK \(String(describing: showArtworkURL?.absoluteString))")
 												
 												callback(result, showArtworkURL?.absoluteString, nil)
+											} else {
+												callback(result, "", nil)
 											}
 											
 										}
 									}
 									
 								} else {
-									callback(nil, nil, NSError(domain: "WatchListErrorDomain", code: -10, userInfo: ["message": result["Error"]!]))
+									callback(result, "", nil)
+//									callback(nil, nil, NSError(domain: "WatchListErrorDomain", code: -10, userInfo: ["message": result["Error"]!]))
 								}
 							} else {
-								callback(nil, nil, response.result.error)
+								callback(result, nil, response.result.error)
 							}
 						}
 						

@@ -56,10 +56,12 @@ class ShowViewController: UIViewController, UITableViewDataSource, UITableViewDe
 				
 				self.navigationItem.rightBarButtonItem = rightBarButtonItem
 				
-				let dataForImage = try? Data(contentsOf: URL(string: artworkURL!)!)
-				
-				DispatchQueue.main.async {
-					self.bannerImage?.image = UIImage(data: dataForImage!)
+				if let url = showArtworkURL {
+					let dataForImage = try? Data(contentsOf: URL(string: url!)!)
+					
+					DispatchQueue.main.async {
+						self.bannerImage?.image = UIImage(data: dataForImage!)
+					}
 				}
 				
 				self.activityIndicator?.stopAnimating()
