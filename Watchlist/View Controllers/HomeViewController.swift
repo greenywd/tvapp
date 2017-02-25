@@ -17,28 +17,25 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
 	var favouriteShowsForTableView: Array<String>?
 	var favouriteShowIDs: Array<Int>?
 	
-	struct Show {
-		var title: String?
-		var id: Int?
-		var description: String?
-		
-		init (title: String?, id: Int?, description: String?) {
-			self.title = title
-			self.id = id
-			self.description = description
-		}
-	}
-	
-	let detailShow: [Show]? = nil
+	var detailShow = [Show]()
 	
 	override func awakeFromNib() {
 		
-		if userDefaults.value(forKey: "favouriteShows") != nil {
-			favouriteShows = userDefaults.value(forKey: "favouriteShows") as! [String: Int]
-			favouriteShowsForTableView = Array(favouriteShows.keys)
-			favouriteShowIDs = Array(favouriteShows.values)
+		//favouriteShows = userDefaults.value(forKey: "favouriteShows") as! [String: Int]
+		//favouriteShowsForTableView = Array(favouriteShows.keys)
+		//favouriteShowIDs = Array(favouriteShows.values)
+		let a = userDefaults.value(forKey: "test")
+		if a != nil {
+			print(a!, "saved struct")
 		}
-
+		//print(a!, "saved struct")
+		
+		//			for (key, value) in a! {
+		//				detailShow.append(Show(title: key, id: value as? Int, description: nil))
+		//			}
+		//
+		//			print(detailShow, "detailShow"
+		
 	}
 	
     override func viewDidLoad() {
@@ -68,7 +65,7 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return (favouriteShowsForTableView?.count)!
+        return 1
     }
 	
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

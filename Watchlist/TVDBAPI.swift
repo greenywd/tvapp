@@ -70,6 +70,10 @@ class TVDBAPI {
 						if result["data"]?["overview"] != nil {
 							detailsForController["description"] = result["data"]!["overview"].stringValue
 						}
+						if result["data"]?["id"] != nil {
+							detailsForController["id"] = result["data"]!["id"].intValue
+
+						}
 						
 						Alamofire.request(imageURL, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: headers).responseJSON { response in
 							if response.result.value != nil {

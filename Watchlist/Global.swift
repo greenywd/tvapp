@@ -26,7 +26,7 @@ let detailsOfShow = [
 	
 	"name" : String(),
 	"description" : String(),
-	"id" : String(),
+	"id" : Int(),
 	"banner" : String(),
 	"runtime" : String(),
 	"network" : String(),
@@ -37,3 +37,15 @@ let detailsOfShow = [
 	"userRating" : String()
 	
 ] as [String : Any]
+
+struct Show {
+	var title: String
+	var id: Int
+	var description: String
+	
+	init (title: String = "Unknown Title", id: Int = 000000, description: String = "No Description") {
+		self.title = title
+		self.id = id
+		self.description = description
+	}
+}

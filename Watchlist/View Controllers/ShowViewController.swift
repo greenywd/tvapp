@@ -27,6 +27,7 @@ class ShowViewController: UIViewController, UITableViewDataSource, UITableViewDe
     
     let API = TVDBAPI()
 	var itemsForCells: [ShowItem] = []
+	var show = Show()
 	
 	//MARK: Methods
 	
@@ -79,12 +80,15 @@ class ShowViewController: UIViewController, UITableViewDataSource, UITableViewDe
 	
 	func action(){
 		print("TAPPED")
-		let showName = detailsForController["name"] as? String
+
+		show.title = (detailsForController["name"] as? String)!
+		show.id = (detailsForController["id"] as? Int)!
+		show.description = (detailsForController["description"] as? String)!
+		print(show)
+
+		//userDefaults.set(show, forKey: "test")
+		//print(userDefaults.value(forKey: "test")!, "test")
 		
-		if favouriteShows[showName!] == nil {
-			favouriteShows[showName!] = cellTappedForShowID
-			userDefaults.set(favouriteShows, forKey: "favouriteShows")
-		}
 	}
 	
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -102,7 +106,7 @@ class ShowViewController: UIViewController, UITableViewDataSource, UITableViewDe
 			cell.isUserInteractionEnabled = true
 			cell.accessoryType = .disclosureIndicator
 		}
-		
+
 		return cell
 	}
 	
