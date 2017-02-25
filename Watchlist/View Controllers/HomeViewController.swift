@@ -14,27 +14,17 @@ import UIKit
 class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 	
     @IBOutlet weak var tableView: UITableView!
-	var favouriteShowsForTableView: Array<String>?
+	var favouriteShowsForTableView: [String]?
 	var favouriteShowIDs: Array<Int>?
 	
-	var detailShow = [Show]()
+	//var detailShow = [Show]()
 	
 	override func awakeFromNib() {
 		
-		//favouriteShows = userDefaults.value(forKey: "favouriteShows") as! [String: Int]
-		//favouriteShowsForTableView = Array(favouriteShows.keys)
-		//favouriteShowIDs = Array(favouriteShows.values)
-		let a = userDefaults.value(forKey: "test")
-		if a != nil {
-			print(a!, "saved struct")
-		}
-		//print(a!, "saved struct")
+		favouriteShows = userDefaults.value(forKey: "favouriteShows") as! [String: Int]
+		let sortedFavouriteShows = favouriteShows.sort(by: <)
 		
-		//			for (key, value) in a! {
-		//				detailShow.append(Show(title: key, id: value as? Int, description: nil))
-		//			}
-		//
-		//			print(detailShow, "detailShow"
+		print(favouriteShowsForTableView!)
 		
 	}
 	
@@ -65,7 +55,11 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+		if (favouriteShowsForTableView?.isEmpty)! {
+			return 1
+		}
+		
+		return (favouriteShowsForTableView?.count)!
     }
 	
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

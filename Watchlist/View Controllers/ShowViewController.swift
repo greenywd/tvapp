@@ -81,14 +81,15 @@ class ShowViewController: UIViewController, UITableViewDataSource, UITableViewDe
 	func action(){
 		print("TAPPED")
 
-		show.title = (detailsForController["name"] as? String)!
-		show.id = (detailsForController["id"] as? Int)!
-		show.description = (detailsForController["description"] as? String)!
-		print(show)
-
-		//userDefaults.set(show, forKey: "test")
-		//print(userDefaults.value(forKey: "test")!, "test")
+		if let favShows = userDefaults.dictionary(forKey: "favouriteShows") as? [String: Int] {
+			favouriteShows = favShows
+			print("Favourite Shows: ", favouriteShows)
+		}
 		
+		if favouriteShows.keys.contains(self.navigationItem.title!) == false{
+			favouriteShows[self.navigationItem.title!] = detailsForController["id"] as? Int
+			userDefaults.set(favouriteShows, forKey: "favouriteShows")
+		}
 	}
 	
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
