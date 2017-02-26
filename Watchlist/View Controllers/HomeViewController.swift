@@ -13,23 +13,12 @@ import UIKit
 
 class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 	
-    @IBOutlet weak var tableView: UITableView!
-	var favouriteShowsForTableView: [String]?
-	var favouriteShowIDs: [Int]?
+	@IBOutlet weak var tableView: UITableView!
+	var favouriteShowsForTableView = [String]()
+	var favouriteShowIDs = [Int]()
 	
-	//var detailShow = [Show]()
-	
-	override func awakeFromNib() {
-		
-		favouriteShows = userDefaults.value(forKey: "favouriteShows") as! [String: Int]
-		let _ = favouriteShows.map({ favouriteShowsForTableView?.append($0.key) })
-		
-		print(favouriteShowsForTableView ?? "oops")
-		
-	}
-	
-    override func viewDidLoad() {
-        super.viewDidLoad()
+	override func viewDidLoad() {
+		super.viewDidLoad()
 		
 		tableView.dataSource = self
 		tableView.delegate = self
@@ -38,11 +27,38 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
 		tableView.separatorInset = .zero
 		tableView.separatorStyle = .none
 		
-    }
+	}
 	
 	override func viewWillAppear(_ animated: Bool) {
 		self.navigationController?.setNavigationBarHidden(true, animated: animated)
 		super.viewWillAppear(animated)
+		
+		//favouriteShows.removeAll()
+		if userDefaults.value(forKey: "favouriteShows") != nil {
+			
+			favouriteShows = userDefaults.value(forKey: "favouriteShows") as! [String: Int]
+			print("favourite shows", favouriteShows)
+			
+			let sortedFavouriteShows = favouriteShows.sorted(by: <)
+			print("sorted: ", sortedFavouriteShows)
+			
+			let _ = sortedFavouriteShows.map({
+				if !(favouriteShowsForTableView.contains($0.key)){
+					favouriteShowsForTableView.append($0.key)
+				}
+				if !(favouriteShowIDs.contains($0.value)){
+					favouriteShowIDs.append($0.value)
+				}
+			})
+			
+			print(favouriteShowsForTableView)
+			print(favouriteShowIDs)
+		} else {
+			favouriteShowsForTableView.removeAll()
+			favouriteShowIDs.removeAll()
+		}
+		
+		tableView.reloadData()
 	}
 	
 	override func viewWillDisappear(_ animated: Bool) {
@@ -50,36 +66,41 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
 		super.viewWillDisappear(animated)
 	}
 	
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
-    }
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-		if (favouriteShowsForTableView?.isEmpty)! {
+	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+		if favouriteShowsForTableView.isEmpty {
 			return 1
 		}
 		
-		return (favouriteShowsForTableView?.count)!
-    }
+		return favouriteShowsForTableView.count
+	}
 	
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		tableView.deselectRow(at: indexPath, animated: true)
-		cellTappedForShowID	= Array(favouriteShows.values)[indexPath.row]
-		performSegue(withIdentifier: "segue", sender: self)
+		
+		if !favouriteShowIDs.isEmpty {
+			cellTappedForShowID	= Array(favouriteShowIDs)[indexPath.row]
+			performSegue(withIdentifier: "segue", sender: self)
+		}
 	}
 	
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-
+	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+		
 		let cellIdentifier = "favouriteShowsCell"
 		let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier) ?? UITableViewCell(style: UITableViewCellStyle.subtitle, reuseIdentifier: cellIdentifier)
-	
-		if favouriteShowsForTableView?.isEmpty == false {
-			cell.textLabel?.text = favouriteShowsForTableView?[indexPath.row]
-			cell.textLabel?.textColor = UIColor.white
+		
+		cell.textLabel?.textColor = UIColor.white
+		cell.detailTextLabel?.textColor = UIColor.white
+		
+		if favouriteShowsForTableView.isEmpty == false {
+			cell.textLabel?.text = favouriteShowsForTableView[indexPath.row]
+			cell.detailTextLabel?.text = favouriteShowIDs[indexPath.row].description
+		} else {
+			cell.textLabel?.text = "No favourites!"
+			cell.detailTextLabel?.text = nil
 		}
 		
 		return cell
-    }
+	}
 	
 	override var preferredStatusBarStyle: UIStatusBarStyle{
 		return .lightContent

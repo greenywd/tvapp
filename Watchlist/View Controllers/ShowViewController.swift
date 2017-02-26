@@ -19,11 +19,11 @@ class ShowViewController: UIViewController, UITableViewDataSource, UITableViewDe
 	//MARK: Properties
 	
     @IBOutlet var activityIndicator: UIActivityIndicatorView?
-    @IBOutlet weak var bannerImage: UIImageView?
+    @IBOutlet var bannerImage: UIImageView?
     @IBOutlet var descriptionOfShow: UILabel?
     @IBOutlet var descriptionLabel: UILabel?
-    @IBOutlet weak var barItem: UITabBar!
-	@IBOutlet weak var tableView: UITableView!
+    @IBOutlet var barItem: UITabBar!
+	@IBOutlet var tableView: UITableView!
     
     let API = TVDBAPI()
 	var itemsForCells: [ShowItem] = []
@@ -38,7 +38,7 @@ class ShowViewController: UIViewController, UITableViewDataSource, UITableViewDe
 
 		self.activityIndicator?.startAnimating()
 		
-		DispatchQueue.global().async {
+		DispatchQueue.global(qos: .background).async {
 			
 			self.API.getDetailsOfShow(id: cellTappedForShowID, callback: { data, artworkURL, error in
 				guard let data = data else {
@@ -47,14 +47,17 @@ class ShowViewController: UIViewController, UITableViewDataSource, UITableViewDe
 				}
 				print("Data: \(data)")
 				
-				//TODO: add ui stuff here
-				self.navigationItem.title = detailsForController["name"] as? String
-				self.itemsForCells.append(ShowItem(category: .Description, summary: (detailsForController["description"] as? String)!))
-				self.itemsForCells.append(ShowItem(category: .Episodes, summary: nil))
-				print("ITEMS FOR CELLS \(self.itemsForCells.count)")
-				self.tableView.reloadData()
-				
-				self.navigationItem.rightBarButtonItem = rightBarButtonItem
+				DispatchQueue.main.async {
+					
+					self.navigationItem.title = detailsForController["name"] as? String
+					self.itemsForCells.append(ShowItem(category: .Description, summary: (detailsForController["description"] as? String)!))
+					self.itemsForCells.append(ShowItem(category: .Episodes, summary: nil))
+					print("ITEMS FOR CELLS \(self.itemsForCells.count)")
+					self.tableView.reloadData()
+					
+					self.navigationItem.rightBarButtonItem = rightBarButtonItem
+				}
+
 				
 				if let url = showArtworkURL?.absoluteString {
 					let dataForImage = try? Data(contentsOf: URL(string: url)!)
@@ -91,6 +94,8 @@ class ShowViewController: UIViewController, UITableViewDataSource, UITableViewDe
 		if favouriteShows.keys.contains(self.navigationItem.title!) == false{
 			favouriteShows[self.navigationItem.title!] = detailsForController["id"] as? Int
 			userDefaults.set(favouriteShows, forKey: "favouriteShows")
+		} else {
+			
 		}
 	}
 	

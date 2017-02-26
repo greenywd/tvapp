@@ -45,3 +45,18 @@ var arrayOfTitles = [String]()
 sortedDictArray.map({ arrayOfTitles.append($0.key) })
 
 print(arrayOfTitles)
+
+func myPrintFunc(_ string: Any){
+	print(string)
+}
+
+let array = [1, 2, 3, 4]
+array.map({ myPrintFunc($0) })
+
+for element in array {
+	print(element)
+}
+
+array.contains(1) ? print("woo") : print("noo")
+
+

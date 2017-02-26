@@ -9,17 +9,18 @@
 import UIKit
 
 class ShowEpisodeViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
-
-	@IBOutlet weak var tableView: UITableView!
+	
+	@IBOutlet var tableView: UITableView!
+	
 	let API = TVDBAPI()
 	var seasonEpisode = [String]()
 	var descriptionOfEpisodes = [String]()
 	
-    override func viewDidLoad() {
-        super.viewDidLoad()
+	override func viewDidLoad() {
+		super.viewDidLoad()
 		
 		let notificationName = Notification.Name("reloadEpisodes")
-
+		
 		DispatchQueue.global().async {
 			// Get episodes
 			self.API.getEpisodesForShow(id: cellTappedForShowID, callback: { seasons, error in
@@ -28,13 +29,12 @@ class ShowEpisodeViewController: UIViewController, UITableViewDataSource, UITabl
 					print(season.number)
 					for episode in season.episodes {
 						if episode.episode < 10 {
-							//print("S0\(episode.season)E0\(episode.episode)")
 							self.seasonEpisode.append("S0\(episode.season)E0\(episode.episode) - \(episode.name)")
 						} else {
 							print("S0\(episode.season)E\(episode.episode)")
 							self.seasonEpisode.append("S0\(episode.season)E\(episode.episode) - \(episode.name)")
 						}
-//						print(self.seasonEpisode)
+						
 						if episode.overview != nil {
 							self.descriptionOfEpisodes.append(episode.overview!)
 						}
@@ -42,7 +42,7 @@ class ShowEpisodeViewController: UIViewController, UITableViewDataSource, UITabl
 				}
 			})
 		}
-
+		
 		
 		tableView.dataSource = self
 		tableView.delegate = self
@@ -52,16 +52,16 @@ class ShowEpisodeViewController: UIViewController, UITableViewDataSource, UITabl
 		tableView.separatorStyle = .none
 		tableView.reloadData()
 		
-        // Do any additional setup after loading the view.
+		// Do any additional setup after loading the view.
 		
 		NotificationCenter.default.addObserver(self, selector: #selector(loadList(notification:)), name: notificationName, object: nil)
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
+	}
+	
+	override func didReceiveMemoryWarning() {
+		super.didReceiveMemoryWarning()
+		// Dispose of any resources that can be recreated.
+	}
+	
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 		return seasonEpisode.count
 	}

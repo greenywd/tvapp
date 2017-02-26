@@ -99,7 +99,7 @@
             <objects>
                 <navigationController id="P9Q-AT-TAh" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Home" image="ic_home" selectedImage="ic_home" id="jun-ku-ll6"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" barStyle="black" id="XNK-XX-P7g">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" barStyle="black" id="XNK-XX-P7g">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="viewFlipsideBackgroundColor"/>
@@ -377,7 +377,7 @@
         <!--Search-->
         <scene sceneID="Vg1-VU-kqO">
             <objects>
-                <viewController title="Search" id="ktG-8O-2uH" sceneMemberID="viewController">
+                <viewController title="Search" id="ktG-8O-2uH" customClass="SettingsViewController" customModule="Watchlist" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Skn-nX-qaV"/>
                         <viewControllerLayoutGuide type="bottom" id="SBs-jJ-oJ1"/>
@@ -385,15 +385,28 @@
                     <view key="view" contentMode="scaleToFill" id="HJJ-da-azb">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="618"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="29n-eK-ScE">
+                                <rect key="frame" x="109.5" y="294" width="155" height="30"/>
+                                <state key="normal" title="Reset Favourite Shows"/>
+                            </button>
+                        </subviews>
                         <color key="backgroundColor" cocoaTouchSystemColor="viewFlipsideBackgroundColor"/>
                         <color key="tintColor" red="0.99931198359999995" green="0.58544164899999995" blue="0.01688550971" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="29n-eK-ScE" firstAttribute="centerX" secondItem="HJJ-da-azb" secondAttribute="centerX" id="mRd-cs-ePb"/>
+                            <constraint firstItem="29n-eK-ScE" firstAttribute="centerY" secondItem="HJJ-da-azb" secondAttribute="centerY" id="uLP-uv-Pfd"/>
+                        </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" systemItem="more" id="NG3-4d-M5k"/>
                     <navigationItem key="navigationItem" title="Settings" id="oLh-8D-VR8"/>
+                    <connections>
+                        <outlet property="resetButton" destination="29n-eK-ScE" id="izS-zb-nWT"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cGx-DS-MOz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1671" y="1307"/>
+            <point key="canvasLocation" x="1669.5999999999999" y="1306.5967016491754"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="hxO-8U-VSy">
