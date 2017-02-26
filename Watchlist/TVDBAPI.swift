@@ -22,22 +22,25 @@ struct Season {
 	var episodes: [Episode]
 }
 
+
+
 class TVDBAPI {
-	let APIKey: String = "E68919A992B81F36"
 	
-	func loginWithKey(key: String){
+	var tokenForAPI: String? = nil
+	
+	func loginWithKey(key: String = "BE5F53398FC1FB01", completion: @escaping () -> () ){
 		print("Grabbing token...")
 		let parameters: [String: Any] = ["apikey":key]
 		var loginResponse = [String: String]()
 		
 		Alamofire.request("https://api.thetvdb.com/login", method: .post, parameters: parameters, encoding: JSONEncoding.default).responseJSON { response in
-			
 			if let result = response.result.value {
 				loginResponse = (result as? Dictionary)!
 				
 				if loginResponse["token"] != nil{
-					tokenForAPI = loginResponse["token"]!
-					print("TOKEN IS: \(tokenForAPI!)")
+					self.tokenForAPI = loginResponse["token"]!
+					print("TOKEN IS: \(self.tokenForAPI!)")
+					completion()
 				}
 			}
 		}
@@ -45,7 +48,7 @@ class TVDBAPI {
 	
 	func getDetailsOfShow(id: Int, callback: @escaping ((_ data: [String: Any]?, _ imageURL: String?, _ err: Error?)->Void)) {
 		
-		let seriesURL = "https://api.thetvdb.com/series/" + String(id)
+		let seriesURL = "https://api.thetvdb.com/series/" + String(id) + "/filter?keys=seriesName%2Coverview%2Cid"
 		print("URL: \(seriesURL)")
 		var headers: HTTPHeaders
 		
@@ -61,6 +64,7 @@ class TVDBAPI {
 			Alamofire.request(seriesURL, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: headers).responseJSON { response in
 				if response.result.value != nil {
 					let result = JSON(response.result.value!).dictionaryValue
+					print(result)
 					
 					if result["Error"] == nil{
 						
@@ -72,7 +76,7 @@ class TVDBAPI {
 						}
 						if result["data"]?["id"] != nil {
 							detailsForController["id"] = result["data"]!["id"].intValue
-
+							
 						}
 						
 						Alamofire.request(imageURL, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: headers).responseJSON { response in
@@ -86,6 +90,7 @@ class TVDBAPI {
 									
 									callback(result, showArtworkURL?.absoluteString, nil)
 								} else if result["Error"] != nil {
+									
 									print("No results for 720p found. Trying 1080p...")
 									imageURL = "https://api.thetvdb.com/series/\(String(id))/images/query?keyType=fanart&resolution=1920x1080"
 									
@@ -108,7 +113,7 @@ class TVDBAPI {
 									
 								} else {
 									callback(result, "", nil)
-//									callback(nil, nil, NSError(domain: "WatchListErrorDomain", code: -10, userInfo: ["message": result["Error"]!]))
+									//									callback(nil, nil, NSError(domain: "WatchListErrorDomain", code: -10, userInfo: ["message": result["Error"]!]))
 								}
 							} else {
 								callback(result, nil, response.result.error)

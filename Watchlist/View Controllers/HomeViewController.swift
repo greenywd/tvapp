@@ -14,11 +14,19 @@ import UIKit
 class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 	
 	@IBOutlet weak var tableView: UITableView!
+	
+	let API = TVDBAPI()
 	var favouriteShowsForTableView = [String]()
 	var favouriteShowIDs = [Int]()
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
+		
+		UIApplication.shared.isNetworkActivityIndicatorVisible = true
+		
+		API.loginWithKey(completion: {
+			UIApplication.shared.isNetworkActivityIndicatorVisible = false
+		})
 		
 		tableView.dataSource = self
 		tableView.delegate = self
@@ -26,14 +34,16 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
 		tableView.layoutMargins = .zero
 		tableView.separatorInset = .zero
 		tableView.separatorStyle = .none
-		
+	
 	}
 	
 	override func viewWillAppear(_ animated: Bool) {
 		self.navigationController?.setNavigationBarHidden(true, animated: animated)
 		super.viewWillAppear(animated)
 		
-		//favouriteShows.removeAll()
+		favouriteShowsForTableView.removeAll()
+		favouriteShowIDs.removeAll()
+		
 		if userDefaults.value(forKey: "favouriteShows") != nil {
 			
 			favouriteShows = userDefaults.value(forKey: "favouriteShows") as! [String: Int]
@@ -50,16 +60,12 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
 					favouriteShowIDs.append($0.value)
 				}
 			})
-			
-			print(favouriteShowsForTableView)
-			print(favouriteShowIDs)
-		} else {
-			favouriteShowsForTableView.removeAll()
-			favouriteShowIDs.removeAll()
 		}
 		
 		tableView.reloadData()
+		
 	}
+	
 	
 	override func viewWillDisappear(_ animated: Bool) {
 		self.navigationController?.setNavigationBarHidden(false, animated: animated)
@@ -95,8 +101,8 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
 			cell.textLabel?.text = favouriteShowsForTableView[indexPath.row]
 			cell.detailTextLabel?.text = favouriteShowIDs[indexPath.row].description
 		} else {
-			cell.textLabel?.text = "No favourites!"
-			cell.detailTextLabel?.text = nil
+			cell.textLabel?.text = "No Favourites!"
+			cell.detailTextLabel?.text = "Head to the search tab to find some shows!"
 		}
 		
 		return cell

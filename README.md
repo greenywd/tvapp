@@ -11,8 +11,8 @@ An app to track TV Shows (and eventually movies - if there's a suitable api :p).
 - [ ] Next episode - "airs in x minutes"
 - [ ] Send a notification when a user defined show airs
 - [ ] App icons (both on homescreen and inside the app)
-- [ ] userDefaults - favourite shows
-- [ ] Setup ads and iAP to remove them
+- [x] userDefaults - favourite shows
+- [ ] Setup ads and iAP to remove them (either project wonderful or google)
 - [ ] Cache images(?) for favourited shows - would speed up loading times a lot
 - [ ] Make sure the app works offline - right now it'll probably crash when searching or opening a view Controller
 
@@ -25,7 +25,8 @@ An app to track TV Shows (and eventually movies - if there's a suitable api :p).
 - [ ] Fix layout of almost every label
 - [ ] Possibly an 'actors' section
 - [ ] Paged horizontal scroll view to scroll through fanart
-- [x] If no fanart - pretty sure the view controller either doesn't work, or crashes
+- [x] <s>If no fanart - pretty sure the view controller either doesn't work, or crashes</s> currently loads art from      different show - should set to nil to prevent that
+- [ ] Load UI while image is being grabbed
 
 ### - Episode View Controller
 - [ ] Pretty it up a little :p

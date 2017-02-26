@@ -150,7 +150,7 @@
                             <searchBar contentMode="redraw" barStyle="black" searchBarStyle="minimal" placeholder="Search for Shows" translatesAutoresizingMaskIntoConstraints="NO" id="qYJ-ba-xoW">
                                 <rect key="frame" x="0.0" y="64" width="375" height="44"/>
                                 <color key="barTintColor" cocoaTouchSystemColor="viewFlipsideBackgroundColor"/>
-                                <textInputTraits key="textInputTraits" autocorrectionType="yes" keyboardAppearance="light" returnKeyType="search"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="yes" returnKeyType="search"/>
                             </searchBar>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" indicatorStyle="black" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="3V2-RU-TOI">
                                 <rect key="frame" x="0.0" y="108" width="375" height="510"/>
@@ -279,16 +279,22 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="yQK-fE-7ej">
+                                <rect key="frame" x="177" y="299" width="20" height="20"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" cocoaTouchSystemColor="viewFlipsideBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="zmI-9U-f6K" firstAttribute="leading" secondItem="CJc-QP-kBe" secondAttribute="leading" id="QXx-om-CLb"/>
                             <constraint firstAttribute="trailing" secondItem="zmI-9U-f6K" secondAttribute="trailing" id="Ta0-YM-5bL"/>
+                            <constraint firstItem="yQK-fE-7ej" firstAttribute="centerX" secondItem="CJc-QP-kBe" secondAttribute="centerX" id="gTd-qb-QjW"/>
                             <constraint firstItem="zmI-9U-f6K" firstAttribute="top" secondItem="CJc-QP-kBe" secondAttribute="top" id="gmj-sZ-TOE"/>
+                            <constraint firstItem="yQK-fE-7ej" firstAttribute="centerY" secondItem="CJc-QP-kBe" secondAttribute="centerY" id="gwB-jO-fAX"/>
                             <constraint firstItem="zmI-9U-f6K" firstAttribute="bottom" secondItem="dWr-CL-6o4" secondAttribute="top" id="x18-1s-DwA"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="activityIndicator" destination="yQK-fE-7ej" id="pZk-ND-op0"/>
                         <outlet property="bannerImage" destination="FxL-5o-Tc9" id="7FK-oq-kZB"/>
                         <outlet property="tableView" destination="zmI-9U-f6K" id="Wp1-Qu-Crj"/>
                         <segue destination="KE8-hc-w4C" kind="show" identifier="segueToEpisode" id="P8c-8g-G8K"/>

@@ -7,7 +7,6 @@
 //
 
 //view controller used to display details of shows
-//TODO: Fix aspect ratio of bannerImage - make sure it's 16:9 no matter device size
 
 import Foundation
 import UIKit
@@ -20,42 +19,54 @@ class ShowViewController: UIViewController, UITableViewDataSource, UITableViewDe
 	
     @IBOutlet var activityIndicator: UIActivityIndicatorView?
     @IBOutlet var bannerImage: UIImageView?
-    @IBOutlet var descriptionOfShow: UILabel?
-    @IBOutlet var descriptionLabel: UILabel?
-    @IBOutlet var barItem: UITabBar!
 	@IBOutlet var tableView: UITableView!
     
     let API = TVDBAPI()
 	var itemsForCells: [ShowItem] = []
 	var show = Show()
+	var prefs = [String: Int]()
+	var rightBarButtonItem: UIBarButtonItem = UIBarButtonItem()
 	
 	//MARK: Methods
 	
     override func viewDidLoad() {
         super.viewDidLoad()
 		
-		let rightBarButtonItem = UIBarButtonItem(title: "Add", style: .plain, target: self, action: #selector(self.action))
-
+		self.activityIndicator?.hidesWhenStopped = true
+		self.activityIndicator?.startAnimating()
+		
+		if userDefaults.value(forKey: "favouriteShows") != nil {
+			prefs = userDefaults.value(forKey: "favouriteShows") as! [String: Int]
+			print("prefs", prefs)
+		}
+		
 		self.activityIndicator?.startAnimating()
 		
 		DispatchQueue.global(qos: .background).async {
 			
 			self.API.getDetailsOfShow(id: cellTappedForShowID, callback: { data, artworkURL, error in
-				guard let data = data else {
+				guard data != nil else {
 					print("ERROR: \(error ?? "error not found" as! Error)")
 					return
 				}
-				print("Data: \(data)")
+				
+				if self.prefs.keys.contains((detailsForController["name"] as? String)!){
+					self.rightBarButtonItem = UIBarButtonItem(title: "Remove", style: .plain, target: self, action: #selector(self.action))
+					print("dank", detailsForController["name"] as? String ?? "f")
+				} else {
+					self.rightBarButtonItem = UIBarButtonItem(title: "Add", style: .plain, target: self, action: #selector(self.action))
+					print("memes", detailsForController["name"] as? String ?? "f")
+				}
 				
 				DispatchQueue.main.async {
 					
 					self.navigationItem.title = detailsForController["name"] as? String
 					self.itemsForCells.append(ShowItem(category: .Description, summary: (detailsForController["description"] as? String)!))
 					self.itemsForCells.append(ShowItem(category: .Episodes, summary: nil))
-					print("ITEMS FOR CELLS \(self.itemsForCells.count)")
+
 					self.tableView.reloadData()
-					
-					self.navigationItem.rightBarButtonItem = rightBarButtonItem
+
+					self.navigationItem.rightBarButtonItem = self.rightBarButtonItem
 				}
 
 				
@@ -84,21 +95,24 @@ class ShowViewController: UIViewController, UITableViewDataSource, UITableViewDe
     }
 	
 	func action(){
-		print("TAPPED")
-
-		if let favShows = userDefaults.dictionary(forKey: "favouriteShows") as? [String: Int] {
+		
+		if let favShows = userDefaults.value(forKey: "favouriteShows") as? [String: Int] {
 			favouriteShows = favShows
-			print("Favourite Shows: ", favouriteShows)
+			//print("Favourite Shows: ", favouriteShows)
 		}
 		
 		if favouriteShows.keys.contains(self.navigationItem.title!) == false{
 			favouriteShows[self.navigationItem.title!] = detailsForController["id"] as? Int
-			userDefaults.set(favouriteShows, forKey: "favouriteShows")
+			self.rightBarButtonItem.title = "Remove"
 		} else {
-			
+			favouriteShows.removeValue(forKey: self.navigationItem.title!)
+			self.rightBarButtonItem.title = "Add"
 		}
+		
+		userDefaults.set(favouriteShows, forKey: "favouriteShows")
+
 	}
-	
+
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 		return itemsForCells.count
 	}

@@ -10,6 +10,7 @@
 
 import Foundation
 import UIKit
+import Alamofire
 
 class SearchViewController : UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate {
 	
@@ -19,9 +20,8 @@ class SearchViewController : UIViewController, UITableViewDataSource, UITableVie
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		let notificationName = Notification.Name("load")
-		searchBar.delegate = self
 		
+		let notificationName = Notification.Name("load")
 		let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(SearchViewController.dismissKeyboard))
 		
 		//so we can still tap on the tableview
@@ -35,6 +35,7 @@ class SearchViewController : UIViewController, UITableViewDataSource, UITableVie
 		tableView.layoutMargins = .zero
 		tableView.separatorInset = .zero
 		tableView.separatorStyle = .none
+		searchBar.delegate = self
 		
 		
 		NotificationCenter.default.addObserver(self, selector: #selector(loadList(notification:)), name: notificationName, object: nil)
@@ -44,6 +45,7 @@ class SearchViewController : UIViewController, UITableViewDataSource, UITableVie
 	override func viewWillAppear(_ animated: Bool) {
 		self.navigationController?.setNavigationBarHidden(true, animated: animated)
 		super.viewWillAppear(animated)
+
 	}
 	
 	override func viewWillDisappear(_ animated: Bool) {
@@ -62,9 +64,7 @@ class SearchViewController : UIViewController, UITableViewDataSource, UITableVie
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 		return showNamesFromSearch.count
 	}
-	
-	
-	
+
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		
 		let cellIdentifier = "cell"

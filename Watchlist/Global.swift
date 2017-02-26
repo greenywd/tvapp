@@ -12,9 +12,6 @@ import UIKit
 let userDefaults = UserDefaults.standard
 var cellTappedForShowID = Int()
 
-var tokenForAPI: String? = nil
-var seriesName: JSON? = nil
-
 var favouriteShows = [String: Int]()
 var showNamesFromSearch = [String]()
 var showDescFromSearch = [String]()
