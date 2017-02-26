@@ -56,8 +56,8 @@ class ShowViewController: UIViewController, UITableViewDataSource, UITableViewDe
 				
 				self.navigationItem.rightBarButtonItem = rightBarButtonItem
 				
-				if let url = showArtworkURL {
-					let dataForImage = try? Data(contentsOf: URL(string: url!)!)
+				if let url = showArtworkURL?.absoluteString {
+					let dataForImage = try? Data(contentsOf: URL(string: url)!)
 					
 					DispatchQueue.main.async {
 						self.bannerImage?.image = UIImage(data: dataForImage!)

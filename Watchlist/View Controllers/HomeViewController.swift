@@ -15,16 +15,16 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
 	
     @IBOutlet weak var tableView: UITableView!
 	var favouriteShowsForTableView: [String]?
-	var favouriteShowIDs: Array<Int>?
+	var favouriteShowIDs: [Int]?
 	
 	//var detailShow = [Show]()
 	
 	override func awakeFromNib() {
 		
 		favouriteShows = userDefaults.value(forKey: "favouriteShows") as! [String: Int]
-		let sortedFavouriteShows = favouriteShows.sort(by: <)
+		let _ = favouriteShows.map({ favouriteShowsForTableView?.append($0.key) })
 		
-		print(favouriteShowsForTableView!)
+		print(favouriteShowsForTableView ?? "oops")
 		
 	}
 	
