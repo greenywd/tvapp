@@ -18,7 +18,7 @@ class ShowViewController: UIViewController, UITableViewDataSource, UITableViewDe
 	//MARK: Properties
 	
     @IBOutlet var activityIndicator: UIActivityIndicatorView?
-    @IBOutlet var bannerImage: UIImageView?
+    @IBOutlet var bannerImage: UIImageView? = nil
 	@IBOutlet var tableView: UITableView!
     
     let API = TVDBAPI()

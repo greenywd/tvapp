@@ -17,6 +17,3 @@ do {
 	let user1 = User(name: "John")
 }
 
-typealias UIColour = UIColor
-
-let red = UIColour.red
