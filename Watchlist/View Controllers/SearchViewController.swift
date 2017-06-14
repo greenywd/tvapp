@@ -91,6 +91,7 @@ class SearchViewController : UIViewController, UITableViewDataSource, UITableVie
 		tableView.deselectRow(at: indexPath, animated: true)
 		
 		cellTappedForShowID = showIDFromSearch[indexPath.row]
+		
 		print("cell tapped \(cellTappedForShowID)")
 		print(showIDFromSearch[indexPath.row])
 		
@@ -100,17 +101,21 @@ class SearchViewController : UIViewController, UITableViewDataSource, UITableVie
 	
 	func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
 		
+		self.activityIndicator.startAnimating()
+		
 		if searchBar.text != nil{
 			showNamesFromSearch.removeAll()
 			showDescFromSearch.removeAll()
 			showIDFromSearch.removeAll()
 			
-			let API = TVDBAPI()
-			API.searchShows(show: searchBar.text!)
+			API.searchShows(show: searchBar.text!, completion: {
+				self.activityIndicator.stopAnimating()
+			})
+
 		}
 		self.searchBar.endEditing(true)
 		self.tableView.reloadData()
-		self.activityIndicator.startAnimating()
+
 	}
 	
 	func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
@@ -122,18 +127,18 @@ class SearchViewController : UIViewController, UITableViewDataSource, UITableVie
 		print("reloading data")
 		self.tableView.separatorStyle = .singleLine
 		self.tableView.reloadData()
-		self.activityIndicator.stopAnimating()
+		//self.activityIndicator.stopAnimating()
 	}
 	
-/*    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "segue" {
 			if let showVC = segue.destination as? ShowViewController {
 				// Assign the selected title to communityName
-				showVC.navigationItem.title = "test"
+				// showVC.navigationItem.title = showNamesFromSearch[cellTappedForShowID]
 			}
         }
     }
-*/
+
 	override var preferredStatusBarStyle: UIStatusBarStyle {
 		return .lightContent
 	}

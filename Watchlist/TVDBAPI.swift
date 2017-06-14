@@ -22,11 +22,9 @@ struct Season {
 	var episodes: [Episode]
 }
 
-
-
 class TVDBAPI {
 	
-	var tokenForAPI: String? = nil
+	static var tokenForAPI: String?
 	
 	func loginWithKey(key: String = "BE5F53398FC1FB01", completion: @escaping () -> () ){
 		print("Grabbing token...")
@@ -37,10 +35,12 @@ class TVDBAPI {
 			if let result = response.result.value {
 				loginResponse = (result as? Dictionary)!
 				
-				if loginResponse["token"] != nil{
-					self.tokenForAPI = loginResponse["token"]!
-					print("TOKEN IS: \(self.tokenForAPI!)")
+				if loginResponse["token"] != nil {
+					TVDBAPI.tokenForAPI = loginResponse["token"]!
+					print("TOKEN IS: \(TVDBAPI.tokenForAPI!)")
 					completion()
+				} else {
+					print("token for key: \(key) failed to be retrieved.")
 				}
 			}
 		}
@@ -55,11 +55,12 @@ class TVDBAPI {
 		var imageURL = "https://api.thetvdb.com/series/\(String(id))/images/query?keyType=fanart&resolution=1280x720"
 		print("IMAGE URL: \(imageURL)")
 		
-		if tokenForAPI != nil{
+		if TVDBAPI.tokenForAPI != nil{
 			headers = [
-				"Authorization": "Bearer \(tokenForAPI!)",
+				"Authorization": "Bearer \(TVDBAPI.tokenForAPI!)",
 				"Accept": "application/json"
 			]
+			print("dnak memes")
 			
 			Alamofire.request(seriesURL, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: headers).responseJSON { response in
 				if response.result.value != nil {
@@ -82,7 +83,7 @@ class TVDBAPI {
 						Alamofire.request(imageURL, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: headers).responseJSON { response in
 							if response.result.value != nil {
 								let result = JSON(response.result.value!).dictionaryValue
-								//print(result)
+								print(result)
 								
 								if result["Error"] == nil && result["data"]?[0]["fileName"] != nil {
 									showArtworkURL = URL(string: "https://thetvdb.com/banners/\(result["data"]![0]["fileName"].stringValue)")
@@ -131,19 +132,26 @@ class TVDBAPI {
 		}
 	}
 	
-	func searchShows(show: String) {
+	func searchShows(show: String, completion: @escaping () -> () ) {
 		let URL = "https://api.thetvdb.com/search/series?name=" + show.replacingOccurrences(of: " ", with: "%20")
 		var headers: HTTPHeaders
 		let notificationName = Notification.Name("load")
 		
 		print("URL: \(URL)")
 		
-		if tokenForAPI != nil{
+		if let x = TVDBAPI.tokenForAPI {
+			print(x)
+		} else {
+			print("no token")
+		}
+		
+		if TVDBAPI.tokenForAPI != nil{
 			headers = [
-				"Authorization": "Bearer \(tokenForAPI!)",
+				"Authorization": "Bearer \(TVDBAPI.tokenForAPI!)",
 				"Accept": "application/json"
 			]
 			print("Searching for \(show)...")
+			
 			Alamofire.request(URL, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: headers).responseJSON { response in
 				if response.result.value != nil {
 					
@@ -175,7 +183,7 @@ class TVDBAPI {
 						NotificationCenter.default.post(name: notificationName, object: nil)
 					}
 					
-					return
+					completion()
 				}
 			}
 		}
@@ -235,9 +243,9 @@ class TVDBAPI {
 		let episodesURL = "https://api.thetvdb.com/series/\(id)/episodes"
 		var headers: HTTPHeaders
 		
-		if tokenForAPI != nil{
+		if TVDBAPI.tokenForAPI != nil{
 			headers = [
-				"Authorization": "Bearer \(tokenForAPI!)",
+				"Authorization": "Bearer \(TVDBAPI.tokenForAPI!)",
 				"Accept": "application/json"
 			]
 			

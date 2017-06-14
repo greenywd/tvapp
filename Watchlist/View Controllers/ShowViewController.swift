@@ -60,7 +60,9 @@ class ShowViewController: UIViewController, UITableViewDataSource, UITableViewDe
 				
 				DispatchQueue.main.async {
 					
-					self.navigationItem.title = detailsForController["name"] as? String
+					if self.navigationItem.title != nil {
+						self.navigationItem.title = detailsForController["name"] as? String
+					}
 					self.itemsForCells.append(ShowItem(category: .Description, summary: (detailsForController["description"] as? String)!))
 					self.itemsForCells.append(ShowItem(category: .Episodes, summary: nil))
 

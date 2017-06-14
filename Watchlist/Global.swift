@@ -11,6 +11,7 @@ import UIKit
 
 let userDefaults = UserDefaults.standard
 var cellTappedForShowID = Int()
+let API = TVDBAPI()
 
 var favouriteShows = [String: Int]()
 var showNamesFromSearch = [String]()

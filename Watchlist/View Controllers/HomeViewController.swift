@@ -15,7 +15,6 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
 	
 	@IBOutlet weak var tableView: UITableView!
 	
-	let API = TVDBAPI()
 	var favouriteShowsForTableView = [String]()
 	var favouriteShowIDs = [Int]()
 	
@@ -26,6 +25,7 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
 		
 		API.loginWithKey(completion: {
 			UIApplication.shared.isNetworkActivityIndicatorVisible = false
+			print(TVDBAPI.tokenForAPI!)
 		})
 		
 		tableView.dataSource = self

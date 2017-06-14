@@ -1,19 +1,12 @@
-import Foundation
-import UIKit
-
-class User {
-	var name: String
- 
-	init(name: String) {
-		self.name = name
-		print("User \(name) is initialized")
-	}
- 
-	deinit {
-		print("User \(name) is being deallocated")
-	}
-}
-do {
-	let user1 = User(name: "John")
+func get_hand_total(hand: Array<Int>) -> Int{
+	return hand.reduce(0, +)
 }
 
+var player_hand = [2, 5, 7, 2]
+
+var value = get_hand_total(hand: player_hand)
+
+player_hand[1] = 4
+
+value
+get_hand_total(hand: player_hand)
