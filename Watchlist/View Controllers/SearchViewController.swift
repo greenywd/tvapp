@@ -18,6 +18,8 @@ class SearchViewController : UIViewController, UITableViewDataSource, UITableVie
 	@IBOutlet var searchBar: UISearchBar!
 	@IBOutlet var activityIndicator: UIActivityIndicatorView!
 	
+	var cellIndex: Int = 0
+	
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		
@@ -91,6 +93,7 @@ class SearchViewController : UIViewController, UITableViewDataSource, UITableVie
 		tableView.deselectRow(at: indexPath, animated: true)
 		
 		cellTappedForShowID = showIDFromSearch[indexPath.row]
+		cellIndex = indexPath.row
 		
 		print("cell tapped \(cellTappedForShowID)")
 		print(showIDFromSearch[indexPath.row])
@@ -133,8 +136,9 @@ class SearchViewController : UIViewController, UITableViewDataSource, UITableVie
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "segue" {
 			if let showVC = segue.destination as? ShowViewController {
-				// Assign the selected title to communityName
-				// showVC.navigationItem.title = showNamesFromSearch[cellTappedForShowID]
+				showVC.navigationItem.title = showNamesFromSearch[cellIndex]
+				
+				
 			}
         }
     }
