@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		D60466BD1E5816D300CB3F81 /* ShowEpisodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D60466BC1E5816D300CB3F81 /* ShowEpisodeViewController.swift */; };
 		D61FFE05226B2F72004A0F46 /* URLResponse+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D61FFE04226B2F72004A0F46 /* URLResponse+Extensions.swift */; };
 		D61FFE07226B2FA8004A0F46 /* Show.swift in Sources */ = {isa = PBXBuildFile; fileRef = D61FFE06226B2FA8004A0F46 /* Show.swift */; };
 		D63D0A481E2845ED00D3F1CA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D63D0A471E2845ED00D3F1CA /* AppDelegate.swift */; };
@@ -22,6 +21,8 @@
 		D6BEC1A81E443AB8001B211B /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6BEC1A71E443AB8001B211B /* SearchViewController.swift */; };
 		D6D682361E289E4400966B94 /* ShowViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6D682351E289E4400966B94 /* ShowViewController.swift */; };
 		D6D682421E28B27700966B94 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D6D682401E28B27700966B94 /* Main.storyboard */; };
+		D6D94ABC2286ED2900A405B5 /* SearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6D94ABB2286ED2900A405B5 /* SearchTableViewCell.swift */; };
+		D6EBBB932286E1A7005321C3 /* ShowEpisodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6EBBB922286E1A7005321C3 /* ShowEpisodeViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -38,7 +39,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		D60466BC1E5816D300CB3F81 /* ShowEpisodeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShowEpisodeViewController.swift; path = "/Users/greeny/Developer/iOS/Watchlist/Watchlist/View Controllers/ShowEpisodeViewController.swift"; sourceTree = "<absolute>"; };
 		D61FFE04226B2F72004A0F46 /* URLResponse+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLResponse+Extensions.swift"; sourceTree = "<group>"; };
 		D61FFE06226B2FA8004A0F46 /* Show.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Show.swift; sourceTree = "<group>"; };
 		D63D0A441E2845ED00D3F1CA /* Watchlist.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Watchlist.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -56,6 +56,8 @@
 		D6BEC1A71E443AB8001B211B /* SearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchViewController.swift; path = "View Controllers/SearchViewController.swift"; sourceTree = "<group>"; };
 		D6D682351E289E4400966B94 /* ShowViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShowViewController.swift; path = "View Controllers/ShowViewController.swift"; sourceTree = "<group>"; };
 		D6D682411E28B27700966B94 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Watchlist/Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		D6D94ABB2286ED2900A405B5 /* SearchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTableViewCell.swift; sourceTree = "<group>"; };
+		D6EBBB922286E1A7005321C3 /* ShowEpisodeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ShowEpisodeViewController.swift; path = "View Controllers/ShowEpisodeViewController.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,8 +77,8 @@
 				D67BCB511E41A5CA00BA58EA /* HomeViewController.swift */,
 				D6BEC1A71E443AB8001B211B /* SearchViewController.swift */,
 				D6D682351E289E4400966B94 /* ShowViewController.swift */,
-				D60466BC1E5816D300CB3F81 /* ShowEpisodeViewController.swift */,
 				D6AB06861E62ABF300B1D4AA /* SettingsViewController.swift */,
+				D6EBBB922286E1A7005321C3 /* ShowEpisodeViewController.swift */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -113,6 +115,7 @@
 				D63D0A521E2845ED00D3F1CA /* LaunchScreen.storyboard */,
 				D63D0A551E2845ED00D3F1CA /* Info.plist */,
 				D61FFE04226B2F72004A0F46 /* URLResponse+Extensions.swift */,
+				D6D94ABB2286ED2900A405B5 /* SearchTableViewCell.swift */,
 			);
 			path = Watchlist;
 			sourceTree = "<group>";
@@ -199,8 +202,9 @@
 				D6D682361E289E4400966B94 /* ShowViewController.swift in Sources */,
 				D66C25511E3DD5F000E69E9D /* Global.swift in Sources */,
 				D61FFE07226B2FA8004A0F46 /* Show.swift in Sources */,
+				D6EBBB932286E1A7005321C3 /* ShowEpisodeViewController.swift in Sources */,
+				D6D94ABC2286ED2900A405B5 /* SearchTableViewCell.swift in Sources */,
 				D63D0A481E2845ED00D3F1CA /* AppDelegate.swift in Sources */,
-				D60466BD1E5816D300CB3F81 /* ShowEpisodeViewController.swift in Sources */,
 				D65C1CE71E55AEF00000D1DD /* ShowTableViewCell.swift in Sources */,
 				D61FFE05226B2F72004A0F46 /* URLResponse+Extensions.swift in Sources */,
 				D67BCB521E41A5CA00BA58EA /* HomeViewController.swift in Sources */,

@@ -9,89 +9,89 @@
 import UIKit
 
 class ShowEpisodeViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
-	
-	@IBOutlet var tableView: UITableView!
-	
-	let API = TVDBAPI()
-	var seasonEpisode = [String]()
-	var descriptionOfEpisodes = [String]()
-	
-	override func viewDidLoad() {
-		super.viewDidLoad()
-		
-		let notificationName = Notification.Name("reloadEpisodes")
-		
-//        DispatchQueue.global().async {
-//            // Get episodes
-//            self.API.getEpisodesForShow(id: cellTappedForShowID, callback: { seasons, error in
-//                if ((error) != nil) {print(error!); return}
-//                for season in seasons! {
-//                    print(season.number)
-//                    for episode in season.episodes {
-//                        if episode.episode < 10 {
-//                            self.seasonEpisode.append("S0\(episode.season)E0\(episode.episode) - \(episode.name)")
-//                        } else {
-//                            print("S0\(episode.season)E\(episode.episode)")
-//                            self.seasonEpisode.append("S0\(episode.season)E\(episode.episode) - \(episode.name)")
-//                        }
-//                        
-//                        if episode.overview != nil {
-//                            self.descriptionOfEpisodes.append(episode.overview!)
-//                        }
-//                    }
-//                }
-//            })
-//        }
-		
-		
-		tableView.dataSource = self
-		tableView.delegate = self
-		tableView.rowHeight = 90
-		tableView.layoutMargins = .zero
-		tableView.separatorInset = .zero
-		tableView.separatorStyle = .none
-		tableView.reloadData()
-		
-		// Do any additional setup after loading the view.
-		
-		NotificationCenter.default.addObserver(self, selector: #selector(loadList(notification:)), name: notificationName, object: nil)
-	}
-	
-	override func didReceiveMemoryWarning() {
-		super.didReceiveMemoryWarning()
-		// Dispose of any resources that can be recreated.
-	}
-	
-	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-		return seasonEpisode.count
-	}
-	
-	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-		
-		let cellIdentifier = "cell"
+    
+    @IBOutlet var tableView: UITableView!
+    
+    let API = TVDBAPI()
+    var seasonEpisode = [String]()
+    var descriptionOfEpisodes = [String]()
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        let notificationName = Notification.Name("reloadEpisodes")
+        
+        //        DispatchQueue.global().async {
+        //            // Get episodes
+        //            self.API.getEpisodesForShow(id: cellTappedForShowID, callback: { seasons, error in
+        //                if ((error) != nil) {print(error!); return}
+        //                for season in seasons! {
+        //                    print(season.number)
+        //                    for episode in season.episodes {
+        //                        if episode.episode < 10 {
+        //                            self.seasonEpisode.append("S0\(episode.season)E0\(episode.episode) - \(episode.name)")
+        //                        } else {
+        //                            print("S0\(episode.season)E\(episode.episode)")
+        //                            self.seasonEpisode.append("S0\(episode.season)E\(episode.episode) - \(episode.name)")
+        //                        }
+        //
+        //                        if episode.overview != nil {
+        //                            self.descriptionOfEpisodes.append(episode.overview!)
+        //                        }
+        //                    }
+        //                }
+        //            })
+        //        }
+        
+        
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.rowHeight = 90
+        tableView.layoutMargins = .zero
+        tableView.separatorInset = .zero
+        tableView.separatorStyle = .none
+        tableView.reloadData()
+        
+        // Do any additional setup after loading the view.
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(loadList(notification:)), name: notificationName, object: nil)
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return seasonEpisode.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        let cellIdentifier = "cell"
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier) ?? UITableViewCell(style: UITableViewCell.CellStyle.subtitle, reuseIdentifier: cellIdentifier)
-		
-		if seasonEpisode.isEmpty == false {
-			cell.textLabel?.text = seasonEpisode[indexPath.row]
-			cell.textLabel?.numberOfLines = 1
-			cell.textLabel?.backgroundColor = UIColor.clear
-			cell.textLabel?.textColor = UIColor.white
-		}
-		
-		if descriptionOfEpisodes.isEmpty == false {
-			cell.detailTextLabel?.text = descriptionOfEpisodes[indexPath.row]
-			cell.detailTextLabel?.numberOfLines = 3
-			cell.detailTextLabel?.backgroundColor = UIColor.clear
-			cell.detailTextLabel?.textColor = UIColor.white
-		}
-		
-		return cell
-	}
-	
+        
+        if seasonEpisode.isEmpty == false {
+            cell.textLabel?.text = seasonEpisode[indexPath.row]
+            cell.textLabel?.numberOfLines = 1
+            cell.textLabel?.backgroundColor = UIColor.clear
+            cell.textLabel?.textColor = UIColor.white
+        }
+        
+        if descriptionOfEpisodes.isEmpty == false {
+            cell.detailTextLabel?.text = descriptionOfEpisodes[indexPath.row]
+            cell.detailTextLabel?.numberOfLines = 3
+            cell.detailTextLabel?.backgroundColor = UIColor.clear
+            cell.detailTextLabel?.textColor = UIColor.white
+        }
+        
+        return cell
+    }
+    
     @objc func loadList(notification: NSNotification){
-		print("reloading data")
-		self.tableView.separatorStyle = .singleLine
-		self.tableView.reloadData()
-		//self.activityIndicator.stopAnimating()
-	}
+        print("reloading data")
+        self.tableView.separatorStyle = .singleLine
+        self.tableView.reloadData()
+        //self.activityIndicator.stopAnimating()
+    }
 }

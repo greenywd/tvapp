@@ -14,6 +14,7 @@ class SearchViewController : UIViewController {
     @IBOutlet var tableView: UITableView!
     @IBOutlet var searchBar: UISearchBar!
     @IBOutlet var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet var cellImageView: UIImageView!
     
     var cellIndex = 0
     var searchResults: [SearchResults.Data]?
@@ -32,8 +33,8 @@ class SearchViewController : UIViewController {
         tableView.delegate = self
         tableView.rowHeight = 90
         tableView.layoutMargins = .zero
-        //        tableView.separatorInset = .zero
-        //        tableView.separatorStyle = .none
+        tableView.separatorInset = .zero
+        tableView.separatorStyle = .none
         searchBar.delegate = self
         
     }
@@ -115,19 +116,29 @@ extension SearchViewController : UITableViewDataSource, UITableViewDelegate, UIS
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cellIdentifier = "cell"
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier) ?? UITableViewCell(style: UITableViewCell.CellStyle.subtitle, reuseIdentifier: cellIdentifier)
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier) as! SearchTableViewCell
         
         if let results = searchResults {
-            cell.textLabel?.text = results[indexPath.row].seriesName
-            print(results[indexPath.row].seriesName)
-            cell.textLabel?.numberOfLines = 1
-            cell.textLabel?.lineBreakMode = .byTruncatingTail
-            cell.textLabel?.textColor = UIColor.white
+            if let url = URL(string: "https://www.thetvdb.com/banners/" + results[indexPath.row].banner) {
+                DispatchQueue.global(qos: .background).async {
+                    let dataForImage = try? Data(contentsOf: url)
+                    DispatchQueue.main.async {
+                        if let image = dataForImage {
+                            cell.backgroundImage.image = UIImage(data: image)
+                        }
+                    }
+                }
+            }
             
-            cell.detailTextLabel?.text = results[indexPath.row].overview
-            cell.detailTextLabel?.numberOfLines = 3
-            cell.detailTextLabel?.lineBreakMode = .byTruncatingTail
-            cell.detailTextLabel?.textColor = UIColor.white
+            cell.titleLabel.text = results[indexPath.row].seriesName
+            cell.titleLabel.numberOfLines = 1
+            cell.titleLabel.lineBreakMode = .byTruncatingTail
+            cell.titleLabel.textColor = UIColor.white
+            
+            cell.detailLabel.text = results[indexPath.row].overview
+            cell.detailLabel.numberOfLines = 3
+            cell.detailLabel.lineBreakMode = .byTruncatingTail
+            cell.detailLabel.textColor = UIColor.white
         }
         
         return cell
@@ -137,5 +148,9 @@ extension SearchViewController : UITableViewDataSource, UITableViewDelegate, UIS
         tableView.deselectRow(at: indexPath, animated: true)
         cellIndex = indexPath.row
         performSegue(withIdentifier: "segue", sender: self)
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 125
     }
 }

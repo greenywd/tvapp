@@ -49,13 +49,13 @@ class ShowViewController: UIViewController {
             DispatchQueue.global().async {
                 let dataForImage = try? Data(contentsOf: url)
                 DispatchQueue.main.async {
-                    self.bannerImage?.image = UIImage(data: dataForImage!)
+                    if let image = dataForImage {
+                        self.bannerImage?.image = UIImage(data: image)
+                    }
                 }
             }
-
-
-        }
         
+        }
         tableView.dataSource = self
         tableView.delegate = self
         
