@@ -21,27 +21,27 @@ class ShowEpisodeViewController: UIViewController, UITableViewDataSource, UITabl
 		
 		let notificationName = Notification.Name("reloadEpisodes")
 		
-		DispatchQueue.global().async {
-			// Get episodes
-			self.API.getEpisodesForShow(id: cellTappedForShowID, callback: { seasons, error in
-				if ((error) != nil) {print(error!); return}
-				for season in seasons! {
-					print(season.number)
-					for episode in season.episodes {
-						if episode.episode < 10 {
-							self.seasonEpisode.append("S0\(episode.season)E0\(episode.episode) - \(episode.name)")
-						} else {
-							print("S0\(episode.season)E\(episode.episode)")
-							self.seasonEpisode.append("S0\(episode.season)E\(episode.episode) - \(episode.name)")
-						}
-						
-						if episode.overview != nil {
-							self.descriptionOfEpisodes.append(episode.overview!)
-						}
-					}
-				}
-			})
-		}
+//        DispatchQueue.global().async {
+//            // Get episodes
+//            self.API.getEpisodesForShow(id: cellTappedForShowID, callback: { seasons, error in
+//                if ((error) != nil) {print(error!); return}
+//                for season in seasons! {
+//                    print(season.number)
+//                    for episode in season.episodes {
+//                        if episode.episode < 10 {
+//                            self.seasonEpisode.append("S0\(episode.season)E0\(episode.episode) - \(episode.name)")
+//                        } else {
+//                            print("S0\(episode.season)E\(episode.episode)")
+//                            self.seasonEpisode.append("S0\(episode.season)E\(episode.episode) - \(episode.name)")
+//                        }
+//                        
+//                        if episode.overview != nil {
+//                            self.descriptionOfEpisodes.append(episode.overview!)
+//                        }
+//                    }
+//                }
+//            })
+//        }
 		
 		
 		tableView.dataSource = self
@@ -69,7 +69,7 @@ class ShowEpisodeViewController: UIViewController, UITableViewDataSource, UITabl
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		
 		let cellIdentifier = "cell"
-		let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier) ?? UITableViewCell(style: UITableViewCellStyle.subtitle, reuseIdentifier: cellIdentifier)
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier) ?? UITableViewCell(style: UITableViewCell.CellStyle.subtitle, reuseIdentifier: cellIdentifier)
 		
 		if seasonEpisode.isEmpty == false {
 			cell.textLabel?.text = seasonEpisode[indexPath.row]
@@ -88,7 +88,7 @@ class ShowEpisodeViewController: UIViewController, UITableViewDataSource, UITabl
 		return cell
 	}
 	
-	func loadList(notification: NSNotification){
+    @objc func loadList(notification: NSNotification){
 		print("reloading data")
 		self.tableView.separatorStyle = .singleLine
 		self.tableView.reloadData()

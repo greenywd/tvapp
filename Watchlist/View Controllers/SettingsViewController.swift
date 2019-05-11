@@ -25,7 +25,7 @@ class SettingsViewController: UIViewController {
 		// Dispose of any resources that can be recreated.
 	}
 	
-	func resetPrefs() {
+    @objc func resetPrefs() {
 		print("removing favourite shows...")
 		userDefaults.removeObject(forKey: "favouriteShows")
 	}
