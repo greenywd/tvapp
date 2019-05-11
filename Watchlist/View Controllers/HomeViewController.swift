@@ -21,12 +21,8 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		
-		UIApplication.shared.isNetworkActivityIndicatorVisible = true
-		
-		API.loginWithKey(completion: {
-			UIApplication.shared.isNetworkActivityIndicatorVisible = false
-			print(TVDBAPI.tokenForAPI!)
-		})
+		UIApplication.shared.isNetworkActivityIndicatorVisible = true        
+        API.retrieveToken()
 		
 		tableView.dataSource = self
 		tableView.delegate = self
@@ -92,7 +88,7 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		
 		let cellIdentifier = "favouriteShowsCell"
-		let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier) ?? UITableViewCell(style: UITableViewCellStyle.subtitle, reuseIdentifier: cellIdentifier)
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier) ?? UITableViewCell(style: UITableViewCell.CellStyle.subtitle, reuseIdentifier: cellIdentifier)
 		
 		cell.textLabel?.textColor = UIColor.white
 		cell.detailTextLabel?.textColor = UIColor.white
