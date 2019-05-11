@@ -7,310 +7,203 @@
 //
 
 import Foundation
-import Alamofire
 
-struct Episode {
-	var name: String
-	var season: Int
-	var episode: Int
-	var overview: String?
-	var id: Int
-}
-
-struct Season {
-	var number: Int
-	var episodes: [Episode]
+protocol TVDBError : Error {
+    var title: String { get }
 }
 
 class TVDBAPI {
-	
-	static var tokenForAPI: String?
-	
-	func loginWithKey(key: String = "BE5F53398FC1FB01", completion: @escaping () -> () ){
-		print("Grabbing token...")
-		let parameters: [String: Any] = ["apikey":key]
-		var loginResponse = [String: String]()
-		
-		Alamofire.request("https://api.thetvdb.com/login", method: .post, parameters: parameters, encoding: JSONEncoding.default).responseJSON { response in
-			if let result = response.result.value {
-				loginResponse = (result as? Dictionary)!
-				
-				if loginResponse["token"] != nil {
-					TVDBAPI.tokenForAPI = loginResponse["token"]!
-					print("TOKEN IS: \(TVDBAPI.tokenForAPI!)")
-					completion()
-				} else {
-					print("token for key: \(key) failed to be retrieved.")
-				}
-			}
-		}
-	}
-	
-	func getDetailsOfShow(id: Int, callback: @escaping ((_ data: [String: Any]?, _ imageURL: String?, _ err: Error?)->Void)) {
-		
-		let seriesURL = "https://api.thetvdb.com/series/" + String(id) + "/filter?keys=seriesName%2Coverview%2Cid"
-		print("URL: \(seriesURL)")
-		var headers: HTTPHeaders
-		
-		var imageURL = "https://api.thetvdb.com/series/\(String(id))/images/query?keyType=fanart&resolution=1280x720"
-		print("IMAGE URL: \(imageURL)")
-		
-		if TVDBAPI.tokenForAPI != nil{
-			headers = [
-				"Authorization": "Bearer \(TVDBAPI.tokenForAPI!)",
-				"Accept": "application/json"
-			]
-			print("dnak memes")
-			
-			Alamofire.request(seriesURL, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: headers).responseJSON { response in
-				if response.result.value != nil {
-					let result = JSON(response.result.value!).dictionaryValue
-					print(result)
-					
-					if result["Error"] == nil{
-						
-						if result["data"]?["seriesName"] != nil {
-							detailsForController["name"] = result["data"]!["seriesName"].stringValue
-						}
-						if result["data"]?["overview"] != nil {
-							detailsForController["description"] = result["data"]!["overview"].stringValue
-						}
-						if result["data"]?["id"] != nil {
-							detailsForController["id"] = result["data"]!["id"].intValue
-							
-						}
-						
-						Alamofire.request(imageURL, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: headers).responseJSON { response in
-							if response.result.value != nil {
-								let result = JSON(response.result.value!).dictionaryValue
-								print(result)
-								
-								if result["Error"] == nil && result["data"]?[0]["fileName"] != nil {
-									showArtworkURL = URL(string: "https://thetvdb.com/banners/\(result["data"]![0]["fileName"].stringValue)")
-									print("SHOW ARTWORK \(String(describing: showArtworkURL?.absoluteString))")
-									
-									callback(result, showArtworkURL?.absoluteString, nil)
-								} else if result["Error"] != nil {
-									
-									print("No results for 720p found. Trying 1080p...")
-									imageURL = "https://api.thetvdb.com/series/\(String(id))/images/query?keyType=fanart&resolution=1920x1080"
-									
-									Alamofire.request(imageURL, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: headers).responseJSON { response in
-										if response.result.value != nil {
-											let result = JSON(response.result.value!).dictionaryValue
-											//print(result)
-											
-											if result["Error"] == nil && result["data"]?[0]["fileName"] != nil {
-												showArtworkURL = URL(string: "https://thetvdb.com/banners/\(result["data"]![0]["fileName"].stringValue)")
-												print("SHOW ARTWORK \(String(describing: showArtworkURL?.absoluteString))")
-												
-												callback(result, showArtworkURL?.absoluteString, nil)
-											} else {
-												callback(result, "", nil)
-											}
-											
-										}
-									}
-									
-								} else {
-									callback(result, "", nil)
-									//									callback(nil, nil, NSError(domain: "WatchListErrorDomain", code: -10, userInfo: ["message": result["Error"]!]))
-								}
-							} else {
-								callback(result, nil, response.result.error)
-							}
-						}
-						
-						
-					} else {
-						callback(nil, nil, NSError(domain: "WatchListErrorDomain", code: -10, userInfo: ["message": result["Error"]!]))
-					}
-				} else {
-					callback(nil, nil, response.result.error)
-				}
-			}
-		}
-	}
-	
-	func searchShows(show: String, completion: @escaping () -> () ) {
-		let URL = "https://api.thetvdb.com/search/series?name=" + show.replacingOccurrences(of: " ", with: "%20")
-		var headers: HTTPHeaders
-		let notificationName = Notification.Name("load")
-		
-		print("URL: \(URL)")
-		
-		if let x = TVDBAPI.tokenForAPI {
-			print(x)
-		} else {
-			print("no token")
-		}
-		
-		if TVDBAPI.tokenForAPI != nil{
-			headers = [
-				"Authorization": "Bearer \(TVDBAPI.tokenForAPI!)",
-				"Accept": "application/json"
-			]
-			print("Searching for \(show)...")
-			
-			Alamofire.request(URL, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: headers).responseJSON { response in
-				if response.result.value != nil {
-					
-					let result = JSON(response.result.value!).dictionaryValue
-					if result["Error"] == nil {
-						let numberOfItems:Int = (result["data"]?.count)!
-						
-						for count in 0..<numberOfItems {
-							if result["data"]?[count]["seriesName"] != nil {
-								showNamesFromSearch.append(((result["data"]?[count]["seriesName"])?.stringValue)!)
-							}
-							if result["data"]?[count]["overview"] != nil {
-								showDescFromSearch.append(((result["data"]?[count]["overview"])?.stringValue)!)
-							}
-							if result["data"]?[count]["id"] != nil {
-								showIDFromSearch.append(((result["data"]?[count]["id"])?.intValue)!)
-							}
-							
-						}
-						
-						NotificationCenter.default.post(name: notificationName, object: nil)
-						
-					} else {
-						showNamesFromSearch.removeAll()
-						showNamesFromSearch.append("Not Found.")
-						showDescFromSearch.removeAll()
-						showDescFromSearch.append("Not Found.")
-						
-						NotificationCenter.default.post(name: notificationName, object: nil)
-					}
-					
-					completion()
-				}
-			}
-		}
-	}
-	
-	func jsonToSeasonArray(_ arr: [String: JSON]) -> [Season] {
-		var seasons = [Int: Season]()
-		
-		let episodes = arr["data"]!.arrayValue
-		for episode in episodes {
-			let seasonNum = episode["airedSeason"].intValue
-			let episodeNum = episode["airedEpisodeNumber"].intValue
-			let episodeName = episode["episodeName"].stringValue
-			let overview = episode["overview"].stringValue
-			let id = episode["id"].intValue
-			
-			let newEpisode = Episode(name: episodeName, season: seasonNum, episode: episodeNum, overview: overview, id: id)
-			
-			if seasons.keys.contains(seasonNum) {
-				seasons[seasonNum]!.episodes.append(newEpisode)
-			} else {
-				let newSeason = Season(number: seasonNum, episodes: [newEpisode])
-				seasons[seasonNum] = newSeason
-			}
-		}
-		let finalSeasons = seasons.map({ key, value -> Season in
-			var value = value
-			value.episodes = value.episodes.sorted { (left, right) -> Bool in
-				return left.episode < right.episode
-			}
-			return value
-		}).sorted(by: {left, right in left.number < right.number})
-		return finalSeasons
-	}
-	
-	func mergeSeasonArray(_ arr : [Season]) -> [Season] {
-		var seasonsDict = [Int: Season]()
-		for season in arr {
-			if seasonsDict.keys.contains(season.number) {
-				seasonsDict[season.number]!.episodes.append(contentsOf: season.episodes)
-			} else {
-				seasonsDict[season.number] = season
-			}
-		}
-		
-		let finalSeasons = seasonsDict.map({ key, value -> Season in
-			var value = value
-			value.episodes = value.episodes.sorted { (left, right) -> Bool in
-				return left.episode < right.episode
-			}
-			return value
-		}).sorted(by: {left, right in left.number < right.number})
-		return finalSeasons
-	}
-	
-	func getEpisodesForShow(id: Int, callback: @escaping (_ seasons: [Season]?, _ err: Error?)->Void) {
-		let episodesURL = "https://api.thetvdb.com/series/\(id)/episodes"
-		var headers: HTTPHeaders
-		
-		if TVDBAPI.tokenForAPI != nil{
-			headers = [
-				"Authorization": "Bearer \(TVDBAPI.tokenForAPI!)",
-				"Accept": "application/json"
-			]
-			
-			Alamofire.request(episodesURL, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: headers).responseJSON { response in
-				if response.result.value != nil {
-					let result = JSON(response.result.value!).dictionaryValue
-					print(result)
-					if result["Error"] == nil {
-						// Paging
-						
-						// URL: https://api.thetvdb.com/series/{ID}/episodes/query?page=2
-						
-						var finalSeasons = self.jsonToSeasonArray(result)
-						
-						let lastPage = result["links"]!["last"].intValue
-						
-						var pagesDone = 1
-						if pagesDone == lastPage {
-							callback(finalSeasons, nil)
-							
-							let notificationName = Notification.Name("reloadEpisodes")
-							NotificationCenter.default.post(name: notificationName, object: nil)
-							return
-						}
-						
-						for page in 2...lastPage {
-							Alamofire.request("https://api.thetvdb.com/series/\(id)/episodes/query?page=\(page)", method: .get, parameters: nil, encoding: JSONEncoding.default, headers: headers).responseJSON { response in
-								if response.result.value != nil {
-									let result = JSON(response.result.value!).dictionaryValue
-									
-									if result["Error"] == nil {
-										// Paging
-										
-										// URL: https://api.thetvdb.com/series/{ID}/episodes/query?page=2
-										
-										finalSeasons.append(contentsOf: self.jsonToSeasonArray(result))
-										pagesDone += 1
-										
-										if pagesDone == lastPage {
-											callback(self.mergeSeasonArray(finalSeasons), nil)
-											
-											let notificationName = Notification.Name("reloadEpisodes")
-											NotificationCenter.default.post(name: notificationName, object: nil)
-										}
-									} else {
-										callback(nil, NSError(domain: "WatchListErrorDomain", code: -11, userInfo: ["message": result["Error"]!]))
-										return
-									}
-								} else {
-									callback(nil, response.result.error)
-									return
-								}
-								
-							}
-							
-						}
-					} else {
-						callback(nil, NSError(domain: "WatchListErrorDomain", code: -11, userInfo: ["message": result["Error"]!]))
-					}
-				} else {
-					callback(nil, response.result.error)
-				}
-			}
-		}
-	}
-	
-	
+    
+    struct Authentication : Codable {
+        let token: String?
+        fileprivate let Error: String?
+    }
+    
+    struct TVError : TVDBError {
+        var title: String
+        
+        init(title: String) {
+            self.title = title
+        }
+    }
+    
+    struct Episodes : Codable {
+        let data: [Data]?
+        
+        struct Data : Codable {
+            let airedEpisodeNumber: Int
+            let overview: String?
+            let guestStars: [String]
+            let id: Int
+            let imdbId: String
+            let filename: String
+            let director: String
+            let airedSeason: Int
+            // let siteRating: Double
+            let episodeName: String
+            // let writers: [String]
+            // let directors: [String]
+            let seriesId: Int
+            let firstAired: String
+        }
+    }
+    
+    static var token: String = "aaa you shouldn't be seeing this!"
+    
+    /// Retrieves a token from thetvdb.com
+    ///
+    /// - Parameters:
+    ///   - key: API Key given by your account on thetvdb.com
+    ///   - success: Callback after retrieval.
+    ///   - auth: Authentication struct which will contain a token provided by thetvdb.com.
+    ///   - error: A (hopefully) descriptive error if no data is retrieved, if JSON decoding goes wrong or an API error from thetvdb.com.
+    
+    func retrieveToken(using key: String = "BE5F53398FC1FB01", completion: @escaping (Error) -> () = { _ in }) {
+        // TODO: If token is expired (check status code/error) renew it
+        print("hell yeah brother lets retrieve a token")
+        let params = ["apikey" : key]
+        let json = try? JSONSerialization.data(withJSONObject: params, options: .prettyPrinted)
+        
+        let endpoint = URL(string: "https://api.thetvdb.com/login")
+        
+        var request = URLRequest(url: endpoint!)
+        request.httpMethod = "POST"
+        request.httpBody = json
+        request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
+        
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            guard let data = data, error == nil else {
+                completion(error!)
+                return
+            }
+            
+            print("Status Code: \(response!.StatusCode)")
+            
+            do {
+                let auth = try JSONDecoder().decode(Authentication.self, from: data)
+                
+                if let token = auth.token {
+                    TVDBAPI.token = token
+                    print("Token set to:", token)
+                }
+                
+            } catch {
+                print(error, error.localizedDescription)
+            }
+        }
+        task.resume()
+    }
+    
+    
+    func getDetailsOfShow(id: Int, using token: String, completion: @escaping (ShowJSON) -> () = { _ in }) {
+        let seriesEndpoint = "https://api.thetvdb.com/series/\(String(id))/filter?keys=seriesName%2Coverview%2Cid"
+        
+        guard let seriesURL = URL(string: seriesEndpoint) else {
+            print("Error: cannot create URL")
+            return
+        }
+        
+        var request = URLRequest(url: seriesURL)
+        request.httpMethod = "GET"
+        request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
+        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        
+        let showTask = URLSession.shared.dataTask(with: request) { (data, response, error) in
+            
+            // check for any errors
+            guard error == nil else {
+                print("error calling GET on /todos/1")
+                print(error!)
+                return
+            }
+            // make sure we got data
+            guard let responseData = data else {
+                print("Error: did not receive data")
+                return
+            }
+            
+            do {
+                let showInfo = try JSONDecoder().decode(ShowJSON.self, from: responseData)
+                completion(showInfo)
+            } catch {
+                print(error, error.localizedDescription)
+            }
+        }
+        showTask.resume()
+    }
+    
+    func searchSeries(series: String, using token: String, completion: @escaping (SearchResults?) -> ()) {
+        let searchURL = "https://api.thetvdb.com/search/series?name=" + series.replacingOccurrences(of: " ", with: "%20")
+        
+        guard let seriesURL = URL(string: searchURL) else {
+            print("Error: cannot create URL")
+            return
+        }
+        
+        var request = URLRequest(url: seriesURL)
+        request.httpMethod = "GET"
+        request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
+        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        
+        let showTask = URLSession.shared.dataTask(with: request) { (data, response, error) in
+            
+            // check for any errors
+            guard error == nil else {
+                print("error calling GET on /todos/1")
+                print(error!)
+                return
+            }
+            // make sure we got data
+            guard let responseData = data else {
+                print("Error: did not receive data")
+                return
+            }
+            
+            do {
+                let results = try JSONDecoder().decode(SearchResults.self, from: responseData)
+                completion(results)
+            } catch {
+                print(error, error.localizedDescription)
+            }
+        }
+        showTask.resume()
+    }
+    
+    func getEpisodes(show id: Int, using token: String, completion: @escaping (Episodes?) -> ()) {
+        let episodesURLEndpoint = "https://api.thetvdb.com/series/\(id)/episodes"
+        
+        guard let episodesURL = URL(string: episodesURLEndpoint) else {
+            print("Error: cannot create URL")
+            return
+        }
+        
+        var request = URLRequest(url: episodesURL)
+        request.httpMethod = "GET"
+        request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
+        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        
+        let showTask = URLSession.shared.dataTask(with: request) { (data, response, error) in
+            
+            // check for any errors
+            guard error == nil else {
+                print("error calling GET on /todos/1")
+                print(error!)
+                return
+            }
+            // make sure we got data
+            guard let responseData = data else {
+                print("Error: did not receive data")
+                return
+            }
+            
+            do {
+                let results = try JSONDecoder().decode(Episodes.self, from: responseData)
+                completion(results)
+            } catch {
+                print(error, error.localizedDescription)
+            }
+        }
+        showTask.resume()
+        
+    }
 }

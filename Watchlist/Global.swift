@@ -47,3 +47,18 @@ struct Show {
 		self.description = description
 	}
 }
+
+struct SearchResults : Codable {
+    let data: [Data]?
+    
+    struct Data : Codable {
+        let aliases: [String]
+        let banner: String
+        let firstAired: String
+        let id: Int
+        let network: String
+        let overview: String?
+        let seriesName: String
+        let status: String
+    }
+}
