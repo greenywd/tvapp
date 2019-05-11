@@ -115,30 +115,25 @@ extension SearchViewController : UITableViewDataSource, UITableViewDelegate, UIS
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cellIdentifier = "cell"
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier) as! SearchTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell") as! SearchTableViewCell
         
         if let results = searchResults {
             if let url = URL(string: "https://www.thetvdb.com/banners/" + results[indexPath.row].banner) {
-                DispatchQueue.global(qos: .background).async {
-                    let dataForImage = try? Data(contentsOf: url)
-                    DispatchQueue.main.async {
-                        if let image = dataForImage {
-                            cell.backgroundImage.image = UIImage(data: image)
+                if cell.backgroundImage.image == nil {
+                    DispatchQueue.global(qos: .background).async {
+                        let dataForImage = try? Data(contentsOf: url)
+                        
+                        DispatchQueue.main.async {
+                            if let image = dataForImage {
+                                cell.backgroundImage.image = UIImage(data: image)
+                            }
                         }
                     }
                 }
             }
             
             cell.titleLabel.text = results[indexPath.row].seriesName
-            cell.titleLabel.numberOfLines = 1
-            cell.titleLabel.lineBreakMode = .byTruncatingTail
-            cell.titleLabel.textColor = UIColor.white
-            
             cell.detailLabel.text = results[indexPath.row].overview
-            cell.detailLabel.numberOfLines = 3
-            cell.detailLabel.lineBreakMode = .byTruncatingTail
-            cell.detailLabel.textColor = UIColor.white
         }
         
         return cell
