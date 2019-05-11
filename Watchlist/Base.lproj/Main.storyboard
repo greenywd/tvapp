@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12106.1" systemVersion="16E163f" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="mFv-ld-y1R">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="mFv-ld-y1R">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12074.1"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -100,7 +98,7 @@
                 <navigationController id="P9Q-AT-TAh" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Home" image="ic_home" selectedImage="ic_home" id="jun-ku-ll6"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" barStyle="black" id="XNK-XX-P7g">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="viewFlipsideBackgroundColor"/>
                         <color key="tintColor" red="0.99931198359999995" green="0.58544164899999995" blue="0.01688550971" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -148,12 +146,12 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <searchBar contentMode="redraw" barStyle="black" searchBarStyle="minimal" placeholder="Search for Shows" translatesAutoresizingMaskIntoConstraints="NO" id="qYJ-ba-xoW">
-                                <rect key="frame" x="0.0" y="64" width="375" height="44"/>
+                                <rect key="frame" x="0.0" y="64" width="375" height="56"/>
                                 <color key="barTintColor" cocoaTouchSystemColor="viewFlipsideBackgroundColor"/>
                                 <textInputTraits key="textInputTraits" autocorrectionType="yes" returnKeyType="search"/>
                             </searchBar>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" indicatorStyle="black" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="3V2-RU-TOI">
-                                <rect key="frame" x="0.0" y="108" width="375" height="510"/>
+                                <rect key="frame" x="0.0" y="120" width="375" height="498"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="viewFlipsideBackgroundColor"/>
                                 <color key="tintColor" red="0.99931198359999995" green="0.58544164899999995" blue="0.01688550971" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <color key="sectionIndexColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
@@ -217,12 +215,12 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XAJ-0K-6ze" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="556.52173913043487" y="-382.33695652173918"/>
+            <point key="canvasLocation" x="556" y="-382.75862068965517"/>
         </scene>
         <!--Show View Controller-->
         <scene sceneID="eUb-k7-Dzj">
             <objects>
-                <viewController id="afu-ZL-osH" customClass="ShowViewController" customModule="Watchlist" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ShowViewController" id="afu-ZL-osH" customClass="ShowViewController" customModule="Watchlist" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="W3m-Xu-rgo"/>
                         <viewControllerLayoutGuide type="bottom" id="dWr-CL-6o4"/>
@@ -244,17 +242,17 @@
                                         <rect key="frame" x="0.0" y="239" width="375" height="200"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="sA6-Fi-alh" id="lXS-lB-ShV">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="200"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="199.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="Lorem ipsum blah" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ywh-Kx-lhb">
-                                                    <rect key="frame" x="20" y="39" width="347" height="152"/>
+                                                    <rect key="frame" x="27" y="42" width="333" height="146.5"/>
                                                     <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="17"/>
                                                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Description" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="z9L-MY-w3a">
-                                                    <rect key="frame" x="20" y="8" width="347" height="29"/>
+                                                    <rect key="frame" x="27" y="11" width="333" height="29"/>
                                                     <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="24"/>
                                                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -280,7 +278,7 @@
                                 </prototypes>
                             </tableView>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="yQK-fE-7ej">
-                                <rect key="frame" x="177" y="299" width="20" height="20"/>
+                                <rect key="frame" x="177.5" y="299" width="20" height="20"/>
                             </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" cocoaTouchSystemColor="viewFlipsideBackgroundColor"/>
@@ -296,7 +294,7 @@
                     <connections>
                         <outlet property="activityIndicator" destination="yQK-fE-7ej" id="pZk-ND-op0"/>
                         <outlet property="bannerImage" destination="FxL-5o-Tc9" id="7FK-oq-kZB"/>
-                        <outlet property="tableView" destination="zmI-9U-f6K" id="Wp1-Qu-Crj"/>
+                        <outlet property="tableView" destination="zmI-9U-f6K" id="M0j-x2-aq4"/>
                         <segue destination="KE8-hc-w4C" kind="show" identifier="segueToEpisode" id="P8c-8g-G8K"/>
                     </connections>
                 </viewController>
@@ -330,7 +328,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="wtg-sc-h7y">
-                                                    <rect key="frame" x="15" y="14" width="33.5" height="20.5"/>
+                                                    <rect key="frame" x="15" y="11" width="33.5" height="20.5"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -368,7 +366,7 @@
                 <navigationController id="yZM-FS-ii6" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" systemItem="search" id="xx1-TN-MRB"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" barStyle="black" id="a4P-1B-sL4">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" red="0.99931198359999995" green="0.58544164899999995" blue="0.01688550971" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </navigationBar>
@@ -393,7 +391,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="29n-eK-ScE">
-                                <rect key="frame" x="109.5" y="294" width="155" height="30"/>
+                                <rect key="frame" x="110" y="294" width="155" height="30"/>
                                 <state key="normal" title="Reset Favourite Shows"/>
                             </button>
                         </subviews>
@@ -420,7 +418,7 @@
                 <navigationController id="Ogu-80-bc4" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" systemItem="more" id="TVO-71-g0U"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" barStyle="black" id="3cA-Bs-q8O">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" red="0.99931198359999995" green="0.58544164899999995" blue="0.01688550971" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </navigationBar>
