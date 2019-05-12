@@ -17,7 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         
         UIApplication.shared.isNetworkActivityIndicatorVisible = true
-        API.retrieveToken()
+        TVDBAPI.retrieveToken()
         
         return true
     }
