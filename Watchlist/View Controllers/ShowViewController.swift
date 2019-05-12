@@ -18,10 +18,9 @@ class ShowViewController: UIViewController {
 	//MARK: Properties
 	
     @IBOutlet var activityIndicator: UIActivityIndicatorView?
-    @IBOutlet var bannerImage: UIImageView? = nil
+    @IBOutlet var bannerImage: UIImageView?
     @IBOutlet var tableView: UITableView!
     
-    let API = TVDBAPI()
 	var itemsForCells: [ShowItem] = []
     var showFromSearch: SearchResults.Data!
 	var rightBarButtonItem: UIBarButtonItem = UIBarButtonItem()
@@ -37,25 +36,26 @@ class ShowViewController: UIViewController {
 		activityIndicator?.hidesWhenStopped = true
         activityIndicator?.startAnimating()
         
-        activityIndicator?.stopAnimating()
         navigationItem.title = self.showFromSearch.seriesName
         itemsForCells.append(ShowItem(category: .Description, summary: self.showFromSearch.overview))
         itemsForCells.append(ShowItem(category: .Episodes, summary: nil))
-        tableView.reloadData()
         
-        print(showFromSearch.banner)
-        
-        if let url = URL(string: "https://www.thetvdb.com/banners/" + showFromSearch.banner) {
-            DispatchQueue.global().async {
-                let dataForImage = try? Data(contentsOf: url)
-                DispatchQueue.main.async {
-                    if let image = dataForImage {
-                        self.bannerImage?.image = UIImage(data: image)
+        TVDBAPI.getImages(show: showFromSearch.id, resolution: .FHD, completion: { (images) in
+            if let url = images?.data?.first?.fileName {
+                let url = URL(string: "https://www.thetvdb.com/banners/" + url)
+                DispatchQueue.global().async {
+                    let data = try? Data(contentsOf: url!)
+                    
+                    DispatchQueue.main.async {
+                        if let image = data {
+                            self.bannerImage?.image = UIImage(data: image)
+                            self.activityIndicator?.stopAnimating()
+                        }
                     }
                 }
-            }
+            }        
+        })
         
-        }
         tableView.dataSource = self
         tableView.delegate = self
         
@@ -84,6 +84,17 @@ class ShowViewController: UIViewController {
 		
 		userDefaults.set(favouriteShows, forKey: "favouriteShows")
 	}
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        print("preparing for segue \n\n\n")
+        guard let episodeVC = segue.destination as? ShowEpisodeViewController
+            else { preconditionFailure("Expected a ShowEpisodeViewController") }
+        
+        if (segue.identifier == "segueToEpisode") {
+            print(showFromSearch.id)
+            episodeVC.id = showFromSearch.id
+        }
+    }
 }
 
 extension ShowViewController : UITableViewDataSource, UITableViewDelegate {
@@ -108,9 +119,6 @@ extension ShowViewController : UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        
-        if indexPath.row == 1 {
-            performSegue(withIdentifier: "segueToEpisode", sender: self)
-        }
+        // Segue performed in Storyboard
     }
 }
