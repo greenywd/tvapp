@@ -12,37 +12,21 @@ class ShowEpisodeViewController: UIViewController, UITableViewDataSource, UITabl
     
     @IBOutlet var tableView: UITableView!
     
-    let API = TVDBAPI()
-    var seasonEpisode = [String]()
-    var descriptionOfEpisodes = [String]()
+    var id: Int?
+    var episodes: [Episodes.Data]?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let notificationName = Notification.Name("reloadEpisodes")
-        
-        //        DispatchQueue.global().async {
-        //            // Get episodes
-        //            self.API.getEpisodesForShow(id: cellTappedForShowID, callback: { seasons, error in
-        //                if ((error) != nil) {print(error!); return}
-        //                for season in seasons! {
-        //                    print(season.number)
-        //                    for episode in season.episodes {
-        //                        if episode.episode < 10 {
-        //                            self.seasonEpisode.append("S0\(episode.season)E0\(episode.episode) - \(episode.name)")
-        //                        } else {
-        //                            print("S0\(episode.season)E\(episode.episode)")
-        //                            self.seasonEpisode.append("S0\(episode.season)E\(episode.episode) - \(episode.name)")
-        //                        }
-        //
-        //                        if episode.overview != nil {
-        //                            self.descriptionOfEpisodes.append(episode.overview!)
-        //                        }
-        //                    }
-        //                }
-        //            })
-        //        }
-        
+        TVDBAPI.getEpisodes(show: id!) {
+            if let episodes = $0 {
+                self.episodes = episodes
+
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                }
+            }
+        }
         
         tableView.dataSource = self
         tableView.delegate = self
@@ -53,8 +37,6 @@ class ShowEpisodeViewController: UIViewController, UITableViewDataSource, UITabl
         tableView.reloadData()
         
         // Do any additional setup after loading the view.
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(loadList(notification:)), name: notificationName, object: nil)
     }
     
     override func didReceiveMemoryWarning() {
@@ -63,7 +45,10 @@ class ShowEpisodeViewController: UIViewController, UITableViewDataSource, UITabl
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return seasonEpisode.count
+        if let episodes = self.episodes {
+            return episodes.count
+        }
+        return 1
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -71,16 +56,14 @@ class ShowEpisodeViewController: UIViewController, UITableViewDataSource, UITabl
         let cellIdentifier = "cell"
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier) ?? UITableViewCell(style: UITableViewCell.CellStyle.subtitle, reuseIdentifier: cellIdentifier)
         
-        if seasonEpisode.isEmpty == false {
-            cell.textLabel?.text = seasonEpisode[indexPath.row]
+        // TODO: Ensure episodes are in order (Season > Episode?, i.e. 1x01, 1x02, etc)
+        if let episodes = self.episodes {
+            cell.textLabel?.text = episodes[indexPath.row].episodeName
             cell.textLabel?.numberOfLines = 1
             cell.textLabel?.backgroundColor = UIColor.clear
             cell.textLabel?.textColor = UIColor.white
-        }
-        
-        if descriptionOfEpisodes.isEmpty == false {
-            cell.detailTextLabel?.text = descriptionOfEpisodes[indexPath.row]
-            cell.detailTextLabel?.numberOfLines = 3
+            
+            cell.detailTextLabel?.text = episodes[indexPath.row].overview
             cell.detailTextLabel?.backgroundColor = UIColor.clear
             cell.detailTextLabel?.textColor = UIColor.white
         }
@@ -88,10 +71,7 @@ class ShowEpisodeViewController: UIViewController, UITableViewDataSource, UITabl
         return cell
     }
     
-    @objc func loadList(notification: NSNotification){
-        print("reloading data")
-        self.tableView.separatorStyle = .singleLine
-        self.tableView.reloadData()
-        //self.activityIndicator.stopAnimating()
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
     }
 }
