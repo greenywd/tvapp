@@ -7,12 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D61A03772287AC390002AA48 /* APITypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = D61A03762287AC390002AA48 /* APITypes.swift */; };
+		D61A037A2287AD320002AA48 /* APIKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = D61A03792287AD320002AA48 /* APIKey.swift */; };
 		D61FFE05226B2F72004A0F46 /* URLResponse+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D61FFE04226B2F72004A0F46 /* URLResponse+Extensions.swift */; };
-		D61FFE07226B2FA8004A0F46 /* Show.swift in Sources */ = {isa = PBXBuildFile; fileRef = D61FFE06226B2FA8004A0F46 /* Show.swift */; };
 		D63D0A481E2845ED00D3F1CA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D63D0A471E2845ED00D3F1CA /* AppDelegate.swift */; };
 		D63D0A511E2845ED00D3F1CA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D63D0A501E2845ED00D3F1CA /* Assets.xcassets */; };
 		D63D0A541E2845ED00D3F1CA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D63D0A521E2845ED00D3F1CA /* LaunchScreen.storyboard */; };
-		D65C1CE41E5579D50000D1DD /* ShowItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = D65C1CE31E5579D50000D1DD /* ShowItems.swift */; };
+		D65C1CE41E5579D50000D1DD /* ShowItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = D65C1CE31E5579D50000D1DD /* ShowItem.swift */; };
 		D65C1CE71E55AEF00000D1DD /* ShowTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D65C1CE61E55AEF00000D1DD /* ShowTableViewCell.swift */; };
 		D6629D901E3C27A70049CC26 /* TVDBAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6629D8F1E3C27A70049CC26 /* TVDBAPI.swift */; };
 		D66C25511E3DD5F000E69E9D /* Global.swift in Sources */ = {isa = PBXBuildFile; fileRef = D66C25501E3DD5F000E69E9D /* Global.swift */; };
@@ -39,14 +40,15 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		D61A03762287AC390002AA48 /* APITypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APITypes.swift; sourceTree = "<group>"; };
+		D61A03792287AD320002AA48 /* APIKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIKey.swift; sourceTree = "<group>"; };
 		D61FFE04226B2F72004A0F46 /* URLResponse+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLResponse+Extensions.swift"; sourceTree = "<group>"; };
-		D61FFE06226B2FA8004A0F46 /* Show.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Show.swift; sourceTree = "<group>"; };
 		D63D0A441E2845ED00D3F1CA /* Watchlist.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Watchlist.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D63D0A471E2845ED00D3F1CA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D63D0A501E2845ED00D3F1CA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D63D0A531E2845ED00D3F1CA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D63D0A551E2845ED00D3F1CA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		D65C1CE31E5579D50000D1DD /* ShowItems.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShowItems.swift; sourceTree = "<group>"; };
+		D65C1CE31E5579D50000D1DD /* ShowItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShowItem.swift; sourceTree = "<group>"; };
 		D65C1CE61E55AEF00000D1DD /* ShowTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShowTableViewCell.swift; sourceTree = "<group>"; };
 		D6629D8F1E3C27A70049CC26 /* TVDBAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TVDBAPI.swift; sourceTree = "<group>"; };
 		D66C25501E3DD5F000E69E9D /* Global.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Global.swift; sourceTree = "<group>"; };
@@ -77,10 +79,28 @@
 				D67BCB511E41A5CA00BA58EA /* HomeViewController.swift */,
 				D6BEC1A71E443AB8001B211B /* SearchViewController.swift */,
 				D6D682351E289E4400966B94 /* ShowViewController.swift */,
-				D6AB06861E62ABF300B1D4AA /* SettingsViewController.swift */,
 				D6EBBB922286E1A7005321C3 /* ShowEpisodeViewController.swift */,
+				D6AB06861E62ABF300B1D4AA /* SettingsViewController.swift */,
 			);
 			name = "View Controllers";
+			sourceTree = "<group>";
+		};
+		D61A03782287ACBF0002AA48 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				D6629D8F1E3C27A70049CC26 /* TVDBAPI.swift */,
+				D61A03762287AC390002AA48 /* APITypes.swift */,
+				D61A03792287AD320002AA48 /* APIKey.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		D61A037B2287B3FB0002AA48 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				D61FFE04226B2F72004A0F46 /* URLResponse+Extensions.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		D63D0A3B1E2845ED00D3F1CA = {
@@ -102,19 +122,18 @@
 		D63D0A461E2845ED00D3F1CA /* Watchlist */ = {
 			isa = PBXGroup;
 			children = (
+				D61A037B2287B3FB0002AA48 /* Extensions */,
+				D61A03782287ACBF0002AA48 /* Model */,
 				D6AB06851E62A55E00B1D4AA /* Playground.playground */,
 				D63D0A471E2845ED00D3F1CA /* AppDelegate.swift */,
-				D6629D8F1E3C27A70049CC26 /* TVDBAPI.swift */,
 				D66C25501E3DD5F000E69E9D /* Global.swift */,
-				D65C1CE31E5579D50000D1DD /* ShowItems.swift */,
-				D61FFE06226B2FA8004A0F46 /* Show.swift */,
+				D65C1CE31E5579D50000D1DD /* ShowItem.swift */,
 				D65C1CE61E55AEF00000D1DD /* ShowTableViewCell.swift */,
 				D6019C2E1E41A6F4009756F6 /* View Controllers */,
 				D63D0A501E2845ED00D3F1CA /* Assets.xcassets */,
 				D6D682401E28B27700966B94 /* Main.storyboard */,
 				D63D0A521E2845ED00D3F1CA /* LaunchScreen.storyboard */,
 				D63D0A551E2845ED00D3F1CA /* Info.plist */,
-				D61FFE04226B2F72004A0F46 /* URLResponse+Extensions.swift */,
 				D6D94ABB2286ED2900A405B5 /* SearchTableViewCell.swift */,
 			);
 			path = Watchlist;
@@ -195,15 +214,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D61A03772287AC390002AA48 /* APITypes.swift in Sources */,
 				D6629D901E3C27A70049CC26 /* TVDBAPI.swift in Sources */,
 				D6BEC1A81E443AB8001B211B /* SearchViewController.swift in Sources */,
 				D6AB06871E62ABF300B1D4AA /* SettingsViewController.swift in Sources */,
-				D65C1CE41E5579D50000D1DD /* ShowItems.swift in Sources */,
+				D65C1CE41E5579D50000D1DD /* ShowItem.swift in Sources */,
 				D6D682361E289E4400966B94 /* ShowViewController.swift in Sources */,
 				D66C25511E3DD5F000E69E9D /* Global.swift in Sources */,
-				D61FFE07226B2FA8004A0F46 /* Show.swift in Sources */,
 				D6EBBB932286E1A7005321C3 /* ShowEpisodeViewController.swift in Sources */,
 				D6D94ABC2286ED2900A405B5 /* SearchTableViewCell.swift in Sources */,
+				D61A037A2287AD320002AA48 /* APIKey.swift in Sources */,
 				D63D0A481E2845ED00D3F1CA /* AppDelegate.swift in Sources */,
 				D65C1CE71E55AEF00000D1DD /* ShowTableViewCell.swift in Sources */,
 				D61FFE05226B2F72004A0F46 /* URLResponse+Extensions.swift in Sources */,
@@ -264,9 +284,11 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = F33EN56G35;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -323,9 +345,11 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = F33EN56G35;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -352,14 +376,16 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = F33EN56G35;
 				INFOPLIST_FILE = Watchlist/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.greeny.tvapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -370,14 +396,16 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = F33EN56G35;
 				INFOPLIST_FILE = Watchlist/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.greeny.tvapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
