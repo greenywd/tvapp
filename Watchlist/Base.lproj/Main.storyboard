@@ -220,6 +220,10 @@
                                             <outlet property="detailLabel" destination="ASo-Mb-lgG" id="wua-VM-GQw"/>
                                             <outlet property="titleLabel" destination="aP4-SY-Keh" id="aQT-l2-TTl"/>
                                             <outlet property="visualEffectView" destination="9Xq-yv-Fdk" id="S3A-L1-4w7"/>
+                                            <segue destination="afu-ZL-osH" kind="show" identifier="segue" id="oLA-e1-Dsf">
+                                                <segue key="commit" inheritsFrom="parent" id="WLV-wq-dbH"/>
+                                                <segue key="preview" inheritsFrom="commit" id="bdK-zk-IO6"/>
+                                            </segue>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -244,7 +248,6 @@
                         <outlet property="activityIndicator" destination="iWg-H8-O8m" id="dUZ-Lj-vQn"/>
                         <outlet property="searchBar" destination="qYJ-ba-xoW" id="R5D-fC-FC8"/>
                         <outlet property="tableView" destination="3V2-RU-TOI" id="l3c-nb-V6a"/>
-                        <segue destination="afu-ZL-osH" kind="show" identifier="segue" id="GhU-N4-9h0"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XAJ-0K-6ze" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -469,6 +472,6 @@
         <image name="ic_home" width="24" height="24"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="GhU-N4-9h0"/>
+        <segue reference="oLA-e1-Dsf"/>
     </inferredMetricsTieBreakers>
 </document>

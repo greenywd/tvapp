@@ -21,9 +21,6 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		
-		UIApplication.shared.isNetworkActivityIndicatorVisible = true        
-        API.retrieveToken()
-		
 		tableView.dataSource = self
 		tableView.delegate = self
 		tableView.rowHeight = 90
