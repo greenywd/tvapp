@@ -77,7 +77,7 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
 		tableView.deselectRow(at: indexPath, animated: true)
 		
 		if !favouriteShowIDs.isEmpty {
-			cellTappedForShowID	= Array(favouriteShowIDs)[indexPath.row]
+			// cellTappedForShowID	= Array(favouriteShowIDs)[indexPath.row]
 			performSegue(withIdentifier: "segue", sender: self)
 		}
 	}
