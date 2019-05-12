@@ -7,19 +7,15 @@
 //
 
 import Foundation
+import UIKit
 
-protocol TVDBError : Error {
+private protocol TVDBError : Error {
     var title: String { get }
 }
 
 class TVDBAPI {
-    
-    struct Authentication : Codable {
-        let token: String?
-        fileprivate let Error: String?
-    }
-    
-    struct TVError : TVDBError {
+
+    private struct TVError : TVDBError {
         var title: String
         
         init(title: String) {
@@ -27,41 +23,28 @@ class TVDBAPI {
         }
     }
     
-    struct Episodes : Codable {
-        let data: [Data]?
-        
-        struct Data : Codable {
-            let airedEpisodeNumber: Int
-            let overview: String?
-            let guestStars: [String]
-            let id: Int
-            let imdbId: String
-            let filename: String
-            let director: String
-            let airedSeason: Int
-            // let siteRating: Double
-            let episodeName: String
-            // let writers: [String]
-            // let directors: [String]
-            let seriesId: Int
-            let firstAired: String
-        }
+    /// An Enumerated type for declaring a resolution in the 16:9 aspect ratio.
+    ///
+    /// - HD: Returns "1280x720"
+    /// - FHD: Returns "1920x1080"
+    enum Resolution: String {
+        case HD = "1280x720"
+        case FHD = "1920x1080"
     }
     
-    static var token: String = "aaa you shouldn't be seeing this!"
+    private static var currentToken: String = ""
     
     /// Retrieves a token from thetvdb.com
     ///
     /// - Parameters:
     ///   - key: API Key given by your account on thetvdb.com
     ///   - success: Callback after retrieval.
-    ///   - auth: Authentication struct which will contain a token provided by thetvdb.com.
     ///   - error: A (hopefully) descriptive error if no data is retrieved, if JSON decoding goes wrong or an API error from thetvdb.com.
     
-    func retrieveToken(using key: String = "BE5F53398FC1FB01", completion: @escaping (Error) -> () = { _ in }) {
+    static func retrieveToken(completion: @escaping (Error) -> () = { _ in }) {
         // TODO: If token is expired (check status code/error) renew it
-        print("hell yeah brother lets retrieve a token")
-        let params = ["apikey" : key]
+        let params = ["apikey" : APIKey]
+        // FIXME: Proper error handling?
         let json = try? JSONSerialization.data(withJSONObject: params, options: .prettyPrinted)
         
         let endpoint = URL(string: "https://api.thetvdb.com/login")
@@ -83,7 +66,7 @@ class TVDBAPI {
                 let auth = try JSONDecoder().decode(Authentication.self, from: data)
                 
                 if let token = auth.token {
-                    TVDBAPI.token = token
+                    currentToken = token
                     print("Token set to:", token)
                 }
                 
@@ -95,7 +78,7 @@ class TVDBAPI {
     }
     
     
-    func getDetailsOfShow(id: Int, using token: String, completion: @escaping (ShowJSON) -> () = { _ in }) {
+    static func getDetailsOfShow(id: Int, using token: String, completion: @escaping (Show) -> () = { _ in }) {
         let seriesEndpoint = "https://api.thetvdb.com/series/\(String(id))/filter?keys=seriesName%2Coverview%2Cid"
         
         guard let seriesURL = URL(string: seriesEndpoint) else {
@@ -123,7 +106,7 @@ class TVDBAPI {
             }
             
             do {
-                let showInfo = try JSONDecoder().decode(ShowJSON.self, from: responseData)
+                let showInfo = try JSONDecoder().decode(Show.self, from: responseData)
                 completion(showInfo)
             } catch {
                 print(error, error.localizedDescription)
@@ -132,7 +115,7 @@ class TVDBAPI {
         showTask.resume()
     }
     
-    func searchSeries(series: String, using token: String, completion: @escaping (SearchResults?) -> ()) {
+    static func searchSeries(series: String, completion: @escaping (SearchResults?) -> ()) {
         let searchURL = "https://api.thetvdb.com/search/series?name=" + series.replacingOccurrences(of: " ", with: "%20")
         
         guard let seriesURL = URL(string: searchURL) else {
@@ -143,7 +126,7 @@ class TVDBAPI {
         var request = URLRequest(url: seriesURL)
         request.httpMethod = "GET"
         request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
-        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        request.setValue("Bearer \(currentToken)", forHTTPHeaderField: "Authorization")
         
         let showTask = URLSession.shared.dataTask(with: request) { (data, response, error) in
             
@@ -169,7 +152,7 @@ class TVDBAPI {
         showTask.resume()
     }
     
-    func getEpisodes(show id: Int, using token: String, completion: @escaping (Episodes?) -> ()) {
+    static func getEpisodes(show id: Int, completion: @escaping ([Episodes.Data]?) -> ()) {
         let episodesURLEndpoint = "https://api.thetvdb.com/series/\(id)/episodes"
         
         guard let episodesURL = URL(string: episodesURLEndpoint) else {
@@ -180,7 +163,7 @@ class TVDBAPI {
         var request = URLRequest(url: episodesURL)
         request.httpMethod = "GET"
         request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
-        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        request.setValue("Bearer \(currentToken)", forHTTPHeaderField: "Authorization")
         
         let showTask = URLSession.shared.dataTask(with: request) { (data, response, error) in
             
@@ -198,12 +181,50 @@ class TVDBAPI {
             
             do {
                 let results = try JSONDecoder().decode(Episodes.self, from: responseData)
-                completion(results)
+                completion(results.data)
             } catch {
                 print(error, error.localizedDescription)
             }
         }
         showTask.resume()
         
+    }
+    
+    static func getImages(show id: Int, resolution: Resolution, completion: @escaping (Images?) -> () = { _ in }) {
+        let imagesURLEndpoint = "https://api.thetvdb.com/series/\(id)/images/query?keyType=fanart&resolution=\(resolution.rawValue)"
+        
+        guard let episodesURL = URL(string: imagesURLEndpoint) else {
+            print("Error: cannot create URL")
+            return
+        }
+        
+        var request = URLRequest(url: episodesURL)
+        request.httpMethod = "GET"
+        request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
+        request.setValue("Bearer \(currentToken)", forHTTPHeaderField: "Authorization")
+        
+        let showTask = URLSession.shared.dataTask(with: request) { (data, response, error) in
+            
+            // check for any errors
+            guard error == nil else {
+                print("error calling GET on /todos/1")
+                print(error!)
+                return
+            }
+            // make sure we got data
+            guard let responseData = data else {
+                print("Error: did not receive data")
+                return
+            }
+            
+            do {
+                let images = try JSONDecoder().decode(Images.self, from: responseData)
+                completion(images)
+                
+            } catch {
+                print(error, error.localizedDescription)
+            }
+        }
+        showTask.resume()
     }
 }
