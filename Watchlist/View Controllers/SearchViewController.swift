@@ -14,15 +14,13 @@ class SearchViewController : UIViewController {
     @IBOutlet var tableView: UITableView!
     @IBOutlet var searchBar: UISearchBar!
     @IBOutlet var activityIndicator: UIActivityIndicatorView!
-    @IBOutlet var cellImageView: UIImageView!
     
-    var cellIndex = 0
     var searchResults: [SearchResults.Data]?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(SearchViewController.dismissKeyboard))
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         
         // so we can still tap on the tableview
         tap.cancelsTouchesInView = false
@@ -31,7 +29,6 @@ class SearchViewController : UIViewController {
         
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.rowHeight = 90
         tableView.layoutMargins = .zero
         tableView.separatorInset = .zero
         tableView.separatorStyle = .none
@@ -42,7 +39,6 @@ class SearchViewController : UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.setNavigationBarHidden(true, animated: animated)
         super.viewWillAppear(animated)
-        
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -55,15 +51,18 @@ class SearchViewController : UIViewController {
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        
-        self.activityIndicator.startAnimating()
+        activityIndicator.startAnimating()
         
         guard let query = searchBar.text else {
             return
         }
         
-        API.searchSeries(series: query, using: TVDBAPI.token) { (results) in
-            if let results = results?.data {
+        for cell in (tableView.visibleCells as? [SearchTableViewCell])! {
+            cell.backgroundImage.image = nil
+        }
+        
+        TVDBAPI.searchSeries(series: query) {
+            if let results = $0?.data {
                 self.searchResults = results
             }
             
@@ -85,11 +84,16 @@ class SearchViewController : UIViewController {
         guard let results = searchResults else {
             return
         }
+
+        guard let selectedTableViewCell = sender as? UITableViewCell,
+            let indexPath = tableView.indexPath(for: selectedTableViewCell)
+            else { preconditionFailure("Expected sender to be a valid table view cell") }
+        
+        guard let showVC = segue.destination as? ShowViewController
+            else { preconditionFailure("Expected a ShowViewController") }
         
         if segue.identifier == "segue" {
-            if let showVC = segue.destination as? ShowViewController {
-                showVC.showFromSearch = results[cellIndex]
-            }
+            showVC.showFromSearch = results[indexPath.row]
         }
     }
     
@@ -99,7 +103,6 @@ class SearchViewController : UIViewController {
 }
 
 extension SearchViewController : UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate {
-    
     func numberOfSections(in tableView: UITableView) -> Int {
         if let _ = searchResults {
             return 1
@@ -119,6 +122,7 @@ extension SearchViewController : UITableViewDataSource, UITableViewDelegate, UIS
         
         if let results = searchResults {
             if let url = URL(string: "https://www.thetvdb.com/banners/" + results[indexPath.row].banner) {
+                // FIXME: Searching twice doesn't update the second search's cell images
                 if cell.backgroundImage.image == nil {
                     DispatchQueue.global(qos: .background).async {
                         let dataForImage = try? Data(contentsOf: url)
@@ -135,14 +139,12 @@ extension SearchViewController : UITableViewDataSource, UITableViewDelegate, UIS
             cell.titleLabel.text = results[indexPath.row].seriesName
             cell.detailLabel.text = results[indexPath.row].overview
         }
-        
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        cellIndex = indexPath.row
-        performSegue(withIdentifier: "segue", sender: self)
+        // Segue being performed in Storyboard
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
