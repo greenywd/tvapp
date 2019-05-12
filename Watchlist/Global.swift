@@ -6,12 +6,12 @@
 //  Copyright © 2017 Thomas Greenwood. All rights reserved.
 //
 
+#warning ("TODO: Remove this file")
+
 import Foundation
 import UIKit
 
 let userDefaults = UserDefaults.standard
-var cellTappedForShowID = Int()
-let API = TVDBAPI()
 
 var favouriteShows = [String: Int]()
 var showNamesFromSearch = [String]()
@@ -35,30 +35,3 @@ let detailsOfShow = [
 	"userRating" : String()
 	
 ] as [String : Any]
-
-struct Show {
-	var title: String
-	var id: Int
-	var description: String
-	
-	init (title: String = "Unknown Title", id: Int = 000000, description: String = "No Description") {
-		self.title = title
-		self.id = id
-		self.description = description
-	}
-}
-
-struct SearchResults : Codable {
-    let data: [Data]?
-    
-    struct Data : Codable {
-        let aliases: [String]
-        let banner: String
-        let firstAired: String
-        let id: Int
-        let network: String
-        let overview: String?
-        let seriesName: String
-        let status: String
-    }
-}
