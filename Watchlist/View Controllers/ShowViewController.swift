@@ -21,13 +21,8 @@ class ShowViewController: UIViewController {
     @IBOutlet var bannerImage: UIImageView?
     @IBOutlet var tableView: UITableView!
     
-	var itemsForCells: [ShowItem] = []
     var showFromSearch: SearchResults.Data!
 	var rightBarButtonItem: UIBarButtonItem = UIBarButtonItem()
-    
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-    }
     
 	//MARK: Methods
     override func viewDidLoad() {
@@ -36,9 +31,7 @@ class ShowViewController: UIViewController {
 		activityIndicator?.hidesWhenStopped = true
         activityIndicator?.startAnimating()
         
-        navigationItem.title = self.showFromSearch.seriesName
-        itemsForCells.append(ShowItem(category: .Description, summary: self.showFromSearch.overview))
-        itemsForCells.append(ShowItem(category: .Episodes, summary: nil))
+        navigationItem.title = showFromSearch.seriesName
         
         TVDBAPI.getImages(show: showFromSearch.id, resolution: .FHD, completion: { (images) in
             if let url = images?.data?.first?.fileName {
@@ -86,32 +79,48 @@ class ShowViewController: UIViewController {
 	}
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        print("preparing for segue \n\n\n")
-        guard let episodeVC = segue.destination as? ShowEpisodeViewController
-            else { preconditionFailure("Expected a ShowEpisodeViewController") }
-        
-        if (segue.identifier == "segueToEpisode") {
-            print(showFromSearch.id)
-            episodeVC.id = showFromSearch.id
+
+        print(segue.identifier, segue.destination)
+        switch segue.destination {
+        case let episodeVC as ShowEpisodeViewController:
+
+            if (segue.identifier == "segueToEpisode") {
+                print(showFromSearch.id)
+                episodeVC.id = showFromSearch.id
+            }
+            
+        case let descriptionVC as ShowDescriptionViewController:
+            if (segue.identifier == "segueDescription") {
+                descriptionVC.showDescriptionString = showFromSearch.overview
+            }
+            
+        default:
+            preconditionFailure("Expected a ShowEpisodeViewController or ShowDescriptionViewController")
         }
     }
 }
 
 extension ShowViewController : UITableViewDataSource, UITableViewDelegate {
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return itemsForCells.count
+        return 2 // Description and Episode - will add Actors later
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        let item = itemsForCells[indexPath.row]
-        
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! ShowTableViewCell
-        cell.showItem = item
-        
-        if indexPath.row == 1 {
-            cell.isUserInteractionEnabled = true
-            cell.accessoryType = .disclosureIndicator
+        let cell = tableView.dequeueReusableCell(withIdentifier: "ShowTableViewCell", for: indexPath) as! ShowTableViewCell
+
+        switch indexPath.row {
+        case 0:
+            cell.type = .Description
+            cell.showDescription = showFromSearch.overview
+        case 1:
+            cell.type = .Episodes
+        default:
+            break
         }
         
         return cell
@@ -120,5 +129,11 @@ extension ShowViewController : UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         // Segue performed in Storyboard
+        
+        if (indexPath.row == 0) {
+            performSegue(withIdentifier: "segueDescription", sender: self)
+        } else if (indexPath.row == 1) {
+            performSegue(withIdentifier: "segueToEpisode", sender: self)
+        }
     }
 }

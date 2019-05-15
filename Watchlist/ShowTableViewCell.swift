@@ -10,22 +10,34 @@ import UIKit
 
 class ShowTableViewCell: UITableViewCell {
 
-	@IBOutlet weak var descriptionOfShow: UILabel!
-	@IBOutlet weak var descriptionLabel: UILabel!
-	
-	var showItem: ShowItem? {
-		didSet {
-			if let item = showItem {
-				descriptionLabel.text = item.category.toString()
-				descriptionOfShow.text = item.summary
-			}
-			else {
-				descriptionLabel.text = nil
-				descriptionOfShow.text = nil
-			}
-		}
-	}
-	
+    enum CellType : String {
+        case Default, Description, Episodes, Actors
+    }
+    
+    @IBOutlet var header: UILabel!
+	@IBOutlet var content: UILabel!
+    
+    public var type: CellType = .Default {
+        didSet {
+            update()
+        }
+    }
+    public var showDescription: String? {
+        didSet {
+            update()
+        }
+    }
+    
+//    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+//        self.type = .Default
+//        super.init(style: style, reuseIdentifier: reuseIdentifier)
+//    }
+    
+//    required init?(coder aDecoder: NSCoder) {
+//        self.type = .Default
+//        super.init(coder: aDecoder)
+//    }
+//
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -36,6 +48,32 @@ class ShowTableViewCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
-
+    
+    func update() {
+        self.header.text = type.rawValue
+        switch type {
+        case .Description:
+            content.text = showDescription
+            
+            if (content.maxNumberOfLines > 7) {
+                print(content.maxNumberOfLines)
+                content.numberOfLines = 7
+                content.lineBreakMode = .byTruncatingTail
+                isUserInteractionEnabled = true
+                accessoryType = .disclosureIndicator
+            }
+            
+        case .Episodes:
+            content.text = nil
+            
+            isUserInteractionEnabled = true
+            accessoryType = .disclosureIndicator
+            
+        case .Actors:
+            break
+        default:
+            break
+            
+        }
+    }
 }
-
