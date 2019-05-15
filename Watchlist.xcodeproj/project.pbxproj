@@ -15,6 +15,8 @@
 		D63D0A481E2845ED00D3F1CA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D63D0A471E2845ED00D3F1CA /* AppDelegate.swift */; };
 		D63D0A511E2845ED00D3F1CA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D63D0A501E2845ED00D3F1CA /* Assets.xcassets */; };
 		D63D0A541E2845ED00D3F1CA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D63D0A521E2845ED00D3F1CA /* LaunchScreen.storyboard */; };
+		D64C8B66228C236D00049F86 /* Seasons.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D64C8B64228C236D00049F86 /* Seasons.xcdatamodeld */; };
+		D64C8B68228C2ADB00049F86 /* PersistenceService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D64C8B67228C2ADB00049F86 /* PersistenceService.swift */; };
 		D65C1CE71E55AEF00000D1DD /* ShowTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D65C1CE61E55AEF00000D1DD /* ShowTableViewCell.swift */; };
 		D6629D901E3C27A70049CC26 /* TVDBAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6629D8F1E3C27A70049CC26 /* TVDBAPI.swift */; };
 		D66C25511E3DD5F000E69E9D /* Global.swift in Sources */ = {isa = PBXBuildFile; fileRef = D66C25501E3DD5F000E69E9D /* Global.swift */; };
@@ -51,6 +53,8 @@
 		D63D0A501E2845ED00D3F1CA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D63D0A531E2845ED00D3F1CA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D63D0A551E2845ED00D3F1CA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D64C8B65228C236D00049F86 /* Seasons.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Seasons.xcdatamodel; sourceTree = "<group>"; };
+		D64C8B67228C2ADB00049F86 /* PersistenceService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceService.swift; sourceTree = "<group>"; };
 		D65C1CE61E55AEF00000D1DD /* ShowTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShowTableViewCell.swift; sourceTree = "<group>"; };
 		D6629D8F1E3C27A70049CC26 /* TVDBAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TVDBAPI.swift; sourceTree = "<group>"; };
 		D66C25501E3DD5F000E69E9D /* Global.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Global.swift; sourceTree = "<group>"; };
@@ -126,6 +130,7 @@
 		D63D0A461E2845ED00D3F1CA /* Watchlist */ = {
 			isa = PBXGroup;
 			children = (
+				D64C8B64228C236D00049F86 /* Seasons.xcdatamodeld */,
 				D61A037B2287B3FB0002AA48 /* Extensions */,
 				D61A03782287ACBF0002AA48 /* Model */,
 				D6AB06851E62A55E00B1D4AA /* Playground.playground */,
@@ -138,6 +143,7 @@
 				D63D0A521E2845ED00D3F1CA /* LaunchScreen.storyboard */,
 				D63D0A551E2845ED00D3F1CA /* Info.plist */,
 				D6D94ABB2286ED2900A405B5 /* SearchTableViewCell.swift */,
+				D64C8B67228C2ADB00049F86 /* PersistenceService.swift */,
 			);
 			path = Watchlist;
 			sourceTree = "<group>";
@@ -225,10 +231,12 @@
 				D66C25511E3DD5F000E69E9D /* Global.swift in Sources */,
 				D6145519228AECC000F842C6 /* UILabel+Extensions.swift in Sources */,
 				D6EBBB932286E1A7005321C3 /* ShowEpisodeViewController.swift in Sources */,
+				D64C8B66228C236D00049F86 /* Seasons.xcdatamodeld in Sources */,
 				D6D94ABC2286ED2900A405B5 /* SearchTableViewCell.swift in Sources */,
 				D61A037A2287AD320002AA48 /* APIKey.swift in Sources */,
 				D63D0A481E2845ED00D3F1CA /* AppDelegate.swift in Sources */,
 				D65C1CE71E55AEF00000D1DD /* ShowTableViewCell.swift in Sources */,
+				D64C8B68228C2ADB00049F86 /* PersistenceService.swift in Sources */,
 				D61FFE05226B2F72004A0F46 /* URLResponse+Extensions.swift in Sources */,
 				D67BCB521E41A5CA00BA58EA /* HomeViewController.swift in Sources */,
 				D614551B228AEEE300F842C6 /* ShowDescriptionViewController.swift in Sources */,
@@ -435,6 +443,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		D64C8B64228C236D00049F86 /* Seasons.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				D64C8B65228C236D00049F86 /* Seasons.xcdatamodel */,
+			);
+			currentVersion = D64C8B65228C236D00049F86 /* Seasons.xcdatamodel */;
+			path = Seasons.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = D63D0A3C1E2845ED00D3F1CA /* Project object */;
 }

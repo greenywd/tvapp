@@ -93,7 +93,7 @@ class SearchViewController : UIViewController {
             else { preconditionFailure("Expected a ShowViewController") }
         
         if segue.identifier == "segue" {
-            showVC.showFromSearch = results[indexPath.row]
+            showVC.currentShow = results[indexPath.row]
         }
     }
     

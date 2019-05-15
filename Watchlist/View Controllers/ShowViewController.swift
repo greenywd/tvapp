@@ -10,8 +10,7 @@
 
 import Foundation
 import UIKit
-
-var detailsForController = detailsOfShow
+import CoreData
 
 class ShowViewController: UIViewController {
 	
@@ -21,8 +20,8 @@ class ShowViewController: UIViewController {
     @IBOutlet var bannerImage: UIImageView?
     @IBOutlet var tableView: UITableView!
     
-    var showFromSearch: SearchResults.Data!
-	var rightBarButtonItem: UIBarButtonItem = UIBarButtonItem()
+    var currentShow: SearchResults.Data!
+    var rightBarButtonItem: UIBarButtonItem?
     
 	//MARK: Methods
     override func viewDidLoad() {
@@ -31,9 +30,9 @@ class ShowViewController: UIViewController {
 		activityIndicator?.hidesWhenStopped = true
         activityIndicator?.startAnimating()
         
-        navigationItem.title = showFromSearch.seriesName
+        navigationItem.title = currentShow.seriesName
         
-        TVDBAPI.getImages(show: showFromSearch.id, resolution: .FHD, completion: { (images) in
+        TVDBAPI.getImages(show: currentShow.id, resolution: .FHD, completion: { (images) in
             if let url = images?.data?.first?.fileName {
                 let url = URL(string: "https://www.thetvdb.com/banners/" + url)
                 DispatchQueue.global().async {
@@ -48,6 +47,14 @@ class ShowViewController: UIViewController {
                 }
             }        
         })
+        print(currentShow.id)
+        if (PersistenceService.entityExists(id: currentShow.id)) {
+            rightBarButtonItem = UIBarButtonItem(title: "Remove", style: .plain, target: self, action: #selector(removeShow))
+        } else {
+            rightBarButtonItem = UIBarButtonItem(title: "Add", style: .plain, target: self, action: #selector(favouriteShow))
+        }
+
+        navigationItem.rightBarButtonItem = rightBarButtonItem
         
         tableView.dataSource = self
         tableView.delegate = self
@@ -60,38 +67,49 @@ class ShowViewController: UIViewController {
         tableView.separatorStyle = .none
 		
     }
-	
-    @objc func action(){
-		if let favShows = userDefaults.value(forKey: "favouriteShows") as? [String: Int] {
-			favouriteShows = favShows
-			//print("Favourite Shows: ", favouriteShows)
-		}
-		
-		if favouriteShows.keys.contains(self.navigationItem.title!) == false{
-			favouriteShows[self.navigationItem.title!] = detailsForController["id"] as? Int
-			self.rightBarButtonItem.title = "Remove"
-		} else {
-			favouriteShows.removeValue(forKey: self.navigationItem.title!)
-			self.rightBarButtonItem.title = "Add"
-		}
-		
-		userDefaults.set(favouriteShows, forKey: "favouriteShows")
-	}
+    
+    @objc func favouriteShow() {
+        let favShow = FavouriteShows(context: PersistenceService.context)
+        favShow.id = Int32(currentShow.id)
+        favShow.title = currentShow.seriesName
+        favShow.overview = currentShow.overview
+
+        dump(favShow)
+        PersistenceService.saveContext()
+        rightBarButtonItem?.title = "Remove"
+        rightBarButtonItem?.action = #selector(removeShow)
+    }
+    
+    @objc func removeShow() {
+        let fetchRequest: NSFetchRequest<FavouriteShows> = FavouriteShows.fetchRequest()
+        do {
+            let shows = try PersistenceService.context.fetch(fetchRequest)
+            for show in shows {
+                if show.id == currentShow.id {
+                    dump(show)
+                    PersistenceService.context.delete(show)
+                    PersistenceService.saveContext()
+                    rightBarButtonItem?.title = "Add"
+                    rightBarButtonItem?.action = #selector(favouriteShow)
+                }
+            }
+        } catch {
+            print(error, error.localizedDescription)
+        }
+    }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 
-        print(segue.identifier, segue.destination)
         switch segue.destination {
         case let episodeVC as ShowEpisodeViewController:
-
             if (segue.identifier == "segueToEpisode") {
-                print(showFromSearch.id)
-                episodeVC.id = showFromSearch.id
+                print(currentShow.id)
+                episodeVC.id = currentShow.id
             }
             
         case let descriptionVC as ShowDescriptionViewController:
             if (segue.identifier == "segueDescription") {
-                descriptionVC.showDescriptionString = showFromSearch.overview
+                descriptionVC.showDescriptionString = currentShow.overview
             }
             
         default:
@@ -116,7 +134,7 @@ extension ShowViewController : UITableViewDataSource, UITableViewDelegate {
         switch indexPath.row {
         case 0:
             cell.type = .Description
-            cell.showDescription = showFromSearch.overview
+            cell.showDescription = currentShow.overview
         case 1:
             cell.type = .Episodes
         default:
