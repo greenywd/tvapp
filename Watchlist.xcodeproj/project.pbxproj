@@ -19,10 +19,10 @@
 		D64C8B68228C2ADB00049F86 /* PersistenceService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D64C8B67228C2ADB00049F86 /* PersistenceService.swift */; };
 		D65C1CE71E55AEF00000D1DD /* ShowTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D65C1CE61E55AEF00000D1DD /* ShowTableViewCell.swift */; };
 		D6629D901E3C27A70049CC26 /* TVDBAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6629D8F1E3C27A70049CC26 /* TVDBAPI.swift */; };
-		D66C25511E3DD5F000E69E9D /* Global.swift in Sources */ = {isa = PBXBuildFile; fileRef = D66C25501E3DD5F000E69E9D /* Global.swift */; };
 		D67BCB521E41A5CA00BA58EA /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D67BCB511E41A5CA00BA58EA /* HomeViewController.swift */; };
 		D6AB06871E62ABF300B1D4AA /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6AB06861E62ABF300B1D4AA /* SettingsViewController.swift */; };
 		D6BEC1A81E443AB8001B211B /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6BEC1A71E443AB8001B211B /* SearchViewController.swift */; };
+		D6D64F41228CE0EA004BDD7E /* SeasonsTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6D64F40228CE0EA004BDD7E /* SeasonsTableView.swift */; };
 		D6D682361E289E4400966B94 /* ShowViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6D682351E289E4400966B94 /* ShowViewController.swift */; };
 		D6D682421E28B27700966B94 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D6D682401E28B27700966B94 /* Main.storyboard */; };
 		D6D94ABC2286ED2900A405B5 /* SearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6D94ABB2286ED2900A405B5 /* SearchTableViewCell.swift */; };
@@ -57,11 +57,11 @@
 		D64C8B67228C2ADB00049F86 /* PersistenceService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceService.swift; sourceTree = "<group>"; };
 		D65C1CE61E55AEF00000D1DD /* ShowTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShowTableViewCell.swift; sourceTree = "<group>"; };
 		D6629D8F1E3C27A70049CC26 /* TVDBAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TVDBAPI.swift; sourceTree = "<group>"; };
-		D66C25501E3DD5F000E69E9D /* Global.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Global.swift; sourceTree = "<group>"; };
 		D67BCB511E41A5CA00BA58EA /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HomeViewController.swift; path = "View Controllers/HomeViewController.swift"; sourceTree = "<group>"; };
 		D6AB06851E62A55E00B1D4AA /* Playground.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = Playground.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		D6AB06861E62ABF300B1D4AA /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingsViewController.swift; path = "View Controllers/SettingsViewController.swift"; sourceTree = "<group>"; };
 		D6BEC1A71E443AB8001B211B /* SearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchViewController.swift; path = "View Controllers/SearchViewController.swift"; sourceTree = "<group>"; };
+		D6D64F40228CE0EA004BDD7E /* SeasonsTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeasonsTableView.swift; sourceTree = "<group>"; };
 		D6D682351E289E4400966B94 /* ShowViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShowViewController.swift; path = "View Controllers/ShowViewController.swift"; sourceTree = "<group>"; };
 		D6D682411E28B27700966B94 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Watchlist/Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		D6D94ABB2286ED2900A405B5 /* SearchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTableViewCell.swift; sourceTree = "<group>"; };
@@ -135,7 +135,6 @@
 				D61A03782287ACBF0002AA48 /* Model */,
 				D6AB06851E62A55E00B1D4AA /* Playground.playground */,
 				D63D0A471E2845ED00D3F1CA /* AppDelegate.swift */,
-				D66C25501E3DD5F000E69E9D /* Global.swift */,
 				D65C1CE61E55AEF00000D1DD /* ShowTableViewCell.swift */,
 				D6019C2E1E41A6F4009756F6 /* View Controllers */,
 				D63D0A501E2845ED00D3F1CA /* Assets.xcassets */,
@@ -144,6 +143,7 @@
 				D63D0A551E2845ED00D3F1CA /* Info.plist */,
 				D6D94ABB2286ED2900A405B5 /* SearchTableViewCell.swift */,
 				D64C8B67228C2ADB00049F86 /* PersistenceService.swift */,
+				D6D64F40228CE0EA004BDD7E /* SeasonsTableView.swift */,
 			);
 			path = Watchlist;
 			sourceTree = "<group>";
@@ -225,10 +225,10 @@
 			files = (
 				D61A03772287AC390002AA48 /* APITypes.swift in Sources */,
 				D6629D901E3C27A70049CC26 /* TVDBAPI.swift in Sources */,
+				D6D64F41228CE0EA004BDD7E /* SeasonsTableView.swift in Sources */,
 				D6BEC1A81E443AB8001B211B /* SearchViewController.swift in Sources */,
 				D6AB06871E62ABF300B1D4AA /* SettingsViewController.swift in Sources */,
 				D6D682361E289E4400966B94 /* ShowViewController.swift in Sources */,
-				D66C25511E3DD5F000E69E9D /* Global.swift in Sources */,
 				D6145519228AECC000F842C6 /* UILabel+Extensions.swift in Sources */,
 				D6EBBB932286E1A7005321C3 /* ShowEpisodeViewController.swift in Sources */,
 				D64C8B66228C236D00049F86 /* Seasons.xcdatamodeld in Sources */,
