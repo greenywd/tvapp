@@ -1,4 +1,4 @@
-# <s>Watchlist</s> tvapp
+# <s>Watchlist</s> <s>tvapp</s> szns
 An app to track TV Shows (and eventually movies - if there's a suitable api :p).
 
 ## To-Do
@@ -6,7 +6,6 @@ An app to track TV Shows (and eventually movies - if there's a suitable api :p).
 ### - General Features
 - [ ] Send a notification when a user defined show airs
 - [ ] App icons (both on homescreen and inside the app)
-- [ ] <s>userDefaults</s> CoreData - favourite shows
 - [ ] <s>Setup ads and iAP to remove them (either project wonderful or google)</s> tip jar that unlocks a few extra features (can only favourite x shows?)
 - [ ] Cache images(?) for favourited shows - would speed up loading times a lot (should happen with CoreData)
 - [ ] Make sure the app works offline - right now it'll probably crash when searching or opening a view Controller
@@ -16,11 +15,9 @@ An app to track TV Shows (and eventually movies - if there's a suitable api :p).
 - [ ] Need to decide on layout - tableview or a more visual way (i.e posters)
 
 ### - Show View Controller
-- [ ] Change 'Add' to a Star icon or similar and highlight it
 - [ ] Fix layout of almost every label
 - [ ] Possibly an 'actors' section - actors are already being grabbed via API so the data is there
 - [ ] Paged horizontal scroll view to scroll through fanart
-- [ ] <s>If no fanart - pretty sure the view controller either doesn't work, or crashes</s> currently loads art from different show - should set to nil to prevent that
 - [ ] Next episode - "airs in x minutes"
 
 ### - Episode View Controller
