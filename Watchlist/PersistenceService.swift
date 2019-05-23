@@ -60,7 +60,7 @@ class PersistenceService {
         }
     }
     
-    static func entityExists(id: Int) -> Bool {
+    static func entityExists(id: Int32) -> Bool {
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "FavouriteShows")
         fetchRequest.predicate = NSPredicate(format: "id = %@", NSNumber(value: id))
         
@@ -75,5 +75,12 @@ class PersistenceService {
         }
         
         return entitiesCount > 0
+    }
+    
+    /// For debugging purposes, delete all children of a specific entity.
+    static func dropTable() {
+        // Wait, this isn't SQL.
+        // TODO: Implement this
+        
     }
 }
