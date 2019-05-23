@@ -12,8 +12,8 @@ class ShowEpisodeViewController: UIViewController, UITableViewDataSource, UITabl
     
     @IBOutlet var tableView: UITableView!
     
-    var id: Int?
-    var episodes: [Episodes.Data]?
+    var id: Int32?
+    var episodes: [API_Episodes.Data]?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -52,20 +52,12 @@ class ShowEpisodeViewController: UIViewController, UITableViewDataSource, UITabl
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        let cellIdentifier = "cell"
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier) ?? UITableViewCell(style: UITableViewCell.CellStyle.subtitle, reuseIdentifier: cellIdentifier)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell") as! SearchTableViewCell
         
         // TODO: Ensure episodes are in order (Season > Episode?, i.e. 1x01, 1x02, etc)
-        if let episodes = self.episodes {
-            cell.textLabel?.text = episodes[indexPath.row].episodeName
-            cell.textLabel?.numberOfLines = 1
-            cell.textLabel?.backgroundColor = UIColor.clear
-            cell.textLabel?.textColor = UIColor.white
-            
-            cell.detailTextLabel?.text = episodes[indexPath.row].overview
-            cell.detailTextLabel?.backgroundColor = UIColor.clear
-            cell.detailTextLabel?.textColor = UIColor.white
+        if let episode = self.episodes {
+            cell.titleLabel.text = episode[indexPath.row].episodeName ?? "FUCK A NAME"
+            cell.detailLabel.text = episode[indexPath.row].overview
         }
         
         return cell

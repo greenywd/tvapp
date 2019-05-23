@@ -64,6 +64,12 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" cocoaTouchSystemColor="viewFlipsideBackgroundColor"/>
+                                        <connections>
+                                            <segue destination="afu-ZL-osH" kind="show" identifier="HomeToShow" id="LLT-NZ-bBI">
+                                                <segue key="commit" inheritsFrom="parent" id="nDa-Uk-1Hh"/>
+                                                <segue key="preview" inheritsFrom="commit" id="okX-0k-PTC"/>
+                                            </segue>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                                 <sections/>
@@ -85,7 +91,6 @@
                     <navigationItem key="navigationItem" id="usx-7v-RnS"/>
                     <connections>
                         <outlet property="tableView" destination="aR2-Sr-DIa" id="gKw-OU-snL"/>
-                        <segue destination="afu-ZL-osH" kind="show" identifier="segue" id="MOe-V2-qN8"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="V2F-Jy-DhV" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -370,28 +375,12 @@
                                 <color key="backgroundColor" cocoaTouchSystemColor="viewFlipsideBackgroundColor"/>
                                 <color key="sectionIndexBackgroundColor" cocoaTouchSystemColor="viewFlipsideBackgroundColor"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell" textLabel="wtg-sc-h7y" detailTextLabel="08E-FO-wbN" rowHeight="100" style="IBUITableViewCellStyleSubtitle" id="1Tj-OO-JhN">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell" rowHeight="100" id="1Tj-OO-JhN" customClass="SearchTableViewCell" customModule="Watchlist" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="375" height="100"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="1Tj-OO-JhN" id="ITY-d5-GWD">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="99.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="wtg-sc-h7y">
-                                                    <rect key="frame" x="15" y="30" width="33.5" height="20.5"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Subtitle" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="08E-FO-wbN">
-                                                    <rect key="frame" x="15" y="53.5" width="44" height="14.5"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
                                             <color key="backgroundColor" cocoaTouchSystemColor="viewFlipsideBackgroundColor"/>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -546,6 +535,6 @@
         <image name="ic_home" width="24" height="24"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="oLA-e1-Dsf"/>
+        <segue reference="LLT-NZ-bBI"/>
     </inferredMetricsTieBreakers>
 </document>

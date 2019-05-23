@@ -13,26 +13,32 @@ import UIKit
 import CoreData
 
 class ShowViewController: UIViewController {
-	
-	//MARK: Properties
-	
+    
+    //MARK: Properties
+    
     @IBOutlet var activityIndicator: UIActivityIndicatorView?
     @IBOutlet var bannerImage: UIImageView?
     @IBOutlet var tableView: UITableView!
     
-    var currentShow: SearchResults.Data!
+    var show: Show!
     var rightBarButtonItem: UIBarButtonItem?
     
-	//MARK: Methods
+    //MARK: Methods
     override func viewDidLoad() {
         super.viewDidLoad()
         
-		activityIndicator?.hidesWhenStopped = true
+        activityIndicator?.hidesWhenStopped = true
         activityIndicator?.startAnimating()
         
-        navigationItem.title = currentShow.seriesName
+        // navigationItem.title = searchShow.seriesName ?? currentShow.seriesName
+        TVDBAPI.getShow(id: show!.id, completion: {(showData) in
+            if let show = showData {
+                // TODO: Implement properties from this (ratings, network, etc)
+                self.show = show
+            }
+        })
         
-        TVDBAPI.getImages(show: currentShow.id, resolution: .FHD, completion: { (images) in
+        TVDBAPI.getImages(show: show.id, resolution: .FHD, completion: { (images) in
             if let url = images?.data?.first?.fileName {
                 let url = URL(string: "https://www.thetvdb.com/banners/" + url)
                 DispatchQueue.global().async {
@@ -47,14 +53,15 @@ class ShowViewController: UIViewController {
                 }
             }        
         })
-        print(currentShow.id)
-        if (PersistenceService.entityExists(id: currentShow.id)) {
+
+        if (PersistenceService.entityExists(id: show!.id)) {
             rightBarButtonItem = UIBarButtonItem(title: "Remove", style: .plain, target: self, action: #selector(removeShow))
         } else {
             rightBarButtonItem = UIBarButtonItem(title: "Add", style: .plain, target: self, action: #selector(favouriteShow))
         }
-
+        
         navigationItem.rightBarButtonItem = rightBarButtonItem
+        navigationItem.title = show.seriesName
         
         tableView.dataSource = self
         tableView.delegate = self
@@ -65,15 +72,15 @@ class ShowViewController: UIViewController {
         tableView.layoutMargins = .zero
         tableView.separatorInset = .zero
         tableView.separatorStyle = .none
-		
+        
     }
     
     @objc func favouriteShow() {
         let favShow = FavouriteShows(context: PersistenceService.context)
-        favShow.id = Int32(currentShow.id)
-        favShow.title = currentShow.seriesName
-        favShow.overview = currentShow.overview
-
+        favShow.id = Int32(show.id)
+        favShow.seriesName = show.seriesName
+        favShow.overview = show.overview
+        
         dump(favShow)
         PersistenceService.saveContext()
         rightBarButtonItem?.title = "Remove"
@@ -81,35 +88,33 @@ class ShowViewController: UIViewController {
     }
     
     @objc func removeShow() {
-        let fetchRequest: NSFetchRequest<FavouriteShows> = FavouriteShows.fetchRequest()
         do {
+            let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "FavouriteShows")
+            fetchRequest.predicate = NSPredicate(format: "id = %@", NSNumber(value: show.id))
+            
             let shows = try PersistenceService.context.fetch(fetchRequest)
-            for show in shows {
-                if show.id == currentShow.id {
-                    dump(show)
-                    PersistenceService.context.delete(show)
-                    PersistenceService.saveContext()
-                    rightBarButtonItem?.title = "Add"
-                    rightBarButtonItem?.action = #selector(favouriteShow)
-                }
-            }
+            PersistenceService.context.delete(shows.first as! NSManagedObject)
+            PersistenceService.saveContext()
+            rightBarButtonItem?.title = "Add"
+            rightBarButtonItem?.action = #selector(favouriteShow)
+            
         } catch {
             print(error, error.localizedDescription)
         }
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-
+        
         switch segue.destination {
         case let episodeVC as ShowEpisodeViewController:
             if (segue.identifier == "segueToEpisode") {
-                print(currentShow.id)
-                episodeVC.id = currentShow.id
+                print(show.id)
+                episodeVC.id = show.id
             }
             
         case let descriptionVC as ShowDescriptionViewController:
             if (segue.identifier == "segueDescription") {
-                descriptionVC.showDescriptionString = currentShow.overview
+                descriptionVC.showDescriptionString = show.overview
             }
             
         default:
@@ -130,15 +135,27 @@ extension ShowViewController : UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ShowTableViewCell", for: indexPath) as! ShowTableViewCell
-
-        switch indexPath.row {
-        case 0:
-            cell.type = .Description
-            cell.showDescription = currentShow.overview
-        case 1:
-            cell.type = .Episodes
-        default:
-            break
+        
+        if (show == nil) {
+            switch indexPath.row {
+            case 0:
+                cell.type = .Description
+                cell.showDescription = show.overview
+            case 1:
+                cell.type = .Episodes
+            default:
+                break
+            }
+        } else {
+            switch indexPath.row {
+            case 0:
+                cell.type = .Description
+                cell.showDescription = show.overview
+            case 1:
+                cell.type = .Episodes
+            default:
+                break
+            }
         }
         
         return cell

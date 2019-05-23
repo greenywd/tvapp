@@ -15,7 +15,7 @@ class SearchViewController : UIViewController {
     @IBOutlet var searchBar: UISearchBar!
     @IBOutlet var activityIndicator: UIActivityIndicatorView!
     
-    var searchResults: [SearchResults.Data]?
+    var searchResults: [Show]?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,7 +33,6 @@ class SearchViewController : UIViewController {
         tableView.separatorInset = .zero
         tableView.separatorStyle = .none
         searchBar.delegate = self
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -61,8 +60,8 @@ class SearchViewController : UIViewController {
             cell.backgroundImage.image = nil
         }
         
-        TVDBAPI.searchSeries(series: query) {
-            if let results = $0?.data {
+        TVDBAPI.searchShows(show: query) {
+            if let results = $0 {
                 self.searchResults = results
             }
             
@@ -93,7 +92,7 @@ class SearchViewController : UIViewController {
             else { preconditionFailure("Expected a ShowViewController") }
         
         if segue.identifier == "segue" {
-            showVC.currentShow = results[indexPath.row]
+            showVC.show = results[indexPath.row]
         }
     }
     
@@ -121,8 +120,8 @@ extension SearchViewController : UITableViewDataSource, UITableViewDelegate, UIS
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell") as! SearchTableViewCell
         
         if let results = searchResults {
-            if let url = URL(string: "https://www.thetvdb.com/banners/" + results[indexPath.row].banner) {
-                // FIXME: Searching twice doesn't update the second search's cell images
+            if let url = URL(string: "https://www.thetvdb.com/banners/" + results[indexPath.row].banner!) {
+
                 if cell.backgroundImage.image == nil {
                     DispatchQueue.global(qos: .background).async {
                         let dataForImage = try? Data(contentsOf: url)
