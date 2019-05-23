@@ -50,6 +50,20 @@ class HomeViewController: UIViewController {
 		self.navigationController?.setNavigationBarHidden(false, animated: animated)
 		super.viewWillDisappear(animated)
 	}
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        guard let selectedTableViewCell = sender as? UITableViewCell,
+            let indexPath = tableView.indexPath(for: selectedTableViewCell)
+            else { preconditionFailure("Expected sender to be a valid table view cell") }
+        
+        guard let showVC = segue.destination as? ShowViewController
+            else { preconditionFailure("Expected a ShowViewController") }
+        
+        if segue.identifier == "HomeToShow" {
+            let show = favouriteShows[indexPath.row]
+            showVC.show = Show(id: show.id, overview: show.overview!, seriesName: show.seriesName ?? "Shit", banner: show.banner ?? "", status: show.status ?? "Unknown", runtime: show.runtime ?? "Unknown", network: show.network ?? "Unknown")
+        }
+    }
 	
 	override var preferredStatusBarStyle: UIStatusBarStyle{
 		return .lightContent
@@ -80,10 +94,28 @@ extension HomeViewController : UITableViewDataSource, UITableViewDelegate {
             cell.textLabel?.text = "No Favourites!"
             cell.detailTextLabel?.text = "Head to the search tab to find some shows!"
         } else {
-            cell.textLabel?.text = favouriteShows[indexPath.row].title
+            cell.textLabel?.text = favouriteShows[indexPath.row].seriesName
             cell.detailTextLabel?.text = favouriteShows[indexPath.row].overview
         }
         
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            // TODO: Implement this
+//            do {
+//                let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "FavouriteShows")
+//                fetchRequest.predicate = NSPredicate(format: "id = %@", NSNumber(value: show.id))
+//
+//                let shows = try PersistenceService.context.fetch(fetchRequest)
+//                PersistenceService.context.delete(shows.first as! NSManagedObject)
+//                PersistenceService.saveContext()
+//
+//            } catch {
+//                print(error, error.localizedDescription)
+//            }
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+        }
     }
 }
