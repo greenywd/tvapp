@@ -43,6 +43,13 @@ class ShowTableViewCell: UITableViewCell {
         // Initialization code
     }
 
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        header.textColor = .white
+        content.textColor = .white
+    }
+    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
