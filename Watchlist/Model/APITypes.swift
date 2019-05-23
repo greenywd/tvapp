@@ -7,25 +7,34 @@
 //
 
 import Foundation
-
+// MARK: Types returned from the TVDBAPI
 // TODO: Update all types to match API. Documentation says most of these are optional.
-struct Authentication : Codable {
+
+
+/// Type used with JSON Decoding of authenticating with the TVDBAPI.
+struct API_Authentication : Codable {
+    
+    /// Current token retrieved from the API.
     let token: String?
     fileprivate let Error: String?
 }
 
-struct Show : Codable {
+struct API_Show : Codable {
     var Error: String?
     let data: Data?
     
     struct Data : Codable {
-        let id: Int
-        let overview: String
-        let seriesName: String
+        var id: Int32
+        var overview: String?
+        var seriesName: String?
+        let banner: String
+        let status: String
+        let runtime: String
+        let network: String
     }
 }
 
-struct Episodes : Codable {
+struct API_Episodes : Codable {
     let data: [Data]?
     
     struct Data : Codable {
@@ -38,7 +47,7 @@ struct Episodes : Codable {
         let director: String
         let airedSeason: Int
         // let siteRating: Double
-        let episodeName: String
+        let episodeName: String?
         // let writers: [String]
         // let directors: [String]
         let seriesId: Int
@@ -46,22 +55,22 @@ struct Episodes : Codable {
     }
 }
 
-struct SearchResults : Codable {
+struct API_SearchResults : Codable {
     let data: [Data]?
     
     struct Data : Codable {
         let aliases: [String]
         let banner: String
         let firstAired: String
-        let id: Int
+        let id: Int32
         let network: String
         let overview: String?
-        let seriesName: String
+        let seriesName: String?
         let status: String
     }
 }
 
-struct Images : Codable {
+struct API_Images : Codable {
     let data: [Data]?
     
     struct Data : Codable {
@@ -75,4 +84,17 @@ struct Images : Codable {
             let count: Int
         }
     }
+}
+
+// MARK: Custom types to aid the API_Types
+
+/// Type used with 'Search' and 'Show' View Controllers. Contains relevant information from the `API_SearchResults` and `API_Show` types.
+struct Show {
+    var id: Int32
+    var overview: String
+    var seriesName: String
+    let banner: String?
+    let status: String?
+    let runtime: String?
+    let network: String?
 }
