@@ -135,17 +135,25 @@
 				D61A03782287ACBF0002AA48 /* Model */,
 				D6AB06851E62A55E00B1D4AA /* Playground.playground */,
 				D63D0A471E2845ED00D3F1CA /* AppDelegate.swift */,
-				D65C1CE61E55AEF00000D1DD /* ShowTableViewCell.swift */,
+				D6D64F43228CE2D1004BDD7E /* Custom Cells */,
 				D6019C2E1E41A6F4009756F6 /* View Controllers */,
 				D63D0A501E2845ED00D3F1CA /* Assets.xcassets */,
 				D6D682401E28B27700966B94 /* Main.storyboard */,
 				D63D0A521E2845ED00D3F1CA /* LaunchScreen.storyboard */,
 				D63D0A551E2845ED00D3F1CA /* Info.plist */,
-				D6D94ABB2286ED2900A405B5 /* SearchTableViewCell.swift */,
 				D64C8B67228C2ADB00049F86 /* PersistenceService.swift */,
 				D6D64F40228CE0EA004BDD7E /* SeasonsTableView.swift */,
 			);
 			path = Watchlist;
+			sourceTree = "<group>";
+		};
+		D6D64F43228CE2D1004BDD7E /* Custom Cells */ = {
+			isa = PBXGroup;
+			children = (
+				D65C1CE61E55AEF00000D1DD /* ShowTableViewCell.swift */,
+				D6D94ABB2286ED2900A405B5 /* SearchTableViewCell.swift */,
+			);
+			path = "Custom Cells";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
