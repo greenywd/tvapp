@@ -27,10 +27,10 @@ struct API_Show : Codable {
         var id: Int32
         var overview: String?
         var seriesName: String?
-        let banner: String
-        let status: String
-        let runtime: String
-        let network: String
+        let banner: String?
+        let status: String?
+        let runtime: String?
+        let network: String?
     }
 }
 
@@ -59,14 +59,14 @@ struct API_SearchResults : Codable {
     let data: [Data]?
     
     struct Data : Codable {
-        let aliases: [String]
-        let banner: String
-        let firstAired: String
+        let aliases: [String]?
+        let banner: String?
+        let firstAired: String?
         let id: Int32
-        let network: String
+        let network: String?
         let overview: String?
         let seriesName: String?
-        let status: String
+        let status: String?
     }
 }
 
@@ -91,8 +91,8 @@ struct API_Images : Codable {
 /// Type used with 'Search' and 'Show' View Controllers. Contains relevant information from the `API_SearchResults` and `API_Show` types.
 struct Show {
     var id: Int32
-    var overview: String
-    var seriesName: String
+    var overview: String? = "No Overview Available"
+    var seriesName: String? = "Unknown Series Title"
     let banner: String?
     let status: String?
     let runtime: String?

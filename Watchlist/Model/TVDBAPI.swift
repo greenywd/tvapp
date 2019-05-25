@@ -149,7 +149,7 @@ class TVDBAPI {
                 let results = try JSONDecoder().decode(API_SearchResults.self, from: responseData)
                 var shows = [Show]()
                 for show in results.data! {
-                    shows.append(Show(id: show.id, overview: show.overview!, seriesName: show.seriesName!, banner: show.banner, status: nil, runtime: nil, network: nil))
+                    shows.append(Show(id: show.id, overview: show.overview ?? "No Overview Available", seriesName: show.seriesName ?? "Unknown Series", banner: show.banner, status: nil, runtime: nil, network: nil))
                 }
                 completion(shows)
             } catch {
@@ -185,9 +185,10 @@ class TVDBAPI {
                 print("Error: did not receive data")
                 return
             }
-            
+            dump(responseData)
             do {
                 let results = try JSONDecoder().decode(API_Episodes.self, from: responseData)
+                dump(results.data)
                 completion(results.data)
             } catch {
                 print(error, error.localizedDescription)
