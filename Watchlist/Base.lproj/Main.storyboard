@@ -40,7 +40,7 @@
                                 <color key="sectionIndexBackgroundColor" cocoaTouchSystemColor="viewFlipsideBackgroundColor"/>
                                 <color key="sectionIndexTrackingBackgroundColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="favouriteShowsCell" textLabel="iMk-y2-NM9" detailTextLabel="PVP-sb-1VT" style="IBUITableViewCellStyleSubtitle" id="BgS-SD-h9d">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="favouriteShowsCell" textLabel="iMk-y2-NM9" detailTextLabel="PVP-sb-1VT" style="IBUITableViewCellStyleSubtitle" id="BgS-SD-h9d" customClass="SearchTableViewCell" customModule="Watchlist" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="BgS-SD-h9d" id="B69-K1-HNm">

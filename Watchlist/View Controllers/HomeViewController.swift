@@ -93,10 +93,24 @@ extension HomeViewController : UITableViewDataSource, UITableViewDelegate {
         if (favouriteShows.isEmpty) {
             cell.textLabel?.text = "No Favourites!"
             cell.detailTextLabel?.text = "Head to the search tab to find some shows!"
+            cell.isUserInteractionEnabled = false
         } else {
             cell.textLabel?.text = favouriteShows[indexPath.row].seriesName
             cell.detailTextLabel?.text = favouriteShows[indexPath.row].overview
+            cell.isUserInteractionEnabled = true
         }
+        
+        /* SearchTableViewCell Code - currently doesn't work as I believe we need to use a nib (template)
+         let cell = tableView.dequeueReusableCell(withIdentifier: "favouriteShowsCell") as! SearchTableViewCell
+         
+         if (favouriteShows.isEmpty) {
+         cell.titleLabel?.text = "No Favourites!"
+         cell.detailLabel?.text = "Head to the search tab to find some shows!"
+         } else {
+         let currentShow = favouriteShows[indexPath.row]
+         cell.show = Show(id: currentShow.id, overview: currentShow.overview, seriesName: currentShow.seriesName, banner: currentShow.banner ?? "", status: currentShow.status ?? "Unknown", runtime: currentShow.runtime ?? "Unknown", network: currentShow.network ?? "Unknown")
+         }
+         */
         
         return cell
     }
