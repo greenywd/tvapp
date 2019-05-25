@@ -2,6 +2,7 @@
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14490.99" systemVersion="18G29g" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="FavouriteShows" representedClassName="FavouriteShows" syncable="YES" codeGenerationType="class">
         <attribute name="banner" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="bannerImage" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES" syncable="YES"/>
         <attribute name="id" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="network" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="overview" optional="YES" attributeType="String" syncable="YES"/>
@@ -10,6 +11,6 @@
         <attribute name="status" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <elements>
-        <element name="FavouriteShows" positionX="-63" positionY="-18" width="128" height="150"/>
+        <element name="FavouriteShows" positionX="-63" positionY="-18" width="128" height="165"/>
     </elements>
 </model>
