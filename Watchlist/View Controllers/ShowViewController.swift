@@ -47,8 +47,8 @@ class ShowViewController: UIViewController {
                     DispatchQueue.main.async {
                         if let image = data {
                             self.bannerImage?.image = UIImage(data: image)
-                            self.activityIndicator?.stopAnimating()
                         }
+                        self.activityIndicator?.stopAnimating()
                     }
                 }
             }        
@@ -89,12 +89,7 @@ class ShowViewController: UIViewController {
     
     @objc func removeShow() {
         do {
-            let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "FavouriteShows")
-            fetchRequest.predicate = NSPredicate(format: "id = %@", NSNumber(value: show.id))
-            
-            let shows = try PersistenceService.context.fetch(fetchRequest)
-            PersistenceService.context.delete(shows.first as! NSManagedObject)
-            PersistenceService.saveContext()
+            try PersistenceService.deleteEntity(id: show.id)
             rightBarButtonItem?.title = "Add"
             rightBarButtonItem?.action = #selector(favouriteShow)
             
