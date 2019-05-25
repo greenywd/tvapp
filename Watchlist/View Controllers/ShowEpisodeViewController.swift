@@ -56,8 +56,8 @@ class ShowEpisodeViewController: UIViewController, UITableViewDataSource, UITabl
         
         // TODO: Ensure episodes are in order (Season > Episode?, i.e. 1x01, 1x02, etc)
         if let episode = self.episodes {
-            cell.titleLabel.text = episode[indexPath.row].episodeName ?? "FUCK A NAME"
-            cell.detailLabel.text = episode[indexPath.row].overview
+            cell.titleLabel.text = episode[indexPath.row].episodeName ?? "Unknown Episode Name"
+            cell.detailLabel.text = episode[indexPath.row].overview ?? "Unknown Episode Overview"
         }
         
         return cell
