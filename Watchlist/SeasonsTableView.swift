@@ -8,7 +8,18 @@
 
 import UIKit
 
-class SeasonsTableView: UITableView {
+class SeasonsTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
+    
+    var seasons: Int? 
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 1
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        return UITableViewCell()
+    }
+    
 
     /*
     // Only override draw() if you perform custom drawing.
