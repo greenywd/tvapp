@@ -77,6 +77,20 @@ class PersistenceService {
         return entitiesCount > 0
     }
     
+    static func deleteEntity(id: Int32) throws {
+        do {
+            let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "FavouriteShows")
+            fetchRequest.predicate = NSPredicate(format: "id = %@", NSNumber(value: id))
+            
+            let shows = try PersistenceService.context.fetch(fetchRequest)
+            PersistenceService.context.delete(shows.first as! NSManagedObject)
+            PersistenceService.saveContext()
+            
+        } catch {
+            print(error, error.localizedDescription)
+        }
+    }
+    
     /// For debugging purposes, delete all children of a specific entity.
     static func dropTable() {
         // Wait, this isn't SQL.
