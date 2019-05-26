@@ -77,7 +77,7 @@ class PersistenceService {
         return entitiesCount > 0
     }
     
-    static func deleteEntity(id: Int32) throws {
+    static func deleteEntity(id: Int32) {
         do {
             let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "FavouriteShows")
             fetchRequest.predicate = NSPredicate(format: "id = %@", NSNumber(value: id))
