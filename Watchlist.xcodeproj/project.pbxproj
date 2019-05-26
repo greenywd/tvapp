@@ -10,7 +10,6 @@
 		D6145519228AECC000F842C6 /* UILabel+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6145518228AECC000F842C6 /* UILabel+Extensions.swift */; };
 		D614551B228AEEE300F842C6 /* ShowDescriptionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D614551A228AEEE300F842C6 /* ShowDescriptionViewController.swift */; };
 		D61A03772287AC390002AA48 /* APITypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = D61A03762287AC390002AA48 /* APITypes.swift */; };
-		D61A037A2287AD320002AA48 /* APIKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = D61A03792287AD320002AA48 /* APIKey.swift */; };
 		D61FFE05226B2F72004A0F46 /* URLResponse+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D61FFE04226B2F72004A0F46 /* URLResponse+Extensions.swift */; };
 		D63D0A481E2845ED00D3F1CA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D63D0A471E2845ED00D3F1CA /* AppDelegate.swift */; };
 		D63D0A511E2845ED00D3F1CA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D63D0A501E2845ED00D3F1CA /* Assets.xcassets */; };
@@ -22,6 +21,7 @@
 		D67BCB521E41A5CA00BA58EA /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D67BCB511E41A5CA00BA58EA /* HomeViewController.swift */; };
 		D6AB06871E62ABF300B1D4AA /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6AB06861E62ABF300B1D4AA /* SettingsViewController.swift */; };
 		D6BEC1A81E443AB8001B211B /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6BEC1A71E443AB8001B211B /* SearchViewController.swift */; };
+		D6C4C76D22993441000AF962 /* APIKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6C4C76C22993441000AF962 /* APIKey.swift */; };
 		D6D64F41228CE0EA004BDD7E /* SeasonsTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6D64F40228CE0EA004BDD7E /* SeasonsTableView.swift */; };
 		D6D682361E289E4400966B94 /* ShowViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6D682351E289E4400966B94 /* ShowViewController.swift */; };
 		D6D682421E28B27700966B94 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D6D682401E28B27700966B94 /* Main.storyboard */; };
@@ -46,7 +46,6 @@
 		D6145518228AECC000F842C6 /* UILabel+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+Extensions.swift"; sourceTree = "<group>"; };
 		D614551A228AEEE300F842C6 /* ShowDescriptionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowDescriptionViewController.swift; sourceTree = "<group>"; };
 		D61A03762287AC390002AA48 /* APITypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APITypes.swift; sourceTree = "<group>"; };
-		D61A03792287AD320002AA48 /* APIKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIKey.swift; sourceTree = "<group>"; };
 		D61FFE04226B2F72004A0F46 /* URLResponse+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLResponse+Extensions.swift"; sourceTree = "<group>"; };
 		D63D0A441E2845ED00D3F1CA /* Watchlist.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Watchlist.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D63D0A471E2845ED00D3F1CA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -61,6 +60,7 @@
 		D6AB06851E62A55E00B1D4AA /* Playground.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = Playground.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		D6AB06861E62ABF300B1D4AA /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingsViewController.swift; path = "View Controllers/SettingsViewController.swift"; sourceTree = "<group>"; };
 		D6BEC1A71E443AB8001B211B /* SearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchViewController.swift; path = "View Controllers/SearchViewController.swift"; sourceTree = "<group>"; };
+		D6C4C76C22993441000AF962 /* APIKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIKey.swift; sourceTree = "<group>"; };
 		D6D64F40228CE0EA004BDD7E /* SeasonsTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeasonsTableView.swift; sourceTree = "<group>"; };
 		D6D682351E289E4400966B94 /* ShowViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShowViewController.swift; path = "View Controllers/ShowViewController.swift"; sourceTree = "<group>"; };
 		D6D682411E28B27700966B94 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Watchlist/Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -97,7 +97,7 @@
 			children = (
 				D6629D8F1E3C27A70049CC26 /* TVDBAPI.swift */,
 				D61A03762287AC390002AA48 /* APITypes.swift */,
-				D61A03792287AD320002AA48 /* APIKey.swift */,
+				D6C4C76C22993441000AF962 /* APIKey.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -241,12 +241,12 @@
 				D6EBBB932286E1A7005321C3 /* ShowEpisodeViewController.swift in Sources */,
 				D64C8B66228C236D00049F86 /* Seasons.xcdatamodeld in Sources */,
 				D6D94ABC2286ED2900A405B5 /* SearchTableViewCell.swift in Sources */,
-				D61A037A2287AD320002AA48 /* APIKey.swift in Sources */,
 				D63D0A481E2845ED00D3F1CA /* AppDelegate.swift in Sources */,
 				D65C1CE71E55AEF00000D1DD /* ShowTableViewCell.swift in Sources */,
 				D64C8B68228C2ADB00049F86 /* PersistenceService.swift in Sources */,
 				D61FFE05226B2F72004A0F46 /* URLResponse+Extensions.swift in Sources */,
 				D67BCB521E41A5CA00BA58EA /* HomeViewController.swift in Sources */,
+				D6C4C76D22993441000AF962 /* APIKey.swift in Sources */,
 				D614551B228AEEE300F842C6 /* ShowDescriptionViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -53,14 +53,7 @@ class ShowViewController: UIViewController {
                 }
             }        
         })
-
-        if (PersistenceService.entityExists(id: show!.id)) {
-            rightBarButtonItem = UIBarButtonItem(title: "Remove", style: .plain, target: self, action: #selector(removeShow))
-        } else {
-            rightBarButtonItem = UIBarButtonItem(title: "Add", style: .plain, target: self, action: #selector(favouriteShow))
-        }
         
-        navigationItem.rightBarButtonItem = rightBarButtonItem
         navigationItem.title = show.seriesName
         
         tableView.dataSource = self
@@ -73,6 +66,18 @@ class ShowViewController: UIViewController {
         tableView.separatorInset = .zero
         tableView.separatorStyle = .none
         
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        if (PersistenceService.entityExists(id: show!.id)) {
+            rightBarButtonItem = UIBarButtonItem(title: "Remove", style: .plain, target: self, action: #selector(removeShow))
+        } else {
+            rightBarButtonItem = UIBarButtonItem(title: "Add", style: .plain, target: self, action: #selector(favouriteShow))
+        }
+        
+        navigationItem.rightBarButtonItem = rightBarButtonItem
     }
     
     @objc func favouriteShow() {
@@ -88,14 +93,10 @@ class ShowViewController: UIViewController {
     }
     
     @objc func removeShow() {
-        do {
-            try PersistenceService.deleteEntity(id: show.id)
-            rightBarButtonItem?.title = "Add"
-            rightBarButtonItem?.action = #selector(favouriteShow)
-            
-        } catch {
-            print(error, error.localizedDescription)
-        }
+        PersistenceService.deleteEntity(id: show.id)
+        rightBarButtonItem?.title = "Add"
+        rightBarButtonItem?.action = #selector(favouriteShow)
+        
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
