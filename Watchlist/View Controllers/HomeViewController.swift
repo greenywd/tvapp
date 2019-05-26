@@ -13,43 +13,34 @@ import UIKit
 import CoreData
 
 class HomeViewController: UIViewController {
-	
-	@IBOutlet weak var tableView: UITableView!
-	var favouriteShows = [FavouriteShows]()
     
-	override func viewDidLoad() {
-		super.viewDidLoad()
-		
-		tableView.dataSource = self
-		tableView.delegate = self
-		tableView.rowHeight = 90
-		tableView.layoutMargins = .zero
-		tableView.separatorInset = .zero
-		tableView.separatorStyle = .none
-	
-	}
-	
-	override func viewWillAppear(_ animated: Bool) {
-		self.navigationController?.setNavigationBarHidden(true, animated: animated)
-		super.viewWillAppear(animated)
+    @IBOutlet weak var tableView: UITableView!
+    var favouriteShows = [FavouriteShows]()
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
         
-        let fetchRequest: NSFetchRequest<FavouriteShows> = FavouriteShows.fetchRequest()
-        do {
-            let shows = try PersistenceService.context.fetch(fetchRequest)
-            self.favouriteShows = shows
-            print("Updated favourite show list.")
-        } catch {
-            print(error, error.localizedDescription)
-        }
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.rowHeight = 90
+        tableView.layoutMargins = .zero
+        tableView.separatorInset = .zero
+        tableView.separatorStyle = .none
         
-		tableView.reloadData()
-	}
-	
-	
-	override func viewWillDisappear(_ animated: Bool) {
-		self.navigationController?.setNavigationBarHidden(false, animated: animated)
-		super.viewWillDisappear(animated)
-	}
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        self.navigationController?.setNavigationBarHidden(true, animated: animated)
+        super.viewWillAppear(animated)
+        
+        updateFavouriteShows()
+    }
+    
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        self.navigationController?.setNavigationBarHidden(false, animated: animated)
+        super.viewWillDisappear(animated)
+    }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard let selectedTableViewCell = sender as? UITableViewCell,
@@ -64,10 +55,23 @@ class HomeViewController: UIViewController {
             showVC.show = Show(id: show.id, overview: show.overview!, seriesName: show.seriesName ?? "Shit", banner: show.banner ?? "", status: show.status ?? "Unknown", runtime: show.runtime ?? "Unknown", network: show.network ?? "Unknown")
         }
     }
-	
-	override var preferredStatusBarStyle: UIStatusBarStyle{
-		return .lightContent
-	}
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle{
+        return .lightContent
+    }
+    
+    func updateFavouriteShows() {
+        let fetchRequest: NSFetchRequest<FavouriteShows> = FavouriteShows.fetchRequest()
+        do {
+            let shows = try PersistenceService.context.fetch(fetchRequest)
+            self.favouriteShows = shows
+            print("Updated favourite show list.")
+        } catch {
+            print(error, error.localizedDescription)
+        }
+        
+        tableView.reloadData()
+    }
 }
 
 extension HomeViewController : UITableViewDataSource, UITableViewDelegate {
@@ -115,21 +119,27 @@ extension HomeViewController : UITableViewDataSource, UITableViewDelegate {
         return cell
     }
     
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // TODO: Implement this
-//            do {
-//                let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "FavouriteShows")
-//                fetchRequest.predicate = NSPredicate(format: "id = %@", NSNumber(value: show.id))
-//
-//                let shows = try PersistenceService.context.fetch(fetchRequest)
-//                PersistenceService.context.delete(shows.first as! NSManagedObject)
-//                PersistenceService.saveContext()
-//
-//            } catch {
-//                print(error, error.localizedDescription)
-//            }
-            tableView.deleteRows(at: [indexPath], with: .automatic)
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        if (favouriteShows.isEmpty) {
+            return false
         }
+        
+        return true
+    }
+    
+    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        if (!favouriteShows.isEmpty) {
+            print("Favourite Shows: ", favouriteShows)
+            let delete = UITableViewRowAction(style: .destructive, title: "Delete") { (action, indexPath) in
+                PersistenceService.deleteEntity(id: self.favouriteShows[indexPath.row].id)
+                self.updateFavouriteShows()
+
+                // TODO: Change this to deleteRow to get that sweet animation however at the same time don't crash due to a UITableView inconsistency error.
+                tableView.reloadData()
+            }
+
+            return [delete]
+        }
+        return nil
     }
 }
