@@ -148,7 +148,10 @@ class TVDBAPI {
             do {
                 let results = try JSONDecoder().decode(API_SearchResults.self, from: responseData)
                 var shows = [Show]()
-                for show in results.data! {
+                
+                guard let showsSearched = results.data else { return }
+                
+                for show in showsSearched {
                     shows.append(Show(id: show.id, overview: show.overview ?? "No Overview Available", seriesName: show.seriesName ?? "Unknown Series", banner: show.banner, status: nil, runtime: nil, network: nil))
                 }
                 completion(shows)
