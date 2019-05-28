@@ -12,13 +12,14 @@ import Foundation
 import UIKit
 import CoreData
 
-class ShowViewController: UIViewController {
+class ShowViewController: UITableViewController, UITextViewDelegate {
     
     //MARK: Properties
     
-    @IBOutlet var activityIndicator: UIActivityIndicatorView?
+    // var activityIndicator: UIActivityIndicatorView?
     @IBOutlet var bannerImage: UIImageView?
-    @IBOutlet var tableView: UITableView!
+    @IBOutlet weak var bannerImageCell: UITableViewCell!
+    @IBOutlet weak var showDescription: UITextView!
     
     var show: Show!
     var rightBarButtonItem: UIBarButtonItem?
@@ -26,9 +27,12 @@ class ShowViewController: UIViewController {
     //MARK: Methods
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        showDescription.text = show.overview
+        showDescription.textContainer.maximumNumberOfLines = 7
         
-        activityIndicator?.hidesWhenStopped = true
-        activityIndicator?.startAnimating()
+        //activityIndicator?.hidesWhenStopped = true
+        //activityIndicator?.startAnimating()
         
         // navigationItem.title = searchShow.seriesName ?? currentShow.seriesName
         TVDBAPI.getShow(id: show!.id, completion: {(showData) in
@@ -46,9 +50,19 @@ class ShowViewController: UIViewController {
                     
                     DispatchQueue.main.async {
                         if let image = data {
-                            self.bannerImage?.image = UIImage(data: image)
+                            let banner = UIImage(data: image)
+                            self.bannerImage?.image = banner
+                            
+                            let ratio = banner!.size.width / banner!.size.height
+                            if self.bannerImageCell.frame.width > self.bannerImageCell.frame.height {
+                                let newHeight = self.bannerImageCell.frame.width / ratio
+                                self.bannerImage?.frame.size = CGSize(width: self.bannerImageCell.frame.width, height: newHeight)
+                            }
+                            
+                            self.bannerImageCell.layoutIfNeeded()
+                            
                         }
-                        self.activityIndicator?.stopAnimating()
+                        //self.activityIndicator?.stopAnimating()
                     }
                 }
             }        
@@ -56,16 +70,12 @@ class ShowViewController: UIViewController {
         
         navigationItem.title = show.seriesName
         
-        tableView.dataSource = self
-        tableView.delegate = self
-        
         tableView.rowHeight = UITableView.automaticDimension
-        tableView.estimatedRowHeight = 200
         
         tableView.layoutMargins = .zero
         tableView.separatorInset = .zero
         tableView.separatorStyle = .none
-        
+
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -86,7 +96,6 @@ class ShowViewController: UIViewController {
         favShow.seriesName = show.seriesName
         favShow.overview = show.overview
         
-        dump(favShow)
         PersistenceService.saveContext()
         rightBarButtonItem?.title = "Remove"
         rightBarButtonItem?.action = #selector(removeShow)
@@ -104,7 +113,6 @@ class ShowViewController: UIViewController {
         switch segue.destination {
         case let episodeVC as ShowEpisodeViewController:
             if (segue.identifier == "segueToEpisode") {
-                print(show.id)
                 episodeVC.id = show.id
             }
             
@@ -119,52 +127,22 @@ class ShowViewController: UIViewController {
     }
 }
 
-extension ShowViewController : UITableViewDataSource, UITableViewDelegate {
-    
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
-    }
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 2 // Description and Episode - will add Actors later
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "ShowTableViewCell", for: indexPath) as! ShowTableViewCell
-        
-        if (show == nil) {
-            switch indexPath.row {
-            case 0:
-                cell.type = .Description
-                cell.showDescription = show.overview
-            case 1:
-                cell.type = .Episodes
-            default:
-                break
-            }
-        } else {
-            switch indexPath.row {
-            case 0:
-                cell.type = .Description
-                cell.showDescription = show.overview
-            case 1:
-                cell.type = .Episodes
-            default:
-                break
-            }
-        }
-        
-        return cell
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+extension ShowViewController {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         // Segue performed in Storyboard
-        
-        if (indexPath.row == 0) {
-            performSegue(withIdentifier: "segueDescription", sender: self)
-        } else if (indexPath.row == 1) {
+        if (indexPath.row == 1) {
             performSegue(withIdentifier: "segueToEpisode", sender: self)
         }
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        print(indexPath, indexPath.row)
+        if indexPath.row == 0 {
+            print("Resizing Image...")
+            // Assuming all images are 16:9
+            return self.view.bounds.width * 0.5625
+        }
+        return UITableView.automaticDimension
     }
 }
