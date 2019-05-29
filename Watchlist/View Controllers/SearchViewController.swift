@@ -33,6 +33,7 @@ class SearchViewController : UIViewController {
         tableView.separatorInset = .zero
         tableView.separatorStyle = .none
         searchBar.delegate = self
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -80,6 +81,9 @@ class SearchViewController : UIViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        print("MOVING TO:", segue.destination)
+        
         guard let results = searchResults else {
             return
         }
@@ -91,7 +95,7 @@ class SearchViewController : UIViewController {
         guard let showVC = segue.destination as? ShowViewController
             else { preconditionFailure("Expected a ShowViewController") }
         
-        if segue.identifier == "segue" {
+        if segue.identifier == "segueToShow" {
             showVC.show = results[indexPath.row]
         }
     }
