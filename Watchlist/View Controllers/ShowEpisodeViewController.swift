@@ -52,7 +52,7 @@ class ShowEpisodeViewController: UIViewController, UITableViewDataSource, UITabl
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell") as! SearchTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell") as! ShowTableViewCell
         
         // TODO: Ensure episodes are in order (Season > Episode?, i.e. 1x01, 1x02, etc)
         if let episode = self.episodes {

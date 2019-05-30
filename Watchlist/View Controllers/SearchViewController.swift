@@ -27,6 +27,7 @@ class SearchViewController : UIViewController {
         
         view.addGestureRecognizer(tap)
         
+        tableView.register(UINib(nibName: "ShowTableViewCell", bundle: nil), forCellReuseIdentifier: "showCell")
         tableView.dataSource = self
         tableView.delegate = self
         tableView.layoutMargins = .zero
@@ -57,8 +58,8 @@ class SearchViewController : UIViewController {
             return
         }
         
-        for cell in (tableView.visibleCells as? [SearchTableViewCell])! {
-            cell.backgroundImage.image = nil
+        for cell in (tableView.visibleCells as? [ShowTableViewCell])! {
+            cell.backgroundImageView.image = nil
         }
         
         TVDBAPI.searchShows(show: query) {
@@ -83,14 +84,15 @@ class SearchViewController : UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         print("MOVING TO:", segue.destination)
+        print("SENDER IS OF TYPE:", type(of: sender as? ShowTableViewCell))
         
         guard let results = searchResults else {
             return
         }
 
-        guard let selectedTableViewCell = sender as? UITableViewCell,
+        guard let selectedTableViewCell = sender as? ShowTableViewCell,
             let indexPath = tableView.indexPath(for: selectedTableViewCell)
-            else { preconditionFailure("Expected sender to be a valid table view cell") }
+            else { preconditionFailure("Expected sender to be a ShowTableViewCell") }
         
         guard let showVC = segue.destination as? ShowViewController
             else { preconditionFailure("Expected a ShowViewController") }
@@ -121,33 +123,18 @@ extension SearchViewController : UITableViewDataSource, UITableViewDelegate, UIS
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell") as! SearchTableViewCell
-        
-        if let results = searchResults {
-            if let url = URL(string: "https://www.thetvdb.com/banners/" + results[indexPath.row].banner!) {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "showCell") as! ShowTableViewCell
 
-                if cell.backgroundImage.image == nil {
-                    DispatchQueue.global(qos: .background).async {
-                        let dataForImage = try? Data(contentsOf: url)
-                        
-                        DispatchQueue.main.async {
-                            if let image = dataForImage {
-                                cell.backgroundImage.image = UIImage(data: image)
-                            }
-                        }
-                    }
-                }
-            }
-            
-            cell.titleLabel.text = results[indexPath.row].seriesName
-            cell.detailLabel.text = results[indexPath.row].overview
+        if let results = searchResults {
+            cell.show = results[indexPath.row]
         }
+        
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        // Segue being performed in Storyboard
+        performSegue(withIdentifier: "segueToShow", sender: tableView.cellForRow(at: indexPath))
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

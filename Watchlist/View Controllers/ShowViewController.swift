@@ -131,9 +131,6 @@ extension ShowViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         // Segue performed in Storyboard
-        if (indexPath.row == 1) {
-            performSegue(withIdentifier: "segueToEpisode", sender: self)
-        }
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
