@@ -20,6 +20,7 @@ class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        tableView.register(UINib(nibName: "ShowTableViewCell", bundle: nil), forCellReuseIdentifier: "showCell")
         tableView.dataSource = self
         tableView.delegate = self
         tableView.rowHeight = 90
@@ -50,9 +51,9 @@ class HomeViewController: UIViewController {
         guard let showVC = segue.destination as? ShowViewController
             else { preconditionFailure("Expected a ShowViewController") }
         
-        if segue.identifier == "HomeToShow" {
+        if segue.identifier == "segueToShow" {
             let show = favouriteShows[indexPath.row]
-            showVC.show = Show(id: show.id, overview: show.overview!, seriesName: show.seriesName ?? "Shit", banner: show.banner ?? "", status: show.status ?? "Unknown", runtime: show.runtime ?? "Unknown", network: show.network ?? "Unknown")
+            showVC.show = Show(id: show.id, overview: show.overview ?? "Overview", seriesName: show.seriesName ?? "Series Name", banner: show.banner ?? "", status: show.status ?? "Unknown", runtime: show.runtime ?? "Unknown", network: show.network ?? "Unknown")
         }
     }
     
@@ -65,7 +66,6 @@ class HomeViewController: UIViewController {
         do {
             let shows = try PersistenceService.context.fetch(fetchRequest)
             self.favouriteShows = shows
-            print("Updated favourite show list.")
         } catch {
             print(error, error.localizedDescription)
         }
@@ -85,36 +85,32 @@ extension HomeViewController : UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        if (favouriteShows.isEmpty) {
+            return
+        }
+        performSegue(withIdentifier: "segueToShow", sender: tableView.cellForRow(at: indexPath))
+
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        let cellIdentifier = "favouriteShowsCell"
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier) ?? UITableViewCell(style: UITableViewCell.CellStyle.subtitle, reuseIdentifier: cellIdentifier)
-        
-        cell.textLabel?.textColor = UIColor.white
-        cell.detailTextLabel?.textColor = UIColor.white
-        if (favouriteShows.isEmpty) {
-            cell.textLabel?.text = "No Favourites!"
-            cell.detailTextLabel?.text = "Head to the search tab to find some shows!"
-            cell.isUserInteractionEnabled = false
-        } else {
-            cell.textLabel?.text = favouriteShows[indexPath.row].seriesName
-            cell.detailTextLabel?.text = favouriteShows[indexPath.row].overview
-            cell.isUserInteractionEnabled = true
-        }
-        
-        /* SearchTableViewCell Code - currently doesn't work as I believe we need to use a nib (template)
-         let cell = tableView.dequeueReusableCell(withIdentifier: "favouriteShowsCell") as! SearchTableViewCell
-         
+        let cell = tableView.dequeueReusableCell(withIdentifier: "showCell") as! ShowTableViewCell
+
          if (favouriteShows.isEmpty) {
-         cell.titleLabel?.text = "No Favourites!"
-         cell.detailLabel?.text = "Head to the search tab to find some shows!"
+            cell.titleLabel?.text = "No Favourites!"
+            cell.detailLabel?.text = "Head to the search tab to find some shows!"
+            cell.backgroundImageView.image = nil
+            cell.accessoryType = .none
          } else {
-         let currentShow = favouriteShows[indexPath.row]
-         cell.show = Show(id: currentShow.id, overview: currentShow.overview, seriesName: currentShow.seriesName, banner: currentShow.banner ?? "", status: currentShow.status ?? "Unknown", runtime: currentShow.runtime ?? "Unknown", network: currentShow.network ?? "Unknown")
+            let currentShow = favouriteShows[indexPath.row]
+            cell.show = Show(id: currentShow.id, overview: currentShow.overview, seriesName: currentShow.seriesName, banner: currentShow.banner ?? "", status: currentShow.status ?? "Unknown", runtime: currentShow.runtime ?? "Unknown", network: currentShow.network ?? "Unknown")
+            
+            if let backgroundImageData = currentShow.bannerImage {
+                if let backgroundImage = UIImage(data: backgroundImageData) {
+                    cell.backgroundImageView.image = backgroundImage
+                }
+            }
+            cell.accessoryType = .disclosureIndicator
          }
-         */
         
         return cell
     }
