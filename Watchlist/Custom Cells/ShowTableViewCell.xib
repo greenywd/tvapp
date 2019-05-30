@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="showCell" rowHeight="125" id="te4-Gx-oUI" customClass="ShowTableViewCell" customModule="Watchlist" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="125"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="te4-Gx-oUI" id="Q8A-oe-w3i">
+                <rect key="frame" x="0.0" y="0.0" width="376" height="124.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="rej-Da-cyV">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="124.5"/>
+                    </imageView>
+                    <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TmV-E0-W5H" propertyAccessControl="none">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="124.5"/>
+                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="HMW-V1-fD3" propertyAccessControl="none">
+                            <rect key="frame" x="0.0" y="0.0" width="414" height="124.5"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        </view>
+                        <blurEffect style="dark"/>
+                    </visualEffectView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Bi7-ad-p6e">
+                        <rect key="frame" x="15" y="12" width="353" height="21"/>
+                        <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                        <color key="textColor" cocoaTouchSystemColor="tableCellGroupedBackgroundColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="Detail" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vzm-dn-vLZ">
+                        <rect key="frame" x="16" y="33" width="352" height="81"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <color key="textColor" cocoaTouchSystemColor="tableCellGroupedBackgroundColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="rej-Da-cyV" firstAttribute="bottom" secondItem="Q8A-oe-w3i" secondAttribute="bottom" id="26J-4h-UuF"/>
+                    <constraint firstItem="Bi7-ad-p6e" firstAttribute="trailing" secondItem="Q8A-oe-w3i" secondAttribute="trailing" constant="-8" id="2zO-AZ-tG7"/>
+                    <constraint firstItem="Vzm-dn-vLZ" firstAttribute="leading" secondItem="Q8A-oe-w3i" secondAttribute="leading" constant="16" id="4DC-ik-kVf"/>
+                    <constraint firstItem="rej-Da-cyV" firstAttribute="trailing" secondItem="Q8A-oe-w3i" secondAttribute="trailing" constant="38" id="Dvl-Ij-hqo"/>
+                    <constraint firstItem="rej-Da-cyV" firstAttribute="top" secondItem="Q8A-oe-w3i" secondAttribute="top" id="LJg-8I-DNB"/>
+                    <constraint firstItem="Bi7-ad-p6e" firstAttribute="top" secondItem="Q8A-oe-w3i" secondAttribute="top" constant="12" id="OpI-bf-U7E"/>
+                    <constraint firstItem="Vzm-dn-vLZ" firstAttribute="bottom" secondItem="Q8A-oe-w3i" secondAttribute="bottom" constant="-10.5" id="dnf-bc-b8o"/>
+                    <constraint firstItem="rej-Da-cyV" firstAttribute="leading" secondItem="Q8A-oe-w3i" secondAttribute="leading" id="ens-cI-QCh"/>
+                    <constraint firstItem="TmV-E0-W5H" firstAttribute="top" secondItem="Q8A-oe-w3i" secondAttribute="top" id="gk3-eW-8Pc"/>
+                    <constraint firstItem="TmV-E0-W5H" firstAttribute="bottom" secondItem="Q8A-oe-w3i" secondAttribute="bottom" id="ilo-WN-4FI"/>
+                    <constraint firstItem="Vzm-dn-vLZ" firstAttribute="top" secondItem="Bi7-ad-p6e" secondAttribute="bottom" id="kYS-yI-SnZ"/>
+                    <constraint firstItem="Vzm-dn-vLZ" firstAttribute="trailing" secondItem="Q8A-oe-w3i" secondAttribute="trailing" constant="-8" id="nnH-Tm-juZ"/>
+                    <constraint firstItem="TmV-E0-W5H" firstAttribute="leading" secondItem="Q8A-oe-w3i" secondAttribute="leading" id="pFC-Ke-tpM"/>
+                    <constraint firstItem="Bi7-ad-p6e" firstAttribute="leading" secondItem="Q8A-oe-w3i" secondAttribute="leading" constant="15" id="sEg-Oj-UTJ"/>
+                    <constraint firstItem="TmV-E0-W5H" firstAttribute="trailing" secondItem="Q8A-oe-w3i" secondAttribute="trailing" constant="38" id="tlV-Nu-d4a"/>
+                </constraints>
+            </tableViewCellContentView>
+            <color key="backgroundColor" cocoaTouchSystemColor="viewFlipsideBackgroundColor"/>
+            <connections>
+                <outlet property="backgroundImageView" destination="rej-Da-cyV" id="Nzg-83-okL"/>
+                <outlet property="detailLabel" destination="Vzm-dn-vLZ" id="F7Q-cY-ks9"/>
+                <outlet property="titleLabel" destination="Bi7-ad-p6e" id="LgS-oB-AIR"/>
+                <outlet property="visualEffectView" destination="TmV-E0-W5H" id="5O6-Ee-jZQ"/>
+            </connections>
+            <point key="canvasLocation" x="-242.0289855072464" y="-128.23660714285714"/>
+        </tableViewCell>
+    </objects>
+</document>
