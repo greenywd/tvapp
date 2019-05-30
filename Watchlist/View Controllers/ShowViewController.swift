@@ -71,7 +71,6 @@ class ShowViewController: UITableViewController, UITextViewDelegate {
         navigationItem.title = show.seriesName
         
         tableView.rowHeight = UITableView.automaticDimension
-        
         tableView.layoutMargins = .zero
         tableView.separatorInset = .zero
         tableView.separatorStyle = .none
@@ -82,9 +81,9 @@ class ShowViewController: UITableViewController, UITextViewDelegate {
         super.viewWillAppear(animated)
         
         if (PersistenceService.entityExists(id: show!.id)) {
-            rightBarButtonItem = UIBarButtonItem(title: "Remove", style: .plain, target: self, action: #selector(removeShow))
+            rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "Star Highlighted"), style: .plain, target: self, action: #selector(removeShow))
         } else {
-            rightBarButtonItem = UIBarButtonItem(title: "Add", style: .plain, target: self, action: #selector(favouriteShow))
+            rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "Star"), style: .plain, target: self, action: #selector(favouriteShow))
         }
         
         navigationItem.rightBarButtonItem = rightBarButtonItem
@@ -95,17 +94,17 @@ class ShowViewController: UITableViewController, UITextViewDelegate {
         favShow.id = Int32(show.id)
         favShow.seriesName = show.seriesName
         favShow.overview = show.overview
+        favShow.bannerImage = bannerImage?.image?.pngData()
         
         PersistenceService.saveContext()
-        rightBarButtonItem?.title = "Remove"
+        rightBarButtonItem?.image = UIImage(named: "Star Highlighted")
         rightBarButtonItem?.action = #selector(removeShow)
     }
     
     @objc func removeShow() {
         PersistenceService.deleteEntity(id: show.id)
-        rightBarButtonItem?.title = "Add"
+        rightBarButtonItem?.image = UIImage(named: "Star")
         rightBarButtonItem?.action = #selector(favouriteShow)
-        
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
