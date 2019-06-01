@@ -164,6 +164,7 @@ class TVDBAPI {
     
     static func getEpisodes(show id: Int32, parameters: String? = nil, completion: @escaping ([Episode]?) -> ()) {
         var episodesURLEndpoint = "https://api.thetvdb.com/series/\(id)/episodes"
+        let episodeGroup = DispatchGroup()
         
         if let param = parameters {
             episodesURLEndpoint += "/query?\(param)"
@@ -202,9 +203,17 @@ class TVDBAPI {
                     episodes.append(Episode(id: episode.id, overview: episode.overview, airedEpisodeNumber: episode.airedEpisodeNumber, airedSeason: episode.airedSeason, episodeName: episode.episodeName, firstAired: episode.firstAired, filename: episode.filename, seriesId: episode.seriesId))
                 }
                 if let next = results.links?.next {
-                    getEpisodes(show: id, parameters: "page=\(next)", completion: completion)
+                    episodeGroup.enter()
+                    getEpisodes(show: id, parameters: "page=\(next)", completion: { (episodes2) in
+                        episodes.append(contentsOf: episodes2!)
+                        episodeGroup.leave()
+                    })
+                    
                 }
-                completion(episodes)
+                
+                episodeGroup.notify(queue: .main ) {
+                    completion(episodes)
+                }
             } catch {
                 print(error, error.localizedDescription)
             }
