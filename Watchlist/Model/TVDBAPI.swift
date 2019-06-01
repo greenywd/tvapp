@@ -162,8 +162,12 @@ class TVDBAPI {
         showTask.resume()
     }
     
-    static func getEpisodes(show id: Int32, completion: @escaping ([API_Episodes.Data]?) -> ()) {
-        let episodesURLEndpoint = "https://api.thetvdb.com/series/\(id)/episodes"
+    static func getEpisodes(show id: Int32, parameters: String? = nil, completion: @escaping ([Episode]?) -> ()) {
+        var episodesURLEndpoint = "https://api.thetvdb.com/series/\(id)/episodes"
+        
+        if let param = parameters {
+            episodesURLEndpoint += "/query?\(param)"
+        }
         
         guard let episodesURL = URL(string: episodesURLEndpoint) else {
             print("Error: cannot create URL")
@@ -188,11 +192,19 @@ class TVDBAPI {
                 print("Error: did not receive data")
                 return
             }
-            dump(responseData)
+            print(response!.url!, response!.StatusCode)
             do {
                 let results = try JSONDecoder().decode(API_Episodes.self, from: responseData)
-                dump(results.data)
-                completion(results.data)
+                // dump(results.data)
+                
+                var episodes = [Episode]()
+                for episode in results.data! {
+                    episodes.append(Episode(id: episode.id, overview: episode.overview, airedEpisodeNumber: episode.airedEpisodeNumber, airedSeason: episode.airedSeason, episodeName: episode.episodeName, firstAired: episode.firstAired, filename: episode.filename, seriesId: episode.seriesId))
+                }
+                if let next = results.links?.next {
+                    getEpisodes(show: id, parameters: "page=\(next)", completion: completion)
+                }
+                completion(episodes)
             } catch {
                 print(error, error.localizedDescription)
             }
@@ -231,6 +243,48 @@ class TVDBAPI {
             do {
                 let images = try JSONDecoder().decode(API_Images.self, from: responseData)
                 completion(images)
+                
+            } catch {
+                print(error, error.localizedDescription)
+            }
+        }
+        showTask.resume()
+    }
+    
+    static func getEpisodeSummary(show id: Int32, completion: @escaping (EpisodeSummary?) -> ()) {
+        let imagesURLEndpoint = "https://api.thetvdb.com/series/\(id)/episodes/summary"
+        
+        guard let episodesURL = URL(string: imagesURLEndpoint) else {
+            print("Error: cannot create URL")
+            return
+        }
+        
+        print(episodesURL)
+        
+        var request = URLRequest(url: episodesURL)
+        request.httpMethod = "GET"
+        request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
+        request.setValue("Bearer \(currentToken)", forHTTPHeaderField: "Authorization")
+        
+        let showTask = URLSession.shared.dataTask(with: request) { (data, response, error) in
+            
+            // check for any errors
+            guard error == nil else {
+                print("error calling GET on /todos/1")
+                print(error!)
+                return
+            }
+            // make sure we got data
+            guard let responseData = data else {
+                print("Error: did not receive data")
+                return
+            }
+            
+            dump(String(data: responseData, encoding: .utf8))
+            
+            do {
+                let summary = try JSONDecoder().decode(API_EpisodeSummary.self, from: responseData)
+                completion(EpisodeSummary(airedEpisodes: summary.data?.airedEpisodes, airedSeasons: summary.data?.airedSeasons?.sorted()))
                 
             } catch {
                 print(error, error.localizedDescription)
