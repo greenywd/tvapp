@@ -17,6 +17,7 @@
 		D64C8B66228C236D00049F86 /* Seasons.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D64C8B64228C236D00049F86 /* Seasons.xcdatamodeld */; };
 		D64C8B68228C2ADB00049F86 /* PersistenceService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D64C8B67228C2ADB00049F86 /* PersistenceService.swift */; };
 		D64FC0FE229FD9D8007281BF /* ShowTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D64FC0FD229FD9D8007281BF /* ShowTableViewCell.xib */; };
+		D65DA24A22A100ED00D31668 /* ShowSeasonsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D65DA24922A100ED00D31668 /* ShowSeasonsTableViewController.swift */; };
 		D6629D901E3C27A70049CC26 /* TVDBAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6629D8F1E3C27A70049CC26 /* TVDBAPI.swift */; };
 		D67BCB521E41A5CA00BA58EA /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D67BCB511E41A5CA00BA58EA /* HomeViewController.swift */; };
 		D6AB06871E62ABF300B1D4AA /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6AB06861E62ABF300B1D4AA /* SettingsViewController.swift */; };
@@ -56,9 +57,9 @@
 		D64C8B65228C236D00049F86 /* Seasons.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Seasons.xcdatamodel; sourceTree = "<group>"; };
 		D64C8B67228C2ADB00049F86 /* PersistenceService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceService.swift; sourceTree = "<group>"; };
 		D64FC0FD229FD9D8007281BF /* ShowTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ShowTableViewCell.xib; sourceTree = "<group>"; };
+		D65DA24922A100ED00D31668 /* ShowSeasonsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowSeasonsTableViewController.swift; sourceTree = "<group>"; };
 		D6629D8F1E3C27A70049CC26 /* TVDBAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TVDBAPI.swift; sourceTree = "<group>"; };
 		D67BCB511E41A5CA00BA58EA /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HomeViewController.swift; path = "View Controllers/HomeViewController.swift"; sourceTree = "<group>"; };
-		D6AB06851E62A55E00B1D4AA /* Playground.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = Playground.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		D6AB06861E62ABF300B1D4AA /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingsViewController.swift; path = "View Controllers/SettingsViewController.swift"; sourceTree = "<group>"; };
 		D6B9F4C4229A9C4B00EDE1D9 /* UITextView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextView+Extensions.swift"; sourceTree = "<group>"; };
 		D6BEC1A71E443AB8001B211B /* SearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchViewController.swift; path = "View Controllers/SearchViewController.swift"; sourceTree = "<group>"; };
@@ -87,6 +88,7 @@
 				D67BCB511E41A5CA00BA58EA /* HomeViewController.swift */,
 				D6BEC1A71E443AB8001B211B /* SearchViewController.swift */,
 				D6D682351E289E4400966B94 /* ShowViewController.swift */,
+				D65DA24922A100ED00D31668 /* ShowSeasonsTableViewController.swift */,
 				D6EBBB922286E1A7005321C3 /* ShowEpisodeViewController.swift */,
 				D6AB06861E62ABF300B1D4AA /* SettingsViewController.swift */,
 				D614551A228AEEE300F842C6 /* ShowDescriptionViewController.swift */,
@@ -136,7 +138,6 @@
 				D64C8B64228C236D00049F86 /* Seasons.xcdatamodeld */,
 				D61A037B2287B3FB0002AA48 /* Extensions */,
 				D61A03782287ACBF0002AA48 /* Model */,
-				D6AB06851E62A55E00B1D4AA /* Playground.playground */,
 				D63D0A471E2845ED00D3F1CA /* AppDelegate.swift */,
 				D6D64F43228CE2D1004BDD7E /* Custom Cells */,
 				D6019C2E1E41A6F4009756F6 /* View Controllers */,
@@ -242,6 +243,7 @@
 				D6BEC1A81E443AB8001B211B /* SearchViewController.swift in Sources */,
 				D6AB06871E62ABF300B1D4AA /* SettingsViewController.swift in Sources */,
 				D6D682361E289E4400966B94 /* ShowViewController.swift in Sources */,
+				D65DA24A22A100ED00D31668 /* ShowSeasonsTableViewController.swift in Sources */,
 				D6145519228AECC000F842C6 /* UILabel+Extensions.swift in Sources */,
 				D6EBBB932286E1A7005321C3 /* ShowEpisodeViewController.swift in Sources */,
 				D64C8B66228C236D00049F86 /* Seasons.xcdatamodeld in Sources */,
