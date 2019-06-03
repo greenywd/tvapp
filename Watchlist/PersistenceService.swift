@@ -11,6 +11,8 @@ import CoreData
 
 class PersistenceService {
     
+    private static let showEntity = "CD_Show"
+    
     static var context: NSManagedObjectContext {
         return persistentContainer.viewContext
     }
@@ -22,7 +24,7 @@ class PersistenceService {
          application to it. This property is optional since there are legitimate
          error conditions that could cause the creation of the store to fail.
          */
-        print("PersistentContainer")
+
         let container = NSPersistentContainer(name: "Seasons")
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
             if let error = error as NSError? {
@@ -61,7 +63,7 @@ class PersistenceService {
     }
     
     static func entityExists(id: Int32) -> Bool {
-        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "FavouriteShows")
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: showEntity)
         fetchRequest.predicate = NSPredicate(format: "id = %@", NSNumber(value: id))
         
         var entitiesCount = 0
@@ -79,7 +81,7 @@ class PersistenceService {
     
     static func deleteEntity(id: Int32) {
         do {
-            let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "FavouriteShows")
+            let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: showEntity)
             fetchRequest.predicate = NSPredicate(format: "id = %@", NSNumber(value: id))
             
             let shows = try PersistenceService.context.fetch(fetchRequest)

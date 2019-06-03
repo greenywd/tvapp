@@ -90,7 +90,7 @@ class ShowViewController: UITableViewController, UITextViewDelegate {
     }
     
     @objc func favouriteShow() {
-        let favShow = FavouriteShows(context: PersistenceService.context)
+        let favShow = CD_Show(context: PersistenceService.context)
         favShow.id = Int32(show.id)
         favShow.seriesName = show.seriesName
         favShow.overview = show.overview
@@ -115,13 +115,13 @@ class ShowViewController: UITableViewController, UITextViewDelegate {
                 episodeVC.id = show.id
             }
             
-        case let descriptionVC as ShowDescriptionViewController:
-            if (segue.identifier == "segueDescription") {
-                descriptionVC.showDescriptionString = show.overview
+        case let seasonsVC as ShowSeasonsTableViewController:
+            if (segue.identifier == "showToSeasonEpisode") {
+                seasonsVC.showID = show.id
             }
             
         default:
-            preconditionFailure("Expected a ShowEpisodeViewController or ShowDescriptionViewController")
+            preconditionFailure("Expected a ShowEpisodeViewController or ShowSeasonsTableViewController")
         }
     }
 }
