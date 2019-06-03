@@ -12,14 +12,13 @@ import Foundation
 import UIKit
 import CoreData
 
-class HomeViewController: UIViewController {
+class HomeViewController: UITableViewController {
     
-    @IBOutlet weak var tableView: UITableView!
-    var favouriteShows = [FavouriteShows]()
+    var favouriteShows = [CD_Show]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+    
         tableView.register(UINib(nibName: "ShowTableViewCell", bundle: nil), forCellReuseIdentifier: "showCell")
         tableView.dataSource = self
         tableView.delegate = self
@@ -62,7 +61,7 @@ class HomeViewController: UIViewController {
     }
     
     func updateFavouriteShows() {
-        let fetchRequest: NSFetchRequest<FavouriteShows> = FavouriteShows.fetchRequest()
+        let fetchRequest: NSFetchRequest<CD_Show> = CD_Show.fetchRequest()
         do {
             let shows = try PersistenceService.context.fetch(fetchRequest)
             self.favouriteShows = shows
@@ -74,8 +73,8 @@ class HomeViewController: UIViewController {
     }
 }
 
-extension HomeViewController : UITableViewDataSource, UITableViewDelegate {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+extension HomeViewController {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if favouriteShows.isEmpty {
             return 1
         }
@@ -83,7 +82,7 @@ extension HomeViewController : UITableViewDataSource, UITableViewDelegate {
         return favouriteShows.count
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         if (favouriteShows.isEmpty) {
             return
@@ -92,7 +91,7 @@ extension HomeViewController : UITableViewDataSource, UITableViewDelegate {
 
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "showCell") as! ShowTableViewCell
 
          if (favouriteShows.isEmpty) {
@@ -115,7 +114,7 @@ extension HomeViewController : UITableViewDataSource, UITableViewDelegate {
         return cell
     }
     
-    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         if (favouriteShows.isEmpty) {
             return false
         }
@@ -123,7 +122,7 @@ extension HomeViewController : UITableViewDataSource, UITableViewDelegate {
         return true
     }
     
-    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+    override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         if (!favouriteShows.isEmpty) {
             print("Favourite Shows: ", favouriteShows)
             let delete = UITableViewRowAction(style: .destructive, title: "Delete") { (action, indexPath) in
