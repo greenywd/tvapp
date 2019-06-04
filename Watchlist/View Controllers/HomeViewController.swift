@@ -18,7 +18,7 @@ class HomeViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-    
+        self.navigationController?.setNavigationBarHidden(false, animated: true)
         tableView.register(UINib(nibName: "ShowTableViewCell", bundle: nil), forCellReuseIdentifier: "showCell")
         tableView.dataSource = self
         tableView.delegate = self
@@ -30,7 +30,7 @@ class HomeViewController: UITableViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        self.navigationController?.setNavigationBarHidden(true, animated: animated)
+        
         super.viewWillAppear(animated)
         
         updateFavouriteShows()
@@ -38,7 +38,7 @@ class HomeViewController: UITableViewController {
     
     
     override func viewWillDisappear(_ animated: Bool) {
-        self.navigationController?.setNavigationBarHidden(false, animated: animated)
+        // self.navigationController?.setNavigationBarHidden(false, animated: animated)
         super.viewWillDisappear(animated)
     }
     
@@ -54,10 +54,6 @@ class HomeViewController: UITableViewController {
             let show = favouriteShows[indexPath.row]
             showVC.show = Show(id: show.id, overview: show.overview ?? "Overview", seriesName: show.seriesName ?? "Series Name", banner: show.banner ?? "", status: show.status ?? "Unknown", runtime: show.runtime ?? "Unknown", network: show.network ?? "Unknown")
         }
-    }
-    
-    override var preferredStatusBarStyle: UIStatusBarStyle{
-        return .lightContent
     }
     
     func updateFavouriteShows() {
