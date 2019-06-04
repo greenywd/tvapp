@@ -10,11 +10,11 @@
         <!--Favourite Shows-->
         <scene sceneID="vuF-Sz-LlQ">
             <objects>
-                <tableViewController id="aUt-Fq-9i1" customClass="HomeViewController" customModule="Watchlist" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController clearsSelectionOnViewWillAppear="NO" id="aUt-Fq-9i1" customClass="HomeViewController" customModule="Watchlist" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="7Yf-I6-4Ke">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="618"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" cocoaTouchSystemColor="viewFlipsideBackgroundColor"/>
+                        <color key="backgroundColor" xcode11CocoaTouchSystemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <color key="tintColor" red="1" green="0.58431372550000005" blue="0.015686274510000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="showCell" id="jOk-kJ-FVT">
@@ -24,7 +24,6 @@
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableViewCellContentView>
-                                <color key="backgroundColor" cocoaTouchSystemColor="viewFlipsideBackgroundColor"/>
                                 <connections>
                                     <segue destination="bf9-qV-U9f" kind="show" identifier="segueToShow" id="iAE-mW-rK2">
                                         <segue key="commit" inheritsFrom="parent" id="9Tl-3U-rb8"/>
@@ -38,22 +37,21 @@
                             <outlet property="delegate" destination="aUt-Fq-9i1" id="mqt-Kz-FVw"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Favourite Shows" prompt="jk" id="5CD-YX-68b"/>
+                    <navigationItem key="navigationItem" title="Favourite Shows" largeTitleDisplayMode="always" id="5CD-YX-68b"/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" barStyle="black" prompted="NO"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="WX2-Kr-TNN" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1542" y="463"/>
+            <point key="canvasLocation" x="556" y="463"/>
         </scene>
         <!--Favourite Shows-->
         <scene sceneID="stb-pY-jMi">
             <objects>
                 <navigationController title="Favourite Shows" id="P9Q-AT-TAh" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Home" image="house.fill" catalog="system" selectedImage="house.fill" id="jun-ku-ll6"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" barStyle="black" id="XNK-XX-P7g">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" largeTitles="YES" id="XNK-XX-P7g">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="96"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <color key="backgroundColor" cocoaTouchSystemColor="viewFlipsideBackgroundColor"/>
                         <color key="tintColor" red="0.99931198359999995" green="0.58544164899999995" blue="0.01688550971" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </navigationBar>
                     <connections>
@@ -62,7 +60,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QmI-nT-ctG" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="758" y="463"/>
+            <point key="canvasLocation" x="-420" y="463"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="Qmb-u9-G6z">
@@ -85,7 +83,7 @@
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QPI-HW-seL" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1969" y="463"/>
+            <point key="canvasLocation" x="-1582" y="463"/>
         </scene>
         <!--Search-->
         <scene sceneID="TyW-Ma-Ueb">
@@ -96,21 +94,17 @@
                         <viewControllerLayoutGuide type="bottom" id="wgj-VP-YbH"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="Ied-J7-A2W">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="618"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="522"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <searchBar contentMode="redraw" barStyle="black" placeholder="Search for Shows" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qYJ-ba-xoW">
-                                <rect key="frame" x="0.0" y="44" width="375" height="56"/>
-                                <color key="barTintColor" cocoaTouchSystemColor="viewFlipsideBackgroundColor"/>
+                            <searchBar contentMode="redraw" barStyle="black" placeholder="Search" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qYJ-ba-xoW">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="56"/>
                                 <textInputTraits key="textInputTraits" autocorrectionType="yes" returnKeyType="search"/>
                             </searchBar>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" indicatorStyle="black" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="60" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="3V2-RU-TOI">
-                                <rect key="frame" x="0.0" y="100" width="375" height="518"/>
-                                <color key="backgroundColor" cocoaTouchSystemColor="viewFlipsideBackgroundColor"/>
+                                <rect key="frame" x="0.0" y="56" width="375" height="466"/>
+                                <color key="backgroundColor" xcode11CocoaTouchSystemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <color key="tintColor" red="0.99931198359999995" green="0.58544164899999995" blue="0.01688550971" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <color key="sectionIndexColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                <color key="sectionIndexBackgroundColor" cocoaTouchSystemColor="viewFlipsideBackgroundColor"/>
-                                <color key="sectionIndexTrackingBackgroundColor" cocoaTouchSystemColor="viewFlipsideBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="showCell" id="DdT-O9-0wR">
                                         <rect key="frame" x="0.0" y="28" width="375" height="60"/>
@@ -134,7 +128,6 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </activityIndicatorView>
                         </subviews>
-                        <color key="backgroundColor" cocoaTouchSystemColor="viewFlipsideBackgroundColor"/>
                         <color key="tintColor" red="1" green="0.58431372549019611" blue="0.015686274509803921" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="qYJ-ba-xoW" secondAttribute="trailing" id="0dZ-lT-0JW"/>
@@ -147,7 +140,7 @@
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Search" image="magnifyingglass" catalog="system" selectedImage="magnifyingglass" id="P2y-S6-nQe"/>
-                    <navigationItem key="navigationItem" id="xbx-23-neO"/>
+                    <navigationItem key="navigationItem" title="Shows" id="xbx-23-neO"/>
                     <connections>
                         <outlet property="activityIndicator" destination="iWg-H8-O8m" id="dUZ-Lj-vQn"/>
                         <outlet property="searchBar" destination="qYJ-ba-xoW" id="R5D-fC-FC8"/>
@@ -163,7 +156,7 @@
             <objects>
                 <tableViewController id="bf9-qV-U9f" customClass="ShowViewController" customModule="Watchlist" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="2jn-J8-z9K">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="618"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="574"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="viewFlipsideBackgroundColor"/>
                         <sections>
@@ -292,7 +285,7 @@
             <objects>
                 <tableViewController title="Seasons" id="M4b-rq-vRc" customClass="ShowSeasonsTableViewController" customModule="Watchlist" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="y3R-iw-tdh">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="618"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="522"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="viewFlipsideBackgroundColor"/>
                         <color key="tintColor" red="1" green="0.58431372550000005" blue="0.015686274510000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -344,7 +337,7 @@
             <objects>
                 <tableViewController id="YCZ-oF-noE" customClass="ShowEpisodeViewController" customModule="Watchlist" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="KtZ-rp-7Hh">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="618"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="522"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="viewFlipsideBackgroundColor"/>
                         <prototypes>
@@ -391,8 +384,8 @@
             <objects>
                 <navigationController id="yZM-FS-ii6" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" systemItem="search" id="xx1-TN-MRB"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" barStyle="black" id="a4P-1B-sL4">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" largeTitles="YES" id="a4P-1B-sL4">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="96"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" red="0.99931198359999995" green="0.58544164899999995" blue="0.01688550971" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </navigationBar>
@@ -421,7 +414,6 @@
                                 <state key="normal" title="Reset Favourite Shows"/>
                             </button>
                         </subviews>
-                        <color key="backgroundColor" cocoaTouchSystemColor="viewFlipsideBackgroundColor"/>
                         <color key="tintColor" red="0.99931198359999995" green="0.58544164899999995" blue="0.01688550971" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="29n-eK-ScE" firstAttribute="centerX" secondItem="HJJ-da-azb" secondAttribute="centerX" id="mRd-cs-ePb"/>
@@ -513,6 +505,6 @@
     <inferredMetricsTieBreakers>
         <segue reference="epa-2E-jOp"/>
         <segue reference="Gmc-5M-lAS"/>
-        <segue reference="Nkp-oP-8wl"/>
+        <segue reference="hCN-e8-FUy"/>
     </inferredMetricsTieBreakers>
 </document>
