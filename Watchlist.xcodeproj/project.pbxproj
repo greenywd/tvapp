@@ -11,6 +11,10 @@
 		D614551B228AEEE300F842C6 /* ShowDescriptionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D614551A228AEEE300F842C6 /* ShowDescriptionViewController.swift */; };
 		D61A03772287AC390002AA48 /* APITypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = D61A03762287AC390002AA48 /* APITypes.swift */; };
 		D61FFE05226B2F72004A0F46 /* URLResponse+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D61FFE04226B2F72004A0F46 /* URLResponse+Extensions.swift */; };
+		D635E7AC22B22E7600CA71A7 /* ShowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D635E7AB22B22E7600CA71A7 /* ShowView.swift */; };
+		D637031222AFD64B0064B253 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D637031122AFD64B0064B253 /* HomeView.swift */; };
+		D637031422AFD6630064B253 /* ShowRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = D637031322AFD6630064B253 /* ShowRow.swift */; };
+		D63C65C622B2174800DCF572 /* TestAPIData.swift in Sources */ = {isa = PBXBuildFile; fileRef = D63C65C522B2174800DCF572 /* TestAPIData.swift */; };
 		D63D0A481E2845ED00D3F1CA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D63D0A471E2845ED00D3F1CA /* AppDelegate.swift */; };
 		D63D0A511E2845ED00D3F1CA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D63D0A501E2845ED00D3F1CA /* Assets.xcassets */; };
 		D63D0A541E2845ED00D3F1CA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D63D0A521E2845ED00D3F1CA /* LaunchScreen.storyboard */; };
@@ -49,6 +53,10 @@
 		D614551A228AEEE300F842C6 /* ShowDescriptionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowDescriptionViewController.swift; sourceTree = "<group>"; };
 		D61A03762287AC390002AA48 /* APITypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APITypes.swift; sourceTree = "<group>"; };
 		D61FFE04226B2F72004A0F46 /* URLResponse+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLResponse+Extensions.swift"; sourceTree = "<group>"; };
+		D635E7AB22B22E7600CA71A7 /* ShowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowView.swift; sourceTree = "<group>"; };
+		D637031122AFD64B0064B253 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = SOURCE_ROOT; };
+		D637031322AFD6630064B253 /* ShowRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowRow.swift; sourceTree = "<group>"; };
+		D63C65C522B2174800DCF572 /* TestAPIData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestAPIData.swift; sourceTree = "<group>"; };
 		D63D0A441E2845ED00D3F1CA /* Watchlist.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Watchlist.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D63D0A471E2845ED00D3F1CA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D63D0A501E2845ED00D3F1CA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -102,6 +110,7 @@
 				D6629D8F1E3C27A70049CC26 /* TVDBAPI.swift */,
 				D61A03762287AC390002AA48 /* APITypes.swift */,
 				D6C4C76C22993441000AF962 /* APIKey.swift */,
+				D63C65C522B2174800DCF572 /* TestAPIData.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -135,6 +144,9 @@
 		D63D0A461E2845ED00D3F1CA /* Watchlist */ = {
 			isa = PBXGroup;
 			children = (
+				D637031122AFD64B0064B253 /* HomeView.swift */,
+				D635E7AB22B22E7600CA71A7 /* ShowView.swift */,
+				D637031322AFD6630064B253 /* ShowRow.swift */,
 				D64C8B64228C236D00049F86 /* Seasons.xcdatamodeld */,
 				D61A037B2287B3FB0002AA48 /* Extensions */,
 				D61A03782287ACBF0002AA48 /* Model */,
@@ -247,13 +259,17 @@
 				D6145519228AECC000F842C6 /* UILabel+Extensions.swift in Sources */,
 				D6EBBB932286E1A7005321C3 /* ShowEpisodeViewController.swift in Sources */,
 				D64C8B66228C236D00049F86 /* Seasons.xcdatamodeld in Sources */,
+				D635E7AC22B22E7600CA71A7 /* ShowView.swift in Sources */,
 				D6D94ABC2286ED2900A405B5 /* ShowTableViewCell.swift in Sources */,
 				D63D0A481E2845ED00D3F1CA /* AppDelegate.swift in Sources */,
+				D637031422AFD6630064B253 /* ShowRow.swift in Sources */,
 				D64C8B68228C2ADB00049F86 /* PersistenceService.swift in Sources */,
 				D61FFE05226B2F72004A0F46 /* URLResponse+Extensions.swift in Sources */,
 				D67BCB521E41A5CA00BA58EA /* HomeViewController.swift in Sources */,
 				D6C4C76D22993441000AF962 /* APIKey.swift in Sources */,
 				D614551B228AEEE300F842C6 /* ShowDescriptionViewController.swift in Sources */,
+				D637031222AFD64B0064B253 /* HomeView.swift in Sources */,
+				D63C65C622B2174800DCF572 /* TestAPIData.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -405,7 +421,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = F33EN56G35;
 				INFOPLIST_FILE = Watchlist/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.greeny.tvapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -425,7 +441,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = F33EN56G35;
 				INFOPLIST_FILE = Watchlist/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.greeny.tvapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";

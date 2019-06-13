@@ -97,7 +97,7 @@ extension HomeViewController {
             cell.accessoryType = .none
          } else {
             let currentShow = favouriteShows[indexPath.row]
-            cell.show = Show(id: currentShow.id, overview: currentShow.overview, seriesName: currentShow.seriesName, banner: currentShow.banner ?? "", status: currentShow.status ?? "Unknown", runtime: currentShow.runtime ?? "Unknown", network: currentShow.network ?? "Unknown")
+            cell.show = Show(id: currentShow.id, overview: currentShow.overview!, seriesName: currentShow.seriesName!, banner: currentShow.banner ?? "", status: currentShow.status ?? "Unknown", runtime: currentShow.runtime ?? "Unknown", network: currentShow.network ?? "Unknown")
             
             if let backgroundImageData = currentShow.bannerImage {
                 if let backgroundImage = UIImage(data: backgroundImageData) {

@@ -108,7 +108,7 @@ class TVDBAPI {
             do {
                 let showInfo = try JSONDecoder().decode(API_Show.self, from: responseData)
                 completion(Show(id: showInfo.data!.id, overview: showInfo.data!.overview!,
-                                seriesName: showInfo.data!.seriesName!, banner: showInfo.data!.banner,
+                                seriesName: showInfo.data!.seriesName!, banner: showInfo.data!.banner!,
                                 status: showInfo.data!.status, runtime: showInfo.data!.runtime,
                                 network: showInfo.data!.network))
             } catch {
@@ -152,7 +152,7 @@ class TVDBAPI {
                 guard let showsSearched = results.data else { return }
                 
                 for show in showsSearched {
-                    shows.append(Show(id: show.id, overview: show.overview ?? "No Overview Available", seriesName: show.seriesName ?? "Unknown Series", banner: show.banner, status: nil, runtime: nil, network: nil))
+                    shows.append(Show(id: show.id, overview: show.overview ?? "No Overview Available", seriesName: show.seriesName ?? "Unknown Series", banner: show.banner!, status: nil, runtime: nil, network: nil))
                 }
                 completion(shows)
             } catch {

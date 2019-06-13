@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import SwiftUI
 // MARK: Types returned from the TVDBAPI
 // TODO: Update all types to match API. Documentation says most of these are optional.
 
@@ -106,11 +107,11 @@ struct API_EpisodeSummary : Codable {
 // MARK: Custom types to aid the API_Types
 
 /// Type used with 'Search' and 'Show' View Controllers. Contains relevant information from the `API_SearchResults` and `API_Show` types.
-struct Show {
+struct Show : Identifiable {
     var id: Int32
-    var overview: String? = "No Overview Available"
-    var seriesName: String? = "Unknown Series Title"
-    let banner: String?
+    var overview: String//? = "No Overview Available"
+    var seriesName: String//? = "Unknown Series Title"
+    let banner: String
     let status: String?
     let runtime: String?
     let network: String?
