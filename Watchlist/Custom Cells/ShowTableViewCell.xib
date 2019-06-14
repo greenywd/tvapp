@@ -58,7 +58,7 @@
                     <constraint firstItem="TmV-E0-W5H" firstAttribute="trailing" secondItem="Q8A-oe-w3i" secondAttribute="trailing" constant="38" id="tlV-Nu-d4a"/>
                 </constraints>
             </tableViewCellContentView>
-            <color key="backgroundColor" cocoaTouchSystemColor="viewFlipsideBackgroundColor"/>
+            <color key="backgroundColor" xcode11CocoaTouchSystemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
             <connections>
                 <outlet property="backgroundImageView" destination="rej-Da-cyV" id="Nzg-83-okL"/>
                 <outlet property="detailLabel" destination="Vzm-dn-vLZ" id="F7Q-cY-ks9"/>

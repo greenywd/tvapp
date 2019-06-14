@@ -19,6 +19,7 @@ class HomeViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.setNavigationBarHidden(false, animated: true)
+        
         tableView.register(UINib(nibName: "ShowTableViewCell", bundle: nil), forCellReuseIdentifier: "showCell")
         tableView.dataSource = self
         tableView.delegate = self
@@ -104,7 +105,7 @@ extension HomeViewController {
                     cell.backgroundImageView.image = backgroundImage
                 }
             }
-            cell.accessoryType = .disclosureIndicator
+            // cell.accessoryType = .disclosureIndicator
          }
         
         return cell
