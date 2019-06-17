@@ -54,6 +54,7 @@ class SearchViewController : UITableViewController {
         tableView.layoutMargins = .zero
         tableView.separatorInset = .zero
         tableView.separatorStyle = .none
+        tableView.keyboardDismissMode = .interactive
         
         searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
@@ -78,9 +79,15 @@ class SearchViewController : UITableViewController {
             return
         }
         
+        for cell in (tableView.visibleCells as? [ShowTableViewCell])! {
+            cell.backgroundImageView.image = nil
+        }
+        
+        self.searchResults.removeAll()
+        tableView.reloadData()
+        
         TVDBAPI.searchShows(show: query) { (results, error) in
             if let error = error {
-                self.searchResults.removeAll()
                 
                 DispatchQueue.main.async {
                     let alert = UIAlertController(title: "No Shows Found", message: "Detailed: \(error)", preferredStyle: .alert)
@@ -112,6 +119,7 @@ class SearchViewController : UITableViewController {
         
         if segue.identifier == "segueToShow" {
             showVC.show = searchResults[indexPath.row]
+            showVC.bannerSearchImage = selectedTableViewCell.backgroundImageView.image
         }
     }
 }

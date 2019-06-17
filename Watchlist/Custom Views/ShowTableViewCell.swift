@@ -26,8 +26,12 @@ class ShowTableViewCell : UITableViewCell {
             titleLabel.text = show.seriesName
             detailLabel.text = show.overview
             
+            if (show.banner?.count == 0) {
+                backgroundImageView.image = nil
+                return
+            }
+            
             if let url = URL(string: "https://www.thetvdb.com/banners/" + show.banner!) {
-
                 if backgroundImageView.image == nil {
                     DispatchQueue.global(qos: .background).async {
                         let dataForImage = try? Data(contentsOf: url)
