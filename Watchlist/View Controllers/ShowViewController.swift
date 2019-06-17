@@ -20,29 +20,40 @@ class ShowViewController: UITableViewController, UITextViewDelegate {
     @IBOutlet var bannerImage: UIImageView?
     @IBOutlet weak var bannerImageCell: UITableViewCell!
     @IBOutlet weak var showDescription: UITextView!
+    @IBOutlet weak var showMoreButton: UIButton!
     
     var show: Show!
-    var rightBarButtonItem: UIBarButtonItem?
+    var rightBarButtonItem = UIBarButtonItem()
     
     //MARK: Methods
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        navigationItem.title = show.seriesName
+        
         showDescription.text = show.overview
         showDescription.textContainer.maximumNumberOfLines = 7
         
-        //activityIndicator?.hidesWhenStopped = true
-        //activityIndicator?.startAnimating()
+        if showDescription.numberOfLines <= 7 {
+            // TODO: Remove button
+            showMoreButton.removeFromSuperview()
+        }
         
-        // navigationItem.title = searchShow.seriesName ?? currentShow.seriesName
-        TVDBAPI.getShow(id: show!.id, completion: {(showData) in
-            if let show = showData {
-                // TODO: Implement properties from this (ratings, network, etc)
-                self.show = show
+        if (show.network == nil) {
+            setupRightBarButtonItem(isBusy: true)
+            TVDBAPI.getShow(id: show!.id) { (showData) in
+                if let show = showData {
+                    self.show = show
+                    
+                    DispatchQueue.main.async {
+                        self.setupRightBarButtonItem(isBusy: false)
+                        self.tableView.reloadData()
+                    }
+                }
             }
-        })
+        }
         
-        TVDBAPI.getImages(show: show.id, resolution: .FHD, completion: { (images) in
+        TVDBAPI.getImages(show: show.id, resolution: .FHD) { (images) in
             if let url = images?.data?.first?.fileName {
                 let url = URL(string: "https://www.thetvdb.com/banners/" + url)
                 DispatchQueue.global().async {
@@ -62,31 +73,42 @@ class ShowViewController: UITableViewController, UITextViewDelegate {
                             self.bannerImageCell.layoutIfNeeded()
                             
                         }
-                        //self.activityIndicator?.stopAnimating()
                     }
                 }
             }        
-        })
-        
-        navigationItem.title = show.seriesName
+        }
         
         tableView.rowHeight = UITableView.automaticDimension
         tableView.layoutMargins = .zero
-        tableView.separatorInset = .zero
-        tableView.separatorStyle = .none
-
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
-        if (PersistenceService.entityExists(id: show!.id)) {
-            rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "Star Highlighted"), style: .plain, target: self, action: #selector(removeShow))
+    }
+    
+    func setupRightBarButtonItem(isBusy: Bool) {
+        if (isBusy) {
+            let indicator = UIActivityIndicatorView(style: .medium)
+            indicator.color = .systemOrange
+            indicator.hidesWhenStopped = true
+            indicator.startAnimating()
+            navigationItem.rightBarButtonItem = UIBarButtonItem(customView: indicator)
+            return
         } else {
-            rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "Star"), style: .plain, target: self, action: #selector(favouriteShow))
+            if (PersistenceService.entityExists(id: show!.id)) {
+                rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "Star Highlighted"), style: .plain, target: self, action: #selector(removeShow))
+            } else {
+                rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "Star"), style: .plain, target: self, action: #selector(favouriteShow))
+            }
         }
-        
         navigationItem.rightBarButtonItem = rightBarButtonItem
+        
+        
+//        let uiBusy = UIActivityIndicatorView(activityIndicatorStyle: .White)
+//        uiBusy.hidesWhenStopped = true
+//        uiBusy.startAnimating()
+//        self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: uiBusy)
     }
     
     @objc func favouriteShow() {
@@ -97,14 +119,14 @@ class ShowViewController: UITableViewController, UITextViewDelegate {
         favShow.bannerImage = bannerImage?.image?.pngData()
         
         PersistenceService.saveContext()
-        rightBarButtonItem?.image = UIImage(named: "Star Highlighted")
-        rightBarButtonItem?.action = #selector(removeShow)
+        rightBarButtonItem.image = UIImage(named: "Star Highlighted")
+        rightBarButtonItem.action = #selector(removeShow)
     }
     
     @objc func removeShow() {
         PersistenceService.deleteEntity(id: show.id)
-        rightBarButtonItem?.image = UIImage(named: "Star")
-        rightBarButtonItem?.action = #selector(favouriteShow)
+        rightBarButtonItem.image = UIImage(named: "Star")
+        rightBarButtonItem.action = #selector(favouriteShow)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
