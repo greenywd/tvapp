@@ -1,25 +1,27 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14490.99" systemVersion="18F132" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14838.16" systemVersion="19A471t" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="NO" userDefinedModelVersionIdentifier="">
     <entity name="CD_Episode" representedClassName="CD_Episode" syncable="YES" codeGenerationType="class">
-        <attribute name="airedEpisodeNumber" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="airedSeason" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="id" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="overview" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="show" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CD_Show" inverseName="episode" inverseEntity="CD_Show" syncable="YES"/>
+        <attribute name="airedEpisodeNumber" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="airedSeason" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="id" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="overview" optional="YES" attributeType="String"/>
+        <relationship name="show" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CD_Show" inverseName="episode" inverseEntity="CD_Show"/>
     </entity>
     <entity name="CD_Show" representedClassName="CD_Show" syncable="YES" codeGenerationType="class">
-        <attribute name="banner" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="bannerImage" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES" syncable="YES"/>
-        <attribute name="id" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="network" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="overview" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="runtime" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="seriesName" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="status" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="episode" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CD_Episode" inverseName="show" inverseEntity="CD_Episode" syncable="YES"/>
+        <attribute name="banner" optional="YES" attributeType="String"/>
+        <attribute name="bannerImage" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES"/>
+        <attribute name="id" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="network" optional="YES" attributeType="String"/>
+        <attribute name="overview" optional="YES" attributeType="String"/>
+        <attribute name="runtime" optional="YES" attributeType="String"/>
+        <attribute name="seriesName" optional="YES" attributeType="String"/>
+        <attribute name="siteRating" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="siteRatingCount" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="status" optional="YES" attributeType="String"/>
+        <relationship name="episode" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CD_Episode" inverseName="show" inverseEntity="CD_Episode"/>
     </entity>
     <elements>
-        <element name="CD_Show" positionX="-343" positionY="-65" width="128" height="178"/>
         <element name="CD_Episode" positionX="-63" positionY="54" width="128" height="118"/>
+        <element name="CD_Show" positionX="-343" positionY="-65" width="128" height="208"/>
     </elements>
 </model>
