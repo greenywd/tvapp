@@ -31,6 +31,8 @@ struct API_Show : Codable {
         let status: String?
         let runtime: String?
         let network: String?
+        let siteRating: Double?
+        let siteRatingCount: Int16?
     }
 }
 
@@ -65,6 +67,7 @@ struct API_Episodes : Codable {
 
 struct API_SearchResults : Codable {
     let data: [Data]?
+    let Error: String?
     
     struct Data : Codable {
         let aliases: [String]?
@@ -114,6 +117,8 @@ struct Show {
     let status: String?
     let runtime: String?
     let network: String?
+    let siteRating: Double?
+    let siteRatingCount: Int16?
 }
 
 /*
