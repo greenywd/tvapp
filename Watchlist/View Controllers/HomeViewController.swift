@@ -15,6 +15,7 @@ import CoreData
 class HomeViewController: UITableViewController {
     
     var favouriteShows = [CD_Show]()
+    var searchController = UISearchController(searchResultsController: nil)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,12 +29,21 @@ class HomeViewController: UITableViewController {
         tableView.separatorInset = .zero
         tableView.separatorStyle = .none
         
+        searchController.searchResultsUpdater = self
+        searchController.hidesNavigationBarDuringPresentation = false
+        searchController.searchBar.placeholder = "Search Shows"
+        navigationItem.searchController = searchController
+        // navigationItem.hidesSearchBarWhenScrolling = true
+        definesPresentationContext = true
+        
+        let searchBarHeight = searchController.searchBar.frame.size.height
+        tableView.setContentOffset(CGPoint(x: 0, y: searchBarHeight), animated: false)
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         
         super.viewWillAppear(animated)
-        
         updateFavouriteShows()
     }
     
@@ -53,7 +63,7 @@ class HomeViewController: UITableViewController {
         
         if segue.identifier == "segueToShow" {
             let show = favouriteShows[indexPath.row]
-            showVC.show = Show(id: show.id, overview: show.overview ?? "Overview", seriesName: show.seriesName ?? "Series Name", banner: show.banner ?? "", status: show.status ?? "Unknown", runtime: show.runtime ?? "Unknown", network: show.network ?? "Unknown")
+            showVC.show = Show(id: show.id, overview: show.overview ?? "Overview", seriesName: show.seriesName ?? "Series Name", banner: show.banner ?? "", status: show.status ?? "Unknown", runtime: show.runtime ?? "Unknown", network: show.network ?? "Unknown", siteRating: show.siteRating, siteRatingCount: show.siteRatingCount)
         }
     }
     
@@ -70,7 +80,17 @@ class HomeViewController: UITableViewController {
     }
 }
 
-extension HomeViewController {
+
+// MARK: - Delegate/Helper Methods
+extension HomeViewController : UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
+        
+    }
+    
+    override func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if favouriteShows.isEmpty {
             return 1
@@ -89,23 +109,19 @@ extension HomeViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "showCell") as! ShowTableViewCell
+        var cell = tableView.dequeueReusableCell(withIdentifier: "showCell") as! ShowTableViewCell
 
          if (favouriteShows.isEmpty) {
-            cell.titleLabel?.text = "No Favourites!"
-            cell.detailLabel?.text = "Head to the search tab to find some shows!"
-            cell.backgroundImageView.image = nil
-            cell.accessoryType = .none
+            cell = noFavouritesRow()
          } else {
             let currentShow = favouriteShows[indexPath.row]
-            cell.show = Show(id: currentShow.id, overview: currentShow.overview, seriesName: currentShow.seriesName, banner: currentShow.banner ?? "", status: currentShow.status ?? "Unknown", runtime: currentShow.runtime ?? "Unknown", network: currentShow.network ?? "Unknown")
+            cell.show = Show(id: currentShow.id, overview: currentShow.overview, seriesName: currentShow.seriesName, banner: currentShow.banner ?? "", status: currentShow.status ?? "Unknown", runtime: currentShow.runtime ?? "Unknown", network: currentShow.network ?? "Unknown", siteRating: currentShow.siteRating, siteRatingCount: currentShow.siteRatingCount)
             
             if let backgroundImageData = currentShow.bannerImage {
                 if let backgroundImage = UIImage(data: backgroundImageData) {
                     cell.backgroundImageView.image = backgroundImage
                 }
             }
-            // cell.accessoryType = .disclosureIndicator
          }
         
         return cell
@@ -119,19 +135,33 @@ extension HomeViewController {
         return true
     }
     
-    override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
-        if (!favouriteShows.isEmpty) {
-            print("Favourite Shows: ", favouriteShows)
-            let delete = UITableViewRowAction(style: .destructive, title: "Delete") { (action, indexPath) in
+    override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        if(!favouriteShows.isEmpty) {
+            let deleteItem = UIContextualAction(style: .destructive, title: "Delete") { (action, view, success) in
                 PersistenceService.deleteEntity(id: self.favouriteShows[indexPath.row].id)
+                self.favouriteShows.remove(at: indexPath.row)
+                
+                if self.favouriteShows.isEmpty {
+                    tableView.reloadRows(at: [indexPath], with: .automatic)
+                } else {
+                    tableView.deleteRows(at: [indexPath], with: .right)
+                }
+
                 self.updateFavouriteShows()
-
-                // TODO: Change this to deleteRow to get that sweet animation however at the same time don't crash due to a UITableView inconsistency error.
-                tableView.reloadData()
+                success(true)
             }
-
-            return [delete]
+            
+            return UISwipeActionsConfiguration(actions: [deleteItem])
         }
         return nil
+    }
+    
+    func noFavouritesRow() -> ShowTableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "showCell") as! ShowTableViewCell
+        cell.titleLabel?.text = "No Favourites!"
+        cell.detailLabel?.text = "Head to the search tab to find some shows!"
+        cell.backgroundImageView.image = nil
+        
+        return cell
     }
 }
