@@ -9,13 +9,34 @@
 import Foundation
 import UIKit
 
-class SearchViewController : UIViewController {
+class SearchViewController : UITableViewController {
     
-    @IBOutlet var tableView: UITableView!
-    @IBOutlet var searchBar: UISearchBar!
     @IBOutlet var activityIndicator: UIActivityIndicatorView!
     
-    var searchResults: [Show]?
+    var searchResults = [Show]()
+    let searchController = UISearchController(searchResultsController: nil)
+    let greenysFavouriteShows = [
+        "Mr. Robot",
+        "Game of Thrones",
+        "Westworld",
+        "Brooklyn Nine-Nine",
+        "The Office (US)",
+        "Parks and Recreation",
+        "Rick and Morty",
+        "Sherlock",
+        "Silicon Valley",
+        "Stranger Things",
+        "Suits",
+        "The Good Place",
+        "The I.T. Crowd",
+        "Marvel's Daredevil",
+        "Marvel's Jessica Jones",
+        "Marvel's The Punisher",
+        "Black Mirror",
+        "Atlanta",
+        "Arrested Development",
+        "Arrow"
+    ]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,18 +54,18 @@ class SearchViewController : UIViewController {
         tableView.layoutMargins = .zero
         tableView.separatorInset = .zero
         tableView.separatorStyle = .none
-        searchBar.delegate = self
+        
+        searchController.searchResultsUpdater = self
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.searchBar.delegate = self
+        navigationItem.searchController = searchController
+        navigationItem.hidesSearchBarWhenScrolling = true
+        definesPresentationContext = true
         
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        self.navigationController?.setNavigationBarHidden(true, animated: animated)
-        super.viewWillAppear(animated)
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        self.navigationController?.setNavigationBarHidden(false, animated: animated)
-        super.viewWillDisappear(animated)
+        searchController.searchBar.placeholder = greenysFavouriteShows.randomElement()
     }
     
     @objc func dismissKeyboard() {
@@ -52,44 +73,36 @@ class SearchViewController : UIViewController {
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        activityIndicator.startAnimating()
         
         guard let query = searchBar.text else {
             return
         }
         
-        for cell in (tableView.visibleCells as? [ShowTableViewCell])! {
-            cell.backgroundImageView.image = nil
-        }
-        
-        TVDBAPI.searchShows(show: query) {
-            if let results = $0 {
-                self.searchResults = results
+        TVDBAPI.searchShows(show: query) { (results, error) in
+            if let error = error {
+                self.searchResults.removeAll()
+                
+                DispatchQueue.main.async {
+                    let alert = UIAlertController(title: "No Shows Found", message: "Detailed: \(error)", preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: "Dismiss", style: .default, handler: nil))
+                    self.tableView.reloadData()
+                    self.present(alert, animated: true, completion: nil)
+                }
+                
+                return
             }
             
-            DispatchQueue.main.async {
-                self.activityIndicator.stopAnimating()
-                self.tableView.reloadData()
+            if let results = results {
+                self.searchResults = results
+                
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                }
             }
         }
-        self.searchBar.endEditing(true)
-        
-    }
-    
-    func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
-        searchBar.keyboardAppearance = .dark
-        return true
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        
-        print("MOVING TO:", segue.destination)
-        print("SENDER IS OF TYPE:", type(of: sender as? ShowTableViewCell))
-        
-        guard let results = searchResults else {
-            return
-        }
-
         guard let selectedTableViewCell = sender as? ShowTableViewCell,
             let indexPath = tableView.indexPath(for: selectedTableViewCell)
             else { preconditionFailure("Expected sender to be a ShowTableViewCell") }
@@ -98,46 +111,51 @@ class SearchViewController : UIViewController {
             else { preconditionFailure("Expected a ShowViewController") }
         
         if segue.identifier == "segueToShow" {
-            showVC.show = results[indexPath.row]
+            showVC.show = searchResults[indexPath.row]
         }
-    }
-    
-    override var preferredStatusBarStyle: UIStatusBarStyle {
-        return .lightContent
     }
 }
 
-extension SearchViewController : UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate {
-    func numberOfSections(in tableView: UITableView) -> Int {
-        if let _ = searchResults {
-            return 1
-        }
-        return 0
+// MARK: - Delegate/Helper Methods
+extension SearchViewController : UISearchResultsUpdating, UISearchBarDelegate {
+    func updateSearchResults(for searchController: UISearchController) {
+        return
     }
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if let results = searchResults {
-            return results.count
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        tableView.beginUpdates()
+        for i in 0..<searchResults.count {
+            let indexPath = IndexPath(row: i, section: 0)
+            tableView.deleteRows(at: [indexPath], with: .right)
         }
+        searchResults.removeAll()
+        tableView.endUpdates()
+    }
+    
+    override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return searchResults.count
+    }
+    
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "showCell") as! ShowTableViewCell
-
-        if let results = searchResults {
-            cell.show = results[indexPath.row]
-        }
         
+        if searchResults.count != 0 {
+            cell.show = searchResults[indexPath.row]
+        }
+
         return cell
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         performSegue(withIdentifier: "segueToShow", sender: tableView.cellForRow(at: indexPath))
     }
     
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 125
     }
 }
