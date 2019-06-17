@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ShowTableViewCell: UITableViewCell {
+class ShowTableViewCell : UITableViewCell {
     @IBOutlet weak var backgroundImageView: UIImageView!
     @IBOutlet var visualEffectView: UIVisualEffectView!
     @IBOutlet var titleLabel: UILabel!
