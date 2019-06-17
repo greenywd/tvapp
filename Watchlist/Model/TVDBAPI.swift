@@ -79,7 +79,7 @@ class TVDBAPI {
     
     
     static func getShow(id: Int32, completion: @escaping (Show?) -> () = { _ in }) {
-        let seriesEndpoint = "https://api.thetvdb.com/series/\(String(id))/filter?keys=seriesName%2Coverview%2Cid"
+        let seriesEndpoint = "https://api.thetvdb.com/series/\(String(id))"
         
         guard let seriesURL = URL(string: seriesEndpoint) else {
             print("Error: cannot create URL")
@@ -93,24 +93,21 @@ class TVDBAPI {
         
         let showTask = URLSession.shared.dataTask(with: request) { (data, response, error) in
             
-            // check for any errors
-            guard error == nil else {
-                print("error calling GET on /todos/1")
-                print(error!)
-                return
-            }
+            print("Getting show with ID: \(id)")
+
             // make sure we got data
             guard let responseData = data else {
                 print("Error: did not receive data")
                 return
             }
-            
+
             do {
                 let showInfo = try JSONDecoder().decode(API_Show.self, from: responseData)
                 completion(Show(id: showInfo.data!.id, overview: showInfo.data!.overview!,
                                 seriesName: showInfo.data!.seriesName!, banner: showInfo.data!.banner,
                                 status: showInfo.data!.status, runtime: showInfo.data!.runtime,
-                                network: showInfo.data!.network))
+                                network: showInfo.data!.network, siteRating: showInfo.data!.siteRating,
+                                siteRatingCount: showInfo.data!.siteRatingCount))
             } catch {
                 print(error, error.localizedDescription)
             }
@@ -118,7 +115,7 @@ class TVDBAPI {
         showTask.resume()
     }
     
-    static func searchShows(show: String, completion: @escaping ([Show]?) -> ()) {
+    static func searchShows(show: String, completion: @escaping ([Show]?, String?) -> ()) {
         let searchURL = "https://api.thetvdb.com/search/series?name=" + show.replacingOccurrences(of: " ", with: "%20")
         
         guard let seriesURL = URL(string: searchURL) else {
@@ -145,16 +142,22 @@ class TVDBAPI {
                 return
             }
             
+            // print("ResponseData: \(String(data: responseData, encoding: .utf8))")
+            
             do {
                 let results = try JSONDecoder().decode(API_SearchResults.self, from: responseData)
                 var shows = [Show]()
                 
-                guard let showsSearched = results.data else { return }
+                guard let showsSearched = results.data else {
+                    print("No data, returning error")
+                    completion(nil, results.Error)
+                    return
+                }
                 
                 for show in showsSearched {
-                    shows.append(Show(id: show.id, overview: show.overview ?? "No Overview Available", seriesName: show.seriesName ?? "Unknown Series", banner: show.banner, status: nil, runtime: nil, network: nil))
+                    shows.append(Show(id: show.id, overview: show.overview ?? "No Overview Available", seriesName: show.seriesName ?? "Unknown Series", banner: show.banner, status: nil, runtime: nil, network: nil, siteRating: nil, siteRatingCount: nil))
                 }
-                completion(shows)
+                completion(shows, nil)
             } catch {
                 print(error, error.localizedDescription)
             }
@@ -182,12 +185,6 @@ class TVDBAPI {
         
         let showTask = URLSession.shared.dataTask(with: request) { (data, response, error) in
             
-            // check for any errors
-            guard error == nil else {
-                print("error calling GET on /todos/1")
-                print(error!)
-                return
-            }
             // make sure we got data
             guard let responseData = data else {
                 print("Error: did not receive data")
