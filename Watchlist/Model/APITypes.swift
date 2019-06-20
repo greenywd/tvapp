@@ -114,6 +114,7 @@ struct Show {
     var overview: String? = "No Overview Available"
     var seriesName: String? = "Unknown Series Title"
     let banner: String?
+    let bannerImage: Data?
     let status: String?
     let runtime: String?
     let network: String?
