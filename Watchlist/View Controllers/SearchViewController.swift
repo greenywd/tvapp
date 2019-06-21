@@ -49,20 +49,14 @@ class SearchViewController : UITableViewController {
         view.addGestureRecognizer(tap)
         
         tableView.register(UINib(nibName: "ShowTableViewCell", bundle: nil), forCellReuseIdentifier: "showCell")
-        tableView.dataSource = self
-        tableView.delegate = self
-        tableView.layoutMargins = .zero
-        tableView.separatorInset = .zero
-        tableView.separatorStyle = .none
-        tableView.keyboardDismissMode = .interactive
-        
+
         searchController.searchResultsUpdater = self
-        searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchBar.delegate = self
+        // FIXME: This is broken in iOS 13 beta 2 - change to false later
+        searchController.obscuresBackgroundDuringPresentation = true
+ 
         navigationItem.searchController = searchController
-        navigationItem.hidesSearchBarWhenScrolling = true
-        definesPresentationContext = true
-        
+        navigationItem.hidesSearchBarWhenScrolling = false
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -74,7 +68,7 @@ class SearchViewController : UITableViewController {
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        
+
         guard let query = searchBar.text else {
             return
         }
@@ -83,14 +77,19 @@ class SearchViewController : UITableViewController {
             cell.backgroundImageView.image = nil
         }
         
-        self.searchResults.removeAll()
+        searchResults.removeAll()
         tableView.reloadData()
         
         TVDBAPI.searchShows(show: query) { (results, error) in
             if let error = error {
                 
                 DispatchQueue.main.async {
-                    let alert = UIAlertController(title: "No Shows Found", message: "Detailed: \(error)", preferredStyle: .alert)
+                    let alert = UIAlertController(title: "No Shows Found", message: nil, preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: "Detail", style: .default, handler: { (action) in
+                        let detailAlert = UIAlertController(title: "Detail", message: error, preferredStyle: .alert)
+                        detailAlert.addAction(UIAlertAction(title: "Dismiss", style: .default, handler: nil))
+                        self.present(detailAlert, animated: true, completion: nil)
+                    }))
                     alert.addAction(UIAlertAction(title: "Dismiss", style: .default, handler: nil))
                     self.tableView.reloadData()
                     self.present(alert, animated: true, completion: nil)
