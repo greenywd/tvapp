@@ -93,6 +93,23 @@ class PersistenceService {
         }
     }
     
+    static func favouriteShows() -> [Show] {
+        var favouriteShows = [Show]()
+        
+        let fetchRequest: NSFetchRequest<CD_Show> = CD_Show.fetchRequest()
+        do {
+            let shows = try PersistenceService.context.fetch(fetchRequest)
+            
+            for show in shows {
+                favouriteShows.append(Show(id: show.id, overview: show.overview, seriesName: show.seriesName, banner: show.banner ?? "", bannerImage: show.bannerImage, status: show.status ?? "Unknown", runtime: show.runtime ?? "Unknown", network: show.network ?? "Unknown", siteRating: show.siteRating, siteRatingCount: show.siteRatingCount))
+            }
+        } catch {
+            print(error, error.localizedDescription)
+        }
+        
+        return favouriteShows
+    }
+    
     /// For debugging purposes, delete all children of a specific entity.
     static func dropTable() {
         // Wait, this isn't SQL.
