@@ -14,7 +14,7 @@ import CoreData
 
 class HomeViewController: UITableViewController {
     
-    var favouriteShows = [CD_Show]()
+    var favouriteShows = [Show]()
     var searchController = UISearchController(searchResultsController: nil)
     
     override func viewDidLoad() {
@@ -34,7 +34,6 @@ class HomeViewController: UITableViewController {
         searchController.searchBar.placeholder = "Search Shows"
         navigationItem.searchController = searchController
         // navigationItem.hidesSearchBarWhenScrolling = true
-        definesPresentationContext = true
         
         let searchBarHeight = searchController.searchBar.frame.size.height
         tableView.setContentOffset(CGPoint(x: 0, y: searchBarHeight), animated: false)
@@ -63,18 +62,12 @@ class HomeViewController: UITableViewController {
         
         if segue.identifier == "segueToShow" {
             let show = favouriteShows[indexPath.row]
-            showVC.show = Show(id: show.id, overview: show.overview ?? "Overview", seriesName: show.seriesName ?? "Series Name", banner: show.banner ?? "", status: show.status ?? "Unknown", runtime: show.runtime ?? "Unknown", network: show.network ?? "Unknown", siteRating: show.siteRating, siteRatingCount: show.siteRatingCount)
+            showVC.show = Show(id: show.id, overview: show.overview ?? "Overview", seriesName: show.seriesName ?? "Series Name", banner: show.banner ?? "", bannerImage: show.bannerImage, status: show.status ?? "Unknown", runtime: show.runtime ?? "Unknown", network: show.network ?? "Unknown", siteRating: show.siteRating, siteRatingCount: show.siteRatingCount)
         }
     }
     
     func updateFavouriteShows() {
-        let fetchRequest: NSFetchRequest<CD_Show> = CD_Show.fetchRequest()
-        do {
-            let shows = try PersistenceService.context.fetch(fetchRequest)
-            self.favouriteShows = shows
-        } catch {
-            print(error, error.localizedDescription)
-        }
+        favouriteShows = PersistenceService.favouriteShows()
         
         tableView.reloadData()
     }
@@ -84,7 +77,7 @@ class HomeViewController: UITableViewController {
 // MARK: - Delegate/Helper Methods
 extension HomeViewController : UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
-        
+        return
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -102,6 +95,7 @@ extension HomeViewController : UISearchResultsUpdating {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         if (favouriteShows.isEmpty) {
+            tabBarController?.selectedIndex = 2
             return
         }
         performSegue(withIdentifier: "segueToShow", sender: tableView.cellForRow(at: indexPath))
@@ -114,10 +108,9 @@ extension HomeViewController : UISearchResultsUpdating {
          if (favouriteShows.isEmpty) {
             cell = noFavouritesRow()
          } else {
-            let currentShow = favouriteShows[indexPath.row]
-            cell.show = Show(id: currentShow.id, overview: currentShow.overview, seriesName: currentShow.seriesName, banner: currentShow.banner ?? "", status: currentShow.status ?? "Unknown", runtime: currentShow.runtime ?? "Unknown", network: currentShow.network ?? "Unknown", siteRating: currentShow.siteRating, siteRatingCount: currentShow.siteRatingCount)
+            cell.show = favouriteShows[indexPath.row]
             
-            if let backgroundImageData = currentShow.bannerImage {
+            if let backgroundImageData = favouriteShows[indexPath.row].bannerImage {
                 if let backgroundImage = UIImage(data: backgroundImageData) {
                     cell.backgroundImageView.image = backgroundImage
                 }
@@ -144,7 +137,7 @@ extension HomeViewController : UISearchResultsUpdating {
                 if self.favouriteShows.isEmpty {
                     tableView.reloadRows(at: [indexPath], with: .automatic)
                 } else {
-                    tableView.deleteRows(at: [indexPath], with: .right)
+                    tableView.deleteRows(at: [indexPath], with: .automatic)
                 }
 
                 self.updateFavouriteShows()
