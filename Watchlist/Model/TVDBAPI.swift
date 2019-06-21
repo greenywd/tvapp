@@ -219,7 +219,7 @@ class TVDBAPI {
         
     }
     
-    static func getImages(show id: Int32, resolution: Resolution, completion: @escaping (API_Images?) -> () = { _ in }) {
+    static func getImageURLs(show id: Int32, resolution: Resolution, completion: @escaping (API_Images?) -> () = { _ in }) {
         let imagesURLEndpoint = "https://api.thetvdb.com/series/\(id)/images/query?keyType=fanart&resolution=\(resolution.rawValue)"
         
         guard let episodesURL = URL(string: imagesURLEndpoint) else {
