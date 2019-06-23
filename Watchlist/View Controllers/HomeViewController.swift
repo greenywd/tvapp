@@ -62,7 +62,7 @@ class HomeViewController: UITableViewController {
         
         if segue.identifier == "segueToShow" {
             let show = favouriteShows[indexPath.row]
-            showVC.show = Show(id: show.id, overview: show.overview ?? "Overview", seriesName: show.seriesName ?? "Series Name", banner: show.banner ?? "", bannerImage: show.bannerImage, status: show.status ?? "Unknown", runtime: show.runtime ?? "Unknown", network: show.network ?? "Unknown", siteRating: show.siteRating, siteRatingCount: show.siteRatingCount)
+            showVC.show = show
         }
     }
     
