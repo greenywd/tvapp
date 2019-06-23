@@ -118,7 +118,6 @@ class SearchViewController : UITableViewController {
         
         if segue.identifier == "segueToShow" {
             showVC.show = searchResults[indexPath.row]
-            showVC.bannerSearchImage = selectedTableViewCell.backgroundImageView.image
         }
     }
 }
