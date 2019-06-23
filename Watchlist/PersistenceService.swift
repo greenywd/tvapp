@@ -70,12 +70,11 @@ class PersistenceService {
         
         do {
             entitiesCount = try self.context.count(for: fetchRequest)
-            print("COUNT: ", entitiesCount)
         }
         catch {
             print("error executing fetch request: \(error)")
         }
-        
+        assert(entitiesCount <= 1, "Expected either 0 or 1. Got \(entitiesCount) instead.")
         return entitiesCount > 0
     }
     
@@ -108,6 +107,27 @@ class PersistenceService {
         }
         
         return favouriteShows
+    }
+    
+    static func getShow(id: Int32) -> Show? {
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: showEntity)
+        fetchRequest.predicate = NSPredicate(format: "id = %@", NSNumber(value: id))
+        
+        var show: Show?
+        
+        do {
+            let result = try self.context.fetch(fetchRequest)
+            
+            for data in result as! [CD_Show] {
+                print(data)
+                show = Show(id: data.id, overview: data.overview, seriesName: data.seriesName, banner: data.banner, bannerImage: data.bannerImage, status: data.status, runtime: data.runtime, network: data.network, siteRating: data.siteRating, siteRatingCount: data.siteRatingCount)
+            }
+        }
+        catch {
+            print("error executing fetch request: \(error)")
+        }
+        
+        return show
     }
     
     /// For debugging purposes, delete all children of a specific entity.
