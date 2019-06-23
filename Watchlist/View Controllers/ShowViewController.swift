@@ -12,80 +12,103 @@ import Foundation
 import UIKit
 import CoreData
 
-class ShowViewController: UITableViewController, UITextViewDelegate {
+class ShowViewController: UITableViewController {
     
-    //MARK: Properties
+    //MARK: - Properties
     
     // var activityIndicator: UIActivityIndicatorView?
-    @IBOutlet var bannerImage: UIImageView?
+    @IBOutlet var bannerImageView: SeasonsHeaderImageView?
     @IBOutlet weak var bannerImageCell: UITableViewCell!
     @IBOutlet weak var showDescription: UITextView!
     @IBOutlet weak var showMoreButton: UIButton!
+    @IBOutlet var showDescriptionHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var showDescriptionBottomConstraint: NSLayoutConstraint!
     
-    var show: Show!
+    var show: Show! {
+        didSet {
+            DispatchQueue.main.async {
+                if (self.showDescription.frame.height < 150) {
+                    
+                    if let btn = self.showMoreButton {
+                        btn.removeFromSuperview()
+                        self.showDescriptionBottomConstraint.constant = 0
+                    }
+                
+                    self.showDescriptionHeightConstraint.isActive = false
+                }
+                self.tableView.reloadRows(at: [(IndexPath(row: 0, section: 0))], with: .none)
+            }
+        }
+    }
     var rightBarButtonItem = UIBarButtonItem()
     
-    //MARK: Methods
+    //MARK: - Methods
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
+        // print(showDescriptionHeightConstraint.constant)
         navigationItem.title = show.seriesName
-        
         showDescription.text = show.overview
-        showDescription.textContainer.maximumNumberOfLines = 7
+        showDescription.textContainer.lineBreakMode = .byTruncatingTail
+        showMoreButton.addTarget(self, action: #selector(expandTextView), for: .touchUpInside)
         
-        if showDescription.numberOfLines <= 7 {
-            // TODO: Remove button
-            showMoreButton.removeFromSuperview()
-        }
+        let dispatchGroup = DispatchGroup()
         
-        if (show.network == nil) {
+        if (!PersistenceService.entityExists(id: show!.id)) {
             setupRightBarButtonItem(isBusy: true)
+            dispatchGroup.enter()
             TVDBAPI.getShow(id: show!.id) { (showData) in
                 if let show = showData {
                     self.show = show
-                    
-                    DispatchQueue.main.async {
-                        self.setupRightBarButtonItem(isBusy: false)
-                        self.tableView.reloadData()
+                }
+            }
+            
+            TVDBAPI.getImageURLs(show: show.id, resolution: .HD) { (images) in
+                if let url = images?.data?.first?.fileName {
+                    let url = URL(string: "https://www.thetvdb.com/banners/" + url)
+                    DispatchQueue.global().async {
+                        let data = try? Data(contentsOf: url!)
+                        
+                        DispatchQueue.main.async {
+                            if let image = data {
+                                let banner = UIImage(data: image)
+                                self.bannerImageView?.image = banner
+                                dispatchGroup.leave()
+                            }
+                        }
                     }
+                }
+            }
+        } else {
+            let id = show!.id
+            let show2 = PersistenceService.getShow(id: id)
+            
+            if let show = show2 {
+                self.show = show
+                
+                if let bannerImage = show.bannerImage, let banner = UIImage(data: bannerImage) {
+                    bannerImageView?.image = banner
                 }
             }
         }
         
-        TVDBAPI.getImages(show: show.id, resolution: .FHD) { (images) in
-            if let url = images?.data?.first?.fileName {
-                let url = URL(string: "https://www.thetvdb.com/banners/" + url)
-                DispatchQueue.global().async {
-                    let data = try? Data(contentsOf: url!)
-                    
-                    DispatchQueue.main.async {
-                        if let image = data {
-                            let banner = UIImage(data: image)
-                            self.bannerImage?.image = banner
-                            
-                            let ratio = banner!.size.width / banner!.size.height
-                            if self.bannerImageCell.frame.width > self.bannerImageCell.frame.height {
-                                let newHeight = self.bannerImageCell.frame.width / ratio
-                                self.bannerImage?.frame.size = CGSize(width: self.bannerImageCell.frame.width, height: newHeight)
-                            }
-                            
-                            self.bannerImageCell.layoutIfNeeded()
-                            
-                        }
-                    }
-                }
-            }        
+        dispatchGroup.notify(queue: .main) {
+            self.setupRightBarButtonItem(isBusy: false)
         }
         
         tableView.rowHeight = UITableView.automaticDimension
         tableView.layoutMargins = .zero
-        
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
+    @objc func expandTextView() {
+        if (showDescriptionHeightConstraint.isActive) {
+            showDescriptionHeightConstraint.isActive = false
+            showMoreButton.removeFromSuperview()
+            self.showDescriptionBottomConstraint.constant = 0
+            tableView.reloadRows(at: [IndexPath(row: 0, section: 0)], with: .none)
+        }
     }
+    
     
     func setupRightBarButtonItem(isBusy: Bool) {
         if (isBusy) {
@@ -97,18 +120,12 @@ class ShowViewController: UITableViewController, UITextViewDelegate {
             return
         } else {
             if (PersistenceService.entityExists(id: show!.id)) {
-                rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "Star Highlighted"), style: .plain, target: self, action: #selector(removeShow))
+                rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "star.fill"), style: .plain, target: self, action: #selector(removeShow))
             } else {
-                rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "Star"), style: .plain, target: self, action: #selector(favouriteShow))
+                rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "star"), style: .plain, target: self, action: #selector(favouriteShow))
             }
         }
         navigationItem.rightBarButtonItem = rightBarButtonItem
-        
-        
-//        let uiBusy = UIActivityIndicatorView(activityIndicatorStyle: .White)
-//        uiBusy.hidesWhenStopped = true
-//        uiBusy.startAnimating()
-//        self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: uiBusy)
     }
     
     @objc func favouriteShow() {
@@ -116,16 +133,16 @@ class ShowViewController: UITableViewController, UITextViewDelegate {
         favShow.id = Int32(show.id)
         favShow.seriesName = show.seriesName
         favShow.overview = show.overview
-        favShow.bannerImage = bannerImage?.image?.pngData()
+        favShow.bannerImage = bannerImageView?.image?.pngData()
         
         PersistenceService.saveContext()
-        rightBarButtonItem.image = UIImage(named: "Star Highlighted")
+        rightBarButtonItem.image = UIImage(systemName: "star.fill")
         rightBarButtonItem.action = #selector(removeShow)
     }
     
     @objc func removeShow() {
         PersistenceService.deleteEntity(id: show.id)
-        rightBarButtonItem.image = UIImage(named: "Star")
+        rightBarButtonItem.image = UIImage(systemName: "star")
         rightBarButtonItem.action = #selector(favouriteShow)
     }
     
@@ -152,15 +169,5 @@ extension ShowViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         // Segue performed in Storyboard
-    }
-    
-    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        print(indexPath, indexPath.row)
-        if indexPath.row == 0 {
-            print("Resizing Image...")
-            // Assuming all images are 16:9
-            return self.view.bounds.width * 0.5625
-        }
-        return UITableView.automaticDimension
     }
 }
