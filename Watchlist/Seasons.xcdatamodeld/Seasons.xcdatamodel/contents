@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14838.16" systemVersion="19A471t" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="NO" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14838.19" systemVersion="19A487l" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="NO" userDefinedModelVersionIdentifier="">
     <entity name="CD_Episode" representedClassName="CD_Episode" syncable="YES" codeGenerationType="class">
-        <attribute name="airedEpisodeNumber" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="airedSeason" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="airedEpisodeNumber" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="airedSeason" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="episodeName" optional="YES" attributeType="String"/>
+        <attribute name="filename" optional="YES" attributeType="String"/>
+        <attribute name="firstAired" optional="YES" attributeType="String"/>
         <attribute name="id" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="overview" optional="YES" attributeType="String"/>
+        <attribute name="seriesId" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <relationship name="show" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CD_Show" inverseName="episode" inverseEntity="CD_Show"/>
     </entity>
     <entity name="CD_Show" representedClassName="CD_Show" syncable="YES" codeGenerationType="class">
@@ -21,7 +25,7 @@
         <relationship name="episode" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CD_Episode" inverseName="show" inverseEntity="CD_Episode"/>
     </entity>
     <elements>
-        <element name="CD_Episode" positionX="-63" positionY="54" width="128" height="118"/>
-        <element name="CD_Show" positionX="-343" positionY="-65" width="128" height="208"/>
+        <element name="CD_Episode" positionX="-63" positionY="54" width="128" height="28"/>
+        <element name="CD_Show" positionX="-299" positionY="39" width="128" height="208"/>
     </elements>
 </model>
