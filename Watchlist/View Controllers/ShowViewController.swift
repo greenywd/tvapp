@@ -129,15 +129,48 @@ class ShowViewController: UITableViewController {
     }
     
     @objc func favouriteShow() {
+        // There's a better way to do this, right?
+        
+        setupRightBarButtonItem(isBusy: true)
+        
         let favShow = CD_Show(context: PersistenceService.context)
         favShow.id = Int32(show.id)
         favShow.seriesName = show.seriesName
         favShow.overview = show.overview
         favShow.bannerImage = bannerImageView?.image?.pngData()
+        favShow.banner = show.banner
+        favShow.network = show.network
+        favShow.runtime = show.runtime
+        favShow.siteRating = show.siteRating!
+        favShow.siteRatingCount = show.siteRatingCount!
+        favShow.status = show.status
+
+        let dispatchGroup = DispatchGroup()
+        dispatchGroup.enter()
+        TVDBAPI.getEpisodes(show: show.id) { (episodeList) in
+            if let episodes = episodeList {
+                for episode in episodes {
+                    let cdEpisode = CD_Episode(context: PersistenceService.context)
+                    cdEpisode.episodeName = episode.episodeName
+                    cdEpisode.airedEpisodeNumber = episode.airedEpisodeNumber!
+                    cdEpisode.airedSeason = episode.airedSeason!
+                    cdEpisode.filename = episode.filename
+                    cdEpisode.firstAired = episode.firstAired
+                    cdEpisode.id = episode.id
+                    cdEpisode.overview = episode.overview
+                    cdEpisode.seriesId = episode.seriesId!
+                    favShow.addToEpisode(cdEpisode)
+                }
+            }
+            dispatchGroup.leave()
+        }
         
-        PersistenceService.saveContext()
-        rightBarButtonItem.image = UIImage(systemName: "star.fill")
-        rightBarButtonItem.action = #selector(removeShow)
+        dispatchGroup.notify(queue: .main) {
+            PersistenceService.saveContext()
+            self.setupRightBarButtonItem(isBusy: false)
+            self.rightBarButtonItem.image = UIImage(systemName: "star.fill")
+            self.rightBarButtonItem.action = #selector(self.removeShow)
+        }
     }
     
     @objc func removeShow() {
