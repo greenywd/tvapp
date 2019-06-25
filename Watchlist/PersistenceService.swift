@@ -12,6 +12,7 @@ import CoreData
 class PersistenceService {
     
     private static let showEntity = "CD_Show"
+    private static let episodeEntity = "CD_Episode"
     
     static var context: NSManagedObjectContext {
         return persistentContainer.viewContext
@@ -119,7 +120,6 @@ class PersistenceService {
             let result = try self.context.fetch(fetchRequest)
             
             for data in result as! [CD_Show] {
-                print(data)
                 show = Show(id: data.id, overview: data.overview, seriesName: data.seriesName, banner: data.banner, bannerImage: data.bannerImage, status: data.status, runtime: data.runtime, network: data.network, siteRating: data.siteRating, siteRatingCount: data.siteRatingCount)
             }
         }
@@ -128,6 +128,26 @@ class PersistenceService {
         }
         
         return show
+    }
+    
+    static func getEpisodes(show id: Int32) -> [Episode]? {
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: episodeEntity)
+        fetchRequest.predicate = NSPredicate(format: "seriesId = %@", NSNumber(value: id))
+        
+        var episodes: [Episode]?
+        
+        do {
+            let result = try self.context.fetch(fetchRequest)
+            
+            for ep in result as! [CD_Episode] {
+                episodes?.append(Episode(id: ep.id, overview: ep.overview, airedEpisodeNumber: ep.airedEpisodeNumber, airedSeason: ep.airedSeason, episodeName: ep.episodeName, firstAired: ep.firstAired, filename: ep.filename, seriesId: ep.seriesId))
+            }
+        }
+        catch {
+            print("error executing fetch request: \(error)")
+        }
+        
+        return episodes
     }
     
     /// For debugging purposes, delete all children of a specific entity.
