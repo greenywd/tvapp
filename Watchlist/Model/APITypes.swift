@@ -120,6 +120,8 @@ struct Show {
     let network: String?
     let siteRating: Double?
     let siteRatingCount: Int16?
+    // TODO: Associate episodes with a show - perhaps when we load episodes (favouriting/browsing)?
+    let episodes: [Episode]? = nil
 }
 
 /*
@@ -189,7 +191,7 @@ struct Show {
  }
  */
 struct Episode : Equatable {
-    let id: Int32?
+    let id: Int32
     let overview: String?
     let airedEpisodeNumber: Int32?
     let airedSeason: Int32?
