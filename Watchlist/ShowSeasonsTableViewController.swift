@@ -10,39 +10,30 @@ import UIKit
 
 class ShowSeasonsTableViewController: UITableViewController {
     
-    var showID: Int32?
-    var summary: EpisodeSummary?
+    var showID: Int32!
     var episodes: [Episode]?
     var seasons: [Int32]?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        TVDBAPI.getEpisodes(show: showID!) { (episodeList) in
-            if let episodes = episodeList {
-                self.episodes = episodes
-                // Get number of episodes in season
-                // let seasons = self.episodes!.filter{$0.airedSeason! == 5}.count
-                self.seasons = Set((episodeList ?? []).compactMap { $0.airedSeason }).sorted()
-                
-                DispatchQueue.main.async {
-                    self.tableView.reloadData()
+        if let episodes = PersistenceService.getEpisodes(show: showID) {
+            self.episodes = episodes
+            self.tableView.reloadData()
+        } else {
+            TVDBAPI.getEpisodes(show: showID) { (episodeList) in
+                if let episodes = episodeList {
+                    self.episodes = episodes
+                    // Get number of episodes in season
+                    // let seasons = self.episodes!.filter{$0.airedSeason! == 5}.count
+                    self.seasons = Set((episodeList ?? []).compactMap { $0.airedSeason }).sorted()
+                    
+                    DispatchQueue.main.async {
+                        self.tableView.reloadData()
+                    }
                 }
             }
         }
-        
-//        TVDBAPI.getEpisodeSummary(show: showID!) { (EpisodeSummary) in
-//            if let epSum = EpisodeSummary {
-//                self.summary = epSum
-//
-//                dump(epSum)
-//                DispatchQueue.main.async {
-//                    if (self.tableView.numberOfRows(inSection: 0) != epSum.airedSeasons?.count) {
-//                        self.tableView.reloadData()
-//                    }
-//                }
-//            }
-//        }
         
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -116,12 +107,12 @@ class ShowSeasonsTableViewController: UITableViewController {
      }
      */
     
-     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     // Get the new view controller using segue.destination.
-     // Pass the selected object to the new view controller.
+    // MARK: - Navigation
+    
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        // Get the new view controller using segue.destination.
+        // Pass the selected object to the new view controller.
         guard let selectedTableViewCell = sender as? UITableViewCell,
             let indexPath = tableView.indexPath(for: selectedTableViewCell)
             else { preconditionFailure("Expected sender to be a ShowTableViewCell") }
@@ -132,7 +123,7 @@ class ShowSeasonsTableViewController: UITableViewController {
         if (segue.identifier == "seasonToShow") {
             episodeVC.episodes = self.episodes!.filter{$0.airedSeason! == indexPath.row}
         }
-     }
- 
+    }
+    
     
 }
