@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D60E823122CC83F400310FE0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D60E823022CC83F400310FE0 /* Main.storyboard */; };
 		D613EB2922B3A39B00ADCD53 /* APIKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = D613EB2822B3A39B00ADCD53 /* APIKey.swift */; };
 		D6145519228AECC000F842C6 /* UILabel+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6145518228AECC000F842C6 /* UILabel+Extensions.swift */; };
 		D618197022BCF5AE0080D62F /* SeasonsHeaderImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D618196F22BCF5AE0080D62F /* SeasonsHeaderImageView.swift */; };
@@ -30,7 +31,6 @@
 		D6BEC1A81E443AB8001B211B /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6BEC1A71E443AB8001B211B /* SearchViewController.swift */; };
 		D6D64F41228CE0EA004BDD7E /* SeasonsTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6D64F40228CE0EA004BDD7E /* SeasonsTableView.swift */; };
 		D6D682361E289E4400966B94 /* ShowViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6D682351E289E4400966B94 /* ShowViewController.swift */; };
-		D6D682421E28B27700966B94 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D6D682401E28B27700966B94 /* Main.storyboard */; };
 		D6D94ABC2286ED2900A405B5 /* ShowTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6D94ABB2286ED2900A405B5 /* ShowTableViewCell.swift */; };
 		D6EBBB932286E1A7005321C3 /* ShowEpisodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6EBBB922286E1A7005321C3 /* ShowEpisodeViewController.swift */; };
 /* End PBXBuildFile section */
@@ -49,6 +49,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		D60E823022CC83F400310FE0 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		D613EB2822B3A39B00ADCD53 /* APIKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIKey.swift; sourceTree = "<group>"; };
 		D6145518228AECC000F842C6 /* UILabel+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+Extensions.swift"; sourceTree = "<group>"; };
 		D618196F22BCF5AE0080D62F /* SeasonsHeaderImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeasonsHeaderImageView.swift; sourceTree = "<group>"; };
@@ -57,7 +58,7 @@
 		D62CD16622C49D78004721F6 /* EpisodeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EpisodeTableViewCell.swift; sourceTree = "<group>"; };
 		D62CD16822C49FEB004721F6 /* EpisodeTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EpisodeTableViewCell.xib; sourceTree = "<group>"; };
 		D62CD16A22C4A387004721F6 /* EpisodeTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = EpisodeTableViewController.swift; path = "View Controllers/EpisodeTableViewController.swift"; sourceTree = "<group>"; };
-		D63D0A441E2845ED00D3F1CA /* Watchlist.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Watchlist.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D63D0A441E2845ED00D3F1CA /* Seasons.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Seasons.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D63D0A471E2845ED00D3F1CA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D63D0A501E2845ED00D3F1CA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D63D0A531E2845ED00D3F1CA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -74,7 +75,6 @@
 		D6BEC1A71E443AB8001B211B /* SearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchViewController.swift; path = "View Controllers/SearchViewController.swift"; sourceTree = "<group>"; };
 		D6D64F40228CE0EA004BDD7E /* SeasonsTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeasonsTableView.swift; sourceTree = "<group>"; };
 		D6D682351E289E4400966B94 /* ShowViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShowViewController.swift; path = "View Controllers/ShowViewController.swift"; sourceTree = "<group>"; };
-		D6D682411E28B27700966B94 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Watchlist/Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		D6D94ABB2286ED2900A405B5 /* ShowTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowTableViewCell.swift; sourceTree = "<group>"; };
 		D6EBBB922286E1A7005321C3 /* ShowEpisodeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ShowEpisodeViewController.swift; path = "View Controllers/ShowEpisodeViewController.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -128,7 +128,7 @@
 		D63D0A3B1E2845ED00D3F1CA = {
 			isa = PBXGroup;
 			children = (
-				D63D0A461E2845ED00D3F1CA /* Watchlist */,
+				D63D0A461E2845ED00D3F1CA /* Seasons */,
 				D63D0A451E2845ED00D3F1CA /* Products */,
 			);
 			sourceTree = "<group>";
@@ -136,12 +136,12 @@
 		D63D0A451E2845ED00D3F1CA /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				D63D0A441E2845ED00D3F1CA /* Watchlist.app */,
+				D63D0A441E2845ED00D3F1CA /* Seasons.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		D63D0A461E2845ED00D3F1CA /* Watchlist */ = {
+		D63D0A461E2845ED00D3F1CA /* Seasons */ = {
 			isa = PBXGroup;
 			children = (
 				D64C8B64228C236D00049F86 /* Seasons.xcdatamodeld */,
@@ -151,13 +151,13 @@
 				D6D64F43228CE2D1004BDD7E /* Custom Views */,
 				D6019C2E1E41A6F4009756F6 /* View Controllers */,
 				D63D0A501E2845ED00D3F1CA /* Assets.xcassets */,
-				D6D682401E28B27700966B94 /* Main.storyboard */,
+				D60E823022CC83F400310FE0 /* Main.storyboard */,
 				D63D0A521E2845ED00D3F1CA /* LaunchScreen.storyboard */,
 				D63D0A551E2845ED00D3F1CA /* Info.plist */,
 				D64C8B67228C2ADB00049F86 /* PersistenceService.swift */,
 				D6D64F40228CE0EA004BDD7E /* SeasonsTableView.swift */,
 			);
-			path = Watchlist;
+			path = Seasons;
 			sourceTree = "<group>";
 		};
 		D6D64F43228CE2D1004BDD7E /* Custom Views */ = {
@@ -175,9 +175,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		D63D0A431E2845ED00D3F1CA /* Watchlist */ = {
+		D63D0A431E2845ED00D3F1CA /* Seasons */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = D63D0A581E2845ED00D3F1CA /* Build configuration list for PBXNativeTarget "Watchlist" */;
+			buildConfigurationList = D63D0A581E2845ED00D3F1CA /* Build configuration list for PBXNativeTarget "Seasons" */;
 			buildPhases = (
 				D63D0A401E2845ED00D3F1CA /* Sources */,
 				D63D0A411E2845ED00D3F1CA /* Frameworks */,
@@ -188,9 +188,9 @@
 			);
 			dependencies = (
 			);
-			name = Watchlist;
+			name = Seasons;
 			productName = Watchlist;
-			productReference = D63D0A441E2845ED00D3F1CA /* Watchlist.app */;
+			productReference = D63D0A441E2845ED00D3F1CA /* Seasons.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -211,7 +211,7 @@
 					};
 				};
 			};
-			buildConfigurationList = D63D0A3F1E2845ED00D3F1CA /* Build configuration list for PBXProject "Watchlist" */;
+			buildConfigurationList = D63D0A3F1E2845ED00D3F1CA /* Build configuration list for PBXProject "Seasons" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -224,7 +224,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				D63D0A431E2845ED00D3F1CA /* Watchlist */,
+				D63D0A431E2845ED00D3F1CA /* Seasons */,
 			);
 		};
 /* End PBXProject section */
@@ -234,8 +234,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D6D682421E28B27700966B94 /* Main.storyboard in Resources */,
 				D64FC0FE229FD9D8007281BF /* ShowTableViewCell.xib in Resources */,
+				D60E823122CC83F400310FE0 /* Main.storyboard in Resources */,
 				D63D0A541E2845ED00D3F1CA /* LaunchScreen.storyboard in Resources */,
 				D62CD16922C49FEB004721F6 /* EpisodeTableViewCell.xib in Resources */,
 				D63D0A511E2845ED00D3F1CA /* Assets.xcassets in Resources */,
@@ -282,15 +282,6 @@
 				D63D0A531E2845ED00D3F1CA /* Base */,
 			);
 			name = LaunchScreen.storyboard;
-			sourceTree = "<group>";
-		};
-		D6D682401E28B27700966B94 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				D6D682411E28B27700966B94 /* Base */,
-			);
-			name = Main.storyboard;
-			path = ..;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -420,10 +411,11 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = F33EN56G35;
-				INFOPLIST_FILE = Watchlist/Info.plist;
+				INFOPLIST_FILE = Seasons/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.greeny.tvapp;
+				MARKETING_VERSION = 201907;
+				PRODUCT_BUNDLE_IDENTIFIER = com.greeny.Seasons;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
@@ -440,10 +432,11 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = F33EN56G35;
-				INFOPLIST_FILE = Watchlist/Info.plist;
+				INFOPLIST_FILE = Seasons/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.greeny.tvapp;
+				MARKETING_VERSION = 201907;
+				PRODUCT_BUNDLE_IDENTIFIER = com.greeny.Seasons;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
@@ -454,7 +447,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		D63D0A3F1E2845ED00D3F1CA /* Build configuration list for PBXProject "Watchlist" */ = {
+		D63D0A3F1E2845ED00D3F1CA /* Build configuration list for PBXProject "Seasons" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D63D0A561E2845ED00D3F1CA /* Debug */,
@@ -463,7 +456,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D63D0A581E2845ED00D3F1CA /* Build configuration list for PBXNativeTarget "Watchlist" */ = {
+		D63D0A581E2845ED00D3F1CA /* Build configuration list for PBXNativeTarget "Seasons" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D63D0A591E2845ED00D3F1CA /* Debug */,
