@@ -63,6 +63,8 @@ class PersistenceService {
         }
     }
     
+    /// Determines whether a `Show`s `id` exists in CoreData.
+    /// - Parameter id: The `id` of the `Show` to check.
     static func showExists(id: Int32) -> Bool {
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: showEntity)
         fetchRequest.predicate = NSPredicate(format: "id = %@", NSNumber(value: id))
@@ -79,6 +81,8 @@ class PersistenceService {
         return entitiesCount > 0
     }
     
+    /// Delete an entity (`Show`) using a specified `id`.
+    /// - Parameter id: The `id` of the `Show` to be deleted.
     static func deleteShow(id: Int32) {
         do {
             let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: showEntity)
@@ -93,7 +97,8 @@ class PersistenceService {
         }
     }
     
-    static func favouriteShows() -> [Show] {
+    /// Retrieve all `Show`s from CoreData.
+    static func getShows() -> [Show] {
         var favouriteShows = [Show]()
         
         let fetchRequest: NSFetchRequest<CD_Show> = CD_Show.fetchRequest()
@@ -110,6 +115,26 @@ class PersistenceService {
         return favouriteShows
     }
     
+    /// Retrieve all `id`s of `Show`s.
+    static func getShowIDs() -> [Int32] {
+        var ids = [Int32]()
+        
+        let fetchRequest: NSFetchRequest<CD_Show> = CD_Show.fetchRequest()
+        do {
+            let cIDs = try PersistenceService.context.fetch(fetchRequest)
+            
+            for id in cIDs {
+                ids.append(id.id)
+            }
+        } catch {
+            print(error, error.localizedDescription)
+        }
+        
+        return ids
+    }
+    
+    /// Retrieve a `Show` using its `id` from CoreData.
+    /// - Parameter id: The `id` of the Show.
     static func getShow(id: Int32) -> Show? {
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: showEntity)
         fetchRequest.predicate = NSPredicate(format: "id = %@", NSNumber(value: id))
@@ -130,6 +155,8 @@ class PersistenceService {
         return show
     }
     
+    /// Retrieve all Episodes for a specific Show from CoreData.
+    /// - Parameter id: Identifier of the `Show` that Episodes are retrieved from.
     static func getEpisodes(show id: Int32) -> [Episode]? {
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: episodeEntity)
         fetchRequest.predicate = NSPredicate(format: "seriesId = %@", NSNumber(value: id))
@@ -147,6 +174,29 @@ class PersistenceService {
             print("error executing fetch request: \(error)")
         }
         
+        return episodes
+    }
+    
+    /// Retrieve all Episodes for a list of Shows from CoreData.
+    /// - Parameter ids: Identifier(s) of `Show`s that Episodes are retrieved from.
+    static func getEpisodes(show ids: [Int32]) -> [Episode]? {
+        var episodes: [Episode]?
+        
+        for id in ids {
+            let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: episodeEntity)
+            fetchRequest.predicate = NSPredicate(format: "seriesId = %@", NSNumber(value: id))
+            
+            do {
+                let result = try self.context.fetch(fetchRequest)
+                
+                for ep in result as! [CD_Episode] {
+                    episodes?.append(Episode(id: ep.id, overview: ep.overview, airedEpisodeNumber: ep.airedEpisodeNumber, airedSeason: ep.airedSeason, episodeName: ep.episodeName, firstAired: ep.firstAired, filename: ep.filename, seriesId: ep.seriesId))
+                }
+            }
+            catch {
+                print("error executing fetch request: \(error)")
+            }
+        }
         return episodes
     }
     
