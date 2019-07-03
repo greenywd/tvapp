@@ -54,7 +54,7 @@ class ShowViewController: UITableViewController {
         
         let dispatchGroup = DispatchGroup()
         
-        if (!PersistenceService.entityExists(id: show!.id)) {
+        if (!PersistenceService.showExists(id: show!.id)) {
             setupRightBarButtonItem(isBusy: true)
             dispatchGroup.enter()
             TVDBAPI.getShow(id: show!.id) { (showData) in
@@ -119,7 +119,7 @@ class ShowViewController: UITableViewController {
             navigationItem.rightBarButtonItem = UIBarButtonItem(customView: indicator)
             return
         } else {
-            if (PersistenceService.entityExists(id: show!.id)) {
+            if (PersistenceService.showExists(id: show!.id)) {
                 rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "star.fill"), style: .plain, target: self, action: #selector(removeShow))
             } else {
                 rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "star"), style: .plain, target: self, action: #selector(favouriteShow))
@@ -174,7 +174,7 @@ class ShowViewController: UITableViewController {
     }
     
     @objc func removeShow() {
-        PersistenceService.deleteEntity(id: show.id)
+        PersistenceService.deleteShow(id: show.id)
         rightBarButtonItem.image = UIImage(systemName: "star")
         rightBarButtonItem.action = #selector(favouriteShow)
     }

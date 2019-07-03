@@ -131,7 +131,7 @@ extension HomeViewController : UISearchResultsUpdating {
     override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         if(!favouriteShows.isEmpty) {
             let deleteItem = UIContextualAction(style: .destructive, title: "Delete") { (action, view, success) in
-                PersistenceService.deleteEntity(id: self.favouriteShows[indexPath.row].id)
+                PersistenceService.deleteShow(id: self.favouriteShows[indexPath.row].id)
                 self.favouriteShows.remove(at: indexPath.row)
                 
                 if self.favouriteShows.isEmpty {

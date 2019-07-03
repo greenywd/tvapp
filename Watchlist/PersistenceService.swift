@@ -63,7 +63,7 @@ class PersistenceService {
         }
     }
     
-    static func entityExists(id: Int32) -> Bool {
+    static func showExists(id: Int32) -> Bool {
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: showEntity)
         fetchRequest.predicate = NSPredicate(format: "id = %@", NSNumber(value: id))
         
@@ -79,7 +79,7 @@ class PersistenceService {
         return entitiesCount > 0
     }
     
-    static func deleteEntity(id: Int32) {
+    static func deleteShow(id: Int32) {
         do {
             let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: showEntity)
             fetchRequest.predicate = NSPredicate(format: "id = %@", NSNumber(value: id))
