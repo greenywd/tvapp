@@ -17,18 +17,20 @@ class ShowEpisodeViewController: UITableViewController {
         super.viewDidLoad()
         
         if episodes == nil {
-        TVDBAPI.getEpisodes(show: id!) {
-            if let episodes = $0 {
-                self.episodes = episodes
-
-                DispatchQueue.main.async {
-                    self.tableView.reloadData()
+            TVDBAPI.getEpisodes(show: id!) {
+                if let episodes = $0 {
+                    self.episodes = episodes
+                    
+                    DispatchQueue.main.async {
+                        self.tableView.reloadData()
+                    }
                 }
             }
         }
-        }
         
         dump(episodes!)
+        
+        tableView.register(UINib(nibName: "EpisodeTableViewCell", bundle: nil), forCellReuseIdentifier: "episodeCell")
         
         tableView.dataSource = self
         tableView.delegate = self
@@ -46,6 +48,20 @@ class ShowEpisodeViewController: UITableViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        guard let selectedTableViewCell = sender as? EpisodeTableViewCell,
+        let indexPath = tableView.indexPath(for: selectedTableViewCell)
+            else { preconditionFailure("Expected sender to be a EpisodeTableViewCell") }
+        
+        guard let episodeVC = segue.destination as? EpisodeTableViewController
+            else { preconditionFailure("Expected a EpisodeTableViewController") }
+        
+        if segue.identifier == "episodesToEpisode" {
+            episodeVC.headerImage = selectedTableViewCell.backgroundImageView.image
+            episodeVC.episode = episodes![indexPath.row]
+        }
+    }
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if let episodes = self.episodes {
             return episodes.count
@@ -54,12 +70,11 @@ class ShowEpisodeViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "episodeCell") as! EpisodeTableViewCell
         
         // TODO: Ensure episodes are in order (Season > Episode?, i.e. 1x01, 1x02, etc)
         if let episodes = self.episodes {
-            cell.textLabel!.text = episodes[indexPath.row].episodeName ?? "Unknown Episode Name"
-            cell.detailTextLabel!.text = episodes[indexPath.row].overview ?? "Unknown Episode Overview"
+            cell.episode = episodes[indexPath.row]
         }
         
         return cell
@@ -67,5 +82,6 @@ class ShowEpisodeViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        performSegue(withIdentifier: "episodesToEpisode", sender: tableView.cellForRow(at: indexPath))
     }
 }
