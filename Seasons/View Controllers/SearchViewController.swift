@@ -53,7 +53,8 @@ class SearchViewController : UITableViewController {
         searchController.searchResultsUpdater = self
         searchController.searchBar.delegate = self
         // FIXME: This is broken in iOS 13 beta 2 - change to false later
-        searchController.obscuresBackgroundDuringPresentation = true
+        // Partially fixed in iOS 13 beta 3, Navigation Bar overlaps the previous' controller's content for a brief second.
+        searchController.obscuresBackgroundDuringPresentation = false
  
         navigationItem.searchController = searchController
         navigationItem.hidesSearchBarWhenScrolling = false
