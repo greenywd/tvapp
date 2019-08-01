@@ -28,8 +28,6 @@ class ShowEpisodeViewController: UITableViewController {
             }
         }
         
-        dump(episodes!)
-        
         tableView.register(UINib(nibName: "EpisodeTableViewCell", bundle: nil), forCellReuseIdentifier: "episodeCell")
         
         tableView.dataSource = self

@@ -286,7 +286,7 @@ class TVDBAPI {
                 return
             }
             
-            dump(String(data: responseData, encoding: .utf8))
+            // dump(String(data: responseData, encoding: .utf8))
             
             do {
                 let summary = try JSONDecoder().decode(API_EpisodeSummary.self, from: responseData)

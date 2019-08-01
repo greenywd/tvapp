@@ -10,10 +10,25 @@ import UIKit
 
 class ScheduleTableViewController: UITableViewController {
     
-    var episodes: [Episode]? {
-        return PersistenceService.getEpisodes(show: PersistenceService.getShowIDs())
+    var episodes: [Episode]?
+    var airDates: [String]?
+    
+    override init(style: UITableView.Style) {
+        super.init(style: style)
+        episodes = PersistenceService.getEpisodes(show: 320724)!.sorted(by: { (ep1, ep2) -> Bool in
+            return (ep2.firstAired ?? "") > (ep1.firstAired ?? "")
+        })
+        airDates = episodes!.map{$0.firstAired!}
     }
-
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        episodes = PersistenceService.getEpisodes(show: 320724)!.sorted(by: { (ep1, ep2) -> Bool in
+            return (ep2.firstAired ?? "") > (ep1.firstAired ?? "")
+        })
+        airDates = episodes!.map{$0.firstAired!}
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -27,29 +42,40 @@ class ScheduleTableViewController: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        // episodes = PersistenceService.getEpisodes(show: 296762)
     }
 
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return 0
+
+        return Set(episodes!.map{$0.firstAired}).count
+    }
+    
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return airDates![section]
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 0
+        return (episodes?.map{ $0.firstAired == airDates![section] }.count)!
     }
 
-    /*
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+        
+        if let episodes = episodes?.filter({ $0.firstAired! == airDates![indexPath.row] }) {
+            for episode in episodes {
+                cell.textLabel?.text = episode.episodeName
+                cell.detailTextLabel?.text = episode.firstAired
+            }
+        }
 
         // Configure the cell...
 
         return cell
     }
-    */
 
     /*
     // Override to support conditional editing of the table view.
