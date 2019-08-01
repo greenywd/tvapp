@@ -11,7 +11,11 @@ import UIKit
 class ShowSeasonsTableViewController: UITableViewController {
     
     var showID: Int32!
-    var episodes: [Episode]?
+    var episodes: [Episode]? {
+        didSet {
+            self.tableView.reloadData()
+        }
+    }
     var seasons: [Int32]?
     
     override func viewDidLoad() {
@@ -19,7 +23,6 @@ class ShowSeasonsTableViewController: UITableViewController {
         
         if let episodes = PersistenceService.getEpisodes(show: showID) {
             self.episodes = episodes
-            self.tableView.reloadData()
         } else {
             TVDBAPI.getEpisodes(show: showID) { (episodeList) in
                 if let episodes = episodeList {
