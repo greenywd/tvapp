@@ -165,15 +165,22 @@ class PersistenceService {
         
         do {
             let result = try self.context.fetch(fetchRequest)
+            print("Got \(result.count) episodes")
+            
+            if result.count == 0 {
+                return nil
+            }
             
             for ep in result as! [CD_Episode] {
                 episodes.append(Episode(id: ep.id, overview: ep.overview, airedEpisodeNumber: ep.airedEpisodeNumber, airedSeason: ep.airedSeason, episodeName: ep.episodeName, firstAired: ep.firstAired, filename: ep.filename, seriesId: ep.seriesId))
             }
+            
+            return episodes
         }
         catch {
             print("error executing fetch request: \(error)")
         }
-        return episodes
+        return nil
     }
     
     /// Retrieve all Episodes for a list of Shows from CoreData.
@@ -191,12 +198,13 @@ class PersistenceService {
                 for ep in result as! [CD_Episode] {
                     episodes.append(Episode(id: ep.id, overview: ep.overview, airedEpisodeNumber: ep.airedEpisodeNumber, airedSeason: ep.airedSeason, episodeName: ep.episodeName, firstAired: ep.firstAired, filename: ep.filename, seriesId: ep.seriesId))
                 }
+                return episodes
             }
             catch {
                 print("error executing fetch request: \(error)")
             }
         }
-        return episodes
+        return nil
     }
     
     /// For debugging purposes, delete all children of a specific entity.
