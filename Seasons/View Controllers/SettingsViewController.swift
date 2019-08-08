@@ -7,19 +7,10 @@
 //
 
 import UIKit
+import SwiftUI
 
 class SettingsViewController: UIViewController {
-	
-	@IBOutlet weak var resetButton: UIButton!
-	
-	override func viewDidLoad() {
-		super.viewDidLoad()
-		
-		// Do any additional setup after loading the view.
-	}
-	
-	override func didReceiveMemoryWarning() {
-		super.didReceiveMemoryWarning()
-		// Dispose of any resources that can be recreated.
-	}
+    @IBSegueAction func showSettingsView(_ coder: NSCoder) -> UIViewController? {
+        return UIHostingController(coder: coder, rootView: SettingsView())
+    }
 }

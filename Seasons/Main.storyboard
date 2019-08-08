@@ -1,20 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14835.7" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="mFv-ld-y1R">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14854.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="mFv-ld-y1R">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14790.5"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14806.4"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
-        <capability name="iOS 13.0 system colors" minToolsVersion="11.0"/>
     </dependencies>
     <scenes>
         <!--Favourite Shows-->
         <scene sceneID="vuF-Sz-LlQ">
             <objects>
-                <tableViewController clearsSelectionOnViewWillAppear="NO" id="aUt-Fq-9i1" customClass="HomeViewController" customModule="Watchlist" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController clearsSelectionOnViewWillAppear="NO" id="aUt-Fq-9i1" customClass="HomeViewController" customModule="Seasons" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="interactive" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="7Yf-I6-4Ke">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" xcode11CocoaTouchSystemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <color key="tintColor" red="1" green="0.58431372550000005" blue="0.015686274510000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                         <prototypes>
@@ -52,7 +51,7 @@
                     <navigationBar key="navigationBar" contentMode="scaleToFill" largeTitles="YES" id="XNK-XX-P7g">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="96"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <color key="backgroundColor" xcode11CocoaTouchSystemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <color key="tintColor" red="0.99931198359999995" green="0.58544164899999995" blue="0.01688550971" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </navigationBar>
                     <connections>
@@ -70,14 +69,14 @@
                     <tabBar key="tabBar" contentMode="scaleToFill" id="iOR-QZ-2gm">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <color key="backgroundColor" xcode11CocoaTouchSystemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                        <color key="selectedImageTintColor" cocoaTouchSystemColor="systemOrangeColor"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <color key="selectedImageTintColor" systemColor="systemOrangeColor" red="1" green="0.58431372549019611" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </tabBar>
                     <connections>
                         <segue destination="P9Q-AT-TAh" kind="relationship" relationship="viewControllers" id="iS1-r2-vZi"/>
                         <segue destination="pxm-q2-yAc" kind="relationship" relationship="viewControllers" id="T3Z-IR-wDT"/>
                         <segue destination="wR7-6r-DVe" kind="relationship" relationship="viewControllers" id="eVu-dI-5Xa"/>
-                        <segue destination="Ogu-80-bc4" kind="relationship" relationship="viewControllers" id="8m4-SQ-gBG"/>
+                        <segue destination="v1X-p1-gcg" kind="relationship" relationship="viewControllers" id="UPc-hK-8BQ"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QPI-HW-seL" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -87,14 +86,14 @@
         <!--Search-->
         <scene sceneID="Bwe-zS-Hsg">
             <objects>
-                <tableViewController id="ctj-q8-pcu" customClass="SearchViewController" customModule="Watchlist" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="ctj-q8-pcu" customClass="SearchViewController" customModule="Seasons" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="interactive" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="oOV-ZY-a8h">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" xcode11CocoaTouchSystemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="showCell" id="dmK-Iy-Rvg" customClass="ShowTableViewCell" customModule="Watchlist" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="showCell" id="dmK-Iy-Rvg" customClass="ShowTableViewCell" customModule="Seasons" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="dmK-Iy-Rvg" id="Lwr-oC-cLS">
@@ -140,13 +139,13 @@
         <!--Show View Controller-->
         <scene sceneID="oDT-t7-uKf">
             <objects>
-                <tableViewController id="bf9-qV-U9f" customClass="ShowViewController" customModule="Watchlist" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="bf9-qV-U9f" customClass="ShowViewController" customModule="Seasons" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="2jn-J8-z9K">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" xcode11CocoaTouchSystemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
-                        <imageView key="tableHeaderView" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="en8-oP-2ZJ" customClass="SeasonsHeaderImageView" customModule="Watchlist" customModuleProvider="target">
+                        <imageView key="tableHeaderView" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="en8-oP-2ZJ" customClass="SeasonsHeaderImageView" customModule="Seasons" customModuleProvider="target">
                             <rect key="frame" x="0.0" y="0.0" width="375" height="50"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         </imageView>
@@ -179,11 +178,11 @@
                                                 </textView>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CUi-rZ-B8J">
                                                     <rect key="frame" x="347" y="181" width="20" height="22"/>
-                                                    <color key="tintColor" cocoaTouchSystemColor="separatorColor"/>
+                                                    <color key="tintColor" systemColor="separatorColor" red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.28999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <state key="normal" image="chevron.down.circle.fill" catalog="system"/>
                                                 </button>
                                             </subviews>
-                                            <color key="backgroundColor" xcode11CocoaTouchSystemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                            <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                             <constraints>
                                                 <constraint firstItem="mui-Ga-Fh4" firstAttribute="trailing" secondItem="6Zj-xS-qAb" secondAttribute="trailingMargin" id="3es-eJ-3tg"/>
                                                 <constraint firstItem="mui-Ga-Fh4" firstAttribute="leading" secondItem="6Zj-xS-qAb" secondAttribute="leadingMargin" id="A80-VW-mX9"/>
@@ -197,7 +196,7 @@
                                                 <constraint firstItem="Aie-x3-Dz6" firstAttribute="leading" secondItem="6Zj-xS-qAb" secondAttribute="leading" constant="15" id="xuW-e1-6fe"/>
                                             </constraints>
                                         </tableViewCellContentView>
-                                        <color key="backgroundColor" xcode11CocoaTouchSystemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="episodes" id="iU7-53-pQh">
                                         <rect key="frame" x="0.0" y="122" width="375" height="44"/>
@@ -249,11 +248,11 @@
         <!--Seasons-->
         <scene sceneID="L7M-gh-Vgi">
             <objects>
-                <tableViewController title="Seasons" id="M4b-rq-vRc" customClass="ShowSeasonsTableViewController" customModule="Watchlist" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController title="Seasons" id="M4b-rq-vRc" customClass="ShowSeasonsTableViewController" customModule="Seasons" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="y3R-iw-tdh">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" xcode11CocoaTouchSystemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="seasonCell" textLabel="LVd-1D-0Ve" detailTextLabel="cdC-Ca-BFe" style="IBUITableViewCellStyleSubtitle" id="cIp-xv-nSC">
                                 <rect key="frame" x="0.0" y="28" width="375" height="55.5"/>
@@ -299,13 +298,13 @@
         <!--Episodes-->
         <scene sceneID="m1J-i2-dBC">
             <objects>
-                <tableViewController title="Episodes" id="YCZ-oF-noE" customClass="ShowEpisodeViewController" customModule="Watchlist" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController title="Episodes" id="YCZ-oF-noE" customClass="ShowEpisodeViewController" customModule="Seasons" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="OVM-gO-tND">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <color key="backgroundColor" xcode11CocoaTouchSystemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="default" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="episodeCell" id="WcS-7i-EVE" customClass="EpisodeTableViewCell" customModule="Watchlist" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="default" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="episodeCell" id="WcS-7i-EVE" customClass="EpisodeTableViewCell" customModule="Seasons" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="375" height="43.5"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="WcS-7i-EVE" id="RhV-3h-a7m">
@@ -328,47 +327,14 @@
             </objects>
             <point key="canvasLocation" x="3719" y="-384"/>
         </scene>
-        <!--Settings-->
-        <scene sceneID="Vg1-VU-kqO">
-            <objects>
-                <viewController title="Settings" id="ktG-8O-2uH" customClass="SettingsViewController" customModule="Watchlist" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="ShH-My-Kv9"/>
-                        <viewControllerLayoutGuide type="bottom" id="wm2-Jz-EB6"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="HJJ-da-azb">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="29n-eK-ScE">
-                                <rect key="frame" x="110" y="318.5" width="155" height="30"/>
-                                <state key="normal" title="Reset Favourite Shows"/>
-                            </button>
-                        </subviews>
-                        <color key="backgroundColor" xcode11CocoaTouchSystemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                        <constraints>
-                            <constraint firstItem="29n-eK-ScE" firstAttribute="centerX" secondItem="HJJ-da-azb" secondAttribute="centerX" id="mRd-cs-ePb"/>
-                            <constraint firstItem="29n-eK-ScE" firstAttribute="centerY" secondItem="HJJ-da-azb" secondAttribute="centerY" id="uLP-uv-Pfd"/>
-                        </constraints>
-                    </view>
-                    <tabBarItem key="tabBarItem" systemItem="more" id="NG3-4d-M5k"/>
-                    <navigationItem key="navigationItem" title="Settings" id="oLh-8D-VR8"/>
-                    <connections>
-                        <outlet property="resetButton" destination="29n-eK-ScE" id="izS-zb-nWT"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="cGx-DS-MOz" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1669.5999999999999" y="1306.5967016491754"/>
-        </scene>
         <!--Schedule-->
         <scene sceneID="mir-BC-6ek">
             <objects>
-                <tableViewController title="Schedule" id="ElK-Gs-7Oj" customClass="ScheduleTableViewController" customModule="Watchlist" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController title="Schedule" id="ElK-Gs-7Oj" customClass="ScheduleTableViewController" customModule="Seasons" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="BUZ-dT-QuZ">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" xcode11CocoaTouchSystemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell" id="3f9-SY-EQD">
                                 <rect key="frame" x="0.0" y="28" width="375" height="43.5"/>
@@ -390,6 +356,31 @@
             </objects>
             <point key="canvasLocation" x="-439" y="1900"/>
         </scene>
+        <!--Settings-->
+        <scene sceneID="ZZM-L0-HLh">
+            <objects>
+                <viewController id="v1X-p1-gcg" customClass="SettingsViewController" customModule="Seasons" customModuleProvider="target" sceneMemberID="viewController">
+                    <containerView key="view" opaque="NO" contentMode="scaleToFill" id="k0X-A5-M6v">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                        <connections>
+                            <segue destination="sl2-Mo-KJn" kind="embed" destinationCreationSelector="showSettingsView:" id="spW-iO-fCI"/>
+                        </connections>
+                    </containerView>
+                    <tabBarItem key="tabBarItem" title="Settings" image="gear" catalog="system" selectedImage="gear" id="pH9-GE-zVg"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="jWQ-zS-0CX" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="253" y="1250"/>
+        </scene>
+        <!--Hosting Controller-->
+        <scene sceneID="wWn-HW-hBe">
+            <objects>
+                <hostingController id="sl2-Mo-KJn" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="YcL-bp-e9u" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="998" y="1250"/>
+        </scene>
         <!--Schedule-->
         <scene sceneID="uqk-4o-Lp0">
             <objects>
@@ -407,34 +398,16 @@
             </objects>
             <point key="canvasLocation" x="-1393" y="1900"/>
         </scene>
-        <!--Settings-->
-        <scene sceneID="hxO-8U-VSy">
-            <objects>
-                <navigationController id="Ogu-80-bc4" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Settings" image="gear" catalog="system" selectedImage="gear" id="TVO-71-g0U"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="3cA-Bs-q8O">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                        <color key="tintColor" red="0.99931198359999995" green="0.58544164899999995" blue="0.01688550971" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                    </navigationBar>
-                    <connections>
-                        <segue destination="ktG-8O-2uH" kind="relationship" relationship="rootViewController" id="051-di-fzS"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="L5u-Pi-FEe" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="642" y="1297"/>
-        </scene>
         <!--Episode Table View Controller-->
         <scene sceneID="VJD-wl-dhR">
             <objects>
-                <tableViewController id="3LX-V1-jHt" customClass="EpisodeTableViewController" customModule="Watchlist" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="3LX-V1-jHt" customClass="EpisodeTableViewController" customModule="Seasons" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="NWi-T5-qCx">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" xcode11CocoaTouchSystemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
-                        <imageView key="tableHeaderView" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="PlO-Kv-ubd" customClass="SeasonsHeaderImageView" customModule="Watchlist" customModuleProvider="target">
+                        <imageView key="tableHeaderView" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="PlO-Kv-ubd" customClass="SeasonsHeaderImageView" customModule="Seasons" customModuleProvider="target">
                             <rect key="frame" x="0.0" y="0.0" width="375" height="50"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         </imageView>
@@ -467,11 +440,11 @@
                                                 </textView>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LDL-48-qCJ">
                                                     <rect key="frame" x="347" y="181" width="20" height="22"/>
-                                                    <color key="tintColor" cocoaTouchSystemColor="separatorColor"/>
+                                                    <color key="tintColor" systemColor="separatorColor" red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.28999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <state key="normal" image="chevron.down.circle.fill" catalog="system"/>
                                                 </button>
                                             </subviews>
-                                            <color key="backgroundColor" xcode11CocoaTouchSystemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                            <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                             <constraints>
                                                 <constraint firstItem="LDL-48-qCJ" firstAttribute="top" secondItem="50V-cg-M5J" secondAttribute="bottom" id="5h5-1R-kie"/>
                                                 <constraint firstItem="lsu-a7-wOZ" firstAttribute="trailing" secondItem="FUJ-tp-xyD" secondAttribute="trailingMargin" id="7eb-sC-ssY"/>
@@ -485,7 +458,7 @@
                                                 <constraint firstItem="50V-cg-M5J" firstAttribute="bottom" secondItem="FUJ-tp-xyD" secondAttribute="bottom" constant="-30" id="y8P-re-Gwb"/>
                                             </constraints>
                                         </tableViewCellContentView>
-                                        <color key="backgroundColor" xcode11CocoaTouchSystemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
@@ -521,5 +494,5 @@
         <segue reference="Gmc-5M-lAS"/>
         <segue reference="9Tl-3U-rb8"/>
     </inferredMetricsTieBreakers>
-    <color key="tintColor" cocoaTouchSystemColor="systemOrangeColor"/>
+    <color key="tintColor" systemColor="systemOrangeColor" red="1" green="0.58431372549019611" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
 </document>
