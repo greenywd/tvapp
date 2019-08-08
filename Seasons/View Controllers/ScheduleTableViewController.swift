@@ -13,36 +13,21 @@ class ScheduleTableViewController: UITableViewController {
     var episodes: [Episode]?
     var airDates: [String]?
     
-    override init(style: UITableView.Style) {
-        super.init(style: style)
-        episodes = PersistenceService.getEpisodes(show: 320724)!.sorted(by: { (ep1, ep2) -> Bool in
-            return (ep2.firstAired ?? "") > (ep1.firstAired ?? "")
-        })
-        airDates = episodes!.map{$0.firstAired!}
-    }
-    
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        episodes = PersistenceService.getEpisodes(show: 320724)!.sorted(by: { (ep1, ep2) -> Bool in
+        episodes = PersistenceService.getEpisodes(show: 320724)?.sorted(by: { (ep1, ep2) -> Bool in
             return (ep2.firstAired ?? "") > (ep1.firstAired ?? "")
         })
-        airDates = episodes!.map{$0.firstAired!}
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
         
-        // episodes = PersistenceService.getEpisodes(show: 296762)
+        let currentDate = Date()
+        
+        airDates = episodes?.filter {
+            dateFormatter.date(from: $0.firstAired!)! > currentDate
+        }.map { ep in
+            ep.firstAired!
+        }
     }
 
     // MARK: - Table view data source
@@ -50,10 +35,11 @@ class ScheduleTableViewController: UITableViewController {
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
 
-        return Set(episodes!.map{$0.firstAired}).count
+        return Set<String>(airDates!).count
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        print(airDates)
         return airDates![section]
     }
 
@@ -65,12 +51,12 @@ class ScheduleTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         
-        if let episodes = episodes?.filter({ $0.firstAired! == airDates![indexPath.row] }) {
-            for episode in episodes {
-                cell.textLabel?.text = episode.episodeName
-                cell.detailTextLabel?.text = episode.firstAired
-            }
-        }
+//        if let episodes = episodes?.filter({ $0.firstAired! == airDates![indexPath.row] }) {
+//            for episode in episodes {
+//                cell.textLabel?.text = episode.episodeName
+//                cell.detailTextLabel?.text = episode.firstAired
+//            }
+//        }
 
         // Configure the cell...
 
