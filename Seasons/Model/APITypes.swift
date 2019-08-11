@@ -196,7 +196,7 @@ struct Episode : Equatable {
     let airedEpisodeNumber: Int32?
     let airedSeason: Int32?
     let episodeName: String?
-    let firstAired: String?
+    let firstAired: Date?
     let filename: String?
     let seriesId: Int32?
     

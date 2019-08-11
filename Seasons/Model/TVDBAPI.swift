@@ -192,12 +192,15 @@ class TVDBAPI {
             }
             print(response!.url!, response!.StatusCode)
             do {
+                let decoder = JSONDecoder()
+                decoder.dateDecodingStrategy = .formatted(DateFormatter.yyyyMMdd)
+                
                 let results = try JSONDecoder().decode(API_Episodes.self, from: responseData)
                 // dump(results.data)
                 
                 var episodes = [Episode]()
                 for episode in results.data! {
-                    episodes.append(Episode(id: episode.id, overview: episode.overview, airedEpisodeNumber: episode.airedEpisodeNumber, airedSeason: episode.airedSeason, episodeName: episode.episodeName, firstAired: episode.firstAired, filename: episode.filename, seriesId: episode.seriesId))
+                    episodes.append(Episode(id: episode.id, overview: episode.overview, airedEpisodeNumber: episode.airedEpisodeNumber, airedSeason: episode.airedSeason, episodeName: episode.episodeName, firstAired: DateFormatter.yyyyMMdd.date(from: episode.firstAired), filename: episode.filename, seriesId: episode.seriesId))
                 }
                 if let next = results.links?.next {
                     episodeGroup.enter()

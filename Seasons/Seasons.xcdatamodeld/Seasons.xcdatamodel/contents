@@ -5,7 +5,7 @@
         <attribute name="airedSeason" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="episodeName" optional="YES" attributeType="String"/>
         <attribute name="filename" optional="YES" attributeType="String"/>
-        <attribute name="firstAired" optional="YES" attributeType="String"/>
+        <attribute name="firstAired" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="id" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="image" optional="YES" attributeType="Binary"/>
         <attribute name="overview" optional="YES" attributeType="String"/>
