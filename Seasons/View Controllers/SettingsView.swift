@@ -9,7 +9,7 @@
 import SwiftUI
 import Combine
 
-`final class ThemeChanger: ObservableObject {
+final class ThemeChanger: ObservableObject {
     @ObservedObject var settings = UserSettings()
     
     var didChange = PassthroughSubject<ThemeChanger, Never>()
@@ -37,12 +37,12 @@ import Combine
 struct UserDefault<T> {
     let key: String
     let defaultValue: T
-
+    
     init(_ key: String, defaultValue: T) {
         self.key = key
         self.defaultValue = defaultValue
     }
-
+    
     var wrappedValue: T {
         get {
             return UserDefaults.standard.object(forKey: key) as? T ?? defaultValue
@@ -73,9 +73,15 @@ enum Theme: Int {
 
 final class UserSettings: ObservableObject {
     let didChange = PassthroughSubject<Void, Never>()
-
+    
     @UserDefault("theme", defaultValue: 0)
     var theme: Int {
+        didSet {
+            didChange.send()
+        }
+    }
+    @UserDefault("showUpdateNotification", defaultValue: true)
+    var showUpdateNotification: Bool {
         didSet {
             didChange.send()
         }
@@ -140,11 +146,11 @@ struct SettingsView: View {
 
 // MARK: Notifications View
 struct SettingsNotificationsView: View {
-    @State var recieveUpdateNotification = true
+    @ObservedObject var settings = UserSettings()
     var body: some View {
         List {
             VStack (alignment: .leading) {
-                Toggle(isOn: $recieveUpdateNotification) {
+                Toggle(isOn: $settings.showUpdateNotification) {
                     Text("Show Updates")
                         .font(.headline)
                 }
@@ -153,50 +159,6 @@ struct SettingsNotificationsView: View {
             }
             .navigationBarTitle("Notifications")
         }
-    }
-}
-
-// MARK: Support View
-struct SettingsSupportView: View {
-    var body: some View {
-        List {
-            Text("Before doing anything, check to see whether your issue is known!")
-                .font(.subheadline)
-            
-            Button(action: { PersistenceService.dropTable() }) {
-                Text("Known Issues")
-                    .foregroundColor(Color.accentColor)
-            }
-            
-            VStack (alignment: .leading) {
-                NavigationLink(destination: SettingsDebugView()) {
-                    VStack (alignment: .leading) {
-                        Text("Debugging")
-                            .font(.headline)
-                        Text("If you're having issues, try some of the actions here.")
-                            .font(.subheadline)
-                    }
-                }
-            }
-        }
-        .navigationBarTitle("Support")
-    }
-}
-
-// MARK: Debug View
-struct SettingsDebugView: View {
-    var body: some View {
-        List {
-            VStack (alignment: .leading) {
-                Button(action: { PersistenceService.dropTable() }) {
-                    Text("Remove all Favourites")
-                        .foregroundColor(Color.orange)
-                }
-                Text("This does exactly what it sounds like. Proceed with caution")
-                    .font(.footnote)
-            }
-        }
-        .navigationBarTitle("Debugging")
     }
 }
 
@@ -237,7 +199,7 @@ struct SettingsCreditsView: View {
         VStack {
             Text("Thanks to:")
                 .font(.headline)
-            
+            Text("Wilson for the name")
             Spacer()
         }
         .navigationBarTitle("Credits")
