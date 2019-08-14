@@ -9,6 +9,8 @@
 import UIKit
 import CoreData
 
+let userDefaults = UserDefaults.standard
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
@@ -20,6 +22,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         #if DEBUG
         print("Documents Directory: ", FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).last ?? "Not Found!")
         #endif
+
+        let theme = userDefaults.integer(forKey: "theme")
+        print("Theme is \(theme)")
+        
+        if (theme == 0) {
+            UIApplication.shared.windows.first?.overrideUserInterfaceStyle = .unspecified
+        } else if (theme == 1) {
+             UIApplication.shared.windows.first?.overrideUserInterfaceStyle = .light
+        } else if (theme == 2) {
+             UIApplication.shared.windows.first?.overrideUserInterfaceStyle = .dark
+        }
         
         window?.backgroundColor = .systemBackground
         TVDBAPI.retrieveToken()
