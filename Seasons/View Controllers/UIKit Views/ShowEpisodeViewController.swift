@@ -11,7 +11,13 @@ import UIKit
 class ShowEpisodeViewController: UITableViewController {
     
     var id: Int32?
-    var episodes: [Episode]?
+    var episodes: [Episode]? {
+        didSet {
+            episodes = episodes?.sorted(by: { (ep1, ep2) -> Bool in
+                ep1.airedEpisodeNumber! < ep2.airedEpisodeNumber!
+            })
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
