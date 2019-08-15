@@ -33,7 +33,6 @@
 		D6AB06871E62ABF300B1D4AA /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6AB06861E62ABF300B1D4AA /* SettingsViewController.swift */; };
 		D6B9F4C5229A9C4B00EDE1D9 /* UITextView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6B9F4C4229A9C4B00EDE1D9 /* UITextView+Extensions.swift */; };
 		D6BEC1A81E443AB8001B211B /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6BEC1A71E443AB8001B211B /* SearchViewController.swift */; };
-		D6D64F41228CE0EA004BDD7E /* SeasonsTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6D64F40228CE0EA004BDD7E /* SeasonsTableView.swift */; };
 		D6D682361E289E4400966B94 /* ShowViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6D682351E289E4400966B94 /* ShowViewController.swift */; };
 		D6D94ABC2286ED2900A405B5 /* ShowTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6D94ABB2286ED2900A405B5 /* ShowTableViewCell.swift */; };
 		D6EBBB932286E1A7005321C3 /* ShowEpisodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6EBBB922286E1A7005321C3 /* ShowEpisodeViewController.swift */; };
@@ -81,7 +80,6 @@
 		D6AB06861E62ABF300B1D4AA /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		D6B9F4C4229A9C4B00EDE1D9 /* UITextView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextView+Extensions.swift"; sourceTree = "<group>"; };
 		D6BEC1A71E443AB8001B211B /* SearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
-		D6D64F40228CE0EA004BDD7E /* SeasonsTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeasonsTableView.swift; sourceTree = "<group>"; };
 		D6D682351E289E4400966B94 /* ShowViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShowViewController.swift; sourceTree = "<group>"; };
 		D6D94ABB2286ED2900A405B5 /* ShowTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowTableViewCell.swift; sourceTree = "<group>"; };
 		D6EBBB922286E1A7005321C3 /* ShowEpisodeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowEpisodeViewController.swift; sourceTree = "<group>"; };
@@ -158,7 +156,6 @@
 				D63D0A521E2845ED00D3F1CA /* LaunchScreen.storyboard */,
 				D63D0A551E2845ED00D3F1CA /* Info.plist */,
 				D64C8B67228C2ADB00049F86 /* PersistenceService.swift */,
-				D6D64F40228CE0EA004BDD7E /* SeasonsTableView.swift */,
 			);
 			path = Seasons;
 			sourceTree = "<group>";
@@ -283,7 +280,6 @@
 				D645693E22F94BDB00D2A4B8 /* SettingsView.swift in Sources */,
 				D6B9F4C5229A9C4B00EDE1D9 /* UITextView+Extensions.swift in Sources */,
 				D6629D901E3C27A70049CC26 /* TVDBAPI.swift in Sources */,
-				D6D64F41228CE0EA004BDD7E /* SeasonsTableView.swift in Sources */,
 				D6BEC1A81E443AB8001B211B /* SearchViewController.swift in Sources */,
 				D6AB06871E62ABF300B1D4AA /* SettingsViewController.swift in Sources */,
 				D62CD16B22C4A387004721F6 /* EpisodeTableViewController.swift in Sources */,
