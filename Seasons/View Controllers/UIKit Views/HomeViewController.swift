@@ -33,11 +33,19 @@ class HomeViewController: UITableViewController {
         searchController.hidesNavigationBarDuringPresentation = false
         searchController.searchBar.placeholder = "Search Shows"
         navigationItem.searchController = searchController
-        // navigationItem.hidesSearchBarWhenScrolling = true
         
         let searchBarHeight = searchController.searchBar.frame.size.height
         tableView.setContentOffset(CGPoint(x: 0, y: searchBarHeight), animated: false)
         
+        self.refreshControl?.addTarget(self, action: #selector(refresh), for: UIControl.Event.valueChanged)
+    }
+    
+    @objc func refresh() {
+        print("Refresh!")
+        PersistenceService.updateShows {
+            refreshControl?.endRefreshing()
+            updateFavouriteShows()
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -45,7 +53,6 @@ class HomeViewController: UITableViewController {
         super.viewWillAppear(animated)
         updateFavouriteShows()
     }
-    
     
     override func viewWillDisappear(_ animated: Bool) {
         // self.navigationController?.setNavigationBarHidden(false, animated: animated)
