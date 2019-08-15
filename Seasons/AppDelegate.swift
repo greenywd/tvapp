@@ -9,6 +9,7 @@
 import UIKit
 import CoreData
 import UserNotifications
+import BackgroundTasks
 
 let userDefaults = UserDefaults.standard
 
@@ -54,11 +55,55 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
 
+        BGTaskScheduler.shared.register(
+            forTaskWithIdentifier: "com.greeny.Seasons.refresh",
+            using: DispatchQueue.global()
+        ) { task in
+            self.handleAppRefresh(task)
+        }
         
         window?.backgroundColor = .systemBackground
         TVDBAPI.retrieveToken()
         
         return true
+    }
+    
+    private func handleAppRefresh(_ task: BGTask) {
+        let queue = OperationQueue()
+        queue.maxConcurrentOperationCount = 1
+        queue.addOperation {
+            PersistenceService.updateShows()
+            let content = UNMutableNotificationContent()
+            content.title = "Notification"
+            content.body = "Background task completed!"
+            
+            let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 11, repeats: false)
+            let request = UNNotificationRequest(identifier: "com.greeny.Seasons.updated", content: content, trigger: trigger)
+            
+            UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
+        }
+
+        task.expirationHandler = {
+            queue.cancelAllOperations()
+        }
+
+        let lastOperation = queue.operations.last
+        lastOperation?.completionBlock = {
+            print("Completed refresh task!")
+            task.setTaskCompleted(success: !(lastOperation?.isCancelled ?? false))
+        }
+
+        scheduleAppRefresh()
+    }
+    
+    private func scheduleAppRefresh() {
+        do {
+            let request = BGAppRefreshTaskRequest(identifier: "com.greeny.Seasons.refresh")
+            request.earliestBeginDate = Date(timeIntervalSinceNow: 5)
+            try BGTaskScheduler.shared.submit(request)
+        } catch {
+            print(error)
+        }
     }
 	
     func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
