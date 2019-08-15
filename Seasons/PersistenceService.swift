@@ -214,7 +214,7 @@ class PersistenceService {
     }
     
     /// Force update all favourite shows
-    static func updateShows() {
+    static func updateShows(completion: () -> () = {}) {
         if let favouriteShows = self.getShows() {
             let ids = favouriteShows.map { $0.id }
             
@@ -225,6 +225,7 @@ class PersistenceService {
                     
                     let CDShow = try! self.context.fetch(fetchRequest)
                     let obj = CDShow[0] as! NSManagedObject
+
                     obj.setValue(show?.banner, forKey: "banner")
                     obj.setValue(show?.network, forKey: "network")
                     obj.setValue(show?.overview, forKey: "overview")
@@ -233,9 +234,19 @@ class PersistenceService {
                     obj.setValue(show?.siteRating, forKey: "siteRating")
                     obj.setValue(show?.siteRatingCount, forKey: "siteRatingCount")
                     obj.setValue(show?.status, forKey: "status")
+                    
+                    if obj.changedValues().isEmpty {
+                        print("No changes")
+                    } else {
+                        print("Yes changes")
+                    }
+                    
                     self.saveContext()
                 }
             }
+            
+            completion()
+            
         }
     }
     
