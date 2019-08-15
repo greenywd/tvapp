@@ -67,9 +67,10 @@ class HomeViewController: UITableViewController {
     }
     
     func updateFavouriteShows() {
-        favouriteShows = PersistenceService.getShows()
-        
-        tableView.reloadData()
+        if let shows = PersistenceService.getShows() {
+            favouriteShows = shows
+            tableView.reloadData()
+        }
     }
 }
 

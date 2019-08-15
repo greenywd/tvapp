@@ -98,21 +98,27 @@ class PersistenceService {
     }
     
     /// Retrieve all `Show`s from CoreData.
-    static func getShows() -> [Show] {
+    static func getShows() -> [Show]? {
         var favouriteShows = [Show]()
         
         let fetchRequest: NSFetchRequest<CD_Show> = CD_Show.fetchRequest()
         do {
             let shows = try PersistenceService.context.fetch(fetchRequest)
             
+            if shows.count == 0 {
+                return nil
+            }
+            
             for show in shows {
                 favouriteShows.append(Show(id: show.id, overview: show.overview, seriesName: show.seriesName, banner: show.banner ?? "", bannerImage: show.bannerImage, status: show.status ?? "Unknown", runtime: show.runtime ?? "Unknown", network: show.network ?? "Unknown", siteRating: show.siteRating, siteRatingCount: show.siteRatingCount))
             }
+            
+            return favouriteShows
         } catch {
             print(error, error.localizedDescription)
         }
         
-        return favouriteShows
+        return nil
     }
     
     /// Retrieve all `id`s of `Show`s.
@@ -205,6 +211,32 @@ class PersistenceService {
             }
         }
         return nil
+    }
+    
+    /// Force update all favourite shows
+    static func updateShows() {
+        if let favouriteShows = self.getShows() {
+            let ids = favouriteShows.map { $0.id }
+            
+            for id in ids {
+                TVDBAPI.getShow(id: id) { (show) in
+                    let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "CD_Show")
+                    fetchRequest.predicate = NSPredicate(format: "id = %@", NSNumber(value: id))
+                    
+                    let CDShow = try! self.context.fetch(fetchRequest)
+                    let obj = CDShow[0] as! NSManagedObject
+                    obj.setValue(show?.banner, forKey: "banner")
+                    obj.setValue(show?.network, forKey: "network")
+                    obj.setValue(show?.overview, forKey: "overview")
+                    obj.setValue(show?.runtime, forKey: "runtime")
+                    obj.setValue(show?.seriesName, forKey: "seriesName")
+                    obj.setValue(show?.siteRating, forKey: "siteRating")
+                    obj.setValue(show?.siteRatingCount, forKey: "siteRatingCount")
+                    obj.setValue(show?.status, forKey: "status")
+                    self.saveContext()
+                }
+            }
+        }
     }
     
     /// For debugging purposes, delete all children of a specific entity.

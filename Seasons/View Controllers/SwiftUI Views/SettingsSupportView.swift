@@ -80,7 +80,7 @@ struct SettingsDebugView: View {
     var body: some View {
         List {
             VStack (alignment: .leading) {
-                Button(action: { /*TODO: Implement action */ }) {
+                Button(action: { PersistenceService.updateShows() }) {
                     Text("Force update Shows")
                         .foregroundColor(Color.orange)
                 }
