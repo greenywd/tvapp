@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreData
+import UserNotifications
 
 let userDefaults = UserDefaults.standard
 
@@ -15,6 +16,7 @@ let userDefaults = UserDefaults.standard
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
+    let notificationCenter = UNUserNotificationCenter.current()
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
@@ -42,6 +44,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         } else if (theme == 2) {
              UIApplication.shared.windows.first?.overrideUserInterfaceStyle = .dark
         }
+        
+        let options: UNAuthorizationOptions = [.alert, .sound, .badge]
+        
+        notificationCenter.requestAuthorization(options: options) {
+            (allowed, error) in
+            if (!allowed) {
+                print("Declined Notifications")
+            }
+        }
+
         
         window?.backgroundColor = .systemBackground
         TVDBAPI.retrieveToken()
