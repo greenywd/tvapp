@@ -14,7 +14,6 @@ final class ThemeChanger: ObservableObject {
     
     var didChange = PassthroughSubject<ThemeChanger, Never>()
     
-    // FIXME: Save the theme preference, and load upon app startup. Currently this setting applies, but isn't remembered between app loads.
     var selection: Int = UserDefaults.standard.object(forKey: "theme") as! Int {
         didSet {
             print("Currently: \(selection)")
@@ -162,49 +161,6 @@ struct SettingsNotificationsView: View {
     }
 }
 
-// MARK: About View
-struct SettingsAboutView: View {
-    var body: some View {
-        List {
-            NavigationLink(destination: SettingsPrivacyPolicyView()) {
-                Text("Privacy Policy")
-                    .font(.headline)
-            }
-            NavigationLink(destination: SettingsCreditsView()) {
-                Text("Credits")
-                    .font(.headline)
-            }
-            Text("Version 1.0")
-                .foregroundColor(Color.secondary)
-        }
-        .navigationBarTitle("About")
-    }
-}
-
-// MARK: Privacy Policy View
-struct SettingsPrivacyPolicyView: View {
-    var body: some View {
-        VStack {
-            Text("The privacy policy is simple: no personal data shared with myself will be given to any third party, under any circumstances. By default, no data is collected by Seasons. However, information (such as crash reports) may be collected to improve Seasons based on your device settings. Seasons retrieves data from thetvdb.com, who may collect and use your data in accordance with their privacy policy. Seasons itself engages in no ad targeting, data mining, or other activities that may compromise your privacy.")
-                .padding()
-            Spacer()
-        }
-        .navigationBarTitle("Privacy Policy")
-    }
-}
-
-// MARK: Credits View
-struct SettingsCreditsView: View {
-    var body: some View {
-        VStack {
-            Text("Thanks to:")
-                .font(.headline)
-            Text("Wilson for the name")
-            Spacer()
-        }
-        .navigationBarTitle("Credits")
-    }
-}
 
 #if DEBUG
 struct SettingsView_Previews: PreviewProvider {

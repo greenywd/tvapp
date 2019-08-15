@@ -29,6 +29,7 @@
 		D663848423041C0900A6347B /* SettingsSupportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D663848323041C0900A6347B /* SettingsSupportView.swift */; };
 		D67BCB521E41A5CA00BA58EA /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D67BCB511E41A5CA00BA58EA /* HomeViewController.swift */; };
 		D68530DC22CC78070002ED8D /* ScheduleTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D68530DB22CC78070002ED8D /* ScheduleTableViewController.swift */; };
+		D688950D2304DF1700E72342 /* SettingsAboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D688950C2304DF1700E72342 /* SettingsAboutView.swift */; };
 		D6A94E8F22FD886300EC9C47 /* DateFormatter+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6A94E8E22FD886300EC9C47 /* DateFormatter+Extensions.swift */; };
 		D6AB06871E62ABF300B1D4AA /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6AB06861E62ABF300B1D4AA /* SettingsViewController.swift */; };
 		D6B9F4C5229A9C4B00EDE1D9 /* UITextView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6B9F4C4229A9C4B00EDE1D9 /* UITextView+Extensions.swift */; };
@@ -61,30 +62,31 @@
 		D61FFE04226B2F72004A0F46 /* URLResponse+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLResponse+Extensions.swift"; sourceTree = "<group>"; };
 		D62CD16622C49D78004721F6 /* EpisodeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EpisodeTableViewCell.swift; sourceTree = "<group>"; };
 		D62CD16822C49FEB004721F6 /* EpisodeTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EpisodeTableViewCell.xib; sourceTree = "<group>"; };
-		D62CD16A22C4A387004721F6 /* EpisodeTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = EpisodeTableViewController.swift; path = "View Controllers/EpisodeTableViewController.swift"; sourceTree = "<group>"; };
+		D62CD16A22C4A387004721F6 /* EpisodeTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EpisodeTableViewController.swift; sourceTree = "<group>"; };
 		D634C3EA2303E6E000298482 /* UserDefaults+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+Extensions.swift"; sourceTree = "<group>"; };
 		D63D0A441E2845ED00D3F1CA /* Seasons.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Seasons.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D63D0A471E2845ED00D3F1CA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D63D0A501E2845ED00D3F1CA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D63D0A531E2845ED00D3F1CA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D63D0A551E2845ED00D3F1CA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		D645693D22F94BDA00D2A4B8 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SettingsView.swift; path = "View Controllers/SettingsView.swift"; sourceTree = "<group>"; };
+		D645693D22F94BDA00D2A4B8 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SettingsView.swift; path = "../View Controllers/SwiftUI Views/SettingsView.swift"; sourceTree = "<group>"; };
 		D64C8B65228C236D00049F86 /* Seasons.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Seasons.xcdatamodel; sourceTree = "<group>"; };
 		D64C8B67228C2ADB00049F86 /* PersistenceService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceService.swift; sourceTree = "<group>"; };
 		D64FC0FD229FD9D8007281BF /* ShowTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ShowTableViewCell.xib; sourceTree = "<group>"; };
 		D65DA24922A100ED00D31668 /* ShowSeasonsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowSeasonsTableViewController.swift; sourceTree = "<group>"; };
 		D6629D8F1E3C27A70049CC26 /* TVDBAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TVDBAPI.swift; sourceTree = "<group>"; };
-		D663848323041C0900A6347B /* SettingsSupportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SettingsSupportView.swift; path = "View Controllers/SettingsSupportView.swift"; sourceTree = "<group>"; };
-		D67BCB511E41A5CA00BA58EA /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HomeViewController.swift; path = "View Controllers/HomeViewController.swift"; sourceTree = "<group>"; };
-		D68530DB22CC78070002ED8D /* ScheduleTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ScheduleTableViewController.swift; path = "View Controllers/ScheduleTableViewController.swift"; sourceTree = "<group>"; };
+		D663848323041C0900A6347B /* SettingsSupportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SettingsSupportView.swift; path = "../View Controllers/SwiftUI Views/SettingsSupportView.swift"; sourceTree = "<group>"; };
+		D67BCB511E41A5CA00BA58EA /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		D68530DB22CC78070002ED8D /* ScheduleTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleTableViewController.swift; sourceTree = "<group>"; };
+		D688950C2304DF1700E72342 /* SettingsAboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SettingsAboutView.swift; path = "../View Controllers/SwiftUI Views/SettingsAboutView.swift"; sourceTree = "<group>"; };
 		D6A94E8E22FD886300EC9C47 /* DateFormatter+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DateFormatter+Extensions.swift"; sourceTree = "<group>"; };
-		D6AB06861E62ABF300B1D4AA /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingsViewController.swift; path = "View Controllers/SettingsViewController.swift"; sourceTree = "<group>"; };
+		D6AB06861E62ABF300B1D4AA /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		D6B9F4C4229A9C4B00EDE1D9 /* UITextView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextView+Extensions.swift"; sourceTree = "<group>"; };
-		D6BEC1A71E443AB8001B211B /* SearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchViewController.swift; path = "View Controllers/SearchViewController.swift"; sourceTree = "<group>"; };
+		D6BEC1A71E443AB8001B211B /* SearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		D6D64F40228CE0EA004BDD7E /* SeasonsTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeasonsTableView.swift; sourceTree = "<group>"; };
-		D6D682351E289E4400966B94 /* ShowViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShowViewController.swift; path = "View Controllers/ShowViewController.swift"; sourceTree = "<group>"; };
+		D6D682351E289E4400966B94 /* ShowViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShowViewController.swift; sourceTree = "<group>"; };
 		D6D94ABB2286ED2900A405B5 /* ShowTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowTableViewCell.swift; sourceTree = "<group>"; };
-		D6EBBB922286E1A7005321C3 /* ShowEpisodeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ShowEpisodeViewController.swift; path = "View Controllers/ShowEpisodeViewController.swift"; sourceTree = "<group>"; };
+		D6EBBB922286E1A7005321C3 /* ShowEpisodeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowEpisodeViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,16 +103,8 @@
 		D6019C2E1E41A6F4009756F6 /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				D67BCB511E41A5CA00BA58EA /* HomeViewController.swift */,
-				D6BEC1A71E443AB8001B211B /* SearchViewController.swift */,
-				D6D682351E289E4400966B94 /* ShowViewController.swift */,
-				D65DA24922A100ED00D31668 /* ShowSeasonsTableViewController.swift */,
-				D6EBBB922286E1A7005321C3 /* ShowEpisodeViewController.swift */,
-				D6AB06861E62ABF300B1D4AA /* SettingsViewController.swift */,
-				D62CD16A22C4A387004721F6 /* EpisodeTableViewController.swift */,
-				D68530DB22CC78070002ED8D /* ScheduleTableViewController.swift */,
-				D645693D22F94BDA00D2A4B8 /* SettingsView.swift */,
-				D663848323041C0900A6347B /* SettingsSupportView.swift */,
+				D688950F2304DFA600E72342 /* UIKit Views */,
+				D688950E2304DF3900E72342 /* SwiftUI Views */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -170,6 +164,32 @@
 				D6D64F40228CE0EA004BDD7E /* SeasonsTableView.swift */,
 			);
 			path = Seasons;
+			sourceTree = "<group>";
+		};
+		D688950E2304DF3900E72342 /* SwiftUI Views */ = {
+			isa = PBXGroup;
+			children = (
+				D645693D22F94BDA00D2A4B8 /* SettingsView.swift */,
+				D663848323041C0900A6347B /* SettingsSupportView.swift */,
+				D688950C2304DF1700E72342 /* SettingsAboutView.swift */,
+			);
+			path = "SwiftUI Views";
+			sourceTree = "<group>";
+		};
+		D688950F2304DFA600E72342 /* UIKit Views */ = {
+			isa = PBXGroup;
+			children = (
+				D67BCB511E41A5CA00BA58EA /* HomeViewController.swift */,
+				D6BEC1A71E443AB8001B211B /* SearchViewController.swift */,
+				D6D682351E289E4400966B94 /* ShowViewController.swift */,
+				D65DA24922A100ED00D31668 /* ShowSeasonsTableViewController.swift */,
+				D6EBBB922286E1A7005321C3 /* ShowEpisodeViewController.swift */,
+				D6AB06861E62ABF300B1D4AA /* SettingsViewController.swift */,
+				D62CD16A22C4A387004721F6 /* EpisodeTableViewController.swift */,
+				D68530DB22CC78070002ED8D /* ScheduleTableViewController.swift */,
+			);
+			name = "UIKit Views";
+			path = "View Controllers/UIKit Views";
 			sourceTree = "<group>";
 		};
 		D6D64F43228CE2D1004BDD7E /* Custom Views */ = {
@@ -274,6 +294,7 @@
 				D634C3EB2303E6E000298482 /* UserDefaults+Extensions.swift in Sources */,
 				D65DA24A22A100ED00D31668 /* ShowSeasonsTableViewController.swift in Sources */,
 				D6145519228AECC000F842C6 /* UILabel+Extensions.swift in Sources */,
+				D688950D2304DF1700E72342 /* SettingsAboutView.swift in Sources */,
 				D6EBBB932286E1A7005321C3 /* ShowEpisodeViewController.swift in Sources */,
 				D6A94E8F22FD886300EC9C47 /* DateFormatter+Extensions.swift in Sources */,
 				D62CD16722C49D78004721F6 /* EpisodeTableViewCell.swift in Sources */,
@@ -423,7 +444,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = F33EN56G35;
@@ -444,7 +465,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = F33EN56G35;
