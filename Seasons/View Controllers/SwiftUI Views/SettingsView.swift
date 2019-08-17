@@ -160,8 +160,8 @@ struct SettingsNotificationsView: View {
                 Text("Receive a notification when a favourite show is updated with new information, i.e. new episodes.")
                     .font(.subheadline)
             }
-            .navigationBarTitle("Notifications")
         }
+        .navigationBarTitle("Notifications")
     }
 }
 
