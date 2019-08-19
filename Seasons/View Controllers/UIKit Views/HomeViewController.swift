@@ -37,26 +37,25 @@ class HomeViewController: UITableViewController {
         let searchBarHeight = searchController.searchBar.frame.size.height
         tableView.setContentOffset(CGPoint(x: 0, y: searchBarHeight), animated: false)
         
-        self.refreshControl?.addTarget(self, action: #selector(refresh), for: UIControl.Event.valueChanged)
+        refreshControl?.addTarget(self, action: #selector(refresh), for: UIControl.Event.valueChanged)
     }
     
     @objc func refresh() {
         print("Refresh!")
-        PersistenceService.updateShows {
+        if !favouriteShows.isEmpty {
+            print("Updating shows...")
+            PersistenceService.updateShows {
+                refreshControl?.endRefreshing()
+                updateFavouriteShows()
+            }
+        } else {
             refreshControl?.endRefreshing()
-            updateFavouriteShows()
         }
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        
         super.viewWillAppear(animated)
         updateFavouriteShows()
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        // self.navigationController?.setNavigationBarHidden(false, animated: animated)
-        super.viewWillDisappear(animated)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -77,6 +76,8 @@ class HomeViewController: UITableViewController {
         if let shows = PersistenceService.getShows() {
             favouriteShows = shows
             tableView.reloadData()
+        } else {
+            self.refreshControl?.endRefreshing()
         }
     }
 }
