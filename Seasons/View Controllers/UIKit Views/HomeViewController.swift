@@ -108,15 +108,15 @@ extension HomeViewController : UISearchResultsUpdating {
             return
         }
         performSegue(withIdentifier: "segueToShow", sender: tableView.cellForRow(at: indexPath))
-
+        
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         var cell = tableView.dequeueReusableCell(withIdentifier: "showCell") as! ShowTableViewCell
-
-         if (favouriteShows.isEmpty) {
-            cell = noFavouritesRow()
-         } else {
+        
+        if (favouriteShows.isEmpty) {
+            cell = noFavouritesRow
+        } else {
             cell.show = favouriteShows[indexPath.row]
             
             if let backgroundImageData = favouriteShows[indexPath.row].bannerImage {
@@ -124,8 +124,9 @@ extension HomeViewController : UISearchResultsUpdating {
                     cell.backgroundImageView.image = backgroundImage
                 }
             }
-         }
-        
+            
+        }
+
         return cell
     }
     
@@ -148,7 +149,7 @@ extension HomeViewController : UISearchResultsUpdating {
                 } else {
                     tableView.deleteRows(at: [indexPath], with: .automatic)
                 }
-
+                
                 self.updateFavouriteShows()
                 success(true)
             }
@@ -158,7 +159,7 @@ extension HomeViewController : UISearchResultsUpdating {
         return nil
     }
     
-    func noFavouritesRow() -> ShowTableViewCell {
+    var noFavouritesRow: ShowTableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "showCell") as! ShowTableViewCell
         cell.titleLabel?.text = "No Favourites!"
         cell.detailLabel?.text = "Head to the search tab to find some shows!"

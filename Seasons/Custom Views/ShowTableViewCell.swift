@@ -31,14 +31,18 @@ class ShowTableViewCell : UITableViewCell {
                 return
             }
             
-            if let url = URL(string: "https://www.thetvdb.com/banners/" + show.banner!) {
-                if backgroundImageView.image == nil {
-                    DispatchQueue.global(qos: .background).async {
-                        let dataForImage = try? Data(contentsOf: url)
-
-                        DispatchQueue.main.async {
-                            if let image = dataForImage {
-                                self.backgroundImageView.image = UIImage(data: image)
+            if let header = show.bannerImage, let image = UIImage(data: header) {
+                backgroundImageView.image = image
+            } else {
+                if let url = URL(string: "https://www.thetvdb.com/banners/" + show.banner!) {
+                    if backgroundImageView.image == nil {
+                        DispatchQueue.global(qos: .background).async {
+                            let dataForImage = try? Data(contentsOf: url)
+                            
+                            DispatchQueue.main.async {
+                                if let image = dataForImage {
+                                    self.backgroundImageView.image = UIImage(data: image)
+                                }
                             }
                         }
                     }
