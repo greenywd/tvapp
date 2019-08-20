@@ -88,10 +88,8 @@ final class UserSettings: ObservableObject {
 }
 
 struct SettingsView: View {
-    // TODO: Update this once ObservableObject works
-//    @ObservedObject var themeControl = ThemeChanger()
-//    @ObservedObject var settings = UserSettings()
-    @State var themeControl = 0
+    @ObservedObject var themeControl = ThemeChanger()
+    @ObservedObject var settings = UserSettings()
     
     var body: some View {
         NavigationView {
@@ -101,7 +99,7 @@ struct SettingsView: View {
                         .font(.headline)
                     Text("Automatic will follow the system setting.")
                         .font(.subheadline)
-                    Picker(selection: $themeControl, label: Text("Theme")) {
+                    Picker(selection: $themeControl.selection, label: Text("Theme")) {
                         ForEach(0..<3) {
                             Text(Theme(rawValue: $0)!.description)
                         }
@@ -147,13 +145,11 @@ struct SettingsView: View {
 
 // MARK: Notifications View
 struct SettingsNotificationsView: View {
-    @State var showUpdateNotification = true
-    // TODO: Update this once ObservableObject works
-    // @ObservedObject var settings = UserSettings()
+    @ObservedObject var settings = UserSettings()
     var body: some View {
         List {
             VStack (alignment: .leading) {
-                Toggle(isOn: $showUpdateNotification) {
+                Toggle(isOn: $settings.showUpdateNotification) {
                     Text("Show Updates")
                         .font(.headline)
                 }
