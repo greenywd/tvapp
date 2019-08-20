@@ -81,13 +81,12 @@ class ShowViewController: UITableViewController {
             }
         } else {
             let id = show!.id
-            let show2 = PersistenceService.getShow(id: id)
             
-            if let show = show2 {
+            if let show = PersistenceService.getShow(id: id) {
                 self.show = show
                 
-                if let bannerImage = show.bannerImage, let banner = UIImage(data: bannerImage) {
-                    bannerImageView?.image = banner
+                if let headerImage = show.headerImage, let header = UIImage(data: headerImage) {
+                    bannerImageView?.image = header
                 }
             }
         }
@@ -137,7 +136,7 @@ class ShowViewController: UITableViewController {
         favShow.id = Int32(show.id)
         favShow.seriesName = show.seriesName
         favShow.overview = show.overview
-        favShow.bannerImage = bannerImageView?.image?.pngData()
+        favShow.headerImage = bannerImageView?.image?.pngData()
         favShow.banner = show.banner
         favShow.network = show.network
         favShow.runtime = show.runtime

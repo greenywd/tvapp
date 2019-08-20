@@ -110,7 +110,7 @@ class PersistenceService {
             }
             
             for show in shows {
-                favouriteShows.append(Show(id: show.id, overview: show.overview, seriesName: show.seriesName, banner: show.banner ?? "", bannerImage: show.bannerImage, status: show.status ?? "Unknown", runtime: show.runtime ?? "Unknown", network: show.network ?? "Unknown", siteRating: show.siteRating, siteRatingCount: show.siteRatingCount))
+                favouriteShows.append(Show(id: show.id, overview: show.overview, seriesName: show.seriesName, banner: show.banner ?? "", bannerImage: show.bannerImage, headerImage: show.headerImage, status: show.status ?? "Unknown", runtime: show.runtime ?? "Unknown", network: show.network ?? "Unknown", siteRating: show.siteRating, siteRatingCount: show.siteRatingCount))
             }
             
             return favouriteShows
@@ -151,7 +151,7 @@ class PersistenceService {
             let result = try self.context.fetch(fetchRequest)
             
             for data in result as! [CD_Show] {
-                show = Show(id: data.id, overview: data.overview, seriesName: data.seriesName, banner: data.banner, bannerImage: data.bannerImage, status: data.status, runtime: data.runtime, network: data.network, siteRating: data.siteRating, siteRatingCount: data.siteRatingCount)
+                show = Show(id: data.id, overview: data.overview, seriesName: data.seriesName, banner: data.banner, bannerImage: data.bannerImage, headerImage: data.headerImage, status: data.status, runtime: data.runtime, network: data.network, siteRating: data.siteRating, siteRatingCount: data.siteRatingCount)
             }
         }
         catch {
@@ -214,6 +214,7 @@ class PersistenceService {
     }
     
     /// Force update all favourite shows
+    /// - Parameter completion: <#completion description#>
     static func updateShows(completion: () -> () = {}) {
         if let favouriteShows = self.getShows() {
             let ids = favouriteShows.map { $0.id }
