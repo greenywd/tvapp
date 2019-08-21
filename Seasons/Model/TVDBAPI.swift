@@ -102,12 +102,12 @@ class TVDBAPI {
             }
 
             do {
-                let showInfo = try JSONDecoder().decode(API_Show.self, from: responseData)
-                completion(Show(id: showInfo.data!.id, overview: showInfo.data!.overview!,
-                                seriesName: showInfo.data!.seriesName!, banner: showInfo.data!.banner, bannerImage: nil, headerImage: nil,
-                                status: showInfo.data!.status, runtime: showInfo.data!.runtime,
-                                network: showInfo.data!.network, siteRating: showInfo.data!.siteRating,
-                                siteRatingCount: showInfo.data!.siteRatingCount))
+                let showInfo = try JSONDecoder().decode(API_Show.self, from: responseData).data!
+                completion(Show(id: showInfo.id, overview: showInfo.overview ?? "No Overview Available",
+                                seriesName: showInfo.seriesName!, banner: showInfo.banner, bannerImage: nil, headerImage: nil,
+                                status: showInfo.status, runtime: showInfo.runtime,
+                                network: showInfo.network, siteRating: showInfo.siteRating,
+                                siteRatingCount: showInfo.siteRatingCount))
             } catch {
                 print(error, error.localizedDescription)
             }

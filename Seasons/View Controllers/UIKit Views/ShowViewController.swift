@@ -33,7 +33,7 @@ class ShowViewController: UITableViewController {
                         btn.removeFromSuperview()
                         self.showDescriptionBottomConstraint.constant = 0
                     }
-                
+                    
                     self.showDescriptionHeightConstraint.isActive = false
                 }
                 self.tableView.reloadRows(at: [(IndexPath(row: 0, section: 0))], with: .none)
@@ -45,7 +45,7 @@ class ShowViewController: UITableViewController {
     //MARK: - Methods
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         // print(showDescriptionHeightConstraint.constant)
         navigationItem.title = show.seriesName
         showDescription.text = show.overview
@@ -66,18 +66,19 @@ class ShowViewController: UITableViewController {
             TVDBAPI.getImageURLs(show: show.id, resolution: .HD) { (images) in
                 if let url = images?.data?.first?.fileName {
                     let url = URL(string: "https://www.thetvdb.com/banners/" + url)
-                    DispatchQueue.global().async {
-                        let data = try? Data(contentsOf: url!)
-                        
-                        DispatchQueue.main.async {
-                            if let image = data {
-                                let banner = UIImage(data: image)
-                                self.bannerImageView?.image = banner
-                                dispatchGroup.leave()
-                            }
+                    DispatchQueue.main.async {
+                        do {
+                            let data = try Data(contentsOf: url!)
+                            
+                            let banner = UIImage(data: data)
+                            self.bannerImageView?.image = banner
+                            
+                        } catch {
+                            print(error, error.localizedDescription)
                         }
                     }
                 }
+                dispatchGroup.leave()
             }
         } else {
             let id = show!.id
@@ -143,7 +144,7 @@ class ShowViewController: UITableViewController {
         favShow.siteRating = show.siteRating!
         favShow.siteRatingCount = show.siteRatingCount!
         favShow.status = show.status
-
+        
         let dispatchGroup = DispatchGroup()
         dispatchGroup.enter()
         TVDBAPI.getEpisodes(show: show.id) { (episodeList) in
