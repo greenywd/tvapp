@@ -21,9 +21,9 @@ struct SettingsAppearanceView: View {
                 Text("Automatic will follow the system setting.")
                     .font(.subheadline)
                 Picker(selection: $themeControl.selection, label: Text("Theme")) {
-                    ForEach(0..<3) {
-                        Text(Theme(rawValue: $0)!.description)
-                    }
+                    Text("Automatic").tag(0)
+                    Text("Light").tag(1)
+                    Text("Dark").tag(2)
                 }.pickerStyle(SegmentedPickerStyle())
             }
             
