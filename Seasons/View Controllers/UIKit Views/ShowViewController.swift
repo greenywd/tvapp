@@ -77,6 +77,24 @@ class ShowViewController: UITableViewController {
                             print(error, error.localizedDescription)
                         }
                     }
+                } else {
+                    print("Didn't find any HD posters, trying FHD")
+                    TVDBAPI.getImageURLs(show: self.show.id, resolution: .FHD) { (images) in
+                        if let url = images?.data?.first?.fileName {
+                            let url = URL(string: "https://www.thetvdb.com/banners/" + url)
+                            DispatchQueue.main.async {
+                                do {
+                                    let data = try Data(contentsOf: url!)
+                                    
+                                    let banner = UIImage(data: data)
+                                    self.bannerImageView?.image = banner
+                                    
+                                } catch {
+                                    print(error, error.localizedDescription)
+                                }
+                            }
+                        }
+                    }
                 }
                 dispatchGroup.leave()
             }
