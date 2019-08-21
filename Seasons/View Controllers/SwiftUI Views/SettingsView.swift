@@ -94,24 +94,11 @@ final class UserSettings: ObservableObject {
 }
 
 struct SettingsView: View {
-    @ObservedObject var themeControl = ThemeChanger()
     @ObservedObject var settings = UserSettings()
     
     var body: some View {
         NavigationView {
             List {
-                VStack (alignment: .leading) {
-                    Text("Theme")
-                        .font(.headline)
-                    Text("Automatic will follow the system setting.")
-                        .font(.subheadline)
-                    Picker(selection: $themeControl.selection, label: Text("Theme")) {
-                        ForEach(0..<3) {
-                            Text(Theme(rawValue: $0)!.description)
-                        }
-                    }.pickerStyle(SegmentedPickerStyle())
-                }
-                
                 VStack (alignment: .leading) {
                     NavigationLink(destination: SettingsAppearanceView()) {
                         VStack (alignment: .leading) {
