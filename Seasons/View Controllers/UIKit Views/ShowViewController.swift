@@ -62,8 +62,14 @@ class ShowViewController: UITableViewController {
                     self.show = show
                 }
             }
+            var preferredResolution: TVDBAPI.Resolution {
+                if UserDefaults.standard.bool(forKey: "preferFullHD") {
+                    return .FHD
+                }
+                return .HD
+            }
             
-            TVDBAPI.getImageURLs(show: show.id, resolution: .HD) { (images) in
+            TVDBAPI.getImageURLs(show: show.id, resolution: preferredResolution) { (images) in
                 if let url = images?.data?.first?.fileName {
                     let url = URL(string: "https://www.thetvdb.com/banners/" + url)
                     DispatchQueue.main.async {
@@ -78,8 +84,8 @@ class ShowViewController: UITableViewController {
                         }
                     }
                 } else {
-                    print("Didn't find any HD posters, trying FHD")
-                    TVDBAPI.getImageURLs(show: self.show.id, resolution: .FHD) { (images) in
+                    print("Didn't find any \(preferredResolution) posters, trying \(preferredResolution.reversed())")
+                    TVDBAPI.getImageURLs(show: self.show.id, resolution: preferredResolution.reversed()) { (images) in
                         if let url = images?.data?.first?.fileName {
                             let url = URL(string: "https://www.thetvdb.com/banners/" + url)
                             DispatchQueue.main.async {

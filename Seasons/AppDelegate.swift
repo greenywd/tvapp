@@ -26,11 +26,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         print("Documents Directory: ", FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).last ?? "Not Found!")
         #endif
 
+        if (userDefaults.object(forKey: "preferFullHD") == nil) {
+            userDefaults.set(false, forKey: "preferFullHD")
+        }
+        
         if (userDefaults.object(forKey: "firstRun") == nil) {
             print("First run!")
             userDefaults.set(true, forKey: "firstRun")
             userDefaults.set(0, forKey: "theme")
             userDefaults.set(true, forKey: "showUpdateNotification")
+            userDefaults.set(false, forKey: "preferFullHD")
         } else {
             print("Not first run!")
         }

@@ -85,6 +85,12 @@ final class UserSettings: ObservableObject {
             didChange.send()
         }
     }
+    @UserDefault("preferFullHD", defaultValue: true)
+    var preferFullHD: Bool {
+        didSet {
+            didChange.send()
+        }
+    }
 }
 
 struct SettingsView: View {
@@ -104,6 +110,17 @@ struct SettingsView: View {
                             Text(Theme(rawValue: $0)!.description)
                         }
                     }.pickerStyle(SegmentedPickerStyle())
+                }
+                
+                VStack (alignment: .leading) {
+                    NavigationLink(destination: SettingsAppearanceView()) {
+                        VStack (alignment: .leading) {
+                            Text("Appearance")
+                                .font(.headline)
+                            Text("Chance the appearance of Seasons.")
+                                .font(.subheadline)
+                        }
+                    }
                 }
                 
                 VStack (alignment: .leading) {

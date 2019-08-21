@@ -30,6 +30,13 @@ class TVDBAPI {
     enum Resolution: String {
         case HD = "1280x720"
         case FHD = "1920x1080"
+        
+        func reversed() -> Resolution {
+            if (self == .FHD) {
+                return .HD
+            }
+            return .FHD
+        }
     }
     
     private static var currentToken: String = ""
