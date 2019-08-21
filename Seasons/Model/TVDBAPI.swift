@@ -199,7 +199,8 @@ class TVDBAPI {
                 // dump(results.data)
                 
                 var episodes = [Episode]()
-                for episode in results.data! {
+                if let data = results.data {
+                for episode in data {
                     episodes.append(Episode(id: episode.id, overview: episode.overview, airedEpisodeNumber: episode.airedEpisodeNumber, airedSeason: episode.airedSeason, episodeName: episode.episodeName, firstAired: DateFormatter.yyyyMMdd.date(from: episode.firstAired), filename: episode.filename, seriesId: episode.seriesId))
                 }
                 if let next = results.links?.next {
@@ -208,7 +209,7 @@ class TVDBAPI {
                         episodes.append(contentsOf: episodes2!)
                         episodeGroup.leave()
                     })
-                    
+                    }
                 }
                 
                 episodeGroup.notify(queue: .main ) {

@@ -27,13 +27,19 @@ class ShowSeasonsTableViewController: UITableViewController {
         } else {
             TVDBAPI.getEpisodes(show: showID) { (episodeList) in
                 if let episodes = episodeList {
-                    self.episodes = episodes
-                    // Get number of episodes in season
-                    // let seasons = self.episodes!.filter{$0.airedSeason! == 5}.count
-                    self.seasons = Set((episodeList ?? []).compactMap { $0.airedSeason }).sorted()
-                    
-                    DispatchQueue.main.async {
-                        self.tableView.reloadData()
+                    if !episodes.isEmpty {
+                        self.episodes = episodes
+                        // Get number of episodes in season
+                        // let seasons = self.episodes!.filter{$0.airedSeason! == 5}.count
+                        self.seasons = Set((episodeList ?? []).compactMap { $0.airedSeason }).sorted()
+                        
+                        DispatchQueue.main.async {
+                            self.tableView.reloadData()
+                        }
+                    } else {
+                        let alert = UIAlertController(title: "Error", message: "No episodes available", preferredStyle: .alert)
+                        alert.addAction(UIAlertAction(title: "Dismiss", style: .default, handler: nil))
+                        self.present(alert, animated: true, completion: nil)
                     }
                 }
             }
