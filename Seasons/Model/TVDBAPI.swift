@@ -123,7 +123,11 @@ class TVDBAPI {
     }
     
     static func searchShows(show: String, completion: @escaping ([Show]?, String?) -> ()) {
-        let searchURL = "https://api.thetvdb.com/search/series?name=" + show.replacingOccurrences(of: " ", with: "%20")
+        var searchURL = "https://api.thetvdb.com/search/series?name=\(show)"
+        
+        if let encoded = searchURL.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed), let encodedURL = URL(string: encoded) {
+            searchURL = encodedURL.absoluteString
+        }
         
         guard let seriesURL = URL(string: searchURL) else {
             print("Error: cannot create URL")
