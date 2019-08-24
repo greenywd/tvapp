@@ -452,7 +452,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = F33EN56G35;
 				INFOPLIST_FILE = Seasons/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -474,7 +474,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = F33EN56G35;
 				INFOPLIST_FILE = Seasons/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
