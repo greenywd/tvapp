@@ -124,6 +124,12 @@ class ShowViewController: UITableViewController {
         tableView.layoutMargins = .zero
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        setupRightBarButtonItem(isBusy: false)
+    }
+    
     @objc func expandTextView() {
         if (showDescriptionHeightConstraint.isActive) {
             showDescriptionHeightConstraint.isActive = false

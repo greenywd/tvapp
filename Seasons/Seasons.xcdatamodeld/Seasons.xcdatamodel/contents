@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14886.2" systemVersion="19A526h" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14897.2" systemVersion="19A536g" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="CD_Episode" representedClassName="CD_Episode" syncable="YES" codeGenerationType="class">
         <attribute name="airedEpisodeNumber" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="airedSeason" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
@@ -24,7 +24,7 @@
         <attribute name="siteRating" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="siteRatingCount" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="status" optional="YES" attributeType="String"/>
-        <relationship name="episode" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CD_Episode" inverseName="show" inverseEntity="CD_Episode"/>
+        <relationship name="episode" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="CD_Episode" inverseName="show" inverseEntity="CD_Episode"/>
     </entity>
     <elements>
         <element name="CD_Episode" positionX="-63" positionY="54" width="128" height="193"/>
