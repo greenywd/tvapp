@@ -251,10 +251,34 @@ class PersistenceService {
         }
     }
     
+    /// Force update all episodes of favourite shows
+    /// - Parameter completion: <#completion description#>
+    static func updateEpisodes(completion: () -> () = {}) {
+        if let favouriteShows = self.getShows() {
+            let ids = favouriteShows.map { $0.id }
+            
+            for id in ids {
+                TVDBAPI.getEpisodes(show: id) { (episodes) in
+                    //TODO: This
+                }
+            }
+            
+            completion()
+            
+        }
+    }
+    
     /// For debugging purposes, delete all children of a specific entity.
     static func dropTable() {
         // Wait, this isn't SQL.
         // TODO: Implement this
         
+        if let favouriteShows = self.getShows() {
+            let ids = favouriteShows.map { $0.id }
+            
+            for id in ids {
+                self.deleteShow(id: id)
+            }
+        }
     }
 }
