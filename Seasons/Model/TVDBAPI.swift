@@ -110,11 +110,7 @@ class TVDBAPI {
 
             do {
                 let showInfo = try JSONDecoder().decode(API_Show.self, from: responseData).data!
-                completion(Show(id: showInfo.id, overview: showInfo.overview ?? "No Overview Available",
-                                seriesName: showInfo.seriesName!, banner: showInfo.banner, bannerImage: nil, headerImage: nil,
-                                status: showInfo.status, runtime: showInfo.runtime,
-                                network: showInfo.network, siteRating: showInfo.siteRating,
-                                siteRatingCount: showInfo.siteRatingCount))
+                completion(Show(from: showInfo))
             } catch {
                 print(error, error.localizedDescription)
             }
@@ -166,7 +162,7 @@ class TVDBAPI {
                 }
                 
                 for show in showsSearched {
-                    shows.append(Show(id: show.id, overview: show.overview ?? "No Overview Available", seriesName: show.seriesName ?? "Unknown Series", banner: show.banner, bannerImage: nil, headerImage: nil, status: nil, runtime: nil, network: nil, siteRating: nil, siteRatingCount: nil))
+                    shows.append(Show(from: show))
                 }
                 completion(shows, nil)
             } catch {

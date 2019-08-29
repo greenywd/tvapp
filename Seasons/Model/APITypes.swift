@@ -114,8 +114,8 @@ struct Show {
     var overview: String? = "No Overview Available"
     var seriesName: String? = "Unknown Series Title"
     let banner: String?
-    let bannerImage: Data?
-    let headerImage: Data?
+    let bannerImage: Data? = nil
+    let headerImage: Data? = nil
     let status: String?
     let runtime: String?
     let network: String?
@@ -123,6 +123,56 @@ struct Show {
     let siteRatingCount: Int16?
     // TODO: Associate episodes with a show - perhaps when we load episodes (favouriting/browsing)?
     let episodes: [Episode]? = nil
+    
+    init(id: Int32, overview: String?, seriesName: String?, banner: String?, status: String?, runtime: String?, network: String?, siteRating: Double?, siteRatingCount: Int16) {
+        self.id = id
+        self.overview = overview
+        self.seriesName = seriesName
+        self.banner = banner
+        self.status = status
+        self.network = network
+        self.runtime = runtime
+        self.siteRating = siteRating
+        self.siteRatingCount = siteRatingCount
+    }
+    
+    init(from API: API_Show.Data) {
+        self.id = API.id
+        self.overview = API.overview
+        self.seriesName = API.seriesName
+        self.banner = API.banner
+        self.status = API.status
+        self.network = API.network
+        self.runtime = API.runtime
+        self.siteRating = API.siteRating
+        self.siteRatingCount = API.siteRatingCount
+    }
+    
+    init(from CD: CD_Show) {
+        self.id = CD.id
+        self.overview = CD.overview
+        self.seriesName = CD.seriesName
+        self.banner = CD.banner
+        self.status = CD.status
+        self.network = CD.network
+        self.runtime = CD.runtime
+        self.siteRating = CD.siteRating
+        self.siteRatingCount = CD.siteRatingCount
+    }
+    
+    init(from search: API_SearchResults.Data) {
+        self.id = search.id
+        self.overview = search.overview
+        self.seriesName = search.seriesName
+        self.banner = search.banner
+        self.status = search.status
+        self.network = search.network
+        self.runtime = nil
+        self.siteRating = nil
+        self.siteRatingCount = nil
+
+    }
+    
 }
 
 /*

@@ -110,7 +110,7 @@ class PersistenceService {
             }
             
             for show in shows {
-                favouriteShows.append(Show(id: show.id, overview: show.overview, seriesName: show.seriesName, banner: show.banner ?? "", bannerImage: show.bannerImage, headerImage: show.headerImage, status: show.status ?? "Unknown", runtime: show.runtime ?? "Unknown", network: show.network ?? "Unknown", siteRating: show.siteRating, siteRatingCount: show.siteRatingCount))
+                favouriteShows.append(Show(from: show))
             }
             
             return favouriteShows
@@ -151,7 +151,7 @@ class PersistenceService {
             let result = try self.context.fetch(fetchRequest)
             
             for data in result as! [CD_Show] {
-                show = Show(id: data.id, overview: data.overview, seriesName: data.seriesName, banner: data.banner, bannerImage: data.bannerImage, headerImage: data.headerImage, status: data.status, runtime: data.runtime, network: data.network, siteRating: data.siteRating, siteRatingCount: data.siteRatingCount)
+                show = Show(from: data)
             }
         }
         catch {
