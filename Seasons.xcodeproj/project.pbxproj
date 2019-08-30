@@ -27,6 +27,7 @@
 		D6629D901E3C27A70049CC26 /* TVDBAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6629D8F1E3C27A70049CC26 /* TVDBAPI.swift */; };
 		D663848423041C0900A6347B /* SettingsSupportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D663848323041C0900A6347B /* SettingsSupportView.swift */; };
 		D67BCB521E41A5CA00BA58EA /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D67BCB511E41A5CA00BA58EA /* HomeViewController.swift */; };
+		D6811AB7231901250045944E /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D6811AB6231901250045944E /* CloudKit.framework */; };
 		D68530DC22CC78070002ED8D /* ScheduleTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D68530DB22CC78070002ED8D /* ScheduleTableViewController.swift */; };
 		D688950D2304DF1700E72342 /* SettingsAboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D688950C2304DF1700E72342 /* SettingsAboutView.swift */; };
 		D691D5F6230D146A00D8DB82 /* SettingsAppearanceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D691D5F5230D146A00D8DB82 /* SettingsAppearanceView.swift */; };
@@ -77,6 +78,8 @@
 		D6629D8F1E3C27A70049CC26 /* TVDBAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TVDBAPI.swift; sourceTree = "<group>"; };
 		D663848323041C0900A6347B /* SettingsSupportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsSupportView.swift; sourceTree = "<group>"; };
 		D67BCB511E41A5CA00BA58EA /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		D6811AB4231901220045944E /* Seasons.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Seasons.entitlements; sourceTree = "<group>"; };
+		D6811AB6231901250045944E /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		D68530DB22CC78070002ED8D /* ScheduleTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleTableViewController.swift; sourceTree = "<group>"; };
 		D688950C2304DF1700E72342 /* SettingsAboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsAboutView.swift; sourceTree = "<group>"; };
 		D691D5F5230D146A00D8DB82 /* SettingsAppearanceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsAppearanceView.swift; sourceTree = "<group>"; };
@@ -96,6 +99,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D6811AB7231901250045944E /* CloudKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -137,6 +141,7 @@
 			children = (
 				D63D0A461E2845ED00D3F1CA /* Seasons */,
 				D63D0A451E2845ED00D3F1CA /* Products */,
+				D6811AB5231901250045944E /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -151,6 +156,7 @@
 		D63D0A461E2845ED00D3F1CA /* Seasons */ = {
 			isa = PBXGroup;
 			children = (
+				D6811AB4231901220045944E /* Seasons.entitlements */,
 				D64C8B64228C236D00049F86 /* Seasons.xcdatamodeld */,
 				D61A037B2287B3FB0002AA48 /* Extensions */,
 				D61A03782287ACBF0002AA48 /* Model */,
@@ -164,6 +170,14 @@
 				D64C8B67228C2ADB00049F86 /* PersistenceService.swift */,
 			);
 			path = Seasons;
+			sourceTree = "<group>";
+		};
+		D6811AB5231901250045944E /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				D6811AB6231901250045944E /* CloudKit.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		D688950E2304DF3900E72342 /* SwiftUI Views */ = {
@@ -449,6 +463,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Seasons/Seasons.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
@@ -471,6 +486,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Seasons/Seasons.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;

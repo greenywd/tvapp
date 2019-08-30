@@ -18,7 +18,7 @@ class PersistenceService {
         return persistentContainer.viewContext
     }
     
-    static var persistentContainer: NSPersistentContainer = {
+    static var persistentContainer: NSPersistentCloudKitContainer = {
         /*
          The persistent container for the application. This implementation
          creates and returns a container, having loaded the store for the
@@ -26,7 +26,8 @@ class PersistenceService {
          error conditions that could cause the creation of the store to fail.
          */
 
-        let container = NSPersistentContainer(name: "Seasons")
+        let container = NSPersistentCloudKitContainer(name: "Seasons")
+        container.viewContext.automaticallyMergesChangesFromParent = true
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
             if let error = error as NSError? {
                 // Replace this implementation with code to handle the error appropriately.

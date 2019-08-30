@@ -38,19 +38,20 @@ class HomeViewController: UITableViewController {
         tableView.setContentOffset(CGPoint(x: 0, y: searchBarHeight), animated: false)
         
         refreshControl?.addTarget(self, action: #selector(refresh), for: UIControl.Event.valueChanged)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(contextObjectsDidChange(_:)), name: Notification.Name.NSManagedObjectContextObjectsDidChange, object: nil)
+    }
+    
+    @objc func contextObjectsDidChange(_ notification: Notification) {
+        print("NSManagedObjectContextObjectsDidChange... \(notification.userInfo)")
+        DispatchQueue.main.async {
+            self.updateFavouriteShows()
+        }
     }
     
     @objc func refresh() {
-        print("Refresh!")
-        if !favouriteShows.isEmpty {
-            print("Updating shows...")
-            PersistenceService.updateShows {
-                refreshControl?.endRefreshing()
-                updateFavouriteShows()
-            }
-        } else {
-            refreshControl?.endRefreshing()
-        }
+        PersistenceService.context.refreshAllObjects()
+        refreshControl?.endRefreshing()
     }
     
     override func viewWillAppear(_ animated: Bool) {
