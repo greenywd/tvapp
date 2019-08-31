@@ -4,7 +4,7 @@
 <dict>
 	<key>BGTaskSchedulerPermittedIdentifiers</key>
 	<array>
-		<string>com.greeny.Seasons.refresh</string>
+		<string>com.greeny.Seasons.update</string>
 	</array>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
