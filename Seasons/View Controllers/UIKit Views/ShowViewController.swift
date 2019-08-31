@@ -45,8 +45,7 @@ class ShowViewController: UITableViewController {
     //MARK: - Methods
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        // print(showDescriptionHeightConstraint.constant)
+
         navigationItem.title = show.seriesName
         showDescription.text = show.overview
         showDescription.textContainer.lineBreakMode = .byTruncatingTail

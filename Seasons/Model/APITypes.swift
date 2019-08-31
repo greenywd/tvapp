@@ -114,8 +114,8 @@ struct Show {
     var overview: String? = "No Overview Available"
     var seriesName: String? = "Unknown Series Title"
     let banner: String?
-    let bannerImage: Data? = nil
-    let headerImage: Data? = nil
+    var bannerImage: Data? = nil
+    var headerImage: Data? = nil
     let status: String?
     let runtime: String?
     let network: String?
@@ -158,6 +158,8 @@ struct Show {
         self.runtime = CD.runtime
         self.siteRating = CD.siteRating
         self.siteRatingCount = CD.siteRatingCount
+        self.headerImage = CD.headerImage
+        self.bannerImage = CD.bannerImage
     }
     
     init(from search: API_SearchResults.Data) {
