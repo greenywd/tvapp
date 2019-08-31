@@ -363,7 +363,7 @@
         <!--Settings-->
         <scene sceneID="ZZM-L0-HLh">
             <objects>
-                <viewController id="v1X-p1-gcg" customClass="SettingsViewController" customModule="Seasons" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="v1X-p1-gcg" customClass="SwiftUIHelpers" customModule="Seasons" customModuleProvider="target" sceneMemberID="viewController">
                     <containerView key="view" opaque="NO" contentMode="scaleToFill" id="k0X-A5-M6v">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
