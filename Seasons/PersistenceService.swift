@@ -215,8 +215,9 @@ class PersistenceService {
     }
     
     /// Force update all favourite shows
-    /// - Parameter completion: <#completion description#>
-    static func updateShows(completion: () -> () = {}) {
+    /// - Parameter completion:
+    static func updateShows(completion: ([Int32 : Bool]) -> () = {_ in }) {
+        var updatedShows = [Int32 : Bool]()
         if let favouriteShows = self.getShows() {
             let ids = favouriteShows.map { $0.id }
             
@@ -237,18 +238,11 @@ class PersistenceService {
                     obj.setValue(show?.siteRatingCount, forKey: "siteRatingCount")
                     obj.setValue(show?.status, forKey: "status")
                     
-                    if obj.changedValues().isEmpty {
-                        print("No changes")
-                    } else {
-                        print("Yes changes")
-                    }
-                    
+                    updatedShows[id] = obj.changedValues().isEmpty
                     self.saveContext()
                 }
             }
-            
-            completion()
-            
+            completion(updatedShows)
         }
     }
     
