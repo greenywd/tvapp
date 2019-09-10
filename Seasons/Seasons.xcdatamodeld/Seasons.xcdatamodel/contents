@@ -6,6 +6,7 @@
         <attribute name="episodeName" optional="YES" attributeType="String"/>
         <attribute name="filename" optional="YES" attributeType="String"/>
         <attribute name="firstAired" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="hasWatched" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="id" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="image" optional="YES" attributeType="Binary"/>
         <attribute name="overview" optional="YES" attributeType="String"/>
@@ -27,7 +28,7 @@
         <relationship name="episode" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="CD_Episode" inverseName="show" inverseEntity="CD_Episode"/>
     </entity>
     <elements>
-        <element name="CD_Episode" positionX="-63" positionY="54" width="128" height="193"/>
+        <element name="CD_Episode" positionX="-63" positionY="54" width="128" height="208"/>
         <element name="CD_Show" positionX="-299" positionY="39" width="128" height="223"/>
     </elements>
 </model>

@@ -61,7 +61,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         BGTaskScheduler.shared.register(forTaskWithIdentifier: "com.greeny.Seasons.update", using: DispatchQueue.global()) { task in
             self.fireLocalNotification()
-            self.handleShowUpdate(task as! BGAppRefreshTask)
+            self.handleShowUpdate(task)
         }
         
         window?.backgroundColor = .systemBackground
@@ -94,7 +94,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
     
-    private func handleShowUpdate(_ task: BGAppRefreshTask) {
+    private func handleShowUpdate(_ task: BGTask) {
         PersistenceService.updateShows { shows in
             if shows.contains(where: { (key, value) -> Bool in
                 value == true
