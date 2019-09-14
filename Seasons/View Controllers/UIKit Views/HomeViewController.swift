@@ -15,6 +15,7 @@ import CoreData
 class HomeViewController: UITableViewController {
     
     var favouriteShows = [Show]()
+    var filteredFavouriteShows = [Show]()
     var searchController = UISearchController(searchResultsController: nil)
     
     override func viewDidLoad() {
@@ -30,7 +31,9 @@ class HomeViewController: UITableViewController {
         tableView.separatorStyle = .none
         
         searchController.searchResultsUpdater = self
-        searchController.hidesNavigationBarDuringPresentation = false
+        searchController.obscuresBackgroundDuringPresentation = false
+        // searchController.definesPresentationContext = true
+        definesPresentationContext = true
         searchController.searchBar.placeholder = "Search Shows"
         navigationItem.searchController = searchController
         
@@ -68,8 +71,11 @@ class HomeViewController: UITableViewController {
             else { preconditionFailure("Expected a ShowViewController") }
         
         if segue.identifier == "segueToShow" {
-            let show = favouriteShows[indexPath.row]
-            showVC.show = show
+            if isFiltering() {
+                showVC.show = filteredFavouriteShows[indexPath.row]
+            } else {
+                showVC.show = favouriteShows[indexPath.row]
+            }
         }
     }
     
@@ -86,9 +92,25 @@ class HomeViewController: UITableViewController {
 
 
 // MARK: - Delegate/Helper Methods
-extension HomeViewController : UISearchResultsUpdating {
+extension HomeViewController : UISearchResultsUpdating, UISearchBarDelegate {
     func updateSearchResults(for searchController: UISearchController) {
-        return
+        filterContentForSearchText(searchController.searchBar.text!)
+    }
+    
+    func searchBarIsEmpty() -> Bool {
+      // Returns true if the text is empty or nil
+      return searchController.searchBar.text?.isEmpty ?? true
+    }
+      
+    func isFiltering() -> Bool {
+      return searchController.isActive && !searchBarIsEmpty()
+    }
+    
+    func filterContentForSearchText(_ searchText: String, scope: String = "All") {
+      filteredFavouriteShows = favouriteShows.filter({ show -> Bool in
+        return show.seriesName!.lowercased().contains(searchText.lowercased())
+      })
+      tableView.reloadData()
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -98,6 +120,8 @@ extension HomeViewController : UISearchResultsUpdating {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if favouriteShows.isEmpty {
             return 1
+        } else if isFiltering() {
+            return filteredFavouriteShows.count
         }
         
         return favouriteShows.count
@@ -105,7 +129,7 @@ extension HomeViewController : UISearchResultsUpdating {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        if (favouriteShows.isEmpty) {
+        if (filteredFavouriteShows.isEmpty) {
             tabBarController?.selectedIndex = 2
             return
         }
@@ -119,14 +143,21 @@ extension HomeViewController : UISearchResultsUpdating {
         if (favouriteShows.isEmpty) {
             cell = noFavouritesRow
         } else {
-            cell.show = favouriteShows[indexPath.row]
-            
-            if let backgroundImageData = favouriteShows[indexPath.row].bannerImage {
-                if let backgroundImage = UIImage(data: backgroundImageData) {
-                    cell.backgroundImageView.image = backgroundImage
+            if isFiltering() {
+                cell.show = filteredFavouriteShows[indexPath.row]
+                if let backgroundImageData = filteredFavouriteShows[indexPath.row].bannerImage {
+                    if let backgroundImage = UIImage(data: backgroundImageData) {
+                        cell.backgroundImageView.image = backgroundImage
+                    }
+                }
+            } else {
+                cell.show = favouriteShows[indexPath.row]
+                if let backgroundImageData = favouriteShows[indexPath.row].bannerImage {
+                    if let backgroundImage = UIImage(data: backgroundImageData) {
+                        cell.backgroundImageView.image = backgroundImage
+                    }
                 }
             }
-            
         }
 
         return cell

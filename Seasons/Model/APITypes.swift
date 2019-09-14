@@ -252,6 +252,7 @@ struct Episode : Equatable {
     let firstAired: Date?
     let filename: String?
     let seriesId: Int32?
+    let hasWatched: Bool = false
     
     static func ==(lhs: Episode, rhs: Episode) -> Bool {
         return lhs.id == rhs.id
