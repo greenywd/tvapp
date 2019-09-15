@@ -75,6 +75,10 @@ class SearchViewController : UITableViewController {
             return
         }
         
+        for cell in (tableView.visibleCells as? [ShowTableViewCell])! {
+            cell.backgroundImageView.image = nil
+        }
+        
         searchResults.removeAll()
         tableView.reloadData()
         
