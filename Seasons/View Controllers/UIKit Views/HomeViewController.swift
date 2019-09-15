@@ -129,7 +129,7 @@ extension HomeViewController : UISearchResultsUpdating, UISearchBarDelegate {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        if (filteredFavouriteShows.isEmpty) {
+        if (favouriteShows.isEmpty && filteredFavouriteShows.isEmpty) {
             tabBarController?.selectedIndex = 2
             return
         }
@@ -141,6 +141,7 @@ extension HomeViewController : UISearchResultsUpdating, UISearchBarDelegate {
         var cell = tableView.dequeueReusableCell(withIdentifier: "showCell") as! ShowTableViewCell
         
         if (favouriteShows.isEmpty) {
+            print(favouriteShows)
             cell = noFavouritesRow
         } else {
             if isFiltering() {

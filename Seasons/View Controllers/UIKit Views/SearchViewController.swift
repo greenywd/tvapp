@@ -52,9 +52,9 @@ class SearchViewController : UITableViewController {
 
         searchController.searchResultsUpdater = self
         searchController.searchBar.delegate = self
-        // FIXME: This is broken in iOS 13 beta 2 - change to false later
-        // Partially fixed in iOS 13 beta 3, Navigation Bar overlaps the previous' controller's content for a brief second.
+        // This is broken in iOS 13(.1) - the Navigation Bar in the child controller overlaps the previous' controller's content for a brief second.
         searchController.obscuresBackgroundDuringPresentation = false
+        searchController.hidesNavigationBarDuringPresentation = false
         searchController.searchBar.autocorrectionType = .yes
  
         navigationItem.searchController = searchController
@@ -73,10 +73,6 @@ class SearchViewController : UITableViewController {
 
         guard let query = searchBar.text else {
             return
-        }
-        
-        for cell in (tableView.visibleCells as? [ShowTableViewCell])! {
-            cell.backgroundImageView.image = nil
         }
         
         searchResults.removeAll()
