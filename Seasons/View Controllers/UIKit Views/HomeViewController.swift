@@ -23,16 +23,15 @@ class HomeViewController: UITableViewController {
         self.navigationController?.setNavigationBarHidden(false, animated: true)
         
         tableView.register(UINib(nibName: "ShowTableViewCell", bundle: nil), forCellReuseIdentifier: "showCell")
-        tableView.dataSource = self
-        tableView.delegate = self
+        //        tableView.dataSource = self
+        //        tableView.delegate = self
         tableView.rowHeight = 90
-        tableView.layoutMargins = .zero
-        tableView.separatorInset = .zero
-        tableView.separatorStyle = .none
+        //        tableView.layoutMargins = .zero
+        //        tableView.separatorInset = .zero
+        //        tableView.separatorStyle = .none
         
         searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
-        // searchController.definesPresentationContext = true
         definesPresentationContext = true
         searchController.searchBar.placeholder = "Search Shows"
         navigationItem.searchController = searchController
@@ -98,19 +97,19 @@ extension HomeViewController : UISearchResultsUpdating, UISearchBarDelegate {
     }
     
     func searchBarIsEmpty() -> Bool {
-      // Returns true if the text is empty or nil
-      return searchController.searchBar.text?.isEmpty ?? true
+        // Returns true if the text is empty or nil
+        return searchController.searchBar.text?.isEmpty ?? true
     }
-      
+    
     func isFiltering() -> Bool {
-      return searchController.isActive && !searchBarIsEmpty()
+        return searchController.isActive && !searchBarIsEmpty()
     }
     
     func filterContentForSearchText(_ searchText: String, scope: String = "All") {
-      filteredFavouriteShows = favouriteShows.filter({ show -> Bool in
-        return show.seriesName!.lowercased().contains(searchText.lowercased())
-      })
-      tableView.reloadData()
+        filteredFavouriteShows = favouriteShows.filter({ show -> Bool in
+            return show.seriesName!.lowercased().contains(searchText.lowercased())
+        })
+        tableView.reloadData()
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -160,7 +159,7 @@ extension HomeViewController : UISearchResultsUpdating, UISearchBarDelegate {
                 }
             }
         }
-
+        
         return cell
     }
     
