@@ -12,6 +12,11 @@ class ScheduleTableViewController: UITableViewController {
     
     var episodes: [Episode]? {
         didSet {
+            print("NUMBER OF NONFILTERED EPISODES \(episodes?.count)")
+            episodes = episodes?.filter({ $0.firstAired != nil && $0.firstAired! > Date() }).sorted(by: { (ep1, ep2) -> Bool in
+                return ep2.firstAired! > ep1.firstAired!
+            })
+            print("NUMBER OF FILTERED EPISODES \(episodes?.count)")
             tableView.reloadData()
         }
     }
@@ -21,26 +26,25 @@ class ScheduleTableViewController: UITableViewController {
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
         
-        let currentDate = Date()
+        tableView.register(UINib(nibName: "ShowTableViewCell", bundle: nil), forCellReuseIdentifier: "showCell")
+        tableView.rowHeight = 90
         
-        if let favEpisodes = favouriteShows, let shows = PersistenceService.getEpisodes(show: favEpisodes) {
-            episodes = shows.filter { $0.firstAired ?? Date(timeInterval: 0, since: currentDate) > currentDate }.sorted(by: { (ep1, ep2) -> Bool in
-                return ep2.firstAired! > ep1.firstAired!
-            })
-        }
+        let segment: UISegmentedControl = UISegmentedControl(items: ["Upcoming", "Unwatched"])
+        segment.sizeToFit()
+        segment.selectedSegmentIndex = 0
+        tableView.tableHeaderView = segment
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        let currentDate = Date()
+        episodes = PersistenceService.getEpisodes(show: favouriteShows!)
         
-        if let favEpisodes = favouriteShows, let shows = PersistenceService.getEpisodes(show: favEpisodes) {
-            episodes = shows.filter { $0.firstAired ?? Date(timeInterval: 0, since: currentDate) > currentDate }.sorted(by: { (ep1, ep2) -> Bool in
-                return ep2.firstAired! > ep1.firstAired!
-            })
-        }
     }
     
     // MARK: - Table view data source
@@ -53,6 +57,19 @@ class ScheduleTableViewController: UITableViewController {
         return 0
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        guard let selectedTableViewCell = sender as? ShowTableViewCell,
+            let indexPath = tableView.indexPath(for: selectedTableViewCell)
+            else { preconditionFailure("Expected sender to be a valid table view cell") }
+        
+        guard let episodeVC = segue.destination as? EpisodeTableViewController
+            else { preconditionFailure("Expected a EpisodeTableViewController") }
+        
+        if segue.identifier == "scheduleToEpisode" {
+            episodeVC.episode = episodes![indexPath.row]
+        }
+    }
+    
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "EEE d MMM"
@@ -61,21 +78,22 @@ class ScheduleTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return (episodes?.map{ $0.firstAired! == episodes!.map{ $0.firstAired! }[section] }.count)!
+        return (episodes?.filter({ $0.firstAired == episodes![section].firstAired}).count)!
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "showCell", for: indexPath) as! ShowTableViewCell
         
         if let episodes = episodes?.filter({ $0.firstAired! == episodes!.map { $0.firstAired! }[indexPath.section] }) {
             for episode in episodes {
-                cell.textLabel?.text = episode.episodeName
-                cell.detailTextLabel?.text = DateFormatter().string(from: episode.firstAired!)
+                cell.titleLabel.text = episode.episodeName ?? "Unknown Title"
+                cell.detailLabel.text = episode.overview ?? "No Description" // DateFormatter().string(from: episode.firstAired!)
             }
         }
-        
-        // Configure the cell...
-        
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        performSegue(withIdentifier: "scheduleToEpisode", sender: tableView.cellForRow(at: indexPath))
     }
 }
