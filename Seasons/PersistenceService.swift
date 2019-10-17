@@ -205,13 +205,12 @@ class PersistenceService {
                 for ep in result as! [CD_Episode] {
                     episodes.append(Episode(id: ep.id, overview: ep.overview, airedEpisodeNumber: ep.airedEpisodeNumber, airedSeason: ep.airedSeason, episodeName: ep.episodeName, firstAired: ep.firstAired, filename: ep.filename, seriesId: ep.seriesId))
                 }
-                return episodes
             }
             catch {
                 print("error executing fetch request: \(error)")
             }
         }
-        return nil
+        return episodes.isEmpty ? nil : episodes
     }
     
     /// Force update all favourite shows
@@ -230,6 +229,7 @@ class PersistenceService {
                     let obj = CDShow[0] as! NSManagedObject
 
                     obj.setValue(show?.banner, forKey: "banner")
+                    obj.setValue(show?.id, forKey: "id")
                     obj.setValue(show?.network, forKey: "network")
                     obj.setValue(show?.overview, forKey: "overview")
                     obj.setValue(show?.runtime, forKey: "runtime")
@@ -248,18 +248,34 @@ class PersistenceService {
     
     /// Force update all episodes of favourite shows
     /// - Parameter completion: <#completion description#>
-    static func updateEpisodes(completion: () -> () = {}) {
+    static func updateEpisodes(completion: ([Int32 : Bool]) -> () = {_ in}) {
         if let favouriteShows = self.getShows() {
             let ids = favouriteShows.map { $0.id }
             
             for id in ids {
                 TVDBAPI.getEpisodes(show: id) { (episodes) in
-                    //TODO: This
+                    for ep in episodes! {
+                        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "CD_Episode")
+                        fetchRequest.predicate = NSPredicate(format: "id = %@", NSNumber(value: ep.id))
+                        
+                        do {
+                            let CDEpisode = try self.context.fetch(fetchRequest)
+                            let obj = CDEpisode[0] as! NSManagedObject
+                            
+                            obj.setValue(ep.airedEpisodeNumber, forKey: "airedEpisodeNumber")
+                            obj.setValue(ep.airedSeason, forKey: "airedSeason")
+                            obj.setValue(ep.episodeName, forKey: "episodeName")
+                            obj.setValue(ep.filename, forKey: "filename")
+                            obj.setValue(ep.firstAired, forKey: "firstAired")
+                            obj.setValue(ep.id, forKey: "id")
+                            obj.setValue(ep.overview, forKey: "overview")
+                            obj.setValue(ep.seriesId, forKey: "seriesId")
+                        } catch {
+                            print("NEW EPISODE ALERT!!!")
+                        }
+                    }
                 }
             }
-            
-            completion()
-            
         }
     }
     

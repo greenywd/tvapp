@@ -89,6 +89,15 @@ struct SettingsDebugView: View {
             }
             
             VStack (alignment: .leading) {
+                Button(action: { PersistenceService.updateEpisodes() }) {
+                    Text("Force update Episodes")
+                        .foregroundColor(Color.orange)
+                }
+                Text("Updates all information for all shows. This may take some time and use some data.")
+                    .font(.footnote)
+            }
+            
+            VStack (alignment: .leading) {
                 Button(action: { PersistenceService.dropTable() }) {
                     Text("Remove all Favourites")
                         .foregroundColor(Color.orange)
