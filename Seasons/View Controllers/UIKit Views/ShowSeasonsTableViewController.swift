@@ -21,6 +21,8 @@ class ShowSeasonsTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // Check to see if we've got the show favourited and load the episodes from CoreData if we do.
+        // If not, download them
         if let episodes = PersistenceService.getEpisodes(show: showID) {
             self.episodes = episodes
             self.seasons = Set(episodes.map { $0.airedSeason ?? 999 }).sorted()
@@ -64,7 +66,11 @@ class ShowSeasonsTableViewController: UITableViewController {
         
         if let _ = seasons {
             cell.textLabel?.text = "Season \(seasons![indexPath.row])"
-            cell.detailTextLabel?.text = "\(self.episodes!.filter{$0.airedSeason! == indexPath.row}.count) Episodes"
+            if (self.episodes?.contains(where: { $0.airedSeason == 0 }) ?? false) {
+                cell.detailTextLabel?.text = "\(self.episodes!.filter{($0.airedSeason!) == indexPath.row}.count) Episodes"
+            } else {
+                cell.detailTextLabel?.text = "\(self.episodes!.filter{($0.airedSeason!-1) == indexPath.row}.count) Episodes"
+            }
         }
         
         // Configure the cell...
@@ -90,7 +96,11 @@ class ShowSeasonsTableViewController: UITableViewController {
             else { preconditionFailure("Expected a ShowViewController") }
         
         if (segue.identifier == "seasonToShow") {
-            episodeVC.episodes = self.episodes!.filter{$0.airedSeason! == indexPath.row}
+            if (self.episodes?.contains(where: { $0.airedSeason == 0 }) ?? false) {
+                episodeVC.episodes = self.episodes!.filter{$0.airedSeason! == indexPath.row}
+            } else {
+                episodeVC.episodes = self.episodes!.filter{$0.airedSeason!-1 == indexPath.row}
+            }
         }
     }
     
