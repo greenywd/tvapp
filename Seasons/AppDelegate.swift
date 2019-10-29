@@ -65,7 +65,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         window?.backgroundColor = .systemBackground
-        TVDBAPI.retrieveToken()
+        TVDBAPI.retrieveToken {
+            PersistenceService.updateEpisodes()
+        }
         
         return true
     }

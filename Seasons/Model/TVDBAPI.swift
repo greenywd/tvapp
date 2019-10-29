@@ -48,7 +48,7 @@ class TVDBAPI {
     ///   - success: Callback after retrieval.
     ///   - error: A (hopefully) descriptive error if no data is retrieved, if JSON decoding goes wrong or an API error from thetvdb.com.
     
-    static func retrieveToken(completion: @escaping (Error) -> () = { _ in }) {
+    static func retrieveToken(completion: @escaping () -> () = {}) {
         // TODO: If token is expired (check status code/error) renew it
         let params = ["apikey" : APIKey]
         // FIXME: Proper error handling?
@@ -63,7 +63,6 @@ class TVDBAPI {
         
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             guard let data = data, error == nil else {
-                completion(error!)
                 return
             }
             
@@ -75,6 +74,7 @@ class TVDBAPI {
                 if let token = auth.token {
                     currentToken = token
                     print("Token set to:", token)
+                    completion()
                 }
                 
             } catch {
