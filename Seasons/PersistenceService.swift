@@ -249,29 +249,60 @@ class PersistenceService {
     /// Force update all episodes of favourite shows
     /// - Parameter completion: <#completion description#>
     static func updateEpisodes(completion: ([Int32 : Bool]) -> () = {_ in}) {
+        // Get all current favourite shows' IDs
         if let favouriteShows = self.getShows() {
+            // Create an array of all IDs
             let ids = favouriteShows.map { $0.id }
             
             for id in ids {
+                // For each episode, make an API call
                 TVDBAPI.getEpisodes(show: id) { (episodes) in
                     for ep in episodes! {
+                        // For each episode retrieved, setup a fetchRequest to retrieve an existing episode with an episode ID
                         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "CD_Episode")
                         fetchRequest.predicate = NSPredicate(format: "id = %@", NSNumber(value: ep.id))
                         
                         do {
                             let CDEpisode = try self.context.fetch(fetchRequest)
-                            let obj = CDEpisode[0] as! NSManagedObject
                             
-                            obj.setValue(ep.airedEpisodeNumber, forKey: "airedEpisodeNumber")
-                            obj.setValue(ep.airedSeason, forKey: "airedSeason")
-                            obj.setValue(ep.episodeName, forKey: "episodeName")
-                            obj.setValue(ep.filename, forKey: "filename")
-                            obj.setValue(ep.firstAired, forKey: "firstAired")
-                            obj.setValue(ep.id, forKey: "id")
-                            obj.setValue(ep.overview, forKey: "overview")
-                            obj.setValue(ep.seriesId, forKey: "seriesId")
+                            // If we find no episodes, we create one and add it to the current show
+                            // This can happen when new episodes are added while a show is favourited
+                            // If the episode already exists, overwrite it's contents with the data from the API call
+                            if (CDEpisode.count) == 0 {
+                                let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "CD_Show")
+                                fetchRequest.predicate = NSPredicate(format: "id = %@", NSNumber(value: id))
+                                
+                                let CDShow = try self.context.fetch(fetchRequest)
+                                let show = CDShow[0] as! CD_Show
+                                
+                                let episode = CD_Episode(context: PersistenceService.context)
+                                
+                                episode.airedEpisodeNumber = ep.airedEpisodeNumber!
+                                episode.airedSeason = ep.airedSeason!
+                                episode.episodeName = ep.episodeName
+                                episode.filename = ep.filename
+                                episode.firstAired = ep.firstAired
+                                episode.id = ep.id
+                                episode.overview = ep.overview
+                                episode.seriesId = ep.seriesId!
+                                
+                                show.addToEpisode(episode)
+
+                            } else {
+                                let episode = CDEpisode[0] as! CD_Episode
+                                
+                                episode.airedEpisodeNumber = ep.airedEpisodeNumber!
+                                episode.airedSeason = ep.airedSeason!
+                                episode.episodeName = ep.episodeName
+                                episode.filename = ep.filename
+                                episode.firstAired = ep.firstAired
+                                episode.id = ep.id
+                                episode.overview = ep.overview
+                                episode.seriesId = ep.seriesId!
+                            }
+                            
                         } catch {
-                            print("NEW EPISODE ALERT!!!")
+                            print(error)
                         }
                     }
                 }
