@@ -71,19 +71,17 @@ class ScheduleTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return (episodes?.filter({ $0.firstAired == episodes![section].firstAired}).count)!
+        return (episodes?.filter({ $0.firstAired == airDates![section]}).count)!
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "showCell", for: indexPath) as! ShowTableViewCell
-        
         let section = airDates![indexPath.section]
         let filteredEpisodes = episodes!.filter { $0.firstAired == section }
         
-        for ep in filteredEpisodes {
-            cell.titleLabel.text = ep.episodeName ?? "Unknown Title"
-            cell.detailLabel.text = ep.overview ?? "No Description" // DateFormatter().string(from: episode.firstAired!)
-        }
+        cell.titleLabel.text = filteredEpisodes[indexPath.row].episodeName ?? "Unknown Title"
+        cell.detailLabel.text = filteredEpisodes[indexPath.row].overview ?? "No Description" // DateFormatter().string(from: episode.firstAired!)
+
         return cell
     }
     
