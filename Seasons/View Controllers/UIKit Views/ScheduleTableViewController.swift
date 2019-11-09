@@ -96,12 +96,13 @@ class ScheduleTableViewController: UITableViewController {
             else { preconditionFailure("Expected a EpisodeTableViewController") }
         
         if segue.identifier == "scheduleToEpisode" {
-            episodeVC.episode = episodes![indexPath.row]
+            let sectionEpisodes = episodes!.filter { $0.firstAired! == airDates![indexPath.section] }
+            episodeVC.episode = sectionEpisodes[indexPath.row]
         }
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        // performSegue(withIdentifier: "scheduleToEpisode", sender: tableView.cellForRow(at: indexPath))
+        performSegue(withIdentifier: "scheduleToEpisode", sender: tableView.cellForRow(at: indexPath))
         tableView.deselectRow(at: indexPath, animated: true)
     }
 }
