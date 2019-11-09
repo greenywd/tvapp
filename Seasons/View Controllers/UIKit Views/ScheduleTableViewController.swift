@@ -48,9 +48,9 @@ class ScheduleTableViewController: UITableViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
-        episodes = PersistenceService.getEpisodes(show: favouriteShows!)
-        
+        if let favourites = favouriteShows {
+            episodes = PersistenceService.getEpisodes(show: favourites)
+        }
     }
     
     // MARK: - Table view data source
@@ -76,12 +76,14 @@ class ScheduleTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "showCell", for: indexPath) as! ShowTableViewCell
-        let section = airDates![indexPath.section]
-        let filteredEpisodes = episodes!.filter { $0.firstAired == section }
         
-        cell.titleLabel.text = filteredEpisodes[indexPath.row].episodeName ?? "Unknown Title"
-        cell.detailLabel.text = filteredEpisodes[indexPath.row].overview ?? "No Description" // DateFormatter().string(from: episode.firstAired!)
-
+        if (episodes != nil && !episodes!.isEmpty) {
+            let section = airDates![indexPath.section]
+            let filteredEpisodes = episodes!.filter { $0.firstAired == section }
+        
+            cell.titleLabel.text = filteredEpisodes[indexPath.row].episodeName ?? "Unknown Title"
+            cell.detailLabel.text = filteredEpisodes[indexPath.row].overview ?? "No Description" // DateFormatter().string(from: episode.firstAired!)
+        }
         return cell
     }
     
