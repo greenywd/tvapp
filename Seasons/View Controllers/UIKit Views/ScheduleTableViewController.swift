@@ -20,6 +20,10 @@ class ScheduleTableViewController: UITableViewController {
         }
     }
     
+    var unwatchedEpisodes: [Episode]? {
+        return episodes?.filter({ $0.hasWatched == false })
+    }
+    
     var airDates: [Date]? {
         return Array(Set(episodes!.map { $0.firstAired! })).sorted(by: { (d1, d2) -> Bool in
                 return d2 >= d1
@@ -40,7 +44,7 @@ class ScheduleTableViewController: UITableViewController {
         tableView.register(UINib(nibName: "ShowTableViewCell", bundle: nil), forCellReuseIdentifier: "showCell")
         tableView.rowHeight = 90
         
-        let segment: UISegmentedControl = UISegmentedControl(items: ["Upcoming"]) // Add back "Unwatched"
+        let segment: UISegmentedControl = UISegmentedControl(items: ["Upcoming", "Unwatched"]) // Add back "Unwatched"
         segment.sizeToFit()
         segment.selectedSegmentIndex = 0
         tableView.tableHeaderView = segment
