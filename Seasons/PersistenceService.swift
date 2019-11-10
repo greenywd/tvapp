@@ -98,6 +98,21 @@ class PersistenceService {
         }
     }
     
+    static func markEpisode(id: Int32, watched: Bool) {
+        do {
+            let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: episodeEntity)
+            fetchRequest.predicate = NSPredicate(format: "id = %@", NSNumber(value: id))
+            
+            let episode = try PersistenceService.context.fetch(fetchRequest).first as! NSManagedObject
+            dump(episode)
+            episode.setValue(watched, forKey: "hasWatched")
+            PersistenceService.saveContext()
+            
+        } catch {
+            print(error, error.localizedDescription)
+        }
+    }
+    
     /// Retrieve all `Show`s from CoreData.
     static func getShows() -> [Show]? {
         var favouriteShows = [Show]()
@@ -179,7 +194,7 @@ class PersistenceService {
             }
             
             for ep in result as! [CD_Episode] {
-                episodes.append(Episode(id: ep.id, overview: ep.overview, airedEpisodeNumber: ep.airedEpisodeNumber, airedSeason: ep.airedSeason, episodeName: ep.episodeName, firstAired: ep.firstAired, filename: ep.filename, seriesId: ep.seriesId))
+                episodes.append(Episode(id: ep.id, overview: ep.overview, airedEpisodeNumber: ep.airedEpisodeNumber, airedSeason: ep.airedSeason, episodeName: ep.episodeName, firstAired: ep.firstAired, filename: ep.filename, seriesId: ep.seriesId, hasWatched: ep.hasWatched))
             }
             
             return episodes
@@ -203,7 +218,7 @@ class PersistenceService {
                 let result = try self.context.fetch(fetchRequest)
                 
                 for ep in result as! [CD_Episode] {
-                    episodes.append(Episode(id: ep.id, overview: ep.overview, airedEpisodeNumber: ep.airedEpisodeNumber, airedSeason: ep.airedSeason, episodeName: ep.episodeName, firstAired: ep.firstAired, filename: ep.filename, seriesId: ep.seriesId))
+                    episodes.append(Episode(id: ep.id, overview: ep.overview, airedEpisodeNumber: ep.airedEpisodeNumber, airedSeason: ep.airedSeason, episodeName: ep.episodeName, firstAired: ep.firstAired, filename: ep.filename, seriesId: ep.seriesId, hasWatched: ep.hasWatched))
                 }
             }
             catch {
