@@ -54,7 +54,7 @@ class ShowEpisodeViewController: UITableViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard let selectedTableViewCell = sender as? EpisodeTableViewCell,
-        let indexPath = tableView.indexPath(for: selectedTableViewCell)
+            let indexPath = tableView.indexPath(for: selectedTableViewCell)
             else { preconditionFailure("Expected sender to be a EpisodeTableViewCell") }
         
         guard let episodeVC = segue.destination as? EpisodeTableViewController
@@ -76,12 +76,36 @@ class ShowEpisodeViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "episodeCell") as! EpisodeTableViewCell
         
-        // TODO: Ensure episodes are in order (Season > Episode?, i.e. 1x01, 1x02, etc)
         if let episodes = self.episodes {
             cell.episode = episodes[indexPath.row]
         }
         
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        if(!episodes!.isEmpty) {
+            if let _ = PersistenceService.getShow(id: id!) {
+                let episode = episodes![indexPath.row]
+                
+                if (episode.hasWatched == true) {
+                    let unwatchItem = UIContextualAction(style: .normal, title: "Watchn't") { (action, view, success) in
+                        self.episodes![indexPath.row].hasWatched = false
+                        PersistenceService.markEpisode(id: episode.id, watched: false)
+                        success(true)
+                    }
+                    return UISwipeActionsConfiguration(actions: [unwatchItem])
+                } else {
+                    let watchItem = UIContextualAction(style: .normal, title: "Watched") { (action, view, success) in
+                        self.episodes![indexPath.row].hasWatched = true
+                        PersistenceService.markEpisode(id: episode.id, watched: true)
+                        success(true)
+                    }
+                    return UISwipeActionsConfiguration(actions: [watchItem])
+                }
+            }
+        }
+        return nil
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
