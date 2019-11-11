@@ -206,16 +206,22 @@ class PersistenceService {
     }
     
     /// Get all episodes for all shows
-    static func getEpisodes(filterUnwatched: Bool = false) -> [Episode]? {
+    static func getEpisodes(filterUnwatched: Bool? = false, filterUpcoming: Bool? = true) -> [Episode]? {
         var episodes = [Episode]()
         
         let fetchRequest: NSFetchRequest<CD_Episode> = CD_Episode.fetchRequest()
         let sortAirDate = NSSortDescriptor(key: #keyPath(CD_Episode.firstAired), ascending: true)
         
-        if (filterUnwatched == true) {
+        if (filterUnwatched == true && filterUpcoming == true) {
+            let hasWatchedPredicate = NSPredicate(format: "hasWatched == %@", NSNumber(value: false))
+            let isUpcomingPredicate = NSPredicate(format: "firstAired >= %@", Date() as NSDate)
+            fetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [hasWatchedPredicate, isUpcomingPredicate])
+        } else if (filterUnwatched == true && filterUpcoming == false) {
             fetchRequest.predicate = NSPredicate(format: "hasWatched == %@", NSNumber(value: false))
+        } else if (filterUnwatched == false && filterUpcoming == true) {
+            fetchRequest.predicate = NSPredicate(format: "firstAired >= %@", Date() as NSDate)
         }
-        
+
         fetchRequest.sortDescriptors = [sortAirDate]
         do {
             let result = try self.context.fetch(fetchRequest)
