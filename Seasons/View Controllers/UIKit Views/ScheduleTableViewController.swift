@@ -44,8 +44,11 @@ class ScheduleTableViewController: UITableViewController {
         } else if (segmentedControl.selectedSegmentIndex == 1) {
             self.episodes = PersistenceService.getEpisodes(filterUnwatched: true, filterUpcoming: false)
         }
-        self.airDates = Array(Set(episodes!.map { $0.firstAired })).sorted {
-            return $1 >= $0
+        
+        if let eps = episodes {
+            self.airDates = Array(Set(eps.map { $0.firstAired })).sorted {
+                return $1 >= $0
+            }
         }
     }
     
