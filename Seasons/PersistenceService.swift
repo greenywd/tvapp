@@ -205,6 +205,38 @@ class PersistenceService {
         return nil
     }
     
+    /// Get all episodes for all shows
+    static func getEpisodes(filterUnwatched: Bool = false) -> [Episode]? {
+        var episodes = [Episode]()
+        
+        let fetchRequest: NSFetchRequest<CD_Episode> = CD_Episode.fetchRequest()
+        let sortAirDate = NSSortDescriptor(key: #keyPath(CD_Episode.firstAired), ascending: true)
+        
+        if (filterUnwatched == true) {
+            fetchRequest.predicate = NSPredicate(format: "hasWatched == %@", NSNumber(value: false))
+        }
+        
+        fetchRequest.sortDescriptors = [sortAirDate]
+        do {
+            let result = try self.context.fetch(fetchRequest)
+            print("Got \(result.count) episodes")
+            
+            if result.count == 0 {
+                return nil
+            }
+            
+            for ep in result {
+                episodes.append(Episode(from: ep))
+            }
+            
+            return episodes
+        }
+        catch {
+            print("error executing fetch request: \(error)")
+        }
+        return nil
+    }
+    
     /// Retrieve all Episodes for a list of Shows from CoreData.
     /// - Parameter ids: Identifier(s) of `Show`s that Episodes are retrieved from.
     static func getEpisodes(show ids: [Int32]) -> [Episode]? {
