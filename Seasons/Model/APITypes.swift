@@ -249,7 +249,7 @@ struct Episode : Equatable {
     let airedEpisodeNumber: Int32?
     let airedSeason: Int32?
     let episodeName: String?
-    let firstAired: Date?
+    var firstAired: Date = Date(timeIntervalSince1970: 0)
     let filename: String?
     let seriesId: Int32?
     var hasWatched: Bool
@@ -260,7 +260,7 @@ struct Episode : Equatable {
         self.airedEpisodeNumber = airedEpisodeNumber
         self.airedSeason = airedSeason
         self.episodeName = episodeName
-        self.firstAired = firstAired
+        self.firstAired = firstAired != nil ? firstAired! : Date(timeIntervalSince1970: 0)
         self.filename = filename
         self.seriesId = seriesId
         self.hasWatched = hasWatched
@@ -272,7 +272,7 @@ struct Episode : Equatable {
         self.airedEpisodeNumber = CD.airedEpisodeNumber
         self.airedSeason = CD.airedSeason
         self.episodeName = CD.episodeName
-        self.firstAired = CD.firstAired
+        self.firstAired = CD.firstAired != nil ? CD.firstAired! : Date(timeIntervalSince1970: 0)
         self.filename = CD.filename
         self.seriesId = CD.seriesId
         self.hasWatched = CD.hasWatched
