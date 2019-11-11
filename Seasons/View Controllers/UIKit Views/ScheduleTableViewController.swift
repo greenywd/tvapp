@@ -35,13 +35,14 @@ class ScheduleTableViewController: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         updateEpisodeDataSource()
+        tableView.reloadData()
     }
     
     private func updateEpisodeDataSource() {
         if (segmentedControl.selectedSegmentIndex == 0) {
-            self.episodes = PersistenceService.getEpisodes()
+            self.episodes = PersistenceService.getEpisodes(filterUpcoming: true)
         } else if (segmentedControl.selectedSegmentIndex == 1) {
-            self.episodes = PersistenceService.getEpisodes(filterUnwatched: true)
+            self.episodes = PersistenceService.getEpisodes(filterUnwatched: true, filterUpcoming: false)
         }
         self.airDates = Array(Set(episodes!.map { $0.firstAired })).sorted {
             return $1 >= $0
