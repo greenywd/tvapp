@@ -254,6 +254,30 @@ struct Episode : Equatable {
     let seriesId: Int32?
     var hasWatched: Bool
     
+    internal init(id: Int32, overview: String?, airedEpisodeNumber: Int32?, airedSeason: Int32?, episodeName: String?, firstAired: Date?, filename: String?, seriesId: Int32?, hasWatched: Bool) {
+        self.id = id
+        self.overview = overview
+        self.airedEpisodeNumber = airedEpisodeNumber
+        self.airedSeason = airedSeason
+        self.episodeName = episodeName
+        self.firstAired = firstAired
+        self.filename = filename
+        self.seriesId = seriesId
+        self.hasWatched = hasWatched
+    }
+    
+    init(from CD: CD_Episode) {
+        self.id = CD.id
+        self.overview = CD.overview
+        self.airedEpisodeNumber = CD.airedEpisodeNumber
+        self.airedSeason = CD.airedSeason
+        self.episodeName = CD.episodeName
+        self.firstAired = CD.firstAired
+        self.filename = CD.filename
+        self.seriesId = CD.seriesId
+        self.hasWatched = CD.hasWatched
+    }
+    
     static func ==(lhs: Episode, rhs: Episode) -> Bool {
         return lhs.id == rhs.id
     }
