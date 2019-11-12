@@ -120,7 +120,7 @@ class ShowSeasonsTableViewController: UITableViewController {
             else { preconditionFailure("Expected a ShowViewController") }
         
         if (segue.identifier == "seasonToShow") {
-            episodeVC.id = showID
+            episodeVC.showID = showID
             if (self.episodes?.contains(where: { $0.airedSeason == 0 }) ?? false) {
                 episodeVC.episodes = self.episodes!.filter{ $0.airedSeason! == indexPath.row }
             } else {
