@@ -26,6 +26,10 @@ class ShowSeasonsTableViewController: UITableViewController {
         if let episodes = PersistenceService.getEpisodes(show: showID) {
             self.episodes = episodes
             self.seasons = Set(episodes.map { $0.airedSeason ?? 999 }).sorted()
+            
+            let markWatchedButtonItem = UIBarButtonItem(image: UIImage(systemName: "doc.plaintext"), style: .plain, target: self, action: #selector(markEpisodes))
+            navigationItem.rightBarButtonItem = markWatchedButtonItem
+            
         } else {
             TVDBAPI.getEpisodes(show: showID) { (episodeList) in
                 if let episodes = episodeList {
@@ -46,6 +50,24 @@ class ShowSeasonsTableViewController: UITableViewController {
                 }
             }
         }
+    }
+    
+    @objc func markEpisodes() {
+        let alertSheet = UIAlertController(title: "Mark All Seasons as:", message: nil, preferredStyle: .actionSheet)
+        alertSheet.addAction(UIAlertAction(title: "Watched", style: .default, handler: { (alertAction) in
+            PersistenceService.markEpisodes(ids: self.episodes!.map { $0.id }, watched: true)
+            self.episodes = PersistenceService.getEpisodes(show: self.showID)
+        }))
+        
+        alertSheet.addAction(UIAlertAction(title: "Watchn't", style: .default, handler: { (alertAction) in
+            PersistenceService.markEpisodes(ids: self.episodes!.map { $0.id }, watched: false)
+            self.episodes = PersistenceService.getEpisodes(show: self.showID)
+        }))
+        
+        alertSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (alertAction) in
+            self.dismiss(animated: true, completion: nil)
+        }))
+        self.present(alertSheet, animated: true, completion: nil)
     }
     
     // MARK: - Table view data source

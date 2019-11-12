@@ -113,6 +113,37 @@ class PersistenceService {
         }
     }
     
+    static func markEpisodes(ids: [Int32], watched: Bool) {
+        for id in ids {
+            do {
+                let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: episodeEntity)
+                fetchRequest.predicate = NSPredicate(format: "id = %@", NSNumber(value: id))
+                
+                let episode = try PersistenceService.context.fetch(fetchRequest).first as! NSManagedObject
+                dump(episode)
+                episode.setValue(watched, forKey: "hasWatched")
+                PersistenceService.saveContext()
+                
+            } catch {
+                print(error, error.localizedDescription)
+            }
+        }
+    }
+    
+    static func markAllEpisodes(watched: Bool) {
+        do {
+            let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: episodeEntity)
+            
+            let episode = try PersistenceService.context.fetch(fetchRequest).first as! NSManagedObject
+            dump(episode)
+            episode.setValue(watched, forKey: "hasWatched")
+            PersistenceService.saveContext()
+            
+        } catch {
+            print(error, error.localizedDescription)
+        }
+    }
+    
     /// Retrieve all `Show`s from CoreData.
     static func getShows() -> [Show]? {
         var favouriteShows = [Show]()
