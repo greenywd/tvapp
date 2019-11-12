@@ -89,7 +89,7 @@ class EpisodeTableViewController: UITableViewController {
         switch segue.destination {
         case let episodeVC as ShowEpisodeViewController:
             if (segue.identifier == "segueToEpisode") {
-                episodeVC.id = episode.id
+                episodeVC.showID = episode.id
             }
             
         case let seasonsVC as ShowSeasonsTableViewController:

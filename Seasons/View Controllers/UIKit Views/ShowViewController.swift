@@ -213,7 +213,7 @@ class ShowViewController: UITableViewController {
         switch segue.destination {
         case let episodeVC as ShowEpisodeViewController:
             if (segue.identifier == "segueToEpisode") {
-                episodeVC.id = show.id
+                episodeVC.showID = show.id
             }
             
         case let seasonsVC as ShowSeasonsTableViewController:

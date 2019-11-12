@@ -98,6 +98,73 @@ class PersistenceService {
         }
     }
     
+    static func markEpisode(id: Int32, watched: Bool) {
+        do {
+            let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: episodeEntity)
+            fetchRequest.predicate = NSPredicate(format: "id = %@", NSNumber(value: id))
+            
+            let episode = try PersistenceService.context.fetch(fetchRequest).first as! NSManagedObject
+            dump(episode)
+            episode.setValue(watched, forKey: "hasWatched")
+            PersistenceService.saveContext()
+            
+        } catch {
+            print(error, error.localizedDescription)
+        }
+    }
+    
+    static func markEpisodes(ids: [Int32], watched: Bool) {
+        for id in ids {
+            do {
+                let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: episodeEntity)
+                fetchRequest.predicate = NSPredicate(format: "id = %@", NSNumber(value: id))
+                
+                let episode = try PersistenceService.context.fetch(fetchRequest).first as! NSManagedObject
+                dump(episode)
+                episode.setValue(watched, forKey: "hasWatched")
+                PersistenceService.saveContext()
+                
+            } catch {
+                print(error, error.localizedDescription)
+            }
+        }
+    }
+    
+    static func markEpisodes(for showID: Int32, inSeason airedSeason: Int32, watched: Bool) {
+        do {
+            let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: episodeEntity)
+            
+            let seriesIDPredicate = NSPredicate(format: "seriesId = %@", NSNumber(value: showID))
+            let airedSeasonPredicate = NSPredicate(format: "airedSeason = %@", NSNumber(value: airedSeason))
+            fetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [seriesIDPredicate, airedSeasonPredicate])
+            
+            let episode = try PersistenceService.context.fetch(fetchRequest) as! [NSManagedObject]
+            
+            for ep in episode {
+                ep.setValue(watched, forKey: "hasWatched")
+            }
+
+            PersistenceService.saveContext()
+            
+        } catch {
+            print(error, error.localizedDescription)
+        }
+    }
+    
+    static func markAllEpisodes(watched: Bool) {
+        do {
+            let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: episodeEntity)
+            
+            let episode = try PersistenceService.context.fetch(fetchRequest).first as! NSManagedObject
+            dump(episode)
+            episode.setValue(watched, forKey: "hasWatched")
+            PersistenceService.saveContext()
+            
+        } catch {
+            print(error, error.localizedDescription)
+        }
+    }
+    
     /// Retrieve all `Show`s from CoreData.
     static func getShows() -> [Show]? {
         var favouriteShows = [Show]()
@@ -179,7 +246,74 @@ class PersistenceService {
             }
             
             for ep in result as! [CD_Episode] {
-                episodes.append(Episode(id: ep.id, overview: ep.overview, airedEpisodeNumber: ep.airedEpisodeNumber, airedSeason: ep.airedSeason, episodeName: ep.episodeName, firstAired: ep.firstAired, filename: ep.filename, seriesId: ep.seriesId))
+                episodes.append(Episode(id: ep.id, overview: ep.overview, airedEpisodeNumber: ep.airedEpisodeNumber, airedSeason: ep.airedSeason, episodeName: ep.episodeName, firstAired: ep.firstAired, filename: ep.filename, seriesId: ep.seriesId, hasWatched: ep.hasWatched))
+            }
+            
+            return episodes
+        }
+        catch {
+            print("error executing fetch request: \(error)")
+        }
+        return nil
+    }
+    
+    static func getEpisodes(show id: Int32, season airedSeason: Int32) -> [Episode]? {
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: episodeEntity)
+        
+        let showIDPredicate = NSPredicate(format: "seriesId = %@", NSNumber(value: id))
+        let airedSeasonPredicate = NSPredicate(format: "airedSeason = %@", NSNumber(value: airedSeason))
+        fetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [showIDPredicate, airedSeasonPredicate])
+        
+        var episodes = [Episode]()
+        
+        do {
+            let result = try self.context.fetch(fetchRequest)
+            print("Got \(result.count) episodes")
+            
+            if result.count == 0 {
+                return nil
+            }
+            
+            for ep in result as! [CD_Episode] {
+                episodes.append(Episode(from: ep))
+            }
+            
+            return episodes
+        }
+        catch {
+            print("error executing fetch request: \(error)")
+        }
+        return nil
+    }
+    
+    /// Get all episodes for all shows
+    static func getEpisodes(filterUnwatched: Bool? = false, filterUpcoming: Bool? = true) -> [Episode]? {
+        var episodes = [Episode]()
+        
+        let fetchRequest: NSFetchRequest<CD_Episode> = CD_Episode.fetchRequest()
+        let sortAirDate = NSSortDescriptor(key: #keyPath(CD_Episode.firstAired), ascending: true)
+        
+        if (filterUnwatched == true && filterUpcoming == true) {
+            let hasWatchedPredicate = NSPredicate(format: "hasWatched == %@", NSNumber(value: false))
+            let isUpcomingPredicate = NSPredicate(format: "firstAired >= %@", Date() as NSDate)
+            fetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [hasWatchedPredicate, isUpcomingPredicate])
+        } else if (filterUnwatched == true && filterUpcoming == false) {
+            fetchRequest.predicate = NSPredicate(format: "hasWatched == %@", NSNumber(value: false))
+        } else if (filterUnwatched == false && filterUpcoming == true) {
+            fetchRequest.predicate = NSPredicate(format: "firstAired >= %@", Date() as NSDate)
+        }
+
+        fetchRequest.sortDescriptors = [sortAirDate]
+        do {
+            let result = try self.context.fetch(fetchRequest)
+            print("Got \(result.count) episodes")
+            
+            if result.count == 0 {
+                return nil
+            }
+            
+            for ep in result {
+                episodes.append(Episode(from: ep))
             }
             
             return episodes
@@ -203,7 +337,7 @@ class PersistenceService {
                 let result = try self.context.fetch(fetchRequest)
                 
                 for ep in result as! [CD_Episode] {
-                    episodes.append(Episode(id: ep.id, overview: ep.overview, airedEpisodeNumber: ep.airedEpisodeNumber, airedSeason: ep.airedSeason, episodeName: ep.episodeName, firstAired: ep.firstAired, filename: ep.filename, seriesId: ep.seriesId))
+                    episodes.append(Episode(id: ep.id, overview: ep.overview, airedEpisodeNumber: ep.airedEpisodeNumber, airedSeason: ep.airedSeason, episodeName: ep.episodeName, firstAired: ep.firstAired, filename: ep.filename, seriesId: ep.seriesId, hasWatched: ep.hasWatched))
                 }
             }
             catch {

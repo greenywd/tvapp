@@ -26,13 +26,17 @@ class ShowSeasonsTableViewController: UITableViewController {
         if let episodes = PersistenceService.getEpisodes(show: showID) {
             self.episodes = episodes
             self.seasons = Set(episodes.map { $0.airedSeason ?? 999 }).sorted()
+            
+            let markWatchedButtonItem = UIBarButtonItem(image: UIImage(systemName: "doc.plaintext"), style: .plain, target: self, action: #selector(markEpisodes))
+            navigationItem.rightBarButtonItem = markWatchedButtonItem
+            
         } else {
             TVDBAPI.getEpisodes(show: showID) { (episodeList) in
                 if let episodes = episodeList {
                     if !episodes.isEmpty {
                         self.episodes = episodes
+                        
                         // Get number of episodes in season
-                        // let seasons = self.episodes!.filter{$0.airedSeason! == 5}.count
                         self.seasons = Set((episodeList ?? []).compactMap { $0.airedSeason }).sorted()
                         
                         DispatchQueue.main.async {
@@ -48,6 +52,24 @@ class ShowSeasonsTableViewController: UITableViewController {
         }
     }
     
+    @objc func markEpisodes() {
+        let alertSheet = UIAlertController(title: "Mark All Seasons as:", message: nil, preferredStyle: .actionSheet)
+        alertSheet.addAction(UIAlertAction(title: "Watched", style: .default, handler: { (alertAction) in
+            PersistenceService.markEpisodes(ids: self.episodes!.map { $0.id }, watched: true)
+            self.episodes = PersistenceService.getEpisodes(show: self.showID)
+        }))
+        
+        alertSheet.addAction(UIAlertAction(title: "Watchn't", style: .default, handler: { (alertAction) in
+            PersistenceService.markEpisodes(ids: self.episodes!.map { $0.id }, watched: false)
+            self.episodes = PersistenceService.getEpisodes(show: self.showID)
+        }))
+        
+        alertSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (alertAction) in
+            self.dismiss(animated: true, completion: nil)
+        }))
+        self.present(alertSheet, animated: true, completion: nil)
+    }
+    
     // MARK: - Table view data source
     
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -55,8 +77,8 @@ class ShowSeasonsTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if let _ = seasons {
-            return seasons!.count
+        if let s = seasons {
+            return s.count
         }
         return 0
     }
@@ -66,6 +88,8 @@ class ShowSeasonsTableViewController: UITableViewController {
         
         if let _ = seasons {
             cell.textLabel?.text = "Season \(seasons![indexPath.row])"
+            
+            // If the show doesn't have a 'Season 0' (i.e. special episodes), -1 the airedSeason so that season equals indexPath.row
             if (self.episodes?.contains(where: { $0.airedSeason == 0 }) ?? false) {
                 cell.detailTextLabel?.text = "\(self.episodes!.filter{($0.airedSeason!) == indexPath.row}.count) Episodes"
             } else {
@@ -96,10 +120,11 @@ class ShowSeasonsTableViewController: UITableViewController {
             else { preconditionFailure("Expected a ShowViewController") }
         
         if (segue.identifier == "seasonToShow") {
+            episodeVC.showID = showID
             if (self.episodes?.contains(where: { $0.airedSeason == 0 }) ?? false) {
-                episodeVC.episodes = self.episodes!.filter{$0.airedSeason! == indexPath.row}
+                episodeVC.episodes = self.episodes!.filter{ $0.airedSeason! == indexPath.row }
             } else {
-                episodeVC.episodes = self.episodes!.filter{$0.airedSeason!-1 == indexPath.row}
+                episodeVC.episodes = self.episodes!.filter{ $0.airedSeason!-1 == indexPath.row }
             }
         }
     }
