@@ -151,6 +151,24 @@ class PersistenceService {
         }
     }
     
+    static func markEpisodes(for showID: Int32, watched: Bool) {
+        do {
+            let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: episodeEntity)
+            fetchRequest.predicate = NSPredicate(format: "seriesId = %@", NSNumber(value: showID))
+            
+            let episode = try PersistenceService.context.fetch(fetchRequest) as! [NSManagedObject]
+            
+            for ep in episode {
+                ep.setValue(watched, forKey: "hasWatched")
+            }
+
+            PersistenceService.saveContext()
+            
+        } catch {
+            print(error, error.localizedDescription)
+        }
+    }
+    
     static func markAllEpisodes(watched: Bool) {
         do {
             let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: episodeEntity)
@@ -246,12 +264,11 @@ class PersistenceService {
             }
             
             for ep in result as! [CD_Episode] {
-                episodes.append(Episode(id: ep.id, overview: ep.overview, airedEpisodeNumber: ep.airedEpisodeNumber, airedSeason: ep.airedSeason, episodeName: ep.episodeName, firstAired: ep.firstAired, filename: ep.filename, seriesId: ep.seriesId, hasWatched: ep.hasWatched))
+                episodes.append(Episode(from: ep))
             }
             
             return episodes
-        }
-        catch {
+        } catch {
             print("error executing fetch request: \(error)")
         }
         return nil
