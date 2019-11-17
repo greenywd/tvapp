@@ -48,6 +48,7 @@ struct SettingsCreditsView: View {
                 .font(.headline)
             Text("Wilson for the name")
             Spacer()
+            Text("TV information and images are provided by TheTVDB.com, but we are not endorsed or certified by TheTVDB.com or its affiliates.")
         }
         .navigationBarTitle("Credits")
     }
