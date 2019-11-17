@@ -98,10 +98,15 @@ class TVDBAPI {
         request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
         request.setValue("Bearer \(currentToken)", forHTTPHeaderField: "Authorization")
         
-        let showTask = URLSession.shared.dataTask(with: request) { (data, response, error) in
+        URLSession.shared.dataTask(with: request) { (data, response, error) in
             
             print("Getting show with ID: \(id)")
 
+            
+            guard let _ = error else {
+                return
+            }
+            
             // make sure we got data
             guard let responseData = data else {
                 print("Error: did not receive data")
@@ -109,13 +114,13 @@ class TVDBAPI {
             }
 
             do {
+                dump(String(data: data!, encoding: .utf8))
                 let showInfo = try JSONDecoder().decode(API_Show.self, from: responseData).data!
                 completion(Show(from: showInfo))
             } catch {
                 print(error, error.localizedDescription)
             }
-        }
-        showTask.resume()
+        }.resume()
     }
     
     static func searchShows(show: String, completion: @escaping ([Show]?, String?) -> ()) {
