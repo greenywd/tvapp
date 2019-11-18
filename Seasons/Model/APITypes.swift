@@ -47,7 +47,7 @@ struct API_Episodes : Codable {
         let id: Int32
         let imdbId: String
         let filename: String
-        let director: String
+        // let director: String
         let airedSeason: Int32
         // let siteRating: Double
         let episodeName: String?
@@ -115,6 +115,7 @@ struct Show {
     var seriesName: String? = "Unknown Series Title"
     let banner: String?
     var bannerImage: Data? = nil
+    var header: String?
     var headerImage: Data? = nil
     let status: String?
     let runtime: String?
@@ -124,11 +125,12 @@ struct Show {
     // TODO: Associate episodes with a show - perhaps when we load episodes (favouriting/browsing)?
     let episodes: [Episode]? = nil
     
-    init(id: Int32, overview: String?, seriesName: String?, banner: String?, status: String?, runtime: String?, network: String?, siteRating: Double?, siteRatingCount: Int16) {
+    init(id: Int32, overview: String?, seriesName: String?, banner: String?, header: String?, status: String?, runtime: String?, network: String?, siteRating: Double?, siteRatingCount: Int16) {
         self.id = id
         self.overview = overview
         self.seriesName = seriesName
         self.banner = banner
+        self.header = header
         self.status = status
         self.network = network
         self.runtime = runtime
@@ -153,6 +155,7 @@ struct Show {
         self.overview = CD.overview
         self.seriesName = CD.seriesName
         self.banner = CD.banner
+        self.header = CD.header
         self.status = CD.status
         self.network = CD.network
         self.runtime = CD.runtime
@@ -253,6 +256,7 @@ struct Episode : Equatable {
     let filename: String?
     let seriesId: Int32?
     var hasWatched: Bool
+    var image: Data? = nil
     
     internal init(id: Int32, overview: String?, airedEpisodeNumber: Int32?, airedSeason: Int32?, episodeName: String?, firstAired: Date?, filename: String?, seriesId: Int32?, hasWatched: Bool) {
         self.id = id
@@ -276,6 +280,7 @@ struct Episode : Equatable {
         self.filename = CD.filename
         self.seriesId = CD.seriesId
         self.hasWatched = CD.hasWatched
+        self.image = CD.image
     }
     
     static func ==(lhs: Episode, rhs: Episode) -> Bool {
