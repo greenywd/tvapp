@@ -31,10 +31,11 @@ class ShowTableViewCell : UITableViewCell {
                 return
             }
             
-            if let header = show.bannerImage, let image = UIImage(data: header) {
+            if let banner = show.bannerImage, let image = UIImage(data: banner) {
                 backgroundImageView.image = image
             } else {
-                if let url = URL(string: "https://www.thetvdb.com/banners/" + show.banner!) {
+                if let url = URL(string: "https://artworks.thetvdb.com" + show.banner!) {
+                    print(url)
                     if backgroundImageView.image == nil {
                         DispatchQueue.global(qos: .background).async {
                             let dataForImage = try? Data(contentsOf: url)
