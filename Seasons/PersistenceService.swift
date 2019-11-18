@@ -99,22 +99,7 @@ class PersistenceService {
     }
     
     static func markEpisode(id: Int32, watched: Bool) {
-        do {
-            let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: episodeEntity)
-            fetchRequest.predicate = NSPredicate(format: "id = %@", NSNumber(value: id))
-            
-            let episode = try PersistenceService.context.fetch(fetchRequest).first as! NSManagedObject
-            dump(episode)
-            episode.setValue(watched, forKey: "hasWatched")
-            PersistenceService.saveContext()
-            
-        } catch {
-            print(error, error.localizedDescription)
-        }
-    }
-    
-    static func markEpisodes(ids: [Int32], watched: Bool) {
-        for id in ids {
+        DispatchQueue.main.async {
             do {
                 let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: episodeEntity)
                 fetchRequest.predicate = NSPredicate(format: "id = %@", NSNumber(value: id))
@@ -130,56 +115,81 @@ class PersistenceService {
         }
     }
     
-    static func markEpisodes(for showID: Int32, inSeason airedSeason: Int32, watched: Bool) {
-        do {
-            let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: episodeEntity)
-            
-            let seriesIDPredicate = NSPredicate(format: "seriesId = %@", NSNumber(value: showID))
-            let airedSeasonPredicate = NSPredicate(format: "airedSeason = %@", NSNumber(value: airedSeason))
-            fetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [seriesIDPredicate, airedSeasonPredicate])
-            
-            let episode = try PersistenceService.context.fetch(fetchRequest) as! [NSManagedObject]
-            
-            for ep in episode {
-                ep.setValue(watched, forKey: "hasWatched")
+    static func markEpisodes(ids: [Int32], watched: Bool) {
+        DispatchQueue.main.async {
+            for id in ids {
+                do {
+                    let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: episodeEntity)
+                    fetchRequest.predicate = NSPredicate(format: "id = %@", NSNumber(value: id))
+                    
+                    let episode = try PersistenceService.context.fetch(fetchRequest).first as! NSManagedObject
+                    dump(episode)
+                    episode.setValue(watched, forKey: "hasWatched")
+                    PersistenceService.saveContext()
+                    
+                } catch {
+                    print(error, error.localizedDescription)
+                }
             }
+        }
+    }
+    
+    static func markEpisodes(for showID: Int32, inSeason airedSeason: Int32, watched: Bool) {
+        DispatchQueue.main.async {
+            do {
+                let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: episodeEntity)
+                
+                let seriesIDPredicate = NSPredicate(format: "seriesId = %@", NSNumber(value: showID))
+                let airedSeasonPredicate = NSPredicate(format: "airedSeason = %@", NSNumber(value: airedSeason))
+                fetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [seriesIDPredicate, airedSeasonPredicate])
+                
+                let episode = try PersistenceService.context.fetch(fetchRequest) as! [NSManagedObject]
+                
+                for ep in episode {
+                    ep.setValue(watched, forKey: "hasWatched")
+                }
 
-            PersistenceService.saveContext()
-            
-        } catch {
-            print(error, error.localizedDescription)
+                PersistenceService.saveContext()
+                
+            } catch {
+                print(error, error.localizedDescription)
+            }
         }
     }
     
     static func markEpisodes(for showID: Int32, watched: Bool) {
-        do {
-            let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: episodeEntity)
-            fetchRequest.predicate = NSPredicate(format: "seriesId = %@", NSNumber(value: showID))
-            
-            let episode = try PersistenceService.context.fetch(fetchRequest) as! [NSManagedObject]
-            
-            for ep in episode {
-                ep.setValue(watched, forKey: "hasWatched")
-            }
+        DispatchQueue.main.async {
+            do {
+                let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: episodeEntity)
+                fetchRequest.predicate = NSPredicate(format: "seriesId = %@", NSNumber(value: showID))
+                
+                let episode = try PersistenceService.context.fetch(fetchRequest) as! [NSManagedObject]
+                
+                for ep in episode {
+                    ep.setValue(watched, forKey: "hasWatched")
+                }
 
-            PersistenceService.saveContext()
-            
-        } catch {
-            print(error, error.localizedDescription)
+                PersistenceService.saveContext()
+                
+            } catch {
+                print(error, error.localizedDescription)
+            }
         }
     }
     
     static func markAllEpisodes(watched: Bool) {
-        do {
-            let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: episodeEntity)
-            
-            let episode = try PersistenceService.context.fetch(fetchRequest).first as! NSManagedObject
-            dump(episode)
-            episode.setValue(watched, forKey: "hasWatched")
-            PersistenceService.saveContext()
-            
-        } catch {
-            print(error, error.localizedDescription)
+        DispatchQueue.main.async {
+            do {
+                let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: episodeEntity)
+                
+                let episode = try PersistenceService.context.fetch(fetchRequest).first as! NSManagedObject
+                dump(episode)
+                episode.setValue(watched, forKey: "hasWatched")
+                PersistenceService.saveContext()
+                
+            } catch {
+                print(error, error.localizedDescription)
+            }
         }
     }
     
