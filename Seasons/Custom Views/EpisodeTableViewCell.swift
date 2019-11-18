@@ -31,6 +31,11 @@ class EpisodeTableViewCell : UITableViewCell {
                 return
             }
             
+            if let imageData = episode.image {
+                self.backgroundImageView.image = UIImage(data: imageData)
+                return
+            }
+            
             if let url = URL(string: "https://www.thetvdb.com/banners/" + episode.filename!) {
                 if backgroundImageView.image == nil {
                     DispatchQueue.global(qos: .background).async {
