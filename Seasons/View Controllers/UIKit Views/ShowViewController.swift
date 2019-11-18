@@ -17,8 +17,8 @@ class ShowViewController: UITableViewController {
     //MARK: - Properties
     
     // var activityIndicator: UIActivityIndicatorView?
-    @IBOutlet var bannerImageView: SeasonsHeaderImageView?
-    @IBOutlet weak var bannerImageCell: UITableViewCell!
+    @IBOutlet var headerImageView: SeasonsHeaderImageView?
+    // @IBOutlet weak var bannerImageCell: UITableViewCell!
     @IBOutlet weak var showDescription: UITextView!
     @IBOutlet weak var showMoreButton: UIButton!
     @IBOutlet var showDescriptionHeightConstraint: NSLayoutConstraint!
@@ -40,6 +40,7 @@ class ShowViewController: UITableViewController {
             }
         }
     }
+    
     var rightBarButtonItem = UIBarButtonItem()
     
     //MARK: - Methods
@@ -74,9 +75,9 @@ class ShowViewController: UITableViewController {
                     DispatchQueue.main.async {
                         do {
                             let data = try Data(contentsOf: url!)
-                            
-                            let banner = UIImage(data: data)
-                            self.bannerImageView?.image = banner
+                            let header = UIImage(data: data)
+                            self.show.header = url?.absoluteString
+                            self.headerImageView?.image = header
                             
                         } catch {
                             print(error, error.localizedDescription)
@@ -90,9 +91,9 @@ class ShowViewController: UITableViewController {
                             DispatchQueue.main.async {
                                 do {
                                     let data = try Data(contentsOf: url!)
-                                    
-                                    let banner = UIImage(data: data)
-                                    self.bannerImageView?.image = banner
+                                    let header = UIImage(data: data)
+                                    self.show.header = url?.absoluteString
+                                    self.headerImageView?.image = header
                                     
                                 } catch {
                                     print(error, error.localizedDescription)
@@ -104,13 +105,14 @@ class ShowViewController: UITableViewController {
                 dispatchGroup.leave()
             }
         } else {
+            
             let id = show!.id
             
             if let show = PersistenceService.getShow(id: id) {
                 self.show = show
                 
                 if let headerImage = show.headerImage, let header = UIImage(data: headerImage) {
-                    bannerImageView?.image = header
+                    headerImageView?.image = header
                 }
             }
         }
@@ -126,7 +128,7 @@ class ShowViewController: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        setupRightBarButtonItem(isBusy: false)
+        // setupRightBarButtonItem(isBusy: false)
     }
     
     @objc func expandTextView() {
@@ -166,16 +168,25 @@ class ShowViewController: UITableViewController {
         favShow.id = Int32(show.id)
         favShow.seriesName = show.seriesName
         favShow.overview = show.overview
-        favShow.headerImage = bannerImageView?.image?.pngData()
+        favShow.headerImage = headerImageView?.image?.pngData()
+        favShow.header = show.header
         favShow.banner = show.banner
         favShow.network = show.network
         favShow.runtime = show.runtime
-        favShow.siteRating = show.siteRating!
-        favShow.siteRatingCount = show.siteRatingCount!
+        favShow.siteRating = show.siteRating ?? 0
+        favShow.siteRatingCount = show.siteRatingCount ?? 0
         favShow.status = show.status
         
         let dispatchGroup = DispatchGroup()
         dispatchGroup.enter()
+        
+        let bannerURL = URL(string: "https://artworks.thetvdb.com/banners/" + show.banner!)
+        let bannerImage = try? Data(contentsOf: bannerURL!)
+        
+        if let image = UIImage(data: bannerImage!) {
+            favShow.bannerImage = image.pngData()
+        }
+        
         TVDBAPI.getEpisodes(show: show.id) { (episodeList) in
             if let episodes = episodeList {
                 for episode in episodes {
@@ -188,6 +199,7 @@ class ShowViewController: UITableViewController {
                     cdEpisode.id = episode.id
                     cdEpisode.overview = episode.overview
                     cdEpisode.seriesId = episode.seriesId!
+                    // cdEpisode.image = try? Data(contentsOf: URL(string: "https://artworks.thetvdb.com/banners/" + episode.filename!)!)
                     favShow.addToEpisode(cdEpisode)
                 }
             }
