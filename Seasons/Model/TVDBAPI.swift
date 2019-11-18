@@ -101,11 +101,6 @@ class TVDBAPI {
         URLSession.shared.dataTask(with: request) { (data, response, error) in
             
             print("Getting show with ID: \(id)")
-
-            
-            guard let _ = error else {
-                return
-            }
             
             // make sure we got data
             guard let responseData = data else {
