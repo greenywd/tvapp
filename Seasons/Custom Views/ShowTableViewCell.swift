@@ -37,7 +37,7 @@ class ShowTableViewCell : UITableViewCell {
                 if let url = URL(string: "https://artworks.thetvdb.com" + show.banner!) {
                     print(url)
                     if backgroundImageView.image == nil {
-                        DispatchQueue.global(qos: .background).async {
+                        DispatchQueue.global(qos: .utility).async {
                             let dataForImage = try? Data(contentsOf: url)
                             
                             DispatchQueue.main.async {
