@@ -99,7 +99,7 @@ class PersistenceService {
     }
     
     static func markEpisode(id: Int32, watched: Bool) {
-        DispatchQueue.main.async {
+        DispatchQueue.global(qos: .userInitiated).async {
             do {
                 let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: episodeEntity)
                 fetchRequest.predicate = NSPredicate(format: "id = %@", NSNumber(value: id))
@@ -116,7 +116,7 @@ class PersistenceService {
     }
     
     static func markEpisodes(ids: [Int32], watched: Bool) {
-        DispatchQueue.main.async {
+        DispatchQueue.global(qos: .userInitiated).async {
             for id in ids {
                 do {
                     let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: episodeEntity)
@@ -135,7 +135,7 @@ class PersistenceService {
     }
     
     static func markEpisodes(for showID: Int32, inSeason airedSeason: Int32, watched: Bool) {
-        DispatchQueue.main.async {
+        DispatchQueue.global(qos: .userInitiated).async {
             do {
                 let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: episodeEntity)
                 
@@ -158,7 +158,7 @@ class PersistenceService {
     }
     
     static func markEpisodes(for showID: Int32, watched: Bool) {
-        DispatchQueue.main.async {
+        DispatchQueue.global(qos: .userInitiated).async {
             do {
                 let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: episodeEntity)
                 fetchRequest.predicate = NSPredicate(format: "seriesId = %@", NSNumber(value: showID))
@@ -178,7 +178,7 @@ class PersistenceService {
     }
     
     static func markAllEpisodes(watched: Bool) {
-        DispatchQueue.main.async {
+        DispatchQueue.global(qos: .userInitiated).async {
             do {
                 let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: episodeEntity)
                 
