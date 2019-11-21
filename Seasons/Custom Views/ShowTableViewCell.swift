@@ -34,8 +34,8 @@ class ShowTableViewCell : UITableViewCell {
             if let banner = show.bannerImage, let image = UIImage(data: banner) {
                 backgroundImageView.image = image
             } else {
-                if let url = URL(string: "https://artworks.thetvdb.com" + show.banner!) {
-                    print(url)
+                if let url = URL(string: "https://artworks.thetvdb.com/banners/" + show.banner!) {
+                    print("CELL URL \(url)")
                     if backgroundImageView.image == nil {
                         DispatchQueue.global(qos: .utility).async {
                             let dataForImage = try? Data(contentsOf: url)
