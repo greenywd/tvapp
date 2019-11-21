@@ -80,7 +80,7 @@ class HomeViewController: UITableViewController {
     
     func updateFavouriteShows() {
         if let shows = PersistenceService.getShows() {
-            favouriteShows = shows
+            favouriteShows = shows.sorted(by: { $1.seriesName!.lowercased() > $0.seriesName!.lowercased() })
         } else {
             favouriteShows.removeAll()
             self.refreshControl?.endRefreshing()
