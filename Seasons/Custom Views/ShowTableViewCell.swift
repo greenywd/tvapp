@@ -34,16 +34,23 @@ class ShowTableViewCell : UITableViewCell {
             if let banner = show.bannerImage, let image = UIImage(data: banner) {
                 backgroundImageView.image = image
             } else {
-                if let url = URL(string: "https://artworks.thetvdb.com/banners/" + show.banner!) {
+                let url: URL!
+                
+                if (show.banner?.contains("/banners/posters/") ?? false) {
+                    url = URL(string: "https://artworks.thetvdb.com" + show.banner!)
+                } else {
+                    // banner contains "graphical/"
+                    url = URL(string: "https://artworks.thetvdb.com/banners/" + show.banner!)
+                }
+                
+                if backgroundImageView.image == nil {
                     print("CELL URL \(url)")
-                    if backgroundImageView.image == nil {
-                        DispatchQueue.global(qos: .utility).async {
-                            let dataForImage = try? Data(contentsOf: url)
-                            
-                            DispatchQueue.main.async {
-                                if let image = dataForImage {
-                                    self.backgroundImageView.image = UIImage(data: image)
-                                }
+                    DispatchQueue.global(qos: .userInteractive).async {
+                        let dataForImage = try? Data(contentsOf: url)
+                        
+                        DispatchQueue.main.async {
+                            if let image = dataForImage {
+                                self.backgroundImageView.image = UIImage(data: image)
                             }
                         }
                     }
