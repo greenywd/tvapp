@@ -171,13 +171,15 @@ class ShowViewController: UITableViewController {
         // There's a better way to do this, right?
         
         setupRightBarButtonItem(isBusy: true)
+        // Workaround for accessing UI from background thread
+        let headerImage = self.headerImageView?.image?.pngData()
         
-        DispatchQueue.main.async {
+        DispatchQueue.global(qos: .userInteractive).async {
             let favShow = CD_Show(context: PersistenceService.context)
             favShow.id = Int32(self.show.id)
             favShow.seriesName = self.show.seriesName
             favShow.overview = self.show.overview
-            favShow.headerImage = self.headerImageView?.image?.pngData()
+            favShow.headerImage = headerImage
             favShow.header = self.show.header
             favShow.banner = self.show.banner
             favShow.network = self.show.network
@@ -196,6 +198,7 @@ class ShowViewController: UITableViewController {
                 if let banner = bannerImage, let image = UIImage(data: banner) {
                     favShow.bannerImage = image.pngData()
                 }
+                dispatchGroup.leave()
             }
             
             TVDBAPI.getEpisodes(show: self.show.id) { (episodeList) in
@@ -214,7 +217,10 @@ class ShowViewController: UITableViewController {
                         favShow.addToEpisode(cdEpisode)
                     }
                 }
-                dispatchGroup.leave()
+                
+                if (favShow.bannerImage != nil) {
+                    dispatchGroup.leave()
+                }
             }
             
             dispatchGroup.notify(queue: .main) {
