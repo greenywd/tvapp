@@ -13,6 +13,7 @@
 		D618197022BCF5AE0080D62F /* SeasonsHeaderImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D618196F22BCF5AE0080D62F /* SeasonsHeaderImageView.swift */; };
 		D61A03772287AC390002AA48 /* APITypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = D61A03762287AC390002AA48 /* APITypes.swift */; };
 		D61FFE05226B2F72004A0F46 /* URLResponse+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D61FFE04226B2F72004A0F46 /* URLResponse+Extensions.swift */; };
+		D626ED742387FC4400C8EAE8 /* TVDBAPI+Background.swift in Sources */ = {isa = PBXBuildFile; fileRef = D626ED732387FC4400C8EAE8 /* TVDBAPI+Background.swift */; };
 		D62CD16722C49D78004721F6 /* EpisodeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D62CD16622C49D78004721F6 /* EpisodeTableViewCell.swift */; };
 		D62CD16922C49FEB004721F6 /* EpisodeTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D62CD16822C49FEB004721F6 /* EpisodeTableViewCell.xib */; };
 		D62CD16B22C4A387004721F6 /* EpisodeTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D62CD16A22C4A387004721F6 /* EpisodeTableViewController.swift */; };
@@ -62,6 +63,7 @@
 		D618196F22BCF5AE0080D62F /* SeasonsHeaderImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeasonsHeaderImageView.swift; sourceTree = "<group>"; };
 		D61A03762287AC390002AA48 /* APITypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APITypes.swift; sourceTree = "<group>"; };
 		D61FFE04226B2F72004A0F46 /* URLResponse+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLResponse+Extensions.swift"; sourceTree = "<group>"; };
+		D626ED732387FC4400C8EAE8 /* TVDBAPI+Background.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TVDBAPI+Background.swift"; sourceTree = "<group>"; };
 		D62CD16622C49D78004721F6 /* EpisodeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EpisodeTableViewCell.swift; sourceTree = "<group>"; };
 		D62CD16822C49FEB004721F6 /* EpisodeTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EpisodeTableViewCell.xib; sourceTree = "<group>"; };
 		D62CD16A22C4A387004721F6 /* EpisodeTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EpisodeTableViewController.swift; sourceTree = "<group>"; };
@@ -121,6 +123,7 @@
 				D6629D8F1E3C27A70049CC26 /* TVDBAPI.swift */,
 				D61A03762287AC390002AA48 /* APITypes.swift */,
 				D613EB2822B3A39B00ADCD53 /* APIKey.swift */,
+				D626ED732387FC4400C8EAE8 /* TVDBAPI+Background.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -319,6 +322,7 @@
 				D691D5F6230D146A00D8DB82 /* SettingsAppearanceView.swift in Sources */,
 				D6D94ABC2286ED2900A405B5 /* ShowTableViewCell.swift in Sources */,
 				D63D0A481E2845ED00D3F1CA /* AppDelegate.swift in Sources */,
+				D626ED742387FC4400C8EAE8 /* TVDBAPI+Background.swift in Sources */,
 				D64C8B68228C2ADB00049F86 /* PersistenceService.swift in Sources */,
 				D61FFE05226B2F72004A0F46 /* URLResponse+Extensions.swift in Sources */,
 				D68530DC22CC78070002ED8D /* ScheduleTableViewController.swift in Sources */,
