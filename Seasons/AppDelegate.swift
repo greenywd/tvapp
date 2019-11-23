@@ -16,7 +16,6 @@ let userDefaults = UserDefaults.standard
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
     var window: UIWindow?
-    let notificationCenter = UNUserNotificationCenter.current()
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
@@ -50,21 +49,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             UIApplication.shared.windows.first?.overrideUserInterfaceStyle = .dark
         }
         
-        let options: UNAuthorizationOptions = [.alert, .sound, .badge]
+        let center = UNUserNotificationCenter.current()
+              center.requestAuthorization(options:[.badge, .alert, .sound]) { (granted, error) in
+
+                  // If granted comes true you can enabled features based on authorization.
+                  guard granted else { return }
+                  DispatchQueue.main.async {
+                      application.registerForRemoteNotifications()
+                  }
+              }
         
-        notificationCenter.requestAuthorization(options: options) {
-            (allowed, error) in
-            if (!allowed) {
-                print("Declined Notifications")
-            }
-        }
-        
-        BGTaskScheduler.shared.register(forTaskWithIdentifier: "com.greeny.Seasons.update", using: DispatchQueue.global()) { task in
-            self.fireLocalNotification()
-            self.handleShowUpdate(task)
+        BGTaskScheduler.shared.register(forTaskWithIdentifier: "com.greeny.Seasons.update", using: nil) { task in
+            self.handleAppRefresh(task: task as! BGProcessingTask)
         }
         
         window?.backgroundColor = .systemBackground
+        
         TVDBAPI.retrieveToken {
             PersistenceService.updateEpisodes()
         }
@@ -72,54 +72,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
     
-    private func fireLocalNotification(content: UNMutableNotificationContent? = nil) {
-        if content == nil {
-            let content = UNMutableNotificationContent()
-            content.title = "Background Refresh"
-            content.body = "You see this? Let me know!"
-        }
-        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1.0, repeats: false)
-        let request = UNNotificationRequest(identifier: "local_notification", content: content!, trigger: trigger)
-        
-        UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
-    }
-    
     private func scheduleShowUpdate() {
+        let request = BGProcessingTaskRequest(identifier: "com.greeny.Seasons.update")
+        request.earliestBeginDate = Date(timeIntervalSinceNow: 60)
+        request.requiresNetworkConnectivity = true
+        
         do {
-            let request = BGAppRefreshTaskRequest(identifier: "com.greeny.Seasons.update")
-            
-            request.earliestBeginDate = Date(timeIntervalSinceNow: 1800)
-            
             try BGTaskScheduler.shared.submit(request)
         } catch {
             print(error, error.localizedDescription)
         }
     }
     
-    private func handleShowUpdate(_ task: BGTask) {
-        PersistenceService.updateShows { shows in
-            if shows.contains(where: { (key, value) -> Bool in
-                value == true
-            }) {
-                let content = UNMutableNotificationContent()
-                content.title = "Favourites Updated"
-                content.body = "You see this? Let me know!"
-                
-                fireLocalNotification(content: content)
-            }
-            fireLocalNotification()
-        }
+    private func handleAppRefresh(task: BGProcessingTask) {
+        scheduleShowUpdate()
         
-        task.expirationHandler = {
-            // TODO: Cancel network requests
-        }
-        
+        TVDBAPI_Background.retrieveToken()
         task.setTaskCompleted(success: true)
-    }
-    
-    
-    func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
-        return true
+        task.expirationHandler = {
+            TVDBAPI_Background.backgroundURLSession.invalidateAndCancel()
+        }
     }
     
     func applicationWillResignActive(_ application: UIApplication) {
@@ -130,7 +102,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationDidEnterBackground(_ application: UIApplication) {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
-        // BGTaskScheduler.shared.cancelAllTaskRequests()
+        BGTaskScheduler.shared.cancelAllTaskRequests()
         scheduleShowUpdate()
     }
     
