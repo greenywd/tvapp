@@ -60,6 +60,7 @@ class TVDBAPI {
         request.httpMethod = "POST"
         request.httpBody = json
         request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
+        request.timeoutInterval = 5
         
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             guard let data = data, error == nil else {
