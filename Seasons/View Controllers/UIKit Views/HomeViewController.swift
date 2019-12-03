@@ -36,8 +36,8 @@ class HomeViewController: UITableViewController {
         searchController.searchBar.placeholder = "Search Shows"
         navigationItem.searchController = searchController
         
-        let searchBarHeight = searchController.searchBar.frame.size.height
-        tableView.setContentOffset(CGPoint(x: 0, y: searchBarHeight), animated: false)
+//        let searchBarHeight = searchController.searchBar.frame.size.height
+//        tableView.setContentOffset(CGPoint(x: 0, y: searchBarHeight), animated: false)
         
         refreshControl?.addTarget(self, action: #selector(refresh), for: UIControl.Event.valueChanged)
         
@@ -45,7 +45,7 @@ class HomeViewController: UITableViewController {
     }
     
     @objc func contextObjectsDidChange(_ notification: Notification) {
-        print("NSManagedObjectContextObjectsDidChange... \(notification.userInfo)")
+        print("NSManagedObjectContextObjectsDidChange... \(notification.userInfo!)")
         DispatchQueue.main.async {
             self.updateFavouriteShows()
         }
