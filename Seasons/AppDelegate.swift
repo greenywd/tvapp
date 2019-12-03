@@ -87,7 +87,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     private func handleAppRefresh(task: BGProcessingTask) {
         scheduleShowUpdate()
         
-        TVDBAPI_Background.retrieveToken()
+        TVDBAPI_Background.updateShows()
         task.setTaskCompleted(success: true)
         task.expirationHandler = {
             TVDBAPI_Background.backgroundURLSession.invalidateAndCancel()
