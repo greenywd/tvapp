@@ -27,7 +27,6 @@ class PersistenceService {
          */
 
         let container = NSPersistentCloudKitContainer(name: "Seasons")
-        container.viewContext.automaticallyMergesChangesFromParent = true
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
             if let error = error as NSError? {
                 // Replace this implementation with code to handle the error appropriately.
@@ -43,6 +42,7 @@ class PersistenceService {
                  */
                 fatalError("Unresolved error \(error), \(error.userInfo)")
             }
+            container.viewContext.automaticallyMergesChangesFromParent = true
         })
         return container
     }()
