@@ -107,8 +107,9 @@ class ShowViewController: UITableViewController {
                                     print(error, error.localizedDescription)
                                 }
                             }
+                        } else {
+                            dispatchGroup.leave()
                         }
-                        dispatchGroup.leave()
                     }
                 }
             }
