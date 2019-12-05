@@ -16,12 +16,10 @@ class ShowViewController: UITableViewController {
     
     //MARK: - Properties
     
-    // var activityIndicator: UIActivityIndicatorView?
-    @IBOutlet var headerImageView: SeasonsHeaderImageView?
-    // @IBOutlet weak var bannerImageCell: UITableViewCell!
+    @IBOutlet weak var headerImageView: SeasonsHeaderImageView?
     @IBOutlet weak var showDescription: UITextView!
     @IBOutlet weak var showMoreButton: UIButton!
-    @IBOutlet var showDescriptionHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var showDescriptionHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var showDescriptionBottomConstraint: NSLayoutConstraint!
     
     var show: Show! {
@@ -199,7 +197,6 @@ class ShowViewController: UITableViewController {
                 if let banner = bannerImage, let image = UIImage(data: banner) {
                     favShow.bannerImage = image.pngData()
                 }
-                dispatchGroup.leave()
             }
             
             TVDBAPI.getEpisodes(show: self.show.id) { (episodeList) in
@@ -231,7 +228,6 @@ class ShowViewController: UITableViewController {
                 self.rightBarButtonItem.action = #selector(self.removeShow)
             }
         }
-
     }
     
     @objc func removeShow() {
