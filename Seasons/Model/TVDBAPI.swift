@@ -7,21 +7,8 @@
 //
 
 import Foundation
-import UIKit
-
-private protocol TVDBError : Error {
-    var title: String { get }
-}
 
 class TVDBAPI {
-    
-    private struct TVError : TVDBError {
-        var title: String
-        
-        init(title: String) {
-            self.title = title
-        }
-    }
     
     /// An Enumerated type for declaring a resolution in the 16:9 aspect ratio.
     ///
@@ -41,6 +28,23 @@ class TVDBAPI {
     
     private static var currentToken: String = ""
     
+    enum HTTPMethod: String {
+        case post = "POST"
+        case get = "GET"
+    }
+    
+    private static func createRequest(with url: URL, method: HTTPMethod, needsToken: Bool) -> URLRequest {
+        var request = URLRequest(url: url)
+        request.httpMethod = method.rawValue
+        request.timeoutInterval = 30
+        request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
+        if needsToken {
+            request.setValue("Bearer \(TVDBAPI.currentToken)", forHTTPHeaderField: "Authorization")
+        }
+        
+        return request
+    }
+    
     /// Retrieves a token from thetvdb.com
     ///
     /// - Parameters:
@@ -54,13 +58,10 @@ class TVDBAPI {
         // FIXME: Proper error handling?
         let json = try? JSONSerialization.data(withJSONObject: params, options: .prettyPrinted)
         
-        let endpoint = URL(string: "https://api.thetvdb.com/login")
+        let endpoint = URL(string: "https://api.thetvdb.com/login")!
         
-        var request = URLRequest(url: endpoint!)
-        request.httpMethod = "POST"
+        var request = createRequest(with: endpoint, method: .post, needsToken: false)
         request.httpBody = json
-        request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
-        request.timeoutInterval = 5
         
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             guard let data = data, error == nil else {
@@ -94,10 +95,7 @@ class TVDBAPI {
             return
         }
         
-        var request = URLRequest(url: seriesURL)
-        request.httpMethod = "GET"
-        request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
-        request.setValue("Bearer \(currentToken)", forHTTPHeaderField: "Authorization")
+        let request = createRequest(with: seriesURL, method: .get, needsToken: true)
         
         URLSession.shared.dataTask(with: request) { (data, response, error) in
             
@@ -131,10 +129,7 @@ class TVDBAPI {
             return
         }
         
-        var request = URLRequest(url: seriesURL)
-        request.httpMethod = "GET"
-        request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
-        request.setValue("Bearer \(currentToken)", forHTTPHeaderField: "Authorization")
+        let request = createRequest(with: seriesURL, method: .get, needsToken: true)
         
         let showTask = URLSession.shared.dataTask(with: request) { (data, response, error) in
             
@@ -186,10 +181,7 @@ class TVDBAPI {
             return
         }
         
-        var request = URLRequest(url: episodesURL)
-        request.httpMethod = "GET"
-        request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
-        request.setValue("Bearer \(currentToken)", forHTTPHeaderField: "Authorization")
+        let request = createRequest(with: episodesURL, method: .get, needsToken: true)
         
         let showTask = URLSession.shared.dataTask(with: request) { (data, response, error) in
             
@@ -239,10 +231,7 @@ class TVDBAPI {
             return
         }
         
-        var request = URLRequest(url: episodesURL)
-        request.httpMethod = "GET"
-        request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
-        request.setValue("Bearer \(currentToken)", forHTTPHeaderField: "Authorization")
+        let request = createRequest(with: episodesURL, method: .get, needsToken: true)
         
         let showTask = URLSession.shared.dataTask(with: request) { (data, response, error) in
             
@@ -279,10 +268,7 @@ class TVDBAPI {
         
         print(episodesURL)
         
-        var request = URLRequest(url: episodesURL)
-        request.httpMethod = "GET"
-        request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
-        request.setValue("Bearer \(currentToken)", forHTTPHeaderField: "Authorization")
+        let request = createRequest(with: episodesURL, method: .get, needsToken: true)
         
         let showTask = URLSession.shared.dataTask(with: request) { (data, response, error) in
             
