@@ -60,7 +60,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
               }
         
         BGTaskScheduler.shared.register(forTaskWithIdentifier: "com.greeny.Seasons.update", using: nil) { task in
-            self.handleAppRefresh(task: task as! BGProcessingTask)
+            self.handleAppRefresh(task: task as! BGAppRefreshTask)
         }
         
         window?.backgroundColor = .systemBackground
@@ -73,9 +73,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     private func scheduleShowUpdate() {
-        let request = BGProcessingTaskRequest(identifier: "com.greeny.Seasons.update")
-        request.earliestBeginDate = Date(timeIntervalSinceNow: 60)
-        request.requiresNetworkConnectivity = true
+        let request = BGAppRefreshTaskRequest(identifier: "com.greeny.Seasons.update")
+        request.earliestBeginDate = Date(timeIntervalSinceNow: 1)
         
         do {
             try BGTaskScheduler.shared.submit(request)
@@ -84,13 +83,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
     
-    private func handleAppRefresh(task: BGProcessingTask) {
+    private func handleAppRefresh(task: BGAppRefreshTask) {
         scheduleShowUpdate()
         
-        TVDBAPI_Background.updateShows()
-        task.setTaskCompleted(success: true)
+        let api = TVDBAPI_Background()
+        api.backgroundTask = task
+        api.updateShows(task: task)
+        api.downloadTask.resume()
+//        task.setTaskCompleted(success: true)
         task.expirationHandler = {
-            TVDBAPI_Background.backgroundURLSession.invalidateAndCancel()
+            api.downloadTask.cancel()
         }
     }
     
@@ -102,6 +104,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationDidEnterBackground(_ application: UIApplication) {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+
         BGTaskScheduler.shared.cancelAllTaskRequests()
         scheduleShowUpdate()
     }
@@ -122,5 +125,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Saves changes in the application's managed object context before the application terminates.
         PersistenceService.saveContext()
     }
+    
+    func application(_ application: UIApplication, handleEventsForBackgroundURLSession identifier: String, completionHandler: @escaping () -> Void) {
+        print("IDENTIFIER: \(identifier)")
+        completionHandler()
+    }
 }
-
