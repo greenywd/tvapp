@@ -52,7 +52,7 @@ class TVDBAPI {
     ///   - success: Callback after retrieval.
     ///   - error: A (hopefully) descriptive error if no data is retrieved, if JSON decoding goes wrong or an API error from thetvdb.com.
     
-    static func retrieveToken(completion: @escaping () -> () = {}) {
+    static func retrieveToken(completion: @escaping () -> Void = {}) {
         // TODO: If token is expired (check status code/error) renew it
         let params = ["apikey" : APIKey]
         // FIXME: Proper error handling?
@@ -87,7 +87,7 @@ class TVDBAPI {
     }
     
     
-    static func getShow(id: Int32, completion: @escaping (Show?) -> () = { _ in }) {
+    static func getShow(id: Int32, completion: @escaping (Show?) -> Void = { _ in }) {
         let seriesEndpoint = "https://api.thetvdb.com/series/\(String(id))"
         
         guard let seriesURL = URL(string: seriesEndpoint) else {
@@ -117,7 +117,7 @@ class TVDBAPI {
         }.resume()
     }
     
-    static func searchShows(show: String, completion: @escaping ([Show]?, String?) -> ()) {
+    static func searchShows(show: String, completion: @escaping ([Show]?, String?) -> Void) {
         var searchURL = "https://api.thetvdb.com/search/series?name=\(show)"
         
         if let encoded = searchURL.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed), let encodedURL = URL(string: encoded) {
@@ -168,7 +168,7 @@ class TVDBAPI {
         showTask.resume()
     }
     
-    static func getEpisodes(show id: Int32, parameters: String? = nil, completion: @escaping ([Episode]?) -> ()) {
+    static func getEpisodes(show id: Int32, parameters: String? = nil, completion: @escaping ([Episode]?) -> Void) {
         var episodesURLEndpoint = "https://api.thetvdb.com/series/\(id)/episodes"
         let episodeGroup = DispatchGroup()
         
@@ -223,7 +223,7 @@ class TVDBAPI {
         
     }
     
-    static func getImageURLs(show id: Int32, resolution: Resolution, completion: @escaping (API_Images?) -> () = { _ in }) {
+    static func getImageURLs(show id: Int32, resolution: Resolution, completion: @escaping (API_Images?) -> Void = { _ in }) {
         let imagesURLEndpoint = "https://api.thetvdb.com/series/\(id)/images/query?keyType=fanart&resolution=\(resolution.rawValue)"
         
         guard let episodesURL = URL(string: imagesURLEndpoint) else {
@@ -258,7 +258,7 @@ class TVDBAPI {
         showTask.resume()
     }
     
-    static func getEpisodeSummary(show id: Int32, completion: @escaping (EpisodeSummary?) -> ()) {
+    static func getEpisodeSummary(show id: Int32, completion: @escaping (EpisodeSummary?) -> Void) {
         let imagesURLEndpoint = "https://api.thetvdb.com/series/\(id)/episodes/summary"
         
         guard let episodesURL = URL(string: imagesURLEndpoint) else {
