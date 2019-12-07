@@ -212,6 +212,10 @@ extension HomeViewController : UISearchResultsUpdating, UISearchBarDelegate {
         return nil
     }
     
+    override func tableView(_ tableView: UITableView, willPerformPreviewActionForMenuWith configuration: UIContextMenuConfiguration, animator: UIContextMenuInteractionCommitAnimating) {
+        animator.preferredCommitStyle = .dismiss
+    }
+    
     var noFavouritesRow: ShowTableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "showCell") as! ShowTableViewCell
         cell.titleLabel?.text = "No Favourites!"
