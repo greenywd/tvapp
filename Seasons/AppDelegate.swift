@@ -65,16 +65,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         window?.backgroundColor = .systemBackground
         
-        TVDBAPI.retrieveToken {
-            PersistenceService.updateEpisodes()
-        }
+        TVDBAPI.retrieveToken()
+//            PersistenceService.updateEpisodes()
+//        }
         
         return true
     }
     
     private func scheduleShowUpdate() {
         let request = BGAppRefreshTaskRequest(identifier: "com.greeny.Seasons.update")
-        request.earliestBeginDate = Date(timeIntervalSinceNow: 1)
+        // Perform a background task at earliest after 12 hours
+        request.earliestBeginDate = Date(timeIntervalSinceNow: 1 /*60 * 60 * 12*/)
         
         do {
             try BGTaskScheduler.shared.submit(request)
@@ -88,8 +89,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         let api = TVDBAPI_Background()
         api.backgroundTask = task
-        api.updateShows(task: task)
-        api.downloadTask.resume()
+        api.getToken()
+
 //        task.setTaskCompleted(success: true)
         task.expirationHandler = {
             api.downloadTask.cancel()
@@ -105,7 +106,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
 
-        BGTaskScheduler.shared.cancelAllTaskRequests()
+        // BGTaskScheduler.shared.cancelAllTaskRequests()
         scheduleShowUpdate()
     }
     
