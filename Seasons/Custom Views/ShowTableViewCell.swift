@@ -44,7 +44,7 @@ class ShowTableViewCell : UITableViewCell {
                 }
                 
                 if backgroundImageView.image == nil {
-                    print("CELL URL \(url)")
+                    print("CELL URL \(url!)")
                     DispatchQueue.global(qos: .userInteractive).async {
                         let dataForImage = try? Data(contentsOf: url)
                         
