@@ -80,8 +80,9 @@ class ScheduleTableViewController: UITableViewController {
         
         let section = airDates![indexPath.section]
         let filteredEpisodes = episodes!.filter { $0.firstAired == section }
-        
-        cell.titleLabel.text = filteredEpisodes[indexPath.row].episodeName ?? "Unknown Title"
+        // FIXME: This holds up the UI for quite a bit, perhaps try one of those fancy background contexts? 
+        let show = PersistenceService.getShow(id: filteredEpisodes[indexPath.row].seriesId!)
+        cell.titleLabel.text = "\(filteredEpisodes[indexPath.row].episodeName ?? "Unknown Episode Name") - \(show?.seriesName! ?? "Unknown Show Name")"
         cell.detailLabel.text = filteredEpisodes[indexPath.row].overview ?? "No Description" // DateFormatter().string(from: episode.firstAired!)
         
         return cell
