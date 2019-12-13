@@ -19,7 +19,7 @@ class ShowViewController: UITableViewController {
     @IBOutlet weak var headerImageView: SeasonsHeaderImageView?
     @IBOutlet weak var showDescription: UITextView!
     @IBOutlet weak var showMoreButton: UIButton!
-    @IBOutlet weak var showDescriptionHeightConstraint: NSLayoutConstraint!
+    @IBOutlet var showDescriptionHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var showDescriptionBottomConstraint: NSLayoutConstraint!
     
     var show: Show! {
