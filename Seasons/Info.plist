@@ -5,6 +5,7 @@
 	<key>BGTaskSchedulerPermittedIdentifiers</key>
 	<array>
 		<string>com.greeny.Seasons.update</string>
+		<string>com.greeny.Seasons.schedule</string>
 	</array>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>

@@ -17,6 +17,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     var window: UIWindow?
     
+    static let bgTaskShowUpdate = "com.greeny.Seasons.update"
+    static let bgTaskScheduleNotif = "com.greeny.Seasons.schedule"
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
@@ -50,32 +53,36 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         let center = UNUserNotificationCenter.current()
-              center.requestAuthorization(options:[.badge, .alert, .sound]) { (granted, error) in
-
-                  // If granted comes true you can enabled features based on authorization.
-                  guard granted else { return }
-                  DispatchQueue.main.async {
-                      application.registerForRemoteNotifications()
-                  }
-              }
+        center.requestAuthorization(options:[.badge, .alert, .sound]) { (granted, error) in
+            guard granted else { return }
+            DispatchQueue.main.async {
+                application.registerForRemoteNotifications()
+            }
+        }
         
-        BGTaskScheduler.shared.register(forTaskWithIdentifier: "com.greeny.Seasons.update", using: nil) { task in
-            self.handleAppRefresh(task: task as! BGAppRefreshTask)
+        BGTaskScheduler.shared.register(forTaskWithIdentifier: Self.bgTaskShowUpdate, using: nil) { task in
+            self.handleShowUpdate(task: task as! BGProcessingTask)
+        }
+        
+        BGTaskScheduler.shared.register(forTaskWithIdentifier: Self.bgTaskScheduleNotif, using: nil) { task in
+            self.handleScheduleNotification(task: task as! BGAppRefreshTask)
         }
         
         window?.backgroundColor = .systemBackground
         
         TVDBAPI.retrieveToken()
-//            PersistenceService.updateEpisodes()
-//        }
+        //            PersistenceService.updateEpisodes()
+        //        }
         
         return true
     }
     
+    // MARK: - Scheduling Tasks
     private func scheduleShowUpdate() {
-        let request = BGAppRefreshTaskRequest(identifier: "com.greeny.Seasons.update")
+        let request = BGProcessingTaskRequest(identifier: Self.bgTaskShowUpdate)
         // Perform a background task at earliest after 12 hours
-        request.earliestBeginDate = Date(timeIntervalSinceNow: 1 /*60 * 60 * 12*/)
+        request.earliestBeginDate = Date(timeIntervalSinceNow: 60 * 60 * 12)
+        request.requiresNetworkConnectivity = true
         
         do {
             try BGTaskScheduler.shared.submit(request)
@@ -84,16 +91,73 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
     
-    private func handleAppRefresh(task: BGAppRefreshTask) {
+    private func scheduleAiringNotification() {
+        let request = BGAppRefreshTaskRequest(identifier: Self.bgTaskScheduleNotif)
+        request.earliestBeginDate = Date(timeIntervalSinceNow: 10)
+        
+        do {
+            try BGTaskScheduler.shared.submit(request)
+        } catch let x as BGTaskScheduler.Error {
+            switch x.code {
+            case .notPermitted: break
+            case .tooManyPendingTaskRequests:
+                print("tooManyPendingTaskRequests")
+            case .unavailable: break
+                
+            @unknown default: break
+                
+            }
+        } catch {
+            print(error, error.localizedDescription)
+        }
+    }
+    
+    // MARK: - Handling Launch for Tasks
+    private func handleShowUpdate(task: BGProcessingTask) {
         scheduleShowUpdate()
         
         let api = TVDBAPI_Background()
         api.backgroundTask = task
         api.getToken()
-
-//        task.setTaskCompleted(success: true)
+        
         task.expirationHandler = {
             api.downloadTask.cancel()
+        }
+    }
+    
+    private func handleScheduleNotification(task: BGAppRefreshTask) {
+        scheduleAiringNotification()
+        
+        if let episodes = PersistenceService.getEpisodes(filterUpcoming: true) {
+            for episode in episodes {
+                let airDate = episode.firstAired
+                var dateComponents = Calendar.current.dateComponents([.year, .month, .day], from: airDate)
+                dateComponents.hour = 9
+                dateComponents.minute = 0
+                
+                let content = UNMutableNotificationContent()
+                content.title = "Episode Airing Today!"
+                // TODO: Change body
+                content.body = "\(episode.episodeName ?? "Unknown Episode Name")"
+                
+                let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: false)
+                let request = UNNotificationRequest(identifier: "com.greeny.Seasons.episodeAiring.\(episode.seriesId!).\(episode.id)", content: content, trigger: trigger)
+                
+                 UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
+            }
+        }
+        
+        UNUserNotificationCenter.current().getPendingNotificationRequests { (requests) in
+            for request in requests {
+                if request.identifier.contains("com.greeny.Seasons") {
+                    print(request)
+                }
+            }
+        }
+        
+        task.setTaskCompleted(success: true)
+        task.expirationHandler = {
+            // api.downloadTask.cancel()
         }
     }
     
@@ -105,9 +169,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationDidEnterBackground(_ application: UIApplication) {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
-
-        // BGTaskScheduler.shared.cancelAllTaskRequests()
+        
+        BGTaskScheduler.shared.cancelAllTaskRequests()
         scheduleShowUpdate()
+        scheduleAiringNotification()
+        
     }
     
     func applicationWillEnterForeground(_ application: UIApplication) {

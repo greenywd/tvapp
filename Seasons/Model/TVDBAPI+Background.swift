@@ -22,7 +22,7 @@ class TVDBAPI_Background: NSObject {
     static var token: String = ""
     
     var downloadTask: URLSessionDownloadTask!
-    var backgroundTask: BGAppRefreshTask!
+    var backgroundTask: BGProcessingTask!
     private var lastShowID: Int32!
     
     func getToken() {
@@ -53,7 +53,7 @@ class TVDBAPI_Background: NSObject {
             request.httpMethod = "GET"
             request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
             request.setValue("Bearer \(TVDBAPI_Background.token)", forHTTPHeaderField: "Authorization")
-            self.downloadTask = createBackgroundURLSession(identifier: "com.greeny.Seasons.updateShows").downloadTask(with: request)
+            self.downloadTask = createBackgroundURLSession(identifier: "com.greeny.Seasons.updateShows.\(id)").downloadTask(with: request)
             self.downloadTask.resume()
         }
     }
@@ -62,9 +62,14 @@ class TVDBAPI_Background: NSObject {
 extension TVDBAPI_Background : URLSessionDelegate, URLSessionDownloadDelegate {
     func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didFinishDownloadingTo location: URL) {
         if (session.configuration.identifier == "com.greeny.Seasons.getToken") {
-            TVDBAPI_Background.token = try! JSONDecoder().decode(API_Authentication.self, from: Data(contentsOf: location)).token!
-            updateShows()
-        } else if (session.configuration.identifier == "com.greeny.Seasons.updateShows") {
+            do {
+                TVDBAPI_Background.token = try JSONDecoder().decode(API_Authentication.self, from: Data(contentsOf: location)).token!
+                updateShows()
+            } catch {
+                print(error, error.localizedDescription)
+            }
+
+        } else if (session.configuration.identifier!.contains("com.greeny.Seasons.updateShows")) {
             do {
                 let data = try Data(contentsOf: location)
                 let show = try JSONDecoder().decode(API_Show.self, from: data).data
@@ -73,7 +78,7 @@ extension TVDBAPI_Background : URLSessionDelegate, URLSessionDownloadDelegate {
                 fetchRequest.predicate = NSPredicate(format: "id = %@", NSNumber(value: show!.id))
                 
                 let CDShow = try! PersistenceService.context.fetch(fetchRequest)
-                let obj = CDShow[0] as! NSManagedObject
+                let obj = CDShow.first as! NSManagedObject
                 
                 obj.setValue(show?.banner, forKey: "banner")
                 obj.setValue(show?.id, forKey: "id")
@@ -84,8 +89,6 @@ extension TVDBAPI_Background : URLSessionDelegate, URLSessionDownloadDelegate {
                 obj.setValue(show?.siteRating, forKey: "siteRating")
                 obj.setValue(show?.siteRatingCount, forKey: "siteRatingCount")
                 obj.setValue(show?.status, forKey: "status")
-                
-                PersistenceService.saveContext()
                 
                 let content = UNMutableNotificationContent()
                 content.title = "Background App Refresh"
@@ -98,6 +101,7 @@ extension TVDBAPI_Background : URLSessionDelegate, URLSessionDownloadDelegate {
                 UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
                 
                 if (show?.id == lastShowID) {
+                    PersistenceService.saveContext()
                     self.backgroundTask.setTaskCompleted(success: true)
                 }
                 
