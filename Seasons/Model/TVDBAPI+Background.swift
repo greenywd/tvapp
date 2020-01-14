@@ -90,16 +90,6 @@ extension TVDBAPI_Background : URLSessionDelegate, URLSessionDownloadDelegate {
                 obj.setValue(show?.siteRatingCount, forKey: "siteRatingCount")
                 obj.setValue(show?.status, forKey: "status")
                 
-                let content = UNMutableNotificationContent()
-                content.title = "Background App Refresh"
-                content.subtitle = "Show task"
-                content.body = "Updated \(show!.seriesName!)"
-                
-                let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1.0, repeats: false)
-                let request = UNNotificationRequest(identifier: "com.greeny.Seasons.showUpdatedNotification.\(show!.id)", content: content, trigger: trigger)
-                
-                UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
-                
                 if (show?.id == lastShowID) {
                     PersistenceService.saveContext()
                     self.backgroundTask.setTaskCompleted(success: true)
