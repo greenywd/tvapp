@@ -18,16 +18,13 @@ class ShowTableViewCell : UITableViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
+        backgroundImageView.image = nil
         show = nil
     }
     
     func updateCell() {
         if let show = show {
-            titleLabel.text = show.seriesName
-            detailLabel.text = show.overview
-            
             if (show.banner?.count == 0) {
-                backgroundImageView.image = nil
                 return
             }
             

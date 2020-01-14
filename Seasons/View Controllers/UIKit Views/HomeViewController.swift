@@ -23,21 +23,13 @@ class HomeViewController: UITableViewController {
         self.navigationController?.setNavigationBarHidden(false, animated: true)
         
         tableView.register(UINib(nibName: "ShowTableViewCell", bundle: nil), forCellReuseIdentifier: "showCell")
-        //        tableView.dataSource = self
-        //        tableView.delegate = self
         tableView.rowHeight = 90
-        //        tableView.layoutMargins = .zero
-        //        tableView.separatorInset = .zero
-        //        tableView.separatorStyle = .none
         
         searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
         definesPresentationContext = true
         searchController.searchBar.placeholder = "Search Shows"
         navigationItem.searchController = searchController
-        
-//        let searchBarHeight = searchController.searchBar.frame.size.height
-//        tableView.setContentOffset(CGPoint(x: 0, y: searchBarHeight), animated: false)
         
         refreshControl?.addTarget(self, action: #selector(refresh), for: UIControl.Event.valueChanged)
         
@@ -70,11 +62,7 @@ class HomeViewController: UITableViewController {
             else { preconditionFailure("Expected a ShowViewController") }
         
         if segue.identifier == "segueToShow" {
-            if isFiltering() {
-                showVC.show = filteredFavouriteShows[indexPath.row]
-            } else {
-                showVC.show = favouriteShows[indexPath.row]
-            }
+            showVC.show = isFiltering() ? filteredFavouriteShows[indexPath.row] : favouriteShows[indexPath.row]
         }
     }
     
@@ -143,19 +131,14 @@ extension HomeViewController : UISearchResultsUpdating, UISearchBarDelegate {
             print(favouriteShows)
             cell = noFavouritesRow
         } else {
-            if isFiltering() {
-                cell.show = filteredFavouriteShows[indexPath.row]
-                if let backgroundImageData = filteredFavouriteShows[indexPath.row].bannerImage {
-                    if let backgroundImage = UIImage(data: backgroundImageData) {
-                        cell.backgroundImageView.image = backgroundImage
-                    }
-                }
-            } else {
-                cell.show = favouriteShows[indexPath.row]
-                if let backgroundImageData = favouriteShows[indexPath.row].bannerImage {
-                    if let backgroundImage = UIImage(data: backgroundImageData) {
-                        cell.backgroundImageView.image = backgroundImage
-                    }
+            let show = isFiltering() ? filteredFavouriteShows[indexPath.row] : favouriteShows[indexPath.row]
+            cell.show = show
+            cell.titleLabel.text = show.seriesName
+            cell.detailLabel.text = show.overview
+            
+            if let backgroundImageData = show.bannerImage {
+                if let backgroundImage = UIImage(data: backgroundImageData) {
+                    cell.backgroundImageView.image = backgroundImage
                 }
             }
         }
@@ -164,11 +147,7 @@ extension HomeViewController : UISearchResultsUpdating, UISearchBarDelegate {
     }
     
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        if (favouriteShows.isEmpty) {
-            return false
-        }
-        
-        return true
+        return !favouriteShows.isEmpty
     }
     
     override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
