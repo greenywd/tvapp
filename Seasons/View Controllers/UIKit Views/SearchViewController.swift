@@ -98,9 +98,7 @@ class SearchViewController : UITableViewController {
                 }
                 
                 return
-            }
-            
-            if let results = results {
+            } else if let results = results {
                 self.searchResults = results
                 
                 DispatchQueue.main.async {
@@ -152,7 +150,10 @@ extension SearchViewController : UISearchResultsUpdating, UISearchBarDelegate {
         let cell = tableView.dequeueReusableCell(withIdentifier: "showCell") as! ShowTableViewCell
         
         if searchResults.count != 0 {
-            cell.show = searchResults[indexPath.row]
+            let show = searchResults[indexPath.row]
+            cell.show = show
+            cell.titleLabel.text = show.seriesName
+            cell.detailLabel.text = show.overview
         }
 
         return cell
