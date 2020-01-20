@@ -68,6 +68,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             self.handleScheduleNotification(task: task as! BGAppRefreshTask)
         }
         
+        scheduleNotifications()
+        
         window?.backgroundColor = .systemBackground
         
         TVDBAPI.retrieveToken()
@@ -127,23 +129,31 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     private func handleScheduleNotification(task: BGAppRefreshTask) {
         scheduleAiringNotification()
+        scheduleNotifications()
         
+        task.setTaskCompleted(success: true)
+        task.expirationHandler = {
+            // api.downloadTask.cancel()
+        }
+    }
+    
+    private func scheduleNotifications() {
         if let episodes = PersistenceService.getEpisodes(filterUpcoming: true) {
             for episode in episodes {
+                let show = PersistenceService.getShow(id: episode.seriesId!)
                 let airDate = episode.firstAired
                 var dateComponents = Calendar.current.dateComponents([.year, .month, .day], from: airDate)
                 dateComponents.hour = 9
                 dateComponents.minute = 0
                 
                 let content = UNMutableNotificationContent()
-                content.title = "Episode Airing Today!"
-                // TODO: Change body
-                content.body = "\(episode.episodeName ?? "Unknown Episode Name")"
+                content.title = show?.seriesName ?? "Unknown series"
+                content.body = "\(episode.episodeName ?? "Unknown Episode Name") airing today!"
                 
                 let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: false)
                 let request = UNNotificationRequest(identifier: "com.greeny.Seasons.episodeAiring.\(episode.seriesId!).\(episode.id)", content: content, trigger: trigger)
                 
-                 UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
+                UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
             }
         }
         
@@ -153,11 +163,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     print(request)
                 }
             }
-        }
-        
-        task.setTaskCompleted(success: true)
-        task.expirationHandler = {
-            // api.downloadTask.cancel()
         }
     }
     
