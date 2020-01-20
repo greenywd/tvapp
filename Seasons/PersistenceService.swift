@@ -86,6 +86,24 @@ class PersistenceService {
         }
     }
     
+    /// Delete all episodes related to a `Show` using a specified show's `id`.
+    /// - Parameter id: The `id` of the `Show` to be deleted.
+    static func deleteEpisodesForShow(id: Int32) {
+        do {
+            let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: episodeEntity)
+            fetchRequest.predicate = NSPredicate(format: "seriesId = %@", NSNumber(value: id))
+            
+            let episodes = try PersistenceService.context.fetch(fetchRequest)
+            for episode in episodes {
+                PersistenceService.context.delete(episode as! NSManagedObject)
+            }
+            PersistenceService.saveContext()
+            
+        } catch {
+            print(error, error.localizedDescription)
+        }
+    }
+    
     static func markEpisode(id: Int32, watched: Bool) {
         DispatchQueue.global(qos: .userInitiated).async {
             do {
@@ -459,15 +477,15 @@ class PersistenceService {
         }
     }
     
-    /// For debugging purposes, delete all children of a specific entity.
+    /// For debugging purposes, delete EVERYTHING.
     static func dropTable() {
         // Wait, this isn't SQL.
-        // TODO: Implement this
         
         if let favouriteShows = self.getShows() {
             let ids = favouriteShows.map { $0.id }
             
             for id in ids {
+                self.deleteEpisodesForShow(id: id)
                 self.deleteShow(id: id)
             }
         }
