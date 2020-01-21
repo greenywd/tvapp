@@ -81,16 +81,7 @@ class PersistenceService {
             let shows = try PersistenceService.context.fetch(fetchRequest)
             PersistenceService.context.delete(shows.first as! NSManagedObject)
             
-            var notifications = [String]()
-            UNUserNotificationCenter.current().getPendingNotificationRequests { (requests) in
-                for request in requests {
-                    if (request.identifier.contains("com.greeny.Seasons.episodeAiring.\(id)")) {
-                        notifications.append(request.identifier)
-                    }
-                }
-                
-                UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: notifications)
-            }
+            removeScheduledNotifications(for: id)
             
             PersistenceService.saveContext()
             
@@ -488,6 +479,22 @@ class PersistenceService {
                 }
             }
         }
+    }
+    
+    static func removeScheduledNotifications(for id: Int32? = nil) {
+        if let id = id {
+            var notifications = [String]()
+            UNUserNotificationCenter.current().getPendingNotificationRequests { (requests) in
+                for request in requests {
+                    if (request.identifier.contains("com.greeny.Seasons.episodeAiring.\(id)")) {
+                        notifications.append(request.identifier)
+                    }
+                }
+                
+                UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: notifications)
+            }
+        }
+        UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
     }
     
     /// For debugging purposes, delete EVERYTHING.

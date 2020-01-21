@@ -38,10 +38,13 @@ final class UserSettings: ObservableObject {
             didChange.send()
         }
     }
-    @UserDefault("showUpdateNotification", defaultValue: true)
-    var showUpdateNotification: Bool {
+    @UserDefault("sendEpisodeNotifications", defaultValue: true)
+    var sendEpisodeNotifications: Bool {
         didSet {
             didChange.send()
+            if (!_sendEpisodeNotifications.defaultValue) {
+                PersistenceService.removeScheduledNotifications()
+            }
         }
     }
     @UserDefault("preferFullHD", defaultValue: true)

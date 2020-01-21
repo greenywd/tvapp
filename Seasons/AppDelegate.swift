@@ -31,12 +31,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             userDefaults.set(false, forKey: "preferFullHD")
         }
         
+        if (userDefaults.object(forKey: "preferFullHD") == nil) {
+            userDefaults.set(true, forKey: "sendEpisodeNotifications")
+        }
+        
         if (userDefaults.object(forKey: "firstRun") == nil) {
             print("First run!")
             userDefaults.set(true, forKey: "firstRun")
             userDefaults.set(0, forKey: "theme")
             userDefaults.set(true, forKey: "showUpdateNotification")
             userDefaults.set(false, forKey: "preferFullHD")
+            userDefaults.set(true, forKey: "sendEpisodeNotifications")
         } else {
             print("Not first run!")
         }
@@ -138,29 +143,31 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     private func scheduleNotifications() {
-        if let episodes = PersistenceService.getEpisodes(filterUpcoming: true) {
-            for episode in episodes {
-                let show = PersistenceService.getShow(id: episode.seriesId!)
-                let airDate = episode.firstAired
-                var dateComponents = Calendar.current.dateComponents([.year, .month, .day], from: airDate)
-                dateComponents.hour = 9
-                dateComponents.minute = 0
-                
-                let content = UNMutableNotificationContent()
-                content.title = show?.seriesName ?? "Unknown series"
-                content.body = "\(episode.episodeName ?? "Unknown Episode Name") airing today!"
-                
-                let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: false)
-                let request = UNNotificationRequest(identifier: "com.greeny.Seasons.episodeAiring.\(episode.seriesId!).\(episode.id)", content: content, trigger: trigger)
-                
-                UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
+        if (UserDefaults.standard.bool(forKey: "sendEpisodeNotifications")) {
+            if let episodes = PersistenceService.getEpisodes(filterUpcoming: true) {
+                for episode in episodes {
+                    let show = PersistenceService.getShow(id: episode.seriesId!)
+                    let airDate = episode.firstAired
+                    var dateComponents = Calendar.current.dateComponents([.year, .month, .day], from: airDate)
+                    dateComponents.hour = 9
+                    dateComponents.minute = 0
+                    
+                    let content = UNMutableNotificationContent()
+                    content.title = show?.seriesName ?? "Unknown series"
+                    content.body = "\(episode.episodeName ?? "Unknown Episode Name") airing today!"
+                    
+                    let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: false)
+                    let request = UNNotificationRequest(identifier: "com.greeny.Seasons.episodeAiring.\(episode.seriesId!).\(episode.id)", content: content, trigger: trigger)
+                    
+                    UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
+                }
             }
-        }
-        
-        UNUserNotificationCenter.current().getPendingNotificationRequests { (requests) in
-            for request in requests {
-                if request.identifier.contains("com.greeny.Seasons") {
-                    print(request)
+            
+            UNUserNotificationCenter.current().getPendingNotificationRequests { (requests) in
+                for request in requests {
+                    if request.identifier.contains("com.greeny.Seasons") {
+                        print(request)
+                    }
                 }
             }
         }

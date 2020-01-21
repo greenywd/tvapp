@@ -69,11 +69,11 @@ struct SettingsNotificationsView: View {
     var body: some View {
         List {
             VStack (alignment: .leading) {
-                Toggle(isOn: $settings.showUpdateNotification) {
-                    Text("Show Updates")
+                Toggle(isOn: $settings.sendEpisodeNotifications) {
+                    Text("Episode Airing")
                         .font(.headline)
                 }
-                Text("Receive a notification when a favourite show is updated with new information, i.e. new episodes.")
+                Text("Receive a notification at 9am of the day an episode airs.")
                     .font(.subheadline)
             }
         }
