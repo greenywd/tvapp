@@ -8,6 +8,7 @@
 
 import Foundation
 import CoreData
+import UIKit
 
 class PersistenceService {
     
@@ -79,6 +80,18 @@ class PersistenceService {
             
             let shows = try PersistenceService.context.fetch(fetchRequest)
             PersistenceService.context.delete(shows.first as! NSManagedObject)
+            
+            var notifications = [String]()
+            UNUserNotificationCenter.current().getPendingNotificationRequests { (requests) in
+                for request in requests {
+                    if (request.identifier.contains("com.greeny.Seasons.episodeAiring.\(id)")) {
+                        notifications.append(request.identifier)
+                    }
+                }
+                
+                UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: notifications)
+            }
+            
             PersistenceService.saveContext()
             
         } catch {
