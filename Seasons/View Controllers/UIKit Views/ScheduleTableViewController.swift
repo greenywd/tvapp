@@ -62,7 +62,7 @@ class ScheduleTableViewController: UITableViewController {
     
     override func numberOfSections(in tableView: UITableView) -> Int {
         if let _ = episodes {
-            return airDates?.count ?? 0
+            return airDates?.count ?? 1
         }
         return 0
     }
@@ -72,19 +72,22 @@ class ScheduleTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return (episodes?.filter({ $0.firstAired == airDates![section]}).count)!
+        if let rowCount = episodes?.filter({ $0.firstAired == airDates![section]}).count {
+            return rowCount
+        }
+        return 0
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "showCell", for: indexPath) as! ShowTableViewCell
-        
-        let section = airDates![indexPath.section]
-        let filteredEpisodes = episodes!.filter { $0.firstAired == section }
-        // FIXME: This holds up the UI for quite a bit, perhaps try one of those fancy background contexts? 
-        let show = PersistenceService.getShow(id: filteredEpisodes[indexPath.row].seriesId!)
-        cell.titleLabel.text = "\(filteredEpisodes[indexPath.row].episodeName ?? "Unknown Episode Name") - \(show?.seriesName! ?? "Unknown Show Name")"
-        cell.detailLabel.text = filteredEpisodes[indexPath.row].overview ?? "No Description" // DateFormatter().string(from: episode.firstAired!)
-        
+        if !episodes!.isEmpty {
+            let section = airDates![indexPath.section]
+            let filteredEpisodes = episodes!.filter { $0.firstAired == section }
+            // FIXME: This holds up the UI for quite a bit, perhaps try one of those fancy background contexts?
+            let show = PersistenceService.getShow(id: filteredEpisodes[indexPath.row].seriesId!)
+            cell.titleLabel.text = "\(filteredEpisodes[indexPath.row].episodeName ?? "Unknown Episode Name") - \(show?.seriesName! ?? "Unknown Show Name")"
+            cell.detailLabel.text = filteredEpisodes[indexPath.row].overview ?? "No Description" // DateFormatter().string(from: episode.firstAired!)
+        }
         return cell
     }
     
@@ -119,9 +122,10 @@ class ScheduleTableViewController: UITableViewController {
                     
                     // Perhaps use multi-dimensional arrays instead? Should be a bit faster than filtering over everything.
                     self.episodes = self.episodes?.filter { $0.id != episode.id }
-
+                    
                     if self.episodes!.isEmpty {
-                        tableView.reloadRows(at: [indexPath], with: .automatic)
+                        dump(self.episodes)
+                        tableView.deleteRows(at: [indexPath], with: .automatic)
                     } else {
                         tableView.deleteRows(at: [indexPath], with: .automatic)
                         
