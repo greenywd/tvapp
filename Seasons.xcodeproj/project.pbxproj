@@ -41,6 +41,7 @@
 		D6D682361E289E4400966B94 /* ShowViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6D682351E289E4400966B94 /* ShowViewController.swift */; };
 		D6D94ABC2286ED2900A405B5 /* ShowTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6D94ABB2286ED2900A405B5 /* ShowTableViewCell.swift */; };
 		D6EBBB932286E1A7005321C3 /* ShowEpisodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6EBBB922286E1A7005321C3 /* ShowEpisodeViewController.swift */; };
+		D6F6160523F798FD00E17DC1 /* SettingsRootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6F6160423F798FD00E17DC1 /* SettingsRootViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -94,6 +95,7 @@
 		D6D682351E289E4400966B94 /* ShowViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShowViewController.swift; sourceTree = "<group>"; };
 		D6D94ABB2286ED2900A405B5 /* ShowTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowTableViewCell.swift; sourceTree = "<group>"; };
 		D6EBBB922286E1A7005321C3 /* ShowEpisodeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowEpisodeViewController.swift; sourceTree = "<group>"; };
+		D6F6160423F798FD00E17DC1 /* SettingsRootViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsRootViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -208,6 +210,7 @@
 				D62CD16A22C4A387004721F6 /* EpisodeTableViewController.swift */,
 				D68530DB22CC78070002ED8D /* ScheduleTableViewController.swift */,
 				D6AC0329231A142300E4ACC2 /* SwiftUIHelpers.swift */,
+				D6F6160423F798FD00E17DC1 /* SettingsRootViewController.swift */,
 			);
 			name = "UIKit Views";
 			path = "View Controllers/UIKit Views";
@@ -330,6 +333,7 @@
 				D6BEC1A81E443AB8001B211B /* SearchViewController.swift in Sources */,
 				D691D5FA230D1BBC00D8DB82 /* ThemeChanger.swift in Sources */,
 				D62CD16B22C4A387004721F6 /* EpisodeTableViewController.swift in Sources */,
+				D6F6160523F798FD00E17DC1 /* SettingsRootViewController.swift in Sources */,
 				D618197022BCF5AE0080D62F /* SeasonsHeaderImageView.swift in Sources */,
 				D6D682361E289E4400966B94 /* ShowViewController.swift in Sources */,
 				D65DA24A22A100ED00D31668 /* ShowSeasonsTableViewController.swift in Sources */,
