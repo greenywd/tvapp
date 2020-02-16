@@ -10,5 +10,10 @@ import Foundation
 import UIKit
 
 class SettingsRootViewController : UITableViewController {
-    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        self.tableView.rowHeight = UITableView.automaticDimension
+        self.tableView.estimatedRowHeight = 44
+    }
 }
