@@ -54,6 +54,13 @@ class HomeViewController: UITableViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if (segue.identifier == "homeToSettings") {
+            guard let settingsNC = segue.destination as? UINavigationController else {
+                preconditionFailure("Expected SettingsRootViewController")
+            }
+            (settingsNC.topViewController as! SettingsRootViewController).wasPresentedViaModel = true
+            return
+        }
         guard let selectedTableViewCell = sender as? UITableViewCell,
             let indexPath = tableView.indexPath(for: selectedTableViewCell)
             else { preconditionFailure("Expected sender to be a valid table view cell") }
