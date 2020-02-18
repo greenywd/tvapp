@@ -17,6 +17,9 @@ class SettingsRootViewController : UITableViewController {
             window.overrideUserInterfaceStyle = UIUserInterfaceStyle.init(rawValue: sender.selectedSegmentIndex)!
         }
     }
+    @IBAction func resolutionSegmentedControlAction(_ sender: UISegmentedControl) {
+        UserDefaults.standard.set(Bool(truncating: NSNumber(value: sender.selectedSegmentIndex)), forKey: "preferFullHD")
+    }
     @IBOutlet weak var resolutionSegmentedControl: UISegmentedControl!
     @IBOutlet var episodeAirSwitch: UISwitch!
     @IBAction func episodeAirAction(_ sender: UISwitch) {
@@ -37,11 +40,8 @@ class SettingsRootViewController : UITableViewController {
         
         self.tableView.rowHeight = UITableView.automaticDimension
         self.tableView.estimatedRowHeight = 44
-        setupThemeSegmentedControl()
-
-    }
-    
-    private func setupThemeSegmentedControl() {
+     
         self.themeSegmentedControl.selectedSegmentIndex = UserDefaults.standard.integer(forKey: "theme")
+        self.resolutionSegmentedControl.selectedSegmentIndex = Int(truncating: UserDefaults.standard.bool(forKey: "preferFullHD") as NSNumber)
     }
 }
