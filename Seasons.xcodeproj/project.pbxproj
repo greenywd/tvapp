@@ -17,6 +17,7 @@
 		D62CD16722C49D78004721F6 /* EpisodeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D62CD16622C49D78004721F6 /* EpisodeTableViewCell.swift */; };
 		D62CD16922C49FEB004721F6 /* EpisodeTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D62CD16822C49FEB004721F6 /* EpisodeTableViewCell.xib */; };
 		D62CD16B22C4A387004721F6 /* EpisodeTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D62CD16A22C4A387004721F6 /* EpisodeTableViewController.swift */; };
+		D634139E23FCB28600C7A92A /* Settings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D634139D23FCB28600C7A92A /* Settings.storyboard */; };
 		D63D0A481E2845ED00D3F1CA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D63D0A471E2845ED00D3F1CA /* AppDelegate.swift */; };
 		D63D0A511E2845ED00D3F1CA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D63D0A501E2845ED00D3F1CA /* Assets.xcassets */; };
 		D63D0A541E2845ED00D3F1CA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D63D0A521E2845ED00D3F1CA /* LaunchScreen.storyboard */; };
@@ -68,6 +69,7 @@
 		D62CD16622C49D78004721F6 /* EpisodeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EpisodeTableViewCell.swift; sourceTree = "<group>"; };
 		D62CD16822C49FEB004721F6 /* EpisodeTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EpisodeTableViewCell.xib; sourceTree = "<group>"; };
 		D62CD16A22C4A387004721F6 /* EpisodeTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EpisodeTableViewController.swift; sourceTree = "<group>"; };
+		D634139D23FCB28600C7A92A /* Settings.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Settings.storyboard; sourceTree = "<group>"; };
 		D63D0A441E2845ED00D3F1CA /* Seasons.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Seasons.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D63D0A471E2845ED00D3F1CA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D63D0A501E2845ED00D3F1CA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -141,6 +143,16 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
+		D634139F23FCB4A200C7A92A /* Storyboards */ = {
+			isa = PBXGroup;
+			children = (
+				D63D0A521E2845ED00D3F1CA /* LaunchScreen.storyboard */,
+				D60E823022CC83F400310FE0 /* Main.storyboard */,
+				D634139D23FCB28600C7A92A /* Settings.storyboard */,
+			);
+			path = Storyboards;
+			sourceTree = "<group>";
+		};
 		D63D0A3B1E2845ED00D3F1CA = {
 			isa = PBXGroup;
 			children = (
@@ -161,6 +173,7 @@
 		D63D0A461E2845ED00D3F1CA /* Seasons */ = {
 			isa = PBXGroup;
 			children = (
+				D634139F23FCB4A200C7A92A /* Storyboards */,
 				D6811AB4231901220045944E /* Seasons.entitlements */,
 				D64C8B64228C236D00049F86 /* Seasons.xcdatamodeld */,
 				D61A037B2287B3FB0002AA48 /* Extensions */,
@@ -169,8 +182,6 @@
 				D6D64F43228CE2D1004BDD7E /* Custom Views */,
 				D6019C2E1E41A6F4009756F6 /* View Controllers */,
 				D63D0A501E2845ED00D3F1CA /* Assets.xcassets */,
-				D60E823022CC83F400310FE0 /* Main.storyboard */,
-				D63D0A521E2845ED00D3F1CA /* LaunchScreen.storyboard */,
 				D63D0A551E2845ED00D3F1CA /* Info.plist */,
 				D64C8B67228C2ADB00049F86 /* PersistenceService.swift */,
 			);
@@ -294,6 +305,7 @@
 				D64FC0FE229FD9D8007281BF /* ShowTableViewCell.xib in Resources */,
 				D60E823122CC83F400310FE0 /* Main.storyboard in Resources */,
 				D63D0A541E2845ED00D3F1CA /* LaunchScreen.storyboard in Resources */,
+				D634139E23FCB28600C7A92A /* Settings.storyboard in Resources */,
 				D62CD16922C49FEB004721F6 /* EpisodeTableViewCell.xib in Resources */,
 				D63D0A511E2845ED00D3F1CA /* Assets.xcassets in Resources */,
 			);
