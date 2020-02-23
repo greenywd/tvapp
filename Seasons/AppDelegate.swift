@@ -10,8 +10,6 @@ import UIKit
 import UserNotifications
 import BackgroundTasks
 
-let userDefaults = UserDefaults.standard
-
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
@@ -27,26 +25,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         print("Documents Directory: ", FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).last ?? "Not Found!")
         #endif
         
-        if (userDefaults.object(forKey: "preferFullHD") == nil) {
-            userDefaults.set(false, forKey: "preferFullHD")
+        if (UserDefaults.standard.object(forKey: "preferFullHD") == nil) {
+            UserDefaults.standard.set(false, forKey: "preferFullHD")
         }
         
-        if (userDefaults.object(forKey: "preferFullHD") == nil) {
-            userDefaults.set(true, forKey: "sendEpisodeNotifications")
+        if (UserDefaults.standard.object(forKey: "preferFullHD") == nil) {
+            UserDefaults.standard.set(true, forKey: "sendEpisodeNotifications")
         }
         
-        if (userDefaults.object(forKey: "firstRun") == nil) {
+        if (UserDefaults.standard.object(forKey: "firstRun") == nil) {
             print("First run!")
-            userDefaults.set(true, forKey: "firstRun")
-            userDefaults.set(0, forKey: "theme")
-            userDefaults.set(true, forKey: "showUpdateNotification")
-            userDefaults.set(false, forKey: "preferFullHD")
-            userDefaults.set(true, forKey: "sendEpisodeNotifications")
+            UserDefaults.standard.set(true, forKey: "firstRun")
+            UserDefaults.standard.set(0, forKey: "theme")
+            UserDefaults.standard.set(true, forKey: "showUpdateNotification")
+            UserDefaults.standard.set(false, forKey: "preferFullHD")
+            UserDefaults.standard.set(true, forKey: "sendEpisodeNotifications")
         } else {
             print("Not first run!")
         }
         
-        let theme = userDefaults.integer(forKey: "theme")
+        let theme = UserDefaults.standard.integer(forKey: "theme")
         print("Theme is \(theme)")
         
         if (theme == 0) {
@@ -74,8 +72,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         scheduleNotifications()
-        
-        window?.backgroundColor = .systemBackground
         
         TVDBAPI.retrieveToken()
         //            PersistenceService.updateEpisodes()
