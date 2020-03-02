@@ -73,9 +73,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         scheduleNotifications()
         
-        TVDBAPI.retrieveToken()
-        //            PersistenceService.updateEpisodes()
-        //        }
+        TVDBAPI.retrieveToken() {
+            PersistenceService.updateEpisodes()
+        }
         
         return true
     }
