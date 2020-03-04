@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16092.1" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="mFv-ld-y1R">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16095" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="mFv-ld-y1R">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16082.1"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16084.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -59,7 +59,7 @@
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gyk-Wb-CC6" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-375" y="1139"/>
+            <point key="canvasLocation" x="578" y="1077"/>
         </scene>
         <!--Favourite Shows-->
         <scene sceneID="stb-pY-jMi">
@@ -94,7 +94,6 @@
                         <segue destination="P9Q-AT-TAh" kind="relationship" relationship="viewControllers" id="iS1-r2-vZi"/>
                         <segue destination="pxm-q2-yAc" kind="relationship" relationship="viewControllers" id="T3Z-IR-wDT"/>
                         <segue destination="wR7-6r-DVe" kind="relationship" relationship="viewControllers" id="eVu-dI-5Xa"/>
-                        <segue destination="ycv-J1-Tfw" kind="relationship" relationship="viewControllers" id="hbb-CP-h5g"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QPI-HW-seL" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -221,7 +220,6 @@
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="qnW-iJ-VkD"/>
-        <segue reference="jfe-6X-NTK"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" systemColor="systemOrangeColor" red="1" green="0.58431372550000005" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
     <resources>

@@ -18,6 +18,7 @@
 		D62CD16922C49FEB004721F6 /* EpisodeTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D62CD16822C49FEB004721F6 /* EpisodeTableViewCell.xib */; };
 		D62CD16B22C4A387004721F6 /* EpisodeTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D62CD16A22C4A387004721F6 /* EpisodeTableViewController.swift */; };
 		D634139E23FCB28600C7A92A /* Settings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D634139D23FCB28600C7A92A /* Settings.storyboard */; };
+		D637D9A9240F45AE00A3F094 /* SettingsSupportTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D637D9A8240F45AE00A3F094 /* SettingsSupportTableViewController.swift */; };
 		D63D0A481E2845ED00D3F1CA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D63D0A471E2845ED00D3F1CA /* AppDelegate.swift */; };
 		D63D0A511E2845ED00D3F1CA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D63D0A501E2845ED00D3F1CA /* Assets.xcassets */; };
 		D63D0A541E2845ED00D3F1CA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D63D0A521E2845ED00D3F1CA /* LaunchScreen.storyboard */; };
@@ -71,6 +72,7 @@
 		D62CD16822C49FEB004721F6 /* EpisodeTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EpisodeTableViewCell.xib; sourceTree = "<group>"; };
 		D62CD16A22C4A387004721F6 /* EpisodeTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EpisodeTableViewController.swift; sourceTree = "<group>"; };
 		D634139D23FCB28600C7A92A /* Settings.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Settings.storyboard; sourceTree = "<group>"; };
+		D637D9A8240F45AE00A3F094 /* SettingsSupportTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsSupportTableViewController.swift; sourceTree = "<group>"; };
 		D63D0A441E2845ED00D3F1CA /* Seasons.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Seasons.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D63D0A471E2845ED00D3F1CA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D63D0A501E2845ED00D3F1CA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -217,6 +219,7 @@
 			isa = PBXGroup;
 			children = (
 				D67BCB511E41A5CA00BA58EA /* HomeViewController.swift */,
+				D637D9A8240F45AE00A3F094 /* SettingsSupportTableViewController.swift */,
 				D6BEC1A71E443AB8001B211B /* SearchViewController.swift */,
 				D6D682351E289E4400966B94 /* ShowViewController.swift */,
 				D65DA24922A100ED00D31668 /* ShowSeasonsTableViewController.swift */,
@@ -342,6 +345,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D637D9A9240F45AE00A3F094 /* SettingsSupportTableViewController.swift in Sources */,
 				D61A03772287AC390002AA48 /* APITypes.swift in Sources */,
 				D645693E22F94BDB00D2A4B8 /* SettingsView.swift in Sources */,
 				D6B9F4C5229A9C4B00EDE1D9 /* UITextView+Extensions.swift in Sources */,

@@ -8,8 +8,9 @@
 
 import Foundation
 import UIKit
+import SafariServices
 
-class SettingsRootViewController : UITableViewController {
+class SettingsRootViewController : UITableViewController, SFSafariViewControllerDelegate {
     @IBOutlet weak var themeSegmentedControl: UISegmentedControl!
     @IBAction func themeSegmentedControlAction(_ sender: UISegmentedControl) {
         UserDefaults.standard.set(sender.selectedSegmentIndex, forKey: "theme")
@@ -43,5 +44,14 @@ class SettingsRootViewController : UITableViewController {
      
         self.themeSegmentedControl.selectedSegmentIndex = UserDefaults.standard.integer(forKey: "theme")
         self.resolutionSegmentedControl.selectedSegmentIndex = Int(truncating: UserDefaults.standard.bool(forKey: "preferFullHD") as NSNumber)
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print(indexPath)
+        if (indexPath.section == 2 && indexPath.row == 0) {
+            let sfvc = SFSafariViewController(url: URL(string: "https://www.github.com/greenywd/tvapp/issues")!)
+            sfvc.delegate = self
+            present(sfvc, animated: true, completion: nil)
+        }
     }
 }
