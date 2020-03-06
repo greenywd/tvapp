@@ -168,9 +168,29 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <view key="tableHeaderView" contentMode="scaleToFill" id="TBF-F0-f1x">
+                            <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="96l-kM-LTv">
+                                    <rect key="frame" x="8" y="6.5" width="398" height="32"/>
+                                    <segments>
+                                        <segment title="Upcoming"/>
+                                        <segment title="Unwatched"/>
+                                    </segments>
+                                </segmentedControl>
+                            </subviews>
+                            <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                            <constraints>
+                                <constraint firstItem="96l-kM-LTv" firstAttribute="centerY" secondItem="TBF-F0-f1x" secondAttribute="centerY" id="BAk-hk-8W9"/>
+                                <constraint firstItem="96l-kM-LTv" firstAttribute="leading" secondItem="TBF-F0-f1x" secondAttribute="leading" constant="8" id="Ku0-up-Y5t"/>
+                                <constraint firstAttribute="trailing" secondItem="96l-kM-LTv" secondAttribute="trailing" constant="8" id="SKU-dh-mPL"/>
+                                <constraint firstItem="96l-kM-LTv" firstAttribute="centerX" secondItem="TBF-F0-f1x" secondAttribute="centerX" id="dfB-KY-3s3"/>
+                            </constraints>
+                        </view>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="showCell" id="3f9-SY-EQD" customClass="ShowTableViewCell" customModule="Seasons" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="28" width="414" height="43.5"/>
+                                <rect key="frame" x="0.0" y="72" width="414" height="43.5"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="3f9-SY-EQD" id="Iv8-qz-iWg">
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
@@ -187,10 +207,13 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Schedule" id="ZJo-QN-IfB"/>
+                    <connections>
+                        <outlet property="segmentedControl" destination="96l-kM-LTv" id="xB6-5x-gjV"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="snO-hG-IIv" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-439" y="1900"/>
+            <point key="canvasLocation" x="-439.13043478260875" y="1899.7767857142856"/>
         </scene>
         <!--EpisodeVC-->
         <scene sceneID="0PG-pt-kNt">

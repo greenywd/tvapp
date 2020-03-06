@@ -13,7 +13,7 @@ class ScheduleTableViewController: UITableViewController {
     var episodes: [Episode]?
     var airDates: [Date]?
     
-    lazy var segmentedControl = UISegmentedControl(items: ["Upcoming", "Unwatched"])
+    @IBOutlet weak var segmentedControl: UISegmentedControl!
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
@@ -25,17 +25,18 @@ class ScheduleTableViewController: UITableViewController {
         tableView.register(UINib(nibName: "ShowTableViewCell", bundle: nil), forCellReuseIdentifier: "showCell")
         tableView.rowHeight = 90
         
-        segmentedControl.sizeToFit()
-        segmentedControl.selectedSegmentIndex = 0
-        segmentedControl.addTarget(self, action: #selector(segmentedControlChanged), for: .valueChanged)
-        
-        tableView.tableHeaderView = segmentedControl
+        addSegmentedControl()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         updateEpisodeDataSource()
         tableView.reloadData()
+    }
+    
+    private func addSegmentedControl() {
+        segmentedControl.selectedSegmentIndex = 0
+        segmentedControl.addTarget(self, action: #selector(segmentedControlChanged), for: .valueChanged)
     }
     
     private func updateEpisodeDataSource() {
