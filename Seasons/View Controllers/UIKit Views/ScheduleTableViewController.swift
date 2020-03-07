@@ -25,7 +25,7 @@ class ScheduleTableViewController: UITableViewController {
         tableView.register(UINib(nibName: "ShowTableViewCell", bundle: nil), forCellReuseIdentifier: "showCell")
         tableView.rowHeight = 90
         
-        addSegmentedControl()
+        setupSegmentedControl()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -34,7 +34,7 @@ class ScheduleTableViewController: UITableViewController {
         tableView.reloadData()
     }
     
-    private func addSegmentedControl() {
+    private func setupSegmentedControl() {
         segmentedControl.selectedSegmentIndex = 0
         segmentedControl.addTarget(self, action: #selector(segmentedControlChanged), for: .valueChanged)
     }

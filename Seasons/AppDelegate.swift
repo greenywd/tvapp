@@ -9,6 +9,7 @@
 import UIKit
 import UserNotifications
 import BackgroundTasks
+import os
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -21,10 +22,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
-        #if DEBUG
-        print("Documents Directory: ", FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).last ?? "Not Found!")
-        #endif
-        
         if (UserDefaults.standard.object(forKey: "preferFullHD") == nil) {
             UserDefaults.standard.set(false, forKey: "preferFullHD")
         }
@@ -34,25 +31,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         if (UserDefaults.standard.object(forKey: "firstRun") == nil) {
-            print("First run!")
             UserDefaults.standard.set(true, forKey: "firstRun")
             UserDefaults.standard.set(0, forKey: "theme")
             UserDefaults.standard.set(true, forKey: "showUpdateNotification")
             UserDefaults.standard.set(false, forKey: "preferFullHD")
             UserDefaults.standard.set(true, forKey: "sendEpisodeNotifications")
-        } else {
-            print("Not first run!")
         }
         
-        let theme = UserDefaults.standard.integer(forKey: "theme")
-        print("Theme is \(theme)")
-        
-        if (theme == 0) {
-            UIApplication.shared.windows.first?.overrideUserInterfaceStyle = .unspecified
-        } else if (theme == 1) {
-            UIApplication.shared.windows.first?.overrideUserInterfaceStyle = .light
-        } else if (theme == 2) {
-            UIApplication.shared.windows.first?.overrideUserInterfaceStyle = .dark
+        let theme = UIUserInterfaceStyle(rawValue: UserDefaults.standard.integer(forKey: "theme"))!
+        for window in UIApplication.shared.windows {
+            window.overrideUserInterfaceStyle = theme
         }
         
         let center = UNUserNotificationCenter.current()
@@ -76,6 +64,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         TVDBAPI.retrieveToken() {
             PersistenceService.updateEpisodes()
         }
+        
+        #if DEBUG
+        let documentsDir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).last?.absoluteString ?? "Not found"
+        os_log("Documents Directory: %@", log: Log.coredata, type: .info, documentsDir)
+        os_log("Theme is %@", log: Log.userdefaults, type: .default, theme.description)
+        #endif
         
         return true
     }

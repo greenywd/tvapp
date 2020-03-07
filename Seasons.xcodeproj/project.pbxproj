@@ -22,6 +22,8 @@
 		D63D0A481E2845ED00D3F1CA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D63D0A471E2845ED00D3F1CA /* AppDelegate.swift */; };
 		D63D0A511E2845ED00D3F1CA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D63D0A501E2845ED00D3F1CA /* Assets.xcassets */; };
 		D63D0A541E2845ED00D3F1CA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D63D0A521E2845ED00D3F1CA /* LaunchScreen.storyboard */; };
+		D63E7864241223B300838E6B /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = D63E7863241223B300838E6B /* Log.swift */; };
+		D63E78662412397500838E6B /* UIUserInterfaceStyle+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D63E78652412397500838E6B /* UIUserInterfaceStyle+Extensions.swift */; };
 		D645693E22F94BDB00D2A4B8 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D645693D22F94BDA00D2A4B8 /* SettingsView.swift */; };
 		D64C7CCE23FF5EE4004C8053 /* Show.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D64C7CCD23FF5EE4004C8053 /* Show.storyboard */; };
 		D64C8B66228C236D00049F86 /* Seasons.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D64C8B64228C236D00049F86 /* Seasons.xcdatamodeld */; };
@@ -78,6 +80,8 @@
 		D63D0A501E2845ED00D3F1CA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D63D0A531E2845ED00D3F1CA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D63D0A551E2845ED00D3F1CA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D63E7863241223B300838E6B /* Log.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Log.swift; sourceTree = "<group>"; };
+		D63E78652412397500838E6B /* UIUserInterfaceStyle+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIUserInterfaceStyle+Extensions.swift"; sourceTree = "<group>"; };
 		D645693D22F94BDA00D2A4B8 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		D64C7CCD23FF5EE4004C8053 /* Show.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Show.storyboard; sourceTree = "<group>"; };
 		D64C8B65228C236D00049F86 /* Seasons.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Seasons.xcdatamodel; sourceTree = "<group>"; };
@@ -143,6 +147,7 @@
 				D6145518228AECC000F842C6 /* UILabel+Extensions.swift */,
 				D6B9F4C4229A9C4B00EDE1D9 /* UITextView+Extensions.swift */,
 				D6A94E8E22FD886300EC9C47 /* DateFormatter+Extensions.swift */,
+				D63E78652412397500838E6B /* UIUserInterfaceStyle+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -184,6 +189,7 @@
 				D61A037B2287B3FB0002AA48 /* Extensions */,
 				D61A03782287ACBF0002AA48 /* Model */,
 				D63D0A471E2845ED00D3F1CA /* AppDelegate.swift */,
+				D63E7863241223B300838E6B /* Log.swift */,
 				D6D64F43228CE2D1004BDD7E /* Custom Views */,
 				D6019C2E1E41A6F4009756F6 /* View Controllers */,
 				D63D0A501E2845ED00D3F1CA /* Assets.xcassets */,
@@ -371,7 +377,9 @@
 				D64C8B68228C2ADB00049F86 /* PersistenceService.swift in Sources */,
 				D61FFE05226B2F72004A0F46 /* URLResponse+Extensions.swift in Sources */,
 				D68530DC22CC78070002ED8D /* ScheduleTableViewController.swift in Sources */,
+				D63E78662412397500838E6B /* UIUserInterfaceStyle+Extensions.swift in Sources */,
 				D663848423041C0900A6347B /* SettingsSupportView.swift in Sources */,
+				D63E7864241223B300838E6B /* Log.swift in Sources */,
 				D67BCB521E41A5CA00BA58EA /* HomeViewController.swift in Sources */,
 				D691D5F8230D1B8A00D8DB82 /* UserDefaultsWrapper.swift in Sources */,
 				D613EB2922B3A39B00ADCD53 /* APIKey.swift in Sources */,

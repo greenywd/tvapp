@@ -69,6 +69,7 @@ class TVDBAPI {
             }
             
             print("Status Code: \(response!.StatusCode)")
+        
             
             do {
                 let auth = try JSONDecoder().decode(API_Authentication.self, from: data)
