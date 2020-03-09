@@ -33,6 +33,10 @@ struct API_Show : Codable {
         let network: String?
         let siteRating: Double?
         let siteRatingCount: Int16?
+        
+        var debugDescription: String {
+            return self.seriesName ?? "Unknown Show"
+        }
     }
 }
 

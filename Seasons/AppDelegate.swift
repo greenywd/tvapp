@@ -26,7 +26,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             UserDefaults.standard.set(false, forKey: "preferFullHD")
         }
         
-        if (UserDefaults.standard.object(forKey: "preferFullHD") == nil) {
+        if (UserDefaults.standard.object(forKey: "sendEpisodeNotifications") == nil) {
             UserDefaults.standard.set(true, forKey: "sendEpisodeNotifications")
         }
         
@@ -65,11 +65,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             PersistenceService.updateEpisodes()
         }
         
-        #if DEBUG
         let documentsDir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).last?.absoluteString ?? "Not found"
-        os_log("Documents Directory: %@", log: Log.coredata, type: .info, documentsDir)
-        os_log("Theme is %@", log: Log.userdefaults, type: .default, theme.description)
-        #endif
+        os_log("Documents Directory: %@", log: .coredata, type: .info, documentsDir)
+        os_log("Theme is %@", log: .userdefaults, type: .info, theme.description)
         
         return true
     }
@@ -84,7 +82,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         do {
             try BGTaskScheduler.shared.submit(request)
         } catch {
-            print(error, error.localizedDescription)
+            os_log("Scheduling task %@ failed with $@.", log: .backgrounding, type: .error, Self.bgTaskShowUpdate, error.localizedDescription)
         }
     }
     
@@ -94,18 +92,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         do {
             try BGTaskScheduler.shared.submit(request)
-        } catch let x as BGTaskScheduler.Error {
-            switch x.code {
-            case .notPermitted: break
-            case .tooManyPendingTaskRequests:
-                print("tooManyPendingTaskRequests")
-            case .unavailable: break
-                
-            @unknown default: break
-                
-            }
         } catch {
-            print(error, error.localizedDescription)
+            os_log("Scheduling task %@ failed with $@.", log: .backgrounding, type: .error, Self.bgTaskScheduleNotif, error.localizedDescription)
         }
     }
     
@@ -156,7 +144,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             UNUserNotificationCenter.current().getPendingNotificationRequests { (requests) in
                 for request in requests {
                     if request.identifier.contains("com.greeny.Seasons") {
-                        print(request)
+                        os_log("Pending notification: %@", log: .notifications, request)
                     }
                 }
             }
@@ -196,7 +184,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(_ application: UIApplication, handleEventsForBackgroundURLSession identifier: String, completionHandler: @escaping () -> Void) {
-        print("IDENTIFIER: \(identifier)")
+        os_log("Identifier for handling backgroundURLSession event: %@", log: .backgrounding, type: .info, identifier)
         completionHandler()
     }
 }

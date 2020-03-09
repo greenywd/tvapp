@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import os
 
 class TVDBAPI {
     
@@ -65,23 +66,23 @@ class TVDBAPI {
         
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             guard let data = data, error == nil else {
+                os_log("Did not receive any data for %@", log: .networking, type: .error, #function)
                 return
             }
             
-            print("Status Code: \(response!.StatusCode)")
-        
+            os_log("Status Code: %@", log: .networking, type: .info, response!.StatusCode)
             
             do {
                 let auth = try JSONDecoder().decode(API_Authentication.self, from: data)
                 
                 if let token = auth.token {
                     currentToken = token
-                    print("Token set to:", token)
+                    os_log("Token set to: %@", log: .networking, token)
                     completion()
                 }
                 
             } catch {
-                print(error, error.localizedDescription)
+                os_log("Failed to decode response with: %@", log: .networking, type: .error, error.localizedDescription)
             }
         }
         task.resume()
@@ -92,7 +93,7 @@ class TVDBAPI {
         let seriesEndpoint = "https://api.thetvdb.com/series/\(String(id))"
         
         guard let seriesURL = URL(string: seriesEndpoint) else {
-            print("Error: cannot create URL")
+            os_log("Failed to create URL for %@", log: .networking, type: .error, #function)
             return
         }
         
@@ -100,20 +101,20 @@ class TVDBAPI {
         
         URLSession.shared.dataTask(with: request) { (data, response, error) in
             
-            print("Getting show with ID: \(id)")
+            os_log("Getting show with ID: %d", log: .networking, type: .info, id)
             
             // make sure we got data
             guard let responseData = data else {
-                print("Error: did not receive data")
+                os_log("Did not receive any data for %@", log: .networking, type: .error, #function)
                 return
             }
-
+            
             do {
-                dump(String(data: data!, encoding: .utf8))
                 let showInfo = try JSONDecoder().decode(API_Show.self, from: responseData).data!
+                os_log("Retrieved data for %@", log: .networking, type: .info, showInfo.debugDescription)
                 completion(Show(from: showInfo))
             } catch {
-                print(error, error.localizedDescription)
+                os_log("Failed to decode response with: %@", log: .networking, type: .error, error.localizedDescription)
             }
         }.resume()
     }
@@ -126,7 +127,7 @@ class TVDBAPI {
         }
         
         guard let seriesURL = URL(string: searchURL) else {
-            print("Error: cannot create URL")
+            os_log("Failed to create URL for %@", log: .networking, type: .error, #function)
             return
         }
         
@@ -136,24 +137,21 @@ class TVDBAPI {
             
             // check for any errors
             guard error == nil else {
-                print("error calling GET on /todos/1")
-                print(error!)
+                os_log("Request failed for %@ with %@", log: .networking, type: .error, #function, error.debugDescription)
                 return
             }
             // make sure we got data
             guard let responseData = data else {
-                print("Error: did not receive data")
+                os_log("Did not receive any data for %@", log: .networking, type: .error, #function)
                 return
             }
-            
-            // print("ResponseData: \(String(data: responseData, encoding: .utf8))")
             
             do {
                 let results = try JSONDecoder().decode(API_SearchResults.self, from: responseData)
                 var shows = [Show]()
                 
                 guard let showsSearched = results.data else {
-                    print("No data, returning error")
+                    os_log("No shows returned from search.", log: .networking, type: .info)
                     completion(nil, results.Error)
                     return
                 }
@@ -163,7 +161,7 @@ class TVDBAPI {
                 }
                 completion(shows, nil)
             } catch {
-                print(error, error.localizedDescription)
+                os_log("Failed to decode response with: %@", log: .networking, type: .error, error.localizedDescription)
             }
         }
         showTask.resume()
@@ -178,7 +176,7 @@ class TVDBAPI {
         }
         
         guard let episodesURL = URL(string: episodesURLEndpoint) else {
-            print("Error: cannot create URL")
+            os_log("Failed to create URL for %@", log: .networking, type: .error, #function)
             return
         }
         
@@ -188,28 +186,27 @@ class TVDBAPI {
             
             // make sure we got data
             guard let responseData = data else {
-                print("Error: did not receive data")
+                os_log("Did not receive any data for %@", log: .networking, type: .error, #function)
                 return
             }
-            print(response!.url!, response!.StatusCode)
+            
             do {
                 let decoder = JSONDecoder()
                 decoder.dateDecodingStrategy = .formatted(DateFormatter.yyyyMMdd)
                 
                 let results = try JSONDecoder().decode(API_Episodes.self, from: responseData)
-                // dump(results.data)
                 
                 var episodes = [Episode]()
                 if let data = results.data {
-                for episode in data {
-                    episodes.append(Episode(id: episode.id, overview: episode.overview, airedEpisodeNumber: episode.airedEpisodeNumber, airedSeason: episode.airedSeason, episodeName: episode.episodeName, firstAired: DateFormatter.yyyyMMdd.date(from: episode.firstAired), filename: episode.filename, seriesId: episode.seriesId, hasWatched: false))
-                }
-                if let next = results.links?.next {
-                    episodeGroup.enter()
-                    getEpisodes(show: id, parameters: "page=\(next)", completion: { (episodes2) in
-                        episodes.append(contentsOf: episodes2!)
-                        episodeGroup.leave()
-                    })
+                    for episode in data {
+                        episodes.append(Episode(id: episode.id, overview: episode.overview, airedEpisodeNumber: episode.airedEpisodeNumber, airedSeason: episode.airedSeason, episodeName: episode.episodeName, firstAired: DateFormatter.yyyyMMdd.date(from: episode.firstAired), filename: episode.filename, seriesId: episode.seriesId, hasWatched: false))
+                    }
+                    if let next = results.links?.next {
+                        episodeGroup.enter()
+                        getEpisodes(show: id, parameters: "page=\(next)", completion: { (episodes2) in
+                            episodes.append(contentsOf: episodes2!)
+                            episodeGroup.leave()
+                        })
                     }
                 }
                 
@@ -217,7 +214,7 @@ class TVDBAPI {
                     completion(episodes)
                 }
             } catch {
-                print(error, error.localizedDescription)
+                os_log("Failed to decode response with: %@", log: .networking, type: .error, error.localizedDescription)
             }
         }
         showTask.resume()
@@ -228,7 +225,7 @@ class TVDBAPI {
         let imagesURLEndpoint = "https://api.thetvdb.com/series/\(id)/images/query?keyType=fanart&resolution=\(resolution.rawValue)"
         
         guard let episodesURL = URL(string: imagesURLEndpoint) else {
-            print("Error: cannot create URL")
+            os_log("Failed to create URL for %@", log: .networking, type: .error, #function)
             return
         }
         
@@ -238,13 +235,12 @@ class TVDBAPI {
             
             // check for any errors
             guard error == nil else {
-                print("error calling GET on /todos/1")
-                print(error!)
+                os_log("Request failed for %@ with %@", log: .networking, type: .error, #function, error.debugDescription)
                 return
             }
             // make sure we got data
             guard let responseData = data else {
-                print("Error: did not receive data")
+                os_log("Did not receive any data for %@", log: .networking, type: .error, #function)
                 return
             }
             
@@ -253,7 +249,7 @@ class TVDBAPI {
                 completion(images)
                 
             } catch {
-                print(error, error.localizedDescription)
+                os_log("Failed to decode response with: %@", log: .networking, type: .error, error.localizedDescription)
             }
         }
         showTask.resume()
@@ -263,11 +259,9 @@ class TVDBAPI {
         let imagesURLEndpoint = "https://api.thetvdb.com/series/\(id)/episodes/summary"
         
         guard let episodesURL = URL(string: imagesURLEndpoint) else {
-            print("Error: cannot create URL")
+            os_log("Failed to create URL for %@", log: .networking, type: .error, #function)
             return
         }
-        
-        print(episodesURL)
         
         let request = createRequest(with: episodesURL, method: .get, needsToken: true)
         
@@ -275,13 +269,12 @@ class TVDBAPI {
             
             // check for any errors
             guard error == nil else {
-                print("error calling GET on /todos/1")
-                print(error!)
+                os_log("Request failed for %@ with %@", log: .networking, type: .error, #function, error.debugDescription)
                 return
             }
             // make sure we got data
             guard let responseData = data else {
-                print("Error: did not receive data")
+                os_log("Did not receive any data for %@", log: .networking, type: .error, #function)
                 return
             }
             
@@ -292,7 +285,7 @@ class TVDBAPI {
                 completion(EpisodeSummary(airedEpisodes: summary.data?.airedEpisodes, airedSeasons: summary.data?.airedSeasons?.sorted()))
                 
             } catch {
-                print(error, error.localizedDescription)
+                os_log("Failed to decode response with: %@", log: .networking, type: .error, error.localizedDescription)
             }
         }
         showTask.resume()
