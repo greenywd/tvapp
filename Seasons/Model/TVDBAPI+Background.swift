@@ -9,6 +9,7 @@
 import CoreData
 import UserNotifications
 import BackgroundTasks
+import os
 
 class TVDBAPI_Background: NSObject {
     private func createBackgroundURLSession(identifier: String) -> URLSession {
@@ -66,7 +67,7 @@ extension TVDBAPI_Background : URLSessionDelegate, URLSessionDownloadDelegate {
                 TVDBAPI_Background.token = try JSONDecoder().decode(API_Authentication.self, from: Data(contentsOf: location)).token!
                 updateShows()
             } catch {
-                print(error, error.localizedDescription)
+                os_log("Failed to decode response for token with %@.", log: .networking, type: .error, error.localizedDescription)
             }
 
         } else if (session.configuration.identifier!.contains("com.greeny.Seasons.updateShows")) {
@@ -96,7 +97,7 @@ extension TVDBAPI_Background : URLSessionDelegate, URLSessionDownloadDelegate {
                 }
                 
             } catch {
-                print("BACKGROUND ERROR", error, error.localizedDescription)
+                os_log("Failed to decode show data with %@.", log: .networking, type: .error, error.localizedDescription)
             }
         }
     }

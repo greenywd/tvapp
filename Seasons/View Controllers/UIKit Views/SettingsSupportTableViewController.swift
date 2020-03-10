@@ -13,7 +13,6 @@ class SettingsSupportTableViewController : UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch indexPath.row {
         case 0:
-            print("Updating Shows")
             PersistenceService.updateShows()
         case 1:
             PersistenceService.updateEpisodes()

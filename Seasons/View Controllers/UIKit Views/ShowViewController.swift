@@ -11,6 +11,7 @@
 import Foundation
 import UIKit
 import CoreData
+import os
 
 class ShowViewController: UITableViewController {
     
@@ -82,11 +83,11 @@ class ShowViewController: UITableViewController {
                             }
                             
                         } catch {
-                            print(error, error.localizedDescription)
+                            os_log("Failed to retrieve data at %@ with %@.", log: .networking, type: .error, url!.absoluteString, error.localizedDescription)
                         }
                     }
                 } else {
-                    print("Didn't find any \(preferredResolution) posters, trying \(preferredResolution.reversed())")
+                    os_log("Didn't find any %@ posters, trying %@.", log: .ui, type: .info, preferredResolution.rawValue, preferredResolution.reversed().rawValue)
                     TVDBAPI.getImageURLs(show: self.show.id, resolution: preferredResolution.reversed()) { (images) in
                         if let url = images?.data?.first?.fileName {
                             let url = URL(string: "https://www.thetvdb.com/banners/" + url)
@@ -102,7 +103,7 @@ class ShowViewController: UITableViewController {
                                     }
                                     
                                 } catch {
-                                    print(error, error.localizedDescription)
+                                    os_log("Failed to retrieve data at %@ with %@.", log: .networking, type: .error, url!.absoluteString, error.localizedDescription)
                                 }
                             }
                         } else {

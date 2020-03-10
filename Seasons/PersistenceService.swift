@@ -66,7 +66,7 @@ class PersistenceService {
             entitiesCount = try self.context.count(for: fetchRequest)
         }
         catch {
-            print("error executing fetch request: \(error)")
+            os_log("Failed to execute the fetch request (%@) with %@.", log: .coredata, type: .error, #function , error.localizedDescription)
         }
         assert(entitiesCount <= 1, "Expected either 0 or 1. Got \(entitiesCount) instead.")
         return entitiesCount > 0
@@ -87,7 +87,7 @@ class PersistenceService {
             PersistenceService.saveContext()
             
         } catch {
-            print(error, error.localizedDescription)
+            os_log("Failed to execute the fetch request (%@) with %@.", log: .coredata, type: .error, #function , error.localizedDescription)
         }
     }
     
@@ -105,7 +105,7 @@ class PersistenceService {
             PersistenceService.saveContext()
             
         } catch {
-            print(error, error.localizedDescription)
+            os_log("Failed to execute the fetch request (%@) with %@.", log: .coredata, type: .error, #function , error.localizedDescription)
         }
     }
     
@@ -121,7 +121,7 @@ class PersistenceService {
                 PersistenceService.saveContext()
                 
             } catch {
-                print(error, error.localizedDescription)
+                os_log("Failed to execute the fetch request (%@) with %@.", log: .coredata, type: .error, #function , error.localizedDescription)
             }
         }
     }
@@ -139,7 +139,7 @@ class PersistenceService {
                     PersistenceService.saveContext()
                     
                 } catch {
-                    print(error, error.localizedDescription)
+                    os_log("Failed to execute the fetch request (%@) with %@.", log: .coredata, type: .error, #function , error.localizedDescription)
                 }
             }
         }
@@ -163,7 +163,7 @@ class PersistenceService {
                 PersistenceService.saveContext()
                 
             } catch {
-                print(error, error.localizedDescription)
+                os_log("Failed to execute the fetch request (%@) with %@.", log: .coredata, type: .error, #function , error.localizedDescription)
             }
         }
     }
@@ -199,7 +199,7 @@ class PersistenceService {
                 PersistenceService.saveContext()
                 
             } catch {
-                print(error, error.localizedDescription)
+                os_log("Failed to execute the fetch request (%@) with %@.", log: .coredata, type: .error, #function , error.localizedDescription)
             }
         }
     }
@@ -222,7 +222,7 @@ class PersistenceService {
             
             return favouriteShows
         } catch {
-            print(error, error.localizedDescription)
+            os_log("Failed to execute the fetch request (%@) with %@.", log: .coredata, type: .error, #function , error.localizedDescription)
         }
         
         return nil
@@ -240,7 +240,7 @@ class PersistenceService {
                 ids.append(id.id)
             }
         } catch {
-            print(error, error.localizedDescription)
+            os_log("Failed to execute the fetch request (%@) with %@.", log: .coredata, type: .error, #function , error.localizedDescription)
         }
         
         return ids
@@ -262,7 +262,7 @@ class PersistenceService {
             }
         }
         catch {
-            print("error executing fetch request: \(error)")
+            os_log("Failed to execute the fetch request (%@) with %@.", log: .coredata, type: .error, #function , error.localizedDescription)
         }
         
         return show
@@ -290,7 +290,7 @@ class PersistenceService {
             
             return episodes
         } catch {
-            print("error executing fetch request: \(error)")
+            os_log("Failed to execute the fetch request (%@) with %@.", log: .coredata, type: .error, #function , error.localizedDescription)
         }
         return nil
     }
@@ -306,7 +306,7 @@ class PersistenceService {
         
         do {
             let result = try self.context.fetch(fetchRequest)
-            print("Got \(result.count) episodes")
+            os_log("Got %d episodes for fetch request %@.", log: .coredata, result.count, #function)
             
             if result.count == 0 {
                 return nil
@@ -319,7 +319,7 @@ class PersistenceService {
             return episodes
         }
         catch {
-            print("error executing fetch request: \(error)")
+            os_log("Failed to execute the fetch request (%@) with %@.", log: .coredata, type: .error, #function , error.localizedDescription)
         }
         return nil
     }
@@ -355,9 +355,8 @@ class PersistenceService {
             }
             
             return episodes
-        }
-        catch {
-            print("error executing fetch request: \(error)")
+        } catch {
+            os_log("Failed to execute the fetch request (%@) with %@.", log: .coredata, type: .error, #function , error.localizedDescription)
         }
         return nil
     }
@@ -377,9 +376,8 @@ class PersistenceService {
                 for ep in result as! [CD_Episode] {
                     episodes.append(Episode(id: ep.id, overview: ep.overview, airedEpisodeNumber: ep.airedEpisodeNumber, airedSeason: ep.airedSeason, episodeName: ep.episodeName, firstAired: ep.firstAired, filename: ep.filename, seriesId: ep.seriesId, hasWatched: ep.hasWatched))
                 }
-            }
-            catch {
-                print("error executing fetch request: \(error)")
+            } catch {
+                os_log("Failed to execute the fetch request (%@) with %@.", log: .coredata, type: .error, #function , error.localizedDescription)
             }
         }
         return episodes.isEmpty ? nil : episodes
@@ -474,7 +472,7 @@ class PersistenceService {
                             }
                             
                         } catch {
-                            print(error)
+                            os_log("Failed to execute the fetch request (%@) with %@.", log: .coredata, type: .error, #function , error.localizedDescription)
                         }
                     }
                 }

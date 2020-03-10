@@ -16,8 +16,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     var window: UIWindow?
     
-    static let bgTaskShowUpdate = "com.greeny.Seasons.update"
-    static let bgTaskScheduleNotif = "com.greeny.Seasons.schedule"
+    let bgTaskShowUpdate = "com.greeny.Seasons.update"
+    let bgTaskScheduleNotif = "com.greeny.Seasons.schedule"
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
@@ -51,11 +51,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
         
-        BGTaskScheduler.shared.register(forTaskWithIdentifier: Self.bgTaskShowUpdate, using: nil) { task in
+        BGTaskScheduler.shared.register(forTaskWithIdentifier: bgTaskShowUpdate, using: nil) { task in
             self.handleShowUpdate(task: task as! BGProcessingTask)
         }
         
-        BGTaskScheduler.shared.register(forTaskWithIdentifier: Self.bgTaskScheduleNotif, using: nil) { task in
+        BGTaskScheduler.shared.register(forTaskWithIdentifier: bgTaskScheduleNotif, using: nil) { task in
             self.handleScheduleNotification(task: task as! BGAppRefreshTask)
         }
         
@@ -74,7 +74,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     // MARK: - Scheduling Tasks
     private func scheduleShowUpdate() {
-        let request = BGProcessingTaskRequest(identifier: Self.bgTaskShowUpdate)
+        let request = BGProcessingTaskRequest(identifier: bgTaskShowUpdate)
         // Perform a background task at earliest after 12 hours
         request.earliestBeginDate = Date(timeIntervalSinceNow: 60 * 60 * 12)
         request.requiresNetworkConnectivity = true
@@ -82,18 +82,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         do {
             try BGTaskScheduler.shared.submit(request)
         } catch {
-            os_log("Scheduling task %@ failed with $@.", log: .backgrounding, type: .error, Self.bgTaskShowUpdate, error.localizedDescription)
+            os_log("Scheduling task %@ failed with $@.", log: .backgrounding, type: .error, bgTaskShowUpdate, error.localizedDescription)
         }
     }
     
     private func scheduleAiringNotification() {
-        let request = BGAppRefreshTaskRequest(identifier: Self.bgTaskScheduleNotif)
+        let request = BGAppRefreshTaskRequest(identifier: bgTaskScheduleNotif)
         request.earliestBeginDate = Date(timeIntervalSinceNow: 10)
         
         do {
             try BGTaskScheduler.shared.submit(request)
         } catch {
-            os_log("Scheduling task %@ failed with $@.", log: .backgrounding, type: .error, Self.bgTaskScheduleNotif, error.localizedDescription)
+            os_log("Scheduling task %@ failed with $@.", log: .backgrounding, type: .error, bgTaskScheduleNotif, error.localizedDescription)
         }
     }
     
