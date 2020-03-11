@@ -34,7 +34,6 @@
 		D6811AB7231901250045944E /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D6811AB6231901250045944E /* CloudKit.framework */; };
 		D68530DC22CC78070002ED8D /* ScheduleTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D68530DB22CC78070002ED8D /* ScheduleTableViewController.swift */; };
 		D6A94E8F22FD886300EC9C47 /* DateFormatter+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6A94E8E22FD886300EC9C47 /* DateFormatter+Extensions.swift */; };
-		D6AC032A231A142300E4ACC2 /* SwiftUIHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6AC0329231A142300E4ACC2 /* SwiftUIHelpers.swift */; };
 		D6B9F4C5229A9C4B00EDE1D9 /* UITextView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6B9F4C4229A9C4B00EDE1D9 /* UITextView+Extensions.swift */; };
 		D6BEC1A81E443AB8001B211B /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6BEC1A71E443AB8001B211B /* SearchViewController.swift */; };
 		D6D682361E289E4400966B94 /* ShowViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6D682351E289E4400966B94 /* ShowViewController.swift */; };
@@ -87,7 +86,6 @@
 		D6811AB6231901250045944E /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		D68530DB22CC78070002ED8D /* ScheduleTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleTableViewController.swift; sourceTree = "<group>"; };
 		D6A94E8E22FD886300EC9C47 /* DateFormatter+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DateFormatter+Extensions.swift"; sourceTree = "<group>"; };
-		D6AC0329231A142300E4ACC2 /* SwiftUIHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIHelpers.swift; sourceTree = "<group>"; };
 		D6B9F4C4229A9C4B00EDE1D9 /* UITextView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextView+Extensions.swift"; sourceTree = "<group>"; };
 		D6BEC1A71E443AB8001B211B /* SearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		D6D682351E289E4400966B94 /* ShowViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShowViewController.swift; sourceTree = "<group>"; };
@@ -205,7 +203,6 @@
 				D6EBBB922286E1A7005321C3 /* ShowEpisodeViewController.swift */,
 				D62CD16A22C4A387004721F6 /* EpisodeTableViewController.swift */,
 				D68530DB22CC78070002ED8D /* ScheduleTableViewController.swift */,
-				D6AC0329231A142300E4ACC2 /* SwiftUIHelpers.swift */,
 				D6F6160423F798FD00E17DC1 /* SettingsRootViewController.swift */,
 			);
 			name = "UIKit Views";
@@ -335,7 +332,6 @@
 				D6D682361E289E4400966B94 /* ShowViewController.swift in Sources */,
 				D65DA24A22A100ED00D31668 /* ShowSeasonsTableViewController.swift in Sources */,
 				D6145519228AECC000F842C6 /* UILabel+Extensions.swift in Sources */,
-				D6AC032A231A142300E4ACC2 /* SwiftUIHelpers.swift in Sources */,
 				D6EBBB932286E1A7005321C3 /* ShowEpisodeViewController.swift in Sources */,
 				D6A94E8F22FD886300EC9C47 /* DateFormatter+Extensions.swift in Sources */,
 				D62CD16722C49D78004721F6 /* EpisodeTableViewCell.swift in Sources */,
