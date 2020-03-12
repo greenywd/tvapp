@@ -19,7 +19,7 @@ struct API_Authentication : Codable {
     fileprivate let Error: String?
 }
 
-struct API_Show : Codable {
+struct RawShowResponse : Codable {
     var Error: String?
     let data: Data?
     
@@ -40,79 +40,7 @@ struct API_Show : Codable {
     }
 }
 
-struct API_Episodes : Codable {
-    let data: [Data]?
-    let links: Links?
-    
-    struct Data : Codable {
-        let airedEpisodeNumber: Int32
-        let overview: String?
-        let guestStars: [String]
-        let id: Int32
-        let imdbId: String
-        let filename: String
-        // let director: String
-        let airedSeason: Int32
-        // let siteRating: Double
-        let episodeName: String?
-        // let writers: [String]
-        // let directors: [String]
-        let seriesId: Int32
-        let firstAired: String
-    }
-    
-    struct Links : Codable {
-        let first: Int32?
-        let last: Int32?
-        let next: Int32?
-        let prev: Int32?
-    }
-}
-
-struct API_SearchResults : Codable {
-    let data: [Data]?
-    let Error: String?
-    
-    struct Data : Codable {
-        let aliases: [String]?
-        let banner: String?
-        let firstAired: String?
-        let id: Int32
-        let network: String?
-        let overview: String?
-        let seriesName: String?
-        let status: String?
-    }
-}
-
-struct API_Images : Codable {
-    let data: [Data]?
-    
-    struct Data : Codable {
-        let thumbnail: String
-        let id: Int
-        let fileName: String
-        let ratingsInfo: RatingsInfo
-        
-        struct RatingsInfo : Codable {
-            let average: Double
-            let count: Int
-        }
-    }
-}
-
-struct API_EpisodeSummary : Codable {
-    let data: Data?
-    
-    struct Data : Codable {
-        let airedEpisodes: String?
-        let airedSeasons: [String]?
-    }
-}
-
-// MARK: Custom types to aid the API_Types
-
-/// Type used with 'Search' and 'Show' View Controllers. Contains relevant information from the `API_SearchResults` and `API_Show` types.
+/// Type used with 'Search' and 'Show' View Controllers. Contains relevant information from the `RawSearchResponse` and `RawShowResponse` types.
 struct Show {
     var id: Int32
     var overview: String? = "No Overview Available"
@@ -142,7 +70,7 @@ struct Show {
         self.siteRatingCount = siteRatingCount
     }
     
-    init(from API: API_Show.Data) {
+    init(from API: RawShowResponse.Data) {
         self.id = API.id
         self.overview = API.overview
         self.seriesName = API.seriesName
@@ -169,7 +97,7 @@ struct Show {
         self.bannerImage = CD.bannerImage
     }
     
-    init(from search: API_SearchResults.Data) {
+    init(from search: RawSearchResponse.Data) {
         self.id = search.id
         self.overview = search.overview
         self.seriesName = search.seriesName
@@ -181,8 +109,85 @@ struct Show {
         self.siteRatingCount = nil
 
     }
-    
 }
+
+struct RawEpisodeResponse : Codable {
+    let data: [Data]?
+    let links: Links?
+    
+    struct Data : Codable {
+        let airedEpisodeNumber: Int32
+        let overview: String?
+        let guestStars: [String]
+        let id: Int32
+        let imdbId: String
+        let filename: String
+        // let director: String
+        let airedSeason: Int32
+        // let siteRating: Double
+        let episodeName: String?
+        // let writers: [String]
+        // let directors: [String]
+        let seriesId: Int32
+        let firstAired: String
+    }
+    
+    struct Links : Codable {
+        let first: Int32?
+        let last: Int32?
+        let next: Int32?
+        let prev: Int32?
+    }
+}
+
+struct RawSearchResponse : Codable {
+    let data: [Data]?
+    let Error: String?
+    
+    struct Data : Codable {
+        let aliases: [String]?
+        let banner: String?
+        let firstAired: String?
+        let id: Int32
+        let network: String?
+        let overview: String?
+        let seriesName: String?
+        let status: String?
+    }
+}
+
+struct RawImagesResponse : Codable {
+    let data: [Data]?
+    
+    struct Data : Codable {
+        let thumbnail: String
+        let id: Int
+        let fileName: String
+        let ratingsInfo: RatingsInfo
+        
+        struct RatingsInfo : Codable {
+            let average: Double
+            let count: Int
+        }
+    }
+}
+
+struct RawEpisodeSummaryResponse : Codable {
+    internal init(data: RawEpisodeSummaryResponse.Data?) {
+        self.data = data
+    }
+    
+    let data: Data?
+    
+    struct Data : Codable {
+        let airedEpisodes: String?
+        let airedSeasons: [String]?
+    }
+}
+
+// MARK: Custom types to aid the API_Types
+
+
 
 /*
  └ curl -X GET --header 'Content-Type: application/json' --header 'Accept: application/json' --header 'Authorization: Bearer <token>' 'https://api.thetvdb.com/series/257655/episodes'

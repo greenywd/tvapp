@@ -73,7 +73,7 @@ extension TVDBAPI_Background : URLSessionDelegate, URLSessionDownloadDelegate {
         } else if (session.configuration.identifier!.contains("com.greeny.Seasons.updateShows")) {
             do {
                 let data = try Data(contentsOf: location)
-                let show = try JSONDecoder().decode(API_Show.self, from: data).data
+                let show = try JSONDecoder().decode(RawShowResponse.self, from: data).data
                 
                 let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "CD_Show")
                 fetchRequest.predicate = NSPredicate(format: "id = %@", NSNumber(value: show!.id))

@@ -110,7 +110,7 @@ class TVDBAPI {
             }
             
             do {
-                let showInfo = try JSONDecoder().decode(API_Show.self, from: responseData).data!
+                let showInfo = try JSONDecoder().decode(RawShowResponse.self, from: responseData).data!
                 os_log("Retrieved data for %@", log: .networking, type: .info, showInfo.debugDescription)
                 completion(Show(from: showInfo))
             } catch {
@@ -147,7 +147,7 @@ class TVDBAPI {
             }
             
             do {
-                let results = try JSONDecoder().decode(API_SearchResults.self, from: responseData)
+                let results = try JSONDecoder().decode(RawSearchResponse.self, from: responseData)
                 var shows = [Show]()
                 
                 guard let showsSearched = results.data else {
@@ -194,7 +194,7 @@ class TVDBAPI {
                 let decoder = JSONDecoder()
                 decoder.dateDecodingStrategy = .formatted(DateFormatter.yyyyMMdd)
                 
-                let results = try JSONDecoder().decode(API_Episodes.self, from: responseData)
+                let results = try JSONDecoder().decode(RawEpisodeResponse.self, from: responseData)
                 
                 var episodes = [Episode]()
                 if let data = results.data {
@@ -221,7 +221,7 @@ class TVDBAPI {
         
     }
     
-    static func getImageURLs(show id: Int32, resolution: Resolution, completion: @escaping (API_Images?) -> Void = { _ in }) {
+    static func getImageURLs(show id: Int32, resolution: Resolution, completion: @escaping (RawImagesResponse?) -> Void = { _ in }) {
         let imagesURLEndpoint = "https://api.thetvdb.com/series/\(id)/images/query?keyType=fanart&resolution=\(resolution.rawValue)"
         
         guard let episodesURL = URL(string: imagesURLEndpoint) else {
@@ -245,7 +245,7 @@ class TVDBAPI {
             }
             
             do {
-                let images = try JSONDecoder().decode(API_Images.self, from: responseData)
+                let images = try JSONDecoder().decode(RawImagesResponse.self, from: responseData)
                 completion(images)
                 
             } catch {
@@ -281,7 +281,7 @@ class TVDBAPI {
             // dump(String(data: responseData, encoding: .utf8))
             
             do {
-                let summary = try JSONDecoder().decode(API_EpisodeSummary.self, from: responseData)
+                let summary = try JSONDecoder().decode(RawEpisodeSummaryResponse.self, from: responseData)
                 completion(EpisodeSummary(airedEpisodes: summary.data?.airedEpisodes, airedSeasons: summary.data?.airedSeasons?.sorted()))
                 
             } catch {
