@@ -220,6 +220,8 @@ class PersistenceService {
                 favouriteShows.append(Show(from: show))
             }
             
+            os_log("Got %d shows for fetch request %@.", log: .coredata, shows.count, #function)
+            
             return favouriteShows
         } catch {
             os_log("Failed to execute the fetch request (%@) with %@.", log: .coredata, type: .error, #function , error.localizedDescription)
@@ -278,7 +280,7 @@ class PersistenceService {
         
         do {
             let result = try self.context.fetch(fetchRequest)
-            print("Got \(result.count) episodes")
+            os_log("Got %d episodes for fetch request %@.", log: .coredata, result.count, #function)
             
             if result.count == 0 {
                 return nil
@@ -317,8 +319,7 @@ class PersistenceService {
             }
             
             return episodes
-        }
-        catch {
+        } catch {
             os_log("Failed to execute the fetch request (%@) with %@.", log: .coredata, type: .error, #function , error.localizedDescription)
         }
         return nil
@@ -344,7 +345,7 @@ class PersistenceService {
         fetchRequest.sortDescriptors = [sortAirDate]
         do {
             let result = try self.context.fetch(fetchRequest)
-            print("Got \(result.count) episodes")
+            os_log("Got %d episodes for fetch request %@.", log: .coredata, result.count, #function)
             
             if result.count == 0 {
                 return nil
