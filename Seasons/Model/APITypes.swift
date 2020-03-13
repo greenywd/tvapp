@@ -111,6 +111,14 @@ struct Show {
     }
 }
 
+struct ShowSearchResults {
+    
+}
+
+struct Images {
+    
+}
+
 struct RawEpisodeResponse : Codable {
     let data: [Data]?
     let links: Links?
