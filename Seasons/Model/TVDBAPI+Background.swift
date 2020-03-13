@@ -28,7 +28,7 @@ class TVDBAPI_Background: NSObject {
     
     func getToken() {
         // TODO: If token is expired (check status code/error) renew it
-        let params = ["apikey" : APIKey]
+        let params = ["apikey" : TVDBAPIKey]
         // FIXME: Proper error handling?
         let json = try? JSONSerialization.data(withJSONObject: params, options: .prettyPrinted)
         
