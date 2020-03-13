@@ -34,6 +34,7 @@
 		D6811AB7231901250045944E /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D6811AB6231901250045944E /* CloudKit.framework */; };
 		D68530DC22CC78070002ED8D /* ScheduleTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D68530DB22CC78070002ED8D /* ScheduleTableViewController.swift */; };
 		D68ED9B1241B640000341346 /* TMDBAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = D68ED9B0241B640000341346 /* TMDBAPI.swift */; };
+		D68ED9B9241B879900341346 /* SeasonsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D68ED9B8241B879900341346 /* SeasonsTests.swift */; };
 		D6A94E8F22FD886300EC9C47 /* DateFormatter+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6A94E8E22FD886300EC9C47 /* DateFormatter+Extensions.swift */; };
 		D6B9F4C5229A9C4B00EDE1D9 /* UITextView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6B9F4C4229A9C4B00EDE1D9 /* UITextView+Extensions.swift */; };
 		D6BEC1A81E443AB8001B211B /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6BEC1A71E443AB8001B211B /* SearchViewController.swift */; };
@@ -42,6 +43,16 @@
 		D6EBBB932286E1A7005321C3 /* ShowEpisodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6EBBB922286E1A7005321C3 /* ShowEpisodeViewController.swift */; };
 		D6F6160523F798FD00E17DC1 /* SettingsRootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6F6160423F798FD00E17DC1 /* SettingsRootViewController.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		D68ED9BB241B879900341346 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D63D0A3C1E2845ED00D3F1CA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D63D0A431E2845ED00D3F1CA;
+			remoteInfo = Seasons;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		D68680C91E2849CE00DA4563 /* Embed Frameworks */ = {
@@ -87,6 +98,9 @@
 		D6811AB6231901250045944E /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		D68530DB22CC78070002ED8D /* ScheduleTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleTableViewController.swift; sourceTree = "<group>"; };
 		D68ED9B0241B640000341346 /* TMDBAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMDBAPI.swift; sourceTree = "<group>"; };
+		D68ED9B6241B879900341346 /* SeasonsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SeasonsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		D68ED9B8241B879900341346 /* SeasonsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeasonsTests.swift; sourceTree = "<group>"; };
+		D68ED9BA241B879900341346 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D6A94E8E22FD886300EC9C47 /* DateFormatter+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DateFormatter+Extensions.swift"; sourceTree = "<group>"; };
 		D6B9F4C4229A9C4B00EDE1D9 /* UITextView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextView+Extensions.swift"; sourceTree = "<group>"; };
 		D6BEC1A71E443AB8001B211B /* SearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
@@ -102,6 +116,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				D6811AB7231901250045944E /* CloudKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D68ED9B3241B879900341346 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -155,6 +176,7 @@
 			isa = PBXGroup;
 			children = (
 				D63D0A461E2845ED00D3F1CA /* Seasons */,
+				D68ED9B7241B879900341346 /* SeasonsTests */,
 				D63D0A451E2845ED00D3F1CA /* Products */,
 				D6811AB5231901250045944E /* Frameworks */,
 			);
@@ -164,6 +186,7 @@
 			isa = PBXGroup;
 			children = (
 				D63D0A441E2845ED00D3F1CA /* Seasons.app */,
+				D68ED9B6241B879900341346 /* SeasonsTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -212,6 +235,15 @@
 			path = "View Controllers/UIKit Views";
 			sourceTree = "<group>";
 		};
+		D68ED9B7241B879900341346 /* SeasonsTests */ = {
+			isa = PBXGroup;
+			children = (
+				D68ED9B8241B879900341346 /* SeasonsTests.swift */,
+				D68ED9BA241B879900341346 /* Info.plist */,
+			);
+			path = SeasonsTests;
+			sourceTree = "<group>";
+		};
 		D6D64F43228CE2D1004BDD7E /* Custom Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -246,13 +278,31 @@
 			productReference = D63D0A441E2845ED00D3F1CA /* Seasons.app */;
 			productType = "com.apple.product-type.application";
 		};
+		D68ED9B5241B879900341346 /* SeasonsTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D68ED9BD241B879900341346 /* Build configuration list for PBXNativeTarget "SeasonsTests" */;
+			buildPhases = (
+				D68ED9B2241B879900341346 /* Sources */,
+				D68ED9B3241B879900341346 /* Frameworks */,
+				D68ED9B4241B879900341346 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D68ED9BC241B879900341346 /* PBXTargetDependency */,
+			);
+			name = SeasonsTests;
+			productName = SeasonsTests;
+			productReference = D68ED9B6241B879900341346 /* SeasonsTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
 		D63D0A3C1E2845ED00D3F1CA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0820;
+				LastSwiftUpdateCheck = 1140;
 				LastUpgradeCheck = 1020;
 				ORGANIZATIONNAME = "Thomas Greenwood";
 				TargetAttributes = {
@@ -261,6 +311,12 @@
 						DevelopmentTeam = F33EN56G35;
 						LastSwiftMigration = 1020;
 						ProvisioningStyle = Automatic;
+					};
+					D68ED9B5241B879900341346 = {
+						CreatedOnToolsVersion = 11.4;
+						DevelopmentTeam = F33EN56G35;
+						ProvisioningStyle = Automatic;
+						TestTargetID = D63D0A431E2845ED00D3F1CA;
 					};
 				};
 			};
@@ -278,6 +334,7 @@
 			projectRoot = "";
 			targets = (
 				D63D0A431E2845ED00D3F1CA /* Seasons */,
+				D68ED9B5241B879900341346 /* SeasonsTests */,
 			);
 		};
 /* End PBXProject section */
@@ -294,6 +351,13 @@
 				D62CD16922C49FEB004721F6 /* EpisodeTableViewCell.xib in Resources */,
 				D63D0A511E2845ED00D3F1CA /* Assets.xcassets in Resources */,
 				D64C7CCE23FF5EE4004C8053 /* Show.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D68ED9B4241B879900341346 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -353,7 +417,23 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		D68ED9B2241B879900341346 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D68ED9B9241B879900341346 /* SeasonsTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		D68ED9BC241B879900341346 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D63D0A431E2845ED00D3F1CA /* Seasons */;
+			targetProxy = D68ED9BB241B879900341346 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		D63D0A521E2845ED00D3F1CA /* LaunchScreen.storyboard */ = {
@@ -528,6 +608,53 @@
 			};
 			name = Release;
 		};
+		D68ED9BE241B879900341346 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = F33EN56G35;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = SeasonsTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.greeny.SeasonsTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Seasons.app/Seasons";
+			};
+			name = Debug;
+		};
+		D68ED9BF241B879900341346 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = F33EN56G35;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = SeasonsTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.greeny.SeasonsTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Seasons.app/Seasons";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -545,6 +672,15 @@
 			buildConfigurations = (
 				D63D0A591E2845ED00D3F1CA /* Debug */,
 				D63D0A5A1E2845ED00D3F1CA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D68ED9BD241B879900341346 /* Build configuration list for PBXNativeTarget "SeasonsTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D68ED9BE241B879900341346 /* Debug */,
+				D68ED9BF241B879900341346 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
