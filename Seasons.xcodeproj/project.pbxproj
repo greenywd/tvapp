@@ -30,6 +30,7 @@
 		D64FC0FE229FD9D8007281BF /* ShowTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D64FC0FD229FD9D8007281BF /* ShowTableViewCell.xib */; };
 		D65DA24A22A100ED00D31668 /* ShowSeasonsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D65DA24922A100ED00D31668 /* ShowSeasonsTableViewController.swift */; };
 		D6629D901E3C27A70049CC26 /* TVDBAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6629D8F1E3C27A70049CC26 /* TVDBAPI.swift */; };
+		D66AD5F2241C7AD8008942AA /* Show.json in Resources */ = {isa = PBXBuildFile; fileRef = D66AD5F1241C7AD8008942AA /* Show.json */; };
 		D67BCB521E41A5CA00BA58EA /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D67BCB511E41A5CA00BA58EA /* HomeViewController.swift */; };
 		D6811AB7231901250045944E /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D6811AB6231901250045944E /* CloudKit.framework */; };
 		D68530DC22CC78070002ED8D /* ScheduleTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D68530DB22CC78070002ED8D /* ScheduleTableViewController.swift */; };
@@ -93,6 +94,7 @@
 		D64FC0FD229FD9D8007281BF /* ShowTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ShowTableViewCell.xib; sourceTree = "<group>"; };
 		D65DA24922A100ED00D31668 /* ShowSeasonsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowSeasonsTableViewController.swift; sourceTree = "<group>"; };
 		D6629D8F1E3C27A70049CC26 /* TVDBAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TVDBAPI.swift; sourceTree = "<group>"; };
+		D66AD5F1241C7AD8008942AA /* Show.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Show.json; sourceTree = "<group>"; };
 		D67BCB511E41A5CA00BA58EA /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		D6811AB4231901220045944E /* Seasons.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Seasons.entitlements; sourceTree = "<group>"; };
 		D6811AB6231901250045944E /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
@@ -240,6 +242,7 @@
 			children = (
 				D68ED9B8241B879900341346 /* SeasonsTests.swift */,
 				D68ED9BA241B879900341346 /* Info.plist */,
+				D66AD5F1241C7AD8008942AA /* Show.json */,
 			);
 			path = SeasonsTests;
 			sourceTree = "<group>";
@@ -358,6 +361,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D66AD5F2241C7AD8008942AA /* Show.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
