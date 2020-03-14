@@ -30,6 +30,7 @@
 		D64FC0FE229FD9D8007281BF /* ShowTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D64FC0FD229FD9D8007281BF /* ShowTableViewCell.xib */; };
 		D65DA24A22A100ED00D31668 /* ShowSeasonsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D65DA24922A100ED00D31668 /* ShowSeasonsTableViewController.swift */; };
 		D6629D901E3C27A70049CC26 /* TVDBAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6629D8F1E3C27A70049CC26 /* TVDBAPI.swift */; };
+		D66AD5F0241C686D008942AA /* Keys.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = D66AD5EF241C6347008942AA /* Keys.xcconfig */; };
 		D67BCB521E41A5CA00BA58EA /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D67BCB511E41A5CA00BA58EA /* HomeViewController.swift */; };
 		D6811AB7231901250045944E /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D6811AB6231901250045944E /* CloudKit.framework */; };
 		D68530DC22CC78070002ED8D /* ScheduleTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D68530DB22CC78070002ED8D /* ScheduleTableViewController.swift */; };
@@ -93,6 +94,7 @@
 		D64FC0FD229FD9D8007281BF /* ShowTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ShowTableViewCell.xib; sourceTree = "<group>"; };
 		D65DA24922A100ED00D31668 /* ShowSeasonsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowSeasonsTableViewController.swift; sourceTree = "<group>"; };
 		D6629D8F1E3C27A70049CC26 /* TVDBAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TVDBAPI.swift; sourceTree = "<group>"; };
+		D66AD5EF241C6347008942AA /* Keys.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Keys.xcconfig; path = ../Keys.xcconfig; sourceTree = "<group>"; };
 		D67BCB511E41A5CA00BA58EA /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		D6811AB4231901220045944E /* Seasons.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Seasons.entitlements; sourceTree = "<group>"; };
 		D6811AB6231901250045944E /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
@@ -194,6 +196,7 @@
 		D63D0A461E2845ED00D3F1CA /* Seasons */ = {
 			isa = PBXGroup;
 			children = (
+				D66AD5EF241C6347008942AA /* Keys.xcconfig */,
 				D634139F23FCB4A200C7A92A /* Storyboards */,
 				D6811AB4231901220045944E /* Seasons.entitlements */,
 				D64C8B64228C236D00049F86 /* Seasons.xcdatamodeld */,
@@ -344,6 +347,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D66AD5F0241C686D008942AA /* Keys.xcconfig in Resources */,
 				D64FC0FE229FD9D8007281BF /* ShowTableViewCell.xib in Resources */,
 				D60E823122CC83F400310FE0 /* Main.storyboard in Resources */,
 				D63D0A541E2845ED00D3F1CA /* LaunchScreen.storyboard in Resources */,
@@ -449,6 +453,7 @@
 /* Begin XCBuildConfiguration section */
 		D63D0A561E2845ED00D3F1CA /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D66AD5EF241C6347008942AA /* Keys.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
@@ -510,6 +515,7 @@
 		};
 		D63D0A571E2845ED00D3F1CA /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D66AD5EF241C6347008942AA /* Keys.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
