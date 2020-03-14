@@ -70,7 +70,7 @@ class TVDBAPI {
                 return
             }
             
-            os_log("Status Code: %@", log: .networking, type: .info, response!.StatusCode)
+            os_log("Status Code: %d", log: .networking, type: .info, response!.StatusCode)
             
             do {
                 let auth = try JSONDecoder().decode(API_Authentication.self, from: data)
