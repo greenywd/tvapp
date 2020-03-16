@@ -42,6 +42,7 @@
 		D68ED9B1241B640000341346 /* TMDBAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = D68ED9B0241B640000341346 /* TMDBAPI.swift */; };
 		D68ED9B9241B879900341346 /* SeasonsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D68ED9B8241B879900341346 /* SeasonsTests.swift */; };
 		D6A94E8F22FD886300EC9C47 /* DateFormatter+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6A94E8E22FD886300EC9C47 /* DateFormatter+Extensions.swift */; };
+		D6AD8907241F9C6F00D24365 /* TMShowLastNextEpisode.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6AD8906241F9C6F00D24365 /* TMShowLastNextEpisode.swift */; };
 		D6B9F4C5229A9C4B00EDE1D9 /* UITextView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6B9F4C4229A9C4B00EDE1D9 /* UITextView+Extensions.swift */; };
 		D6BEC1A81E443AB8001B211B /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6BEC1A71E443AB8001B211B /* SearchViewController.swift */; };
 		D6D682361E289E4400966B94 /* ShowViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6D682351E289E4400966B94 /* ShowViewController.swift */; };
@@ -114,6 +115,7 @@
 		D68ED9B8241B879900341346 /* SeasonsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeasonsTests.swift; sourceTree = "<group>"; };
 		D68ED9BA241B879900341346 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D6A94E8E22FD886300EC9C47 /* DateFormatter+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DateFormatter+Extensions.swift"; sourceTree = "<group>"; };
+		D6AD8906241F9C6F00D24365 /* TMShowLastNextEpisode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMShowLastNextEpisode.swift; sourceTree = "<group>"; };
 		D6B9F4C4229A9C4B00EDE1D9 /* UITextView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextView+Extensions.swift"; sourceTree = "<group>"; };
 		D6BEC1A71E443AB8001B211B /* SearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		D6D682351E289E4400966B94 /* ShowViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShowViewController.swift; sourceTree = "<group>"; };
@@ -231,6 +233,7 @@
 				D6523B0B241DB6FD002C88D8 /* TMSearchResult.swift */,
 				D62D93A6241F412E000057AF /* TMEpisode.swift */,
 				D62D93A8241F41AD000057AF /* TMSeasonDetails.swift */,
+				D6AD8906241F9C6F00D24365 /* TMShowLastNextEpisode.swift */,
 			);
 			path = "TheMovieDB API";
 			sourceTree = "<group>";
@@ -443,6 +446,7 @@
 				D68530DC22CC78070002ED8D /* ScheduleTableViewController.swift in Sources */,
 				D63E78662412397500838E6B /* UIUserInterfaceStyle+Extensions.swift in Sources */,
 				D63E7864241223B300838E6B /* Log.swift in Sources */,
+				D6AD8907241F9C6F00D24365 /* TMShowLastNextEpisode.swift in Sources */,
 				D67BCB521E41A5CA00BA58EA /* HomeViewController.swift in Sources */,
 				D62D93A7241F412E000057AF /* TMEpisode.swift in Sources */,
 				D613EB2922B3A39B00ADCD53 /* APIKey.swift in Sources */,

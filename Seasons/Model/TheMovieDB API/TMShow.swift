@@ -19,9 +19,9 @@ struct TMShow : Decodable {
     let inProduction: Bool? = nil
     let languages: [String]? = nil
     let lastAirDate: String? = nil
-    // let last_episode_to_air : Last_episode_to_air?
+    let lastEpisodeToAir : TMShowLastNextEpisode? = nil
     let name: String?
-    // let next_episode_to_air : Next_episode_to_air?
+    let nextEpisodeToAir : TMShowLastNextEpisode? = nil
     // let networks : [Networks]?
     let numberOfEpisodes: Int? = nil
     let numberofSeasons: Int? = nil
@@ -53,9 +53,9 @@ struct TMShow : Decodable {
         case inProduction = "in_production"
         case languages
         case lastAirDate = "last_air_date"
-        // case last_episode_to_air = "last_episode_to_air"
+        case lastEpisodeToAir = "last_episode_to_air"
         case name
-        // case next_episode_to_air = "next_episode_to_air"
+        case nextEpisodeToAir = "next_episode_to_air"
         // case networks = "networks"
         case numberOfEpisodes = "number_of_episodes"
         case numberofSeasons = "number_of_seasons"
