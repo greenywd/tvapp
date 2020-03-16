@@ -35,7 +35,7 @@ struct TMShow : Decodable {
     // let seasons : [Seasons]?
     let status: String?
     let type: String?
-    let voteAverage: Int?
+    let voteAverage: Double?
     let voteCount: Int?
 
     var debugDescription: String {
