@@ -17,6 +17,8 @@
 		D62CD16722C49D78004721F6 /* EpisodeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D62CD16622C49D78004721F6 /* EpisodeTableViewCell.swift */; };
 		D62CD16922C49FEB004721F6 /* EpisodeTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D62CD16822C49FEB004721F6 /* EpisodeTableViewCell.xib */; };
 		D62CD16B22C4A387004721F6 /* EpisodeTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D62CD16A22C4A387004721F6 /* EpisodeTableViewController.swift */; };
+		D62D93A7241F412E000057AF /* TMEpisode.swift in Sources */ = {isa = PBXBuildFile; fileRef = D62D93A6241F412E000057AF /* TMEpisode.swift */; };
+		D62D93A9241F41AD000057AF /* TMSeasonDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = D62D93A8241F41AD000057AF /* TMSeasonDetails.swift */; };
 		D634139E23FCB28600C7A92A /* Settings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D634139D23FCB28600C7A92A /* Settings.storyboard */; };
 		D637D9A9240F45AE00A3F094 /* SettingsSupportTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D637D9A8240F45AE00A3F094 /* SettingsSupportTableViewController.swift */; };
 		D63D0A481E2845ED00D3F1CA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D63D0A471E2845ED00D3F1CA /* AppDelegate.swift */; };
@@ -82,6 +84,8 @@
 		D62CD16622C49D78004721F6 /* EpisodeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EpisodeTableViewCell.swift; sourceTree = "<group>"; };
 		D62CD16822C49FEB004721F6 /* EpisodeTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EpisodeTableViewCell.xib; sourceTree = "<group>"; };
 		D62CD16A22C4A387004721F6 /* EpisodeTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EpisodeTableViewController.swift; sourceTree = "<group>"; };
+		D62D93A6241F412E000057AF /* TMEpisode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMEpisode.swift; sourceTree = "<group>"; };
+		D62D93A8241F41AD000057AF /* TMSeasonDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMSeasonDetails.swift; sourceTree = "<group>"; };
 		D634139D23FCB28600C7A92A /* Settings.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Settings.storyboard; sourceTree = "<group>"; };
 		D637D9A8240F45AE00A3F094 /* SettingsSupportTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsSupportTableViewController.swift; sourceTree = "<group>"; };
 		D63D0A441E2845ED00D3F1CA /* Seasons.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Seasons.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -225,6 +229,8 @@
 				D6523B07241DB6E8002C88D8 /* TMShow.swift */,
 				D6523B09241DB6F4002C88D8 /* TMSearch.swift */,
 				D6523B0B241DB6FD002C88D8 /* TMSearchResult.swift */,
+				D62D93A6241F412E000057AF /* TMEpisode.swift */,
+				D62D93A8241F41AD000057AF /* TMSeasonDetails.swift */,
 			);
 			path = "TheMovieDB API";
 			sourceTree = "<group>";
@@ -427,6 +433,7 @@
 				D62CD16722C49D78004721F6 /* EpisodeTableViewCell.swift in Sources */,
 				D64C8B66228C236D00049F86 /* Seasons.xcdatamodeld in Sources */,
 				D6523B08241DB6E8002C88D8 /* TMShow.swift in Sources */,
+				D62D93A9241F41AD000057AF /* TMSeasonDetails.swift in Sources */,
 				D6D94ABC2286ED2900A405B5 /* ShowTableViewCell.swift in Sources */,
 				D6523B0C241DB6FD002C88D8 /* TMSearchResult.swift in Sources */,
 				D63D0A481E2845ED00D3F1CA /* AppDelegate.swift in Sources */,
@@ -437,6 +444,7 @@
 				D63E78662412397500838E6B /* UIUserInterfaceStyle+Extensions.swift in Sources */,
 				D63E7864241223B300838E6B /* Log.swift in Sources */,
 				D67BCB521E41A5CA00BA58EA /* HomeViewController.swift in Sources */,
+				D62D93A7241F412E000057AF /* TMEpisode.swift in Sources */,
 				D613EB2922B3A39B00ADCD53 /* APIKey.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

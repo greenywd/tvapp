@@ -38,7 +38,7 @@ class TMDBAPI {
         
         let request = createRequest(with: seriesURL, method: .get)
         
-        URLSession.shared.dataTask(with: request) { (data, response, error) in
+        let showTask = URLSession.shared.dataTask(with: request) { (data, response, error) in
             
             os_log("Getting show with ID: %d", log: .networking, type: .info, id)
             
@@ -55,22 +55,24 @@ class TMDBAPI {
             } catch {
                 os_log("Failed to decode response with: %@", log: .networking, type: .error, error.localizedDescription)
             }
-        }.resume()
+        }
+        showTask.countOfBytesClientExpectsToReceive = 3500 // round up from ~3447
+        showTask.resume()
     }
     
     func searchShows(query: String, page: Int = 1, completion: @escaping ([TMSearchResult]?) -> Void) {
-        var searchURL = "https://api.themoviedb.org/3/search/tv?api_key=\(TMDBAPIKey)&language=en-US&query=\(query)&page=\(page)"
+        var searchURLString = "https://api.themoviedb.org/3/search/tv?api_key=\(TMDBAPIKey)&language=en-US&query=\(query)&page=\(page)"
         
-        if let encoded = searchURL.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed), let encodedURL = URL(string: encoded) {
-            searchURL = encodedURL.absoluteString
+        if let encoded = searchURLString.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed), let encodedURL = URL(string: encoded) {
+            searchURLString = encodedURL.absoluteString
         }
         
-        guard let seriesURL = URL(string: searchURL) else {
+        guard let searchURL = URL(string: searchURLString) else {
             os_log("Failed to create URL for %@", log: .networking, type: .error, #function)
             return
         }
         
-        let request = createRequest(with: seriesURL, method: .get)
+        let request = createRequest(with: searchURL, method: .get)
         
         let showTask = URLSession.shared.dataTask(with: request) { (data, response, error) in
             
@@ -99,11 +101,49 @@ class TMDBAPI {
                 os_log("Failed to decode response with: %@", log: .networking, type: .error, error.localizedDescription)
             }
         }
+        
         showTask.resume()
     }
     
-    func getEpisodes(for show: Int32, completion: @escaping ([Episode]?) -> Void) {
+    func getEpisodes(show: Int32, season: Int32, completion: @escaping ([TMEpisode]?) -> Void) {
+        let episodeURLString = "https://api.themoviedb.org/3/tv/\(show)/season/\(season)?api_key=\(TMDBAPIKey)&language=en-US"
         
+        guard let episodesURL = URL(string: episodeURLString) else {
+            os_log("Failed to create URL for %@", log: .networking, type: .error, #function)
+            return
+        }
+        
+        let request = createRequest(with: episodesURL, method: .get)
+        
+        let showTask = URLSession.shared.dataTask(with: request) { (data, response, error) in
+            
+            // check for any errors
+            guard error == nil else {
+                os_log("Request failed for %@ with %@", log: .networking, type: .error, #function, error.debugDescription)
+                return
+            }
+            // make sure we got data
+            guard let responseData = data else {
+                os_log("Did not receive any data for %@", log: .networking, type: .error, #function)
+                return
+            }
+            
+            do {
+                let seasonDetails = try JSONDecoder().decode(TMSeasonDetails.self, from: responseData)
+                
+                guard let episodes = seasonDetails.episodes else {
+                    os_log("No shows returned from search.", log: .networking, type: .info)
+                    completion(nil)
+                    return
+                }
+                
+                completion(episodes)
+            } catch {
+                os_log("Failed to decode response with: %@", log: .networking, type: .error, error.localizedDescription)
+            }
+        }
+        
+        showTask.resume()
     }
     
     func getLatestEpisode(for show: Int32, completion: @escaping (Episode?) -> Void) {
