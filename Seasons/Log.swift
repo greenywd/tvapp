@@ -19,4 +19,5 @@ extension OSLog {
     static let ui = OSLog(subsystem: subsystem, category: "User Interface")
     static let backgrounding = OSLog(subsystem: subsystem, category: "Background App Refresh")
     static let notifications = OSLog(subsystem: subsystem, category: "User Notifications")
+    static let TMDBAPI = OSLog(subsystem: subsystem, category: "TheMovieDB API")
 }
