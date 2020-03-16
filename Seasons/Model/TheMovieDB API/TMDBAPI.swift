@@ -150,11 +150,27 @@ class TMDBAPI {
     enum ImageType {
         case backdrop, logo, poster, profile
     }
+    
     static func createImageURL(path: String, imageType: ImageType) -> URL? {
         if let fullURL = URL(string: "https://image.tmdb.org/t/p/original\(path)") {
             return fullURL
         }
         
         return nil
+    }
+    
+    // MARK: - Migration Functions
+    static func migration() {
+        let currentFavouriteIDs = PersistenceService.getShowIDs()
+        var newFavouriteIDs = [Int32]()
+        for id in currentFavouriteIDs {
+            getIDFromTVDB(id: id) { (newID) in
+                newFavouriteIDs.append(newID)
+            }
+        }
+    }
+    
+    private static func getIDFromTVDB(id: Int32, completion: @escaping (Int32) -> Void) {
+        // TODO: Implement
     }
 }
