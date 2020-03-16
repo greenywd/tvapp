@@ -38,7 +38,8 @@ class SearchViewController : UITableViewController {
         "Black Mirror",
         "Atlanta",
         "Arrested Development",
-        "Arrow"
+        "Arrow",
+        "Breaking Bad"
     ]
     
     override func viewDidLoad() {
