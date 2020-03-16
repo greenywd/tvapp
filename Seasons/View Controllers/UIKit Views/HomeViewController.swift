@@ -23,6 +23,19 @@ class HomeViewController: UITableViewController {
         super.viewDidLoad()
         self.navigationController?.setNavigationBarHidden(false, animated: true)
         
+        let alert = UIAlertController(title: "Migration of API", message: """
+            With recent issues at TheTVDB, I've decided to move tvapp to TheMovieDB instead. Despite their name, they have a lot more information useful for tvapp, and will enable lots of new features. Stay tuned!
+            
+            As such, your favourites will need to be migrated over to TheMovieDB in order to continue working. This can be done at a later date, however I suggest you do it as soon as possible.
+            """, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Later", style: .default, handler: nil))
+        let migrateAction = UIAlertAction(title: "Migrate", style: .default, handler: { _ in
+            // TODO: Implement migration
+        })
+        alert.addAction(migrateAction)
+        alert.preferredAction = migrateAction
+//        present(alert, animated: true, completion: nil)
+        
         tableView.register(UINib(nibName: "ShowTableViewCell", bundle: nil), forCellReuseIdentifier: "showCell")
         tableView.rowHeight = 90
         

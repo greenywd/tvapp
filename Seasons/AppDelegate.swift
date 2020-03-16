@@ -22,6 +22,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
+        if (UserDefaults.standard.object(forKey: "migrateTMDB") == nil) {
+            UserDefaults.standard.set(false, forKey: "migrateTMDB")
+        }
+        
         if (UserDefaults.standard.object(forKey: "preferFullHD") == nil) {
             UserDefaults.standard.set(false, forKey: "preferFullHD")
         }
