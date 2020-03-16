@@ -146,11 +146,15 @@ class TMDBAPI {
         showTask.resume()
     }
     
-    func getLatestEpisode(for show: Int32, completion: @escaping (Episode?) -> Void) {
-        
+    // MARK: - Helper Functions
+    enum ImageType {
+        case backdrop, logo, poster, profile
     }
-    
-    func getImageURLs(for show: Int32, completion: @escaping ([Images]?) -> Void) {
+    static func createImageURL(path: String, imageType: ImageType) -> URL? {
+        if let fullURL = URL(string: "https://image.tmdb.org/t/p/original\(path)") {
+            return fullURL
+        }
         
+        return nil
     }
 }
