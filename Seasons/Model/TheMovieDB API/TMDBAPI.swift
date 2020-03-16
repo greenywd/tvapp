@@ -15,7 +15,7 @@ class TMDBAPI {
         case get = "GET"
     }
     
-    private func createRequest(with url: URL, method: HTTPMethod/*, needsToken: Bool*/) -> URLRequest {
+    private static func createRequest(with url: URL, method: HTTPMethod/*, needsToken: Bool*/) -> URLRequest {
         var request = URLRequest(url: url)
         request.httpMethod = method.rawValue
         request.timeoutInterval = 30
@@ -28,7 +28,7 @@ class TMDBAPI {
         return request
     }
     
-    func getShow(id: Int32, completion: @escaping (TMShow?) -> Void) {
+    static func getShow(id: Int32, completion: @escaping (TMShow?) -> Void) {
         let showEndpoint = "https://api.themoviedb.org/3/tv/\(id)?api_key=\(TMDBAPIKey)&language=en-US"
         
         guard let seriesURL = URL(string: showEndpoint) else {
@@ -60,7 +60,7 @@ class TMDBAPI {
         showTask.resume()
     }
     
-    func searchShows(query: String, page: Int = 1, completion: @escaping ([TMSearchResult]?) -> Void) {
+    static func searchShows(query: String, page: Int = 1, completion: @escaping ([TMSearchResult]?) -> Void) {
         var searchURLString = "https://api.themoviedb.org/3/search/tv?api_key=\(TMDBAPIKey)&language=en-US&query=\(query)&page=\(page)"
         
         if let encoded = searchURLString.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed), let encodedURL = URL(string: encoded) {
@@ -105,7 +105,7 @@ class TMDBAPI {
         showTask.resume()
     }
     
-    func getEpisodes(show: Int32, season: Int32, completion: @escaping ([TMEpisode]?) -> Void) {
+    static func getEpisodes(show: Int32, season: Int32, completion: @escaping ([TMEpisode]?) -> Void) {
         let episodeURLString = "https://api.themoviedb.org/3/tv/\(show)/season/\(season)?api_key=\(TMDBAPIKey)&language=en-US"
         
         guard let episodesURL = URL(string: episodeURLString) else {

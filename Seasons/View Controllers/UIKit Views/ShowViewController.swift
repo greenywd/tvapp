@@ -40,6 +40,8 @@ class ShowViewController: UITableViewController {
         }
     }
     
+    var showTM: TMShow!
+    
     var rightBarButtonItem = UIBarButtonItem()
     
     //MARK: - Methods

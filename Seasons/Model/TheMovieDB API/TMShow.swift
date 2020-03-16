@@ -11,20 +11,20 @@ import Foundation
 struct TMShow : Decodable {
     let backdropPath: String?
     // let createdBy : [Created_by]?
-    let episodeRunTime: [Int]?
+    let episodeRunTime: [Int]? = nil
     let firstAirDate: String?
     // let genres : [Genres]?
-    let homepage: String?
+    let homepage: String? = nil
     let id: Int?
-    let inProduction: Bool?
-    let languages: [String]?
-    let lastAirDate: String?
+    let inProduction: Bool? = nil
+    let languages: [String]? = nil
+    let lastAirDate: String? = nil
     // let last_episode_to_air : Last_episode_to_air?
     let name: String?
     // let next_episode_to_air : Next_episode_to_air?
     // let networks : [Networks]?
-    let numberOfEpisodes: Int?
-    let numberofSeasons: Int?
+    let numberOfEpisodes: Int? = nil
+    let numberofSeasons: Int? = nil
     let originCountry: [String]?
     let originalLanguage: String?
     let originalName: String?
@@ -33,8 +33,8 @@ struct TMShow : Decodable {
     let posterPath: String?
     // let production_companies : [Production_companies]?
     // let seasons : [Seasons]?
-    let status: String?
-    let type: String?
+    let status: String? = nil
+    let type: String? = nil
     let voteAverage: Double?
     let voteCount: Int?
 
@@ -69,5 +69,21 @@ struct TMShow : Decodable {
         case status, type
         case voteAverage = "vote_average"
         case voteCount = "vote_count"
+    }
+    
+    init(from searchResult: TMSearchResult) {
+        self.backdropPath = searchResult.backdropPath
+        self.originalName = searchResult.originalName
+        // Genres?
+        self.name = searchResult.name
+        self.popularity = searchResult.popularity
+        self.originCountry = searchResult.originCountry
+        self.voteCount = searchResult.voteCount
+        self.firstAirDate = searchResult.firstAirDate
+        self.originalLanguage = searchResult.originalLanguage
+        self.id = searchResult.id
+        self.voteAverage = searchResult.voteAverage
+        self.overview = searchResult.overview
+        self.posterPath = searchResult.posterPath
     }
 }
