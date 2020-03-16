@@ -20,14 +20,15 @@ class SeasonsTests: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
     
-    func testJSONDecoding() throws {
+    func testShowDecode() throws {
         if let path = Bundle(for: type(of: self)).path(forResource: "Show", ofType: "json") {
             do {
                 let data = try Data(contentsOf: URL(fileURLWithPath: path), options: .mappedIfSafe)
-                let json = try JSONDecoder().decode(RawShowResponse.self, from: data)
-                XCTAssert(json.data != nil, "Failed to decode JSON.")
+                let json = try JSONDecoder().decode(TMShow.self, from: data)
+                XCTAssertNotNil(json)
                 
             } catch {
+                print(error, error.localizedDescription)
                 XCTFail("Failed to create data from JSON file.")
             }
         } else {
