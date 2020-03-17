@@ -163,6 +163,8 @@ class TMDBAPI {
     static func migration() {
         let currentFavouriteIDs = PersistenceService.getShowIDs()
         var newFavouriteIDs = [Int32]()
+        
+        // TODO: Use DispatchGroup to wait for getIDFromTVDB to finish
         for id in currentFavouriteIDs {
             getIDFromTVDB(id: id) { (newID) in
                 if let newID = newID {
@@ -170,6 +172,14 @@ class TMDBAPI {
                 }
             }
         }
+        
+        for id in newFavouriteIDs {
+            self.getShow(id: id) { (show) in
+                // TODO: Add show to CoreData
+            }
+        }
+        
+        
     }
     
     private static func getIDFromTVDB(id: Int32, completion: @escaping (Int32?) -> Void) {
