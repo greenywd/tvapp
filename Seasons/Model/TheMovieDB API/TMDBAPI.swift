@@ -165,12 +165,48 @@ class TMDBAPI {
         var newFavouriteIDs = [Int32]()
         for id in currentFavouriteIDs {
             getIDFromTVDB(id: id) { (newID) in
-                newFavouriteIDs.append(newID)
+                if let newID = newID {
+                    newFavouriteIDs.append(newID)
+                }
             }
         }
     }
     
-    private static func getIDFromTVDB(id: Int32, completion: @escaping (Int32) -> Void) {
-        // TODO: Implement
+    private static func getIDFromTVDB(id: Int32, completion: @escaping (Int32?) -> Void) {
+        let findEndpoint = "https://api.themoviedb.org/3/find/\(id)?api_key=\(TMDBAPIKey)&language=en-US&external_source=tvdb_id"
+        
+        guard let findURL = URL(string: findEndpoint) else {
+            os_log("Failed to create URL for %@", log: .networking, type: .error, #function)
+            return
+        }
+        
+        let request = createRequest(with: findURL, method: .get)
+        
+        let findTask = URLSession.shared.dataTask(with: request) { (data, response, error) in
+            
+            os_log("Getting show with ID: %d", log: .networking, type: .info, id)
+            
+            // make sure we got data
+            guard let responseData = data else {
+                os_log("Did not receive any data for %@", log: .networking, type: .error, #function)
+                return
+            }
+            
+            do {
+                let findInfo = try JSONDecoder().decode(TMFind.self, from: responseData)
+                os_log("Retrieved data from /find with ID %d", log: .networking, type: .info, id)
+                
+                if let findResult = findInfo.tvResults.first {
+                    completion(Int32(findResult.id))
+                } else {
+                    completion(nil)
+                }
+            } catch {
+                os_log("Failed to decode response with: %@", log: .networking, type: .error, error.localizedDescription)
+            }
+        }
+        findTask.countOfBytesClientExpectsToReceive = 800 // round up from ~751
+        findTask.countOfBytesClientExpectsToReceive = 0
+        findTask.resume()
     }
 }

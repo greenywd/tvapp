@@ -26,6 +26,8 @@
 		D63D0A541E2845ED00D3F1CA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D63D0A521E2845ED00D3F1CA /* LaunchScreen.storyboard */; };
 		D63E7864241223B300838E6B /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = D63E7863241223B300838E6B /* Log.swift */; };
 		D63E78662412397500838E6B /* UIUserInterfaceStyle+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D63E78652412397500838E6B /* UIUserInterfaceStyle+Extensions.swift */; };
+		D64554C424208E31007BF450 /* TMFind.swift in Sources */ = {isa = PBXBuildFile; fileRef = D64554C324208E31007BF450 /* TMFind.swift */; };
+		D64554C624208F06007BF450 /* TMFindResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = D64554C524208F06007BF450 /* TMFindResult.swift */; };
 		D64C7CCE23FF5EE4004C8053 /* Show.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D64C7CCD23FF5EE4004C8053 /* Show.storyboard */; };
 		D64C8B66228C236D00049F86 /* Seasons.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D64C8B64228C236D00049F86 /* Seasons.xcdatamodeld */; };
 		D64C8B68228C2ADB00049F86 /* PersistenceService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D64C8B67228C2ADB00049F86 /* PersistenceService.swift */; };
@@ -96,6 +98,8 @@
 		D63D0A551E2845ED00D3F1CA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D63E7863241223B300838E6B /* Log.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Log.swift; sourceTree = "<group>"; };
 		D63E78652412397500838E6B /* UIUserInterfaceStyle+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIUserInterfaceStyle+Extensions.swift"; sourceTree = "<group>"; };
+		D64554C324208E31007BF450 /* TMFind.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMFind.swift; sourceTree = "<group>"; };
+		D64554C524208F06007BF450 /* TMFindResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMFindResult.swift; sourceTree = "<group>"; };
 		D64C7CCD23FF5EE4004C8053 /* Show.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Show.storyboard; sourceTree = "<group>"; };
 		D64C8B65228C236D00049F86 /* Seasons.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Seasons.xcdatamodel; sourceTree = "<group>"; };
 		D64C8B67228C2ADB00049F86 /* PersistenceService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceService.swift; sourceTree = "<group>"; };
@@ -234,6 +238,8 @@
 				D62D93A6241F412E000057AF /* TMEpisode.swift */,
 				D62D93A8241F41AD000057AF /* TMSeasonDetails.swift */,
 				D6AD8906241F9C6F00D24365 /* TMShowLastNextEpisode.swift */,
+				D64554C324208E31007BF450 /* TMFind.swift */,
+				D64554C524208F06007BF450 /* TMFindResult.swift */,
 			);
 			path = "TheMovieDB API";
 			sourceTree = "<group>";
@@ -428,6 +434,7 @@
 				D6F6160523F798FD00E17DC1 /* SettingsRootViewController.swift in Sources */,
 				D618197022BCF5AE0080D62F /* SeasonsHeaderImageView.swift in Sources */,
 				D6D682361E289E4400966B94 /* ShowViewController.swift in Sources */,
+				D64554C624208F06007BF450 /* TMFindResult.swift in Sources */,
 				D68ED9B1241B640000341346 /* TMDBAPI.swift in Sources */,
 				D65DA24A22A100ED00D31668 /* ShowSeasonsTableViewController.swift in Sources */,
 				D6145519228AECC000F842C6 /* UILabel+Extensions.swift in Sources */,
@@ -437,6 +444,7 @@
 				D64C8B66228C236D00049F86 /* Seasons.xcdatamodeld in Sources */,
 				D6523B08241DB6E8002C88D8 /* TMShow.swift in Sources */,
 				D62D93A9241F41AD000057AF /* TMSeasonDetails.swift in Sources */,
+				D64554C424208E31007BF450 /* TMFind.swift in Sources */,
 				D6D94ABC2286ED2900A405B5 /* ShowTableViewCell.swift in Sources */,
 				D6523B0C241DB6FD002C88D8 /* TMSearchResult.swift in Sources */,
 				D63D0A481E2845ED00D3F1CA /* AppDelegate.swift in Sources */,
