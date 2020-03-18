@@ -10,19 +10,19 @@ import Foundation
 
 struct TMShow : Decodable {
     let backdropPath: String?
-    // let createdBy : [Created_by]?
+    let createdBy: [TMShowCreatedBy]? = nil
     let episodeRunTime: [Int]? = nil
     let firstAirDate: String?
-    // let genres : [Genres]?
+    let genres: [TMGenre]? = nil
     let homepage: String? = nil
     let id: Int?
     let inProduction: Bool? = nil
     let languages: [String]? = nil
     let lastAirDate: String? = nil
-    let lastEpisodeToAir : TMShowLastNextEpisode? = nil
+    let lastEpisodeToAir: TMShowLastNextEpisode? = nil
     let name: String?
-    let nextEpisodeToAir : TMShowLastNextEpisode? = nil
-    // let networks : [Networks]?
+    let nextEpisodeToAir: TMShowLastNextEpisode? = nil
+    let networks : [TMNetwork]? = nil
     let numberOfEpisodes: Int? = nil
     let numberofSeasons: Int? = nil
     let originCountry: [String]?
@@ -31,8 +31,8 @@ struct TMShow : Decodable {
     let overview: String?
     let popularity: Double?
     let posterPath: String?
-    // let production_companies : [Production_companies]?
-    // let seasons : [Seasons]?
+    let production_companies: [TMProductionCompany]? = nil
+    let seasons: [TMSeason]? = nil
     let status: String? = nil
     let type: String? = nil
     let voteAverage: Double?
@@ -45,10 +45,10 @@ struct TMShow : Decodable {
     enum CodingKeys: String, CodingKey {
 
         case backdropPath = "backdrop_path"
-        // case createdBy = "created_by"
+        case createdBy = "created_by"
         case episodeRunTime = "episode_run_time"
         case firstAirDate = "first_air_date"
-        // case genres = "genres"
+        case genres = "genres"
         case homepage, id
         case inProduction = "in_production"
         case languages
@@ -56,7 +56,7 @@ struct TMShow : Decodable {
         case lastEpisodeToAir = "last_episode_to_air"
         case name
         case nextEpisodeToAir = "next_episode_to_air"
-        // case networks = "networks"
+        case networks = "networks"
         case numberOfEpisodes = "number_of_episodes"
         case numberofSeasons = "number_of_seasons"
         case originCountry = "origin_country"
@@ -64,8 +64,8 @@ struct TMShow : Decodable {
         case originalName = "original_name"
         case overview, popularity
         case posterPath = "poster_path"
-        // case production_companies = "production_companies"
-        // case seasons = "seasons"
+        case production_companies = "production_companies"
+        case seasons = "seasons"
         case status, type
         case voteAverage = "vote_average"
         case voteCount = "vote_count"
@@ -74,7 +74,6 @@ struct TMShow : Decodable {
     init(from searchResult: TMSearchResult) {
         self.backdropPath = searchResult.backdropPath
         self.originalName = searchResult.originalName
-        // Genres?
         self.name = searchResult.name
         self.popularity = searchResult.popularity
         self.originCountry = searchResult.originCountry
