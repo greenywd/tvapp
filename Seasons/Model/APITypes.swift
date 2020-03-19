@@ -41,7 +41,7 @@ struct RawShowResponse : Codable {
 }
 
 /// Type used with 'Search' and 'Show' View Controllers. Contains relevant information from the `RawSearchResponse` and `RawShowResponse` types.
-struct Show {
+struct TVShow {
     var id: Int32
     var overview: String? = "No Overview Available"
     var seriesName: String? = "Unknown Series Title"

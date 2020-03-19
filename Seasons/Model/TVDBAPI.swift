@@ -89,7 +89,7 @@ class TVDBAPI {
     }
     
     
-    static func getShow(id: Int32, completion: @escaping (Show?) -> Void = { _ in }) {
+    static func getShow(id: Int32, completion: @escaping (TVShow?) -> Void = { _ in }) {
         let seriesEndpoint = "https://api.thetvdb.com/series/\(String(id))"
         
         guard let seriesURL = URL(string: seriesEndpoint) else {
@@ -112,14 +112,14 @@ class TVDBAPI {
             do {
                 let showInfo = try JSONDecoder().decode(RawShowResponse.self, from: responseData).data!
                 os_log("Retrieved data for %@", log: .networking, type: .info, showInfo.debugDescription)
-                completion(Show(from: showInfo))
+                completion(TVShow(from: showInfo))
             } catch {
                 os_log("Failed to decode response with: %@", log: .networking, type: .error, error.localizedDescription)
             }
         }.resume()
     }
     
-    static func searchShows(show: String, completion: @escaping ([Show]?, String?) -> Void) {
+    static func searchShows(show: String, completion: @escaping ([TVShow]?, String?) -> Void) {
         var searchURL = "https://api.thetvdb.com/search/series?name=\(show)"
         
         if let encoded = searchURL.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed), let encodedURL = URL(string: encoded) {
@@ -148,7 +148,7 @@ class TVDBAPI {
             
             do {
                 let results = try JSONDecoder().decode(RawSearchResponse.self, from: responseData)
-                var shows = [Show]()
+                var shows = [TVShow]()
                 
                 guard let showsSearched = results.data else {
                     os_log("No shows returned from search.", log: .networking, type: .info)
@@ -157,7 +157,7 @@ class TVDBAPI {
                 }
                 
                 for show in showsSearched {
-                    shows.append(Show(from: show))
+                    shows.append(TVShow(from: show))
                 }
                 completion(shows, nil)
             } catch {

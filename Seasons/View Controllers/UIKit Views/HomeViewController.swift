@@ -15,8 +15,8 @@ import os
 
 class HomeViewController: UITableViewController {
     
-    var favouriteShows = [Show]()
-    var filteredFavouriteShows = [Show]()
+    var favouriteShows = [TVShow]()
+    var filteredFavouriteShows = [TVShow]()
     var searchController = UISearchController(searchResultsController: nil)
     
     override func viewDidLoad() {

@@ -14,7 +14,7 @@ class ShowTableViewCell : UITableViewCell {
     @IBOutlet var titleLabel: UILabel!
     @IBOutlet var detailLabel: UILabel!
     
-    var show: Show? { didSet { updateCell() } }
+    var show: TVShow? { didSet { updateCell() } }
     
     override func prepareForReuse() {
         super.prepareForReuse()

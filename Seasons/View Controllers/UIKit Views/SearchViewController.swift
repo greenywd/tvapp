@@ -15,7 +15,7 @@ class SearchViewController : UITableViewController {
     @IBOutlet var activityIndicator: UIActivityIndicatorView!
     
     var searchResultsTMDB = [TMSearchResult]()
-    var searchResultsTVDB = [Show]()
+    var searchResultsTVDB = [TVShow]()
     
     let searchController = UISearchController(searchResultsController: nil)
     let greenysFavouriteShows = [

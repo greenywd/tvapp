@@ -205,8 +205,8 @@ class PersistenceService {
     }
     
     /// Retrieve all `Show`s from CoreData.
-    static func getShows() -> [Show]? {
-        var favouriteShows = [Show]()
+    static func getShows() -> [TVShow]? {
+        var favouriteShows = [TVShow]()
         
         let fetchRequest: NSFetchRequest<CD_Show> = CD_Show.fetchRequest()
         do {
@@ -217,7 +217,7 @@ class PersistenceService {
             }
             
             for show in shows {
-                favouriteShows.append(Show(from: show))
+                favouriteShows.append(TVShow(from: show))
             }
             
             os_log("Got %d shows for fetch request %@.", log: .coredata, shows.count, #function)
@@ -250,17 +250,17 @@ class PersistenceService {
     
     /// Retrieve a `Show` using its `id` from CoreData.
     /// - Parameter id: The `id` of the Show.
-    static func getShow(id: Int32) -> Show? {
+    static func getShow(id: Int32) -> TVShow? {
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: showEntity)
         fetchRequest.predicate = NSPredicate(format: "id = %@", NSNumber(value: id))
         
-        var show: Show?
+        var show: TVShow?
         
         do {
             let result = try self.context.fetch(fetchRequest)
             
             for data in result as! [CD_Show] {
-                show = Show(from: data)
+                show = TVShow(from: data)
             }
         }
         catch {
