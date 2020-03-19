@@ -21,9 +21,9 @@ class TMDBAPI {
         request.timeoutInterval = 30
         request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
         // TODO: Implement later
-//        if needsToken {
-//            request.setValue("Bearer \(TVDBAPI.currentToken)", forHTTPHeaderField: "Authorization")
-//        }
+        //        if needsToken {
+        //            request.setValue("Bearer \(TVDBAPI.currentToken)", forHTTPHeaderField: "Authorization")
+        //        }
         
         return request
     }
@@ -164,22 +164,30 @@ class TMDBAPI {
         let currentFavouriteIDs = PersistenceService.getShowIDs()
         var newFavouriteIDs = [Int32]()
         
-        // TODO: Use DispatchGroup to wait for getIDFromTVDB to finish
+        let dispatchGroup = DispatchGroup()
+        dispatchGroup.enter()
         for id in currentFavouriteIDs {
             getIDFromTVDB(id: id) { (newID) in
                 if let newID = newID {
                     newFavouriteIDs.append(newID)
                 }
+                
+                if currentFavouriteIDs.last == id {
+                    dispatchGroup.leave()
+                }
             }
         }
         
-        for id in newFavouriteIDs {
-            self.getShow(id: id) { (show) in
-                // TODO: Add show to CoreData
+        dispatchGroup.notify(queue: .main) {
+            for id in newFavouriteIDs {
+                self.getShow(id: id) { (show) in
+                    // TODO: Add show to CoreData
+                    let coreShow = CD_Show(context: PersistenceService.context)
+
+                    PersistenceService.saveContext()
+                }
             }
         }
-        
-        
     }
     
     private static func getIDFromTVDB(id: Int32, completion: @escaping (Int32?) -> Void) {
