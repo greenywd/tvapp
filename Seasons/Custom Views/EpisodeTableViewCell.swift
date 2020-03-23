@@ -14,7 +14,7 @@ class EpisodeTableViewCell : UITableViewCell {
     @IBOutlet var titleLabel: UILabel!
     @IBOutlet var detailLabel: UILabel!
     
-    var episode: Episode? { didSet { updateCell() } }
+    var episode: TVEpisode? { didSet { updateCell() } }
     
     override func prepareForReuse() {
         super.prepareForReuse()

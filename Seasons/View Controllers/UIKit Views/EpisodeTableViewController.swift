@@ -22,7 +22,7 @@ class EpisodeTableViewController: UITableViewController {
     @IBOutlet var showDescriptionHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var showDescriptionBottomConstraint: NSLayoutConstraint!
     
-    var episode: Episode! {
+    var episode: TVEpisode! {
         didSet {
             DispatchQueue.main.async {
                 if (self.showDescription.frame.height < 150) {

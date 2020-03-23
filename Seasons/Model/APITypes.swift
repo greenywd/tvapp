@@ -55,7 +55,7 @@ struct TVShow {
     let siteRating: Double?
     let siteRatingCount: Int16?
     // TODO: Associate episodes with a show - perhaps when we load episodes (favouriting/browsing)?
-    let episodes: [Episode]? = nil
+    let episodes: [TVEpisode]? = nil
     
     init(id: Int32, overview: String?, seriesName: String?, banner: String?, header: String?, status: String?, runtime: String?, network: String?, siteRating: Double?, siteRatingCount: Int16) {
         self.id = id
@@ -263,7 +263,7 @@ struct RawEpisodeSummaryResponse : Codable {
  ]
  }
  */
-struct Episode : Equatable {
+struct TVEpisode : Equatable {
     let id: Int32
     let overview: String?
     let airedEpisodeNumber: Int32?
@@ -300,7 +300,7 @@ struct Episode : Equatable {
         self.image = CD.image
     }
     
-    static func ==(lhs: Episode, rhs: Episode) -> Bool {
+    static func ==(lhs: TVEpisode, rhs: TVEpisode) -> Bool {
         return lhs.id == rhs.id
     }
 }

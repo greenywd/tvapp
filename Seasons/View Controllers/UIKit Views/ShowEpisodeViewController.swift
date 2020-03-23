@@ -13,7 +13,7 @@ class ShowEpisodeViewController: UITableViewController {
     var showID: Int32?
     var airedSeason: Int32?
     
-    var episodes: [Episode]? {
+    var episodes: [TVEpisode]? {
         didSet {
             self.airedSeason = episodes?.first?.airedSeason
             episodes = episodes?.sorted(by: { (ep1, ep2) -> Bool in

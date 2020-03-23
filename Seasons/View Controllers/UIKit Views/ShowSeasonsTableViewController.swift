@@ -11,7 +11,7 @@ import UIKit
 class ShowSeasonsTableViewController: UITableViewController {
     
     var showID: Int32!
-    var episodes: [Episode]? {
+    var episodes: [TVEpisode]? {
         didSet {
             self.tableView.reloadData()
         }

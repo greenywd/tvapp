@@ -182,7 +182,7 @@ class TMDBAPI {
             for id in newFavouriteIDs {
                 self.getShow(id: id) { (show) in
                     // TODO: Add show to CoreData
-                    let coreShow = CD_Show(context: PersistenceService.context)
+                    let coreShow = Show(context: PersistenceService.context)
 
                     PersistenceService.saveContext()
                 }

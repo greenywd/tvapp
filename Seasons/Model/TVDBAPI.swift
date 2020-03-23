@@ -167,7 +167,7 @@ class TVDBAPI {
         showTask.resume()
     }
     
-    static func getEpisodes(show id: Int32, parameters: String? = nil, completion: @escaping ([Episode]?) -> Void) {
+    static func getEpisodes(show id: Int32, parameters: String? = nil, completion: @escaping ([TVEpisode]?) -> Void) {
         var episodesURLEndpoint = "https://api.thetvdb.com/series/\(id)/episodes"
         let episodeGroup = DispatchGroup()
         
@@ -196,10 +196,10 @@ class TVDBAPI {
                 
                 let results = try JSONDecoder().decode(RawEpisodeResponse.self, from: responseData)
                 
-                var episodes = [Episode]()
+                var episodes = [TVEpisode]()
                 if let data = results.data {
                     for episode in data {
-                        episodes.append(Episode(id: episode.id, overview: episode.overview, airedEpisodeNumber: episode.airedEpisodeNumber, airedSeason: episode.airedSeason, episodeName: episode.episodeName, firstAired: DateFormatter.yyyyMMdd.date(from: episode.firstAired), filename: episode.filename, seriesId: episode.seriesId, hasWatched: false))
+                        episodes.append(TVEpisode(id: episode.id, overview: episode.overview, airedEpisodeNumber: episode.airedEpisodeNumber, airedSeason: episode.airedSeason, episodeName: episode.episodeName, firstAired: DateFormatter.yyyyMMdd.date(from: episode.firstAired), filename: episode.filename, seriesId: episode.seriesId, hasWatched: false))
                     }
                     if let next = results.links?.next {
                         episodeGroup.enter()

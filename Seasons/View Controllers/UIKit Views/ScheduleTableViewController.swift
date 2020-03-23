@@ -10,7 +10,7 @@ import UIKit
 
 class ScheduleTableViewController: UITableViewController {
     
-    var episodes: [Episode]?
+    var episodes: [TVEpisode]?
     var airDates: [Date]?
     
     @IBOutlet weak var segmentedControl: UISegmentedControl!

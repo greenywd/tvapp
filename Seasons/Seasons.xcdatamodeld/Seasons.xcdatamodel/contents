@@ -122,8 +122,8 @@
         <element name="Episode" positionX="98" positionY="187" width="128" height="298"/>
         <element name="Genre" positionX="-537" positionY="365" width="128" height="88"/>
         <element name="Guest" positionX="273" positionY="369" width="128" height="163"/>
-        <element name="Show" positionX="-278" positionY="220" width="128" height="268"/>
-        <element name="Season" positionX="-85" positionY="482" width="128" height="163"/>
         <element name="Network" positionX="-510" positionY="514" width="128" height="118"/>
+        <element name="Season" positionX="-85" positionY="482" width="128" height="163"/>
+        <element name="Show" positionX="-278" positionY="220" width="128" height="268"/>
     </elements>
 </model>

@@ -272,11 +272,11 @@ class PersistenceService {
     
     /// Retrieve all Episodes for a specific Show from CoreData.
     /// - Parameter id: Identifier of the `Show` that Episodes are retrieved from.
-    static func getEpisodes(show id: Int32) -> [Episode]? {
+    static func getEpisodes(show id: Int32) -> [TVEpisode]? {
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: episodeEntity)
         fetchRequest.predicate = NSPredicate(format: "seriesId = %@", NSNumber(value: id))
         
-        var episodes = [Episode]()
+        var episodes = [TVEpisode]()
         
         do {
             let result = try self.context.fetch(fetchRequest)
@@ -287,7 +287,7 @@ class PersistenceService {
             }
             
             for ep in result as! [CD_Episode] {
-                episodes.append(Episode(from: ep))
+                episodes.append(TVEpisode(from: ep))
             }
             
             return episodes
@@ -297,14 +297,14 @@ class PersistenceService {
         return nil
     }
     
-    static func getEpisodes(show id: Int32, season airedSeason: Int32) -> [Episode]? {
+    static func getEpisodes(show id: Int32, season airedSeason: Int32) -> [TVEpisode]? {
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: episodeEntity)
         
         let showIDPredicate = NSPredicate(format: "seriesId = %@", NSNumber(value: id))
         let airedSeasonPredicate = NSPredicate(format: "airedSeason = %@", NSNumber(value: airedSeason))
         fetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [showIDPredicate, airedSeasonPredicate])
         
-        var episodes = [Episode]()
+        var episodes = [TVEpisode]()
         
         do {
             let result = try self.context.fetch(fetchRequest)
@@ -315,7 +315,7 @@ class PersistenceService {
             }
             
             for ep in result as! [CD_Episode] {
-                episodes.append(Episode(from: ep))
+                episodes.append(TVEpisode(from: ep))
             }
             
             return episodes
@@ -326,8 +326,8 @@ class PersistenceService {
     }
     
     /// Get all episodes for all shows
-    static func getEpisodes(filterUnwatched: Bool? = false, filterUpcoming: Bool? = true) -> [Episode]? {
-        var episodes = [Episode]()
+    static func getEpisodes(filterUnwatched: Bool? = false, filterUpcoming: Bool? = true) -> [TVEpisode]? {
+        var episodes = [TVEpisode]()
         
         let fetchRequest: NSFetchRequest<CD_Episode> = CD_Episode.fetchRequest()
         let sortAirDate = NSSortDescriptor(key: #keyPath(CD_Episode.firstAired), ascending: true)
@@ -352,7 +352,7 @@ class PersistenceService {
             }
             
             for ep in result {
-                episodes.append(Episode(from: ep))
+                episodes.append(TVEpisode(from: ep))
             }
             
             return episodes
@@ -364,8 +364,8 @@ class PersistenceService {
     
     /// Retrieve all Episodes for a list of Shows from CoreData.
     /// - Parameter ids: Identifier(s) of `Show`s that Episodes are retrieved from.
-    static func getEpisodes(show ids: [Int32]) -> [Episode]? {
-        var episodes = [Episode]()
+    static func getEpisodes(show ids: [Int32]) -> [TVEpisode]? {
+        var episodes = [TVEpisode]()
         
         for id in ids {
             let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: episodeEntity)
@@ -375,7 +375,7 @@ class PersistenceService {
                 let result = try self.context.fetch(fetchRequest)
                 
                 for ep in result as! [CD_Episode] {
-                    episodes.append(Episode(id: ep.id, overview: ep.overview, airedEpisodeNumber: ep.airedEpisodeNumber, airedSeason: ep.airedSeason, episodeName: ep.episodeName, firstAired: ep.firstAired, filename: ep.filename, seriesId: ep.seriesId, hasWatched: ep.hasWatched))
+                    episodes.append(TVEpisode(id: ep.id, overview: ep.overview, airedEpisodeNumber: ep.airedEpisodeNumber, airedSeason: ep.airedSeason, episodeName: ep.episodeName, firstAired: ep.firstAired, filename: ep.filename, seriesId: ep.seriesId, hasWatched: ep.hasWatched))
                 }
             } catch {
                 os_log("Failed to execute the fetch request (%@) with %@.", log: .coredata, type: .error, #function , error.localizedDescription)
