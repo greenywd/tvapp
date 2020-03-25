@@ -105,7 +105,7 @@ class TMDBAPI {
         showTask.resume()
     }
     
-    static func getEpisodes(show: Int32, season: Int32, completion: @escaping ([TMEpisode]?) -> Void) {
+    static func getEpisodes(show: Int32, season: Int16, completion: @escaping ([Episode]?) -> Void) {
         let episodeURLString = "https://api.themoviedb.org/3/tv/\(show)/season/\(season)?api_key=\(TMDBAPIKey)&language=en-US"
         
         guard let episodesURL = URL(string: episodeURLString) else {

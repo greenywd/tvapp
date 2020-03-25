@@ -11,13 +11,13 @@ import UIKit
 class ShowEpisodeViewController: UITableViewController {
     
     var showID: Int32?
-    var airedSeason: Int32?
+    var airedSeason: Int16?
     
-    var episodes: [TVEpisode]? {
+    var episodes: [Episode]? {
         didSet {
-            self.airedSeason = episodes?.first?.airedSeason
+            self.airedSeason = episodes?.first?.seasonNumber
             episodes = episodes?.sorted(by: { (ep1, ep2) -> Bool in
-                ep1.airedEpisodeNumber! < ep2.airedEpisodeNumber!
+                ep1.episodeNumber < ep2.episodeNumber
             })
         }
     }
@@ -26,15 +26,15 @@ class ShowEpisodeViewController: UITableViewController {
         super.viewDidLoad()
         
         if episodes == nil {
-            TVDBAPI.getEpisodes(show: showID!) {
-                if let episodes = $0 {
-                    self.episodes = episodes
+            TMDBAPI.getEpisodes(show: showID!, season: airedSeason!, completion: { (episodes) in
+                if let unwrappedEpisodes = episodes {
+                    self.episodes = unwrappedEpisodes
                     
                     DispatchQueue.main.async {
                         self.tableView.reloadData()
                     }
                 }
-            }
+            })
         }
         
         if (PersistenceService.showExists(id: showID!)) {

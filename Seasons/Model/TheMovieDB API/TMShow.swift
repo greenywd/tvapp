@@ -43,7 +43,6 @@ struct TMShow : Decodable {
     }
     
     enum CodingKeys: String, CodingKey {
-
         case backdropPath = "backdrop_path"
         case createdBy = "created_by"
         case episodeRunTime = "episode_run_time"

@@ -13,8 +13,8 @@ import os
 
 class PersistenceService {
     
-    private static let showEntity = "CD_Show"
-    private static let episodeEntity = "CD_Episode"
+    private static let showEntity = "Show"
+    private static let episodeEntity = "Episode"
     
     static var context: NSManagedObjectContext {
         return persistentContainer.viewContext
@@ -205,10 +205,10 @@ class PersistenceService {
     }
     
     /// Retrieve all `Show`s from CoreData.
-    static func getShows() -> [TVShow]? {
-        var favouriteShows = [TVShow]()
+    static func getShows() -> [Show]? {
+        var favouriteShows = [Show]()
         
-        let fetchRequest: NSFetchRequest<CD_Show> = CD_Show.fetchRequest()
+        let fetchRequest: NSFetchRequest<Show> = Show.fetchRequest()
         do {
             let shows = try PersistenceService.context.fetch(fetchRequest)
             
@@ -217,7 +217,7 @@ class PersistenceService {
             }
             
             for show in shows {
-                favouriteShows.append(TVShow(from: show))
+                favouriteShows.append(show)
             }
             
             os_log("Got %d shows for fetch request %@.", log: .coredata, shows.count, #function)
