@@ -54,10 +54,10 @@
         <relationship name="episode" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Episode" inverseName="guestStars" inverseEntity="Episode"/>
     </entity>
     <entity name="Network" representedClassName="Network" syncable="YES" codeGenerationType="category">
-        <attribute name="headquarters" optional="YES" attributeType="String"/>
         <attribute name="id" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="logoPath" optional="YES" attributeType="String"/>
         <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="originCountry" optional="YES" attributeType="String"/>
         <relationship name="show" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Show" inverseName="networks" inverseEntity="Show"/>
     </entity>
     <entity name="Season" representedClassName="Season" syncable="YES" codeGenerationType="category">
@@ -87,7 +87,6 @@
         <attribute name="numberOfSeasons" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="originalLanguage" optional="YES" attributeType="String"/>
         <attribute name="originalName" optional="YES" attributeType="String"/>
-        <attribute name="originCountry" optional="YES" attributeType="Transformable" customClassName="[String]"/>
         <attribute name="overview" optional="YES" attributeType="String"/>
         <attribute name="popularity" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="posterImage" optional="YES" attributeType="Binary"/>
@@ -110,7 +109,7 @@
         <element name="Genre" positionX="-537" positionY="365" width="128" height="88"/>
         <element name="Guest" positionX="273" positionY="369" width="128" height="163"/>
         <element name="Network" positionX="-510" positionY="514" width="128" height="118"/>
-        <element name="Season" positionX="-85" positionY="482" width="128" height="178"/>
-        <element name="Show" positionX="-278" positionY="220" width="128" height="493"/>
+        <element name="Season" positionX="-104.2421875" positionY="336.828125" width="128" height="178"/>
+        <element name="Show" positionX="-278" positionY="220" width="128" height="478"/>
     </elements>
 </model>

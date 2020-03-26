@@ -13,7 +13,7 @@ import CoreData
 @objc(Creator)
 public class Creator: NSManagedObject, Decodable {
     public required convenience init(from decoder: Decoder) throws {
-//        guard let context = decoder.userInfo[CodingUserInfoKey.context!] as? NSManagedObjectContext else { fatalError() }
+        // guard let context = decoder.userInfo[CodingUserInfoKey.context!] as? NSManagedObjectContext else { fatalError() }
         guard let entity = NSEntityDescription.entity(forEntityName: "Creator", in: PersistenceService.context) else { fatalError() }
 
         self.init(entity: entity, insertInto: nil)
@@ -22,7 +22,7 @@ public class Creator: NSManagedObject, Decodable {
         do {
             creditID = try values.decode(String.self, forKey: .creditID)
             gender = try values.decode(Int16.self, forKey: .gender)
-            id = try values.decode(Int32.self, forKey: .name)
+            id = try values.decode(Int32.self, forKey: .id)
             name = try values.decode(String.self, forKey: .name)
             profilePath = try values.decode(String.self, forKey: .profilePath)
         }

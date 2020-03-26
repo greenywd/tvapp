@@ -13,7 +13,7 @@ import CoreData
 @objc(Show)
 public class Show: NSManagedObject, Decodable {
     public required convenience init(from decoder: Decoder) throws {
-//        guard let context = decoder.userInfo[CodingUserInfoKey.context!] as? NSManagedObjectContext else { fatalError() }
+        // guard let context = decoder.userInfo[CodingUserInfoKey.context!] as? NSManagedObjectContext else { fatalError() }
         guard let entity = NSEntityDescription.entity(forEntityName: "Show", in: PersistenceService.context) else { fatalError() }
 
         self.init(entity: entity, insertInto: nil)
@@ -21,18 +21,19 @@ public class Show: NSManagedObject, Decodable {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         do {
             backdropPath = try values.decode(String.self, forKey: .backdropPath)
-            // createdBy = NSSet(array: try values.decode([Creator].self, forKey: .createdBy))
+            createdBy = NSSet(array: try values.decode([Creator].self, forKey: .createdBy))
+            dump(createdBy)
             genres = NSSet(array: try values.decode([Genre].self, forKey: .genres))
             name = try values.decode(String.self, forKey: .name)
             firstAirDate = try values.decode(Date.self, forKey: .firstAirDate)
             homepage = try values.decode(String.self, forKey: .homepage)
-            lastEpisodeToAir = try values.decode(Episode.self, forKey: .lastEpisodeToAir)
+            lastEpisodeToAir = try values.decodeIfPresent(Episode.self, forKey: .lastEpisodeToAir)
             name = try values.decode(String.self, forKey: .name)
-            nextEpisodeToAir = try values.decode(Episode.self, forKey: .nextEpisodeToAir)
-            networks = try NSSet(array: values.decode([Network].self, forKey: .networks))
+            nextEpisodeToAir = try values.decodeIfPresent(Episode.self, forKey: .nextEpisodeToAir)
+            networks = NSSet(array: try values.decode([Network].self, forKey: .networks))
             numberOfEpisodes = try values.decode(Int16.self, forKey: .numberOfEpisodes)
             numberOfSeasons = try values.decode(Int16.self, forKey: .numberOfSeasons)
-            originCountry = try values.decode([String].self, forKey: .originCountry)
+            // originCountry = try values.decode([String].self, forKey: .originCountry)
             originalLanguage = try values.decode(String.self, forKey: .originalLanguage)
             originalName = try values.decode(String.self, forKey: .originalName)
             overview = try values.decode(String.self, forKey: .overview)

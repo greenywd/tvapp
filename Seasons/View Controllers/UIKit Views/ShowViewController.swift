@@ -77,6 +77,7 @@ class ShowViewController: UITableViewController {
         
         dispatchGroup.notify(queue: .main) {
             self.setupRightBarButtonItem(isBusy: false)
+            self.tableView.reloadData()
         }
         
         tableView.rowHeight = UITableView.automaticDimension
@@ -125,7 +126,9 @@ class ShowViewController: UITableViewController {
         let headerImage = self.headerImageView?.image?.pngData()
         
         DispatchQueue.global(qos: .userInteractive).async {
-            let favShow = Show(context: PersistenceService.context)
+            let favShow = self.show
+            PersistenceService.context.insert(favShow!)
+            PersistenceService.saveContext()
             // TODO: Save show
             
             let dispatchGroup = DispatchGroup()
@@ -136,7 +139,7 @@ class ShowViewController: UITableViewController {
                 let bannerImage = try? Data(contentsOf: bannerURL!)
                 
                 if let banner = bannerImage, let image = UIImage(data: banner) {
-                    favShow.backdropImage = image.pngData()
+                    // favShow.backdropImage = image.pngData()
                 }
             }
             
