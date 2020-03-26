@@ -27,6 +27,22 @@ public class Show: NSManagedObject, Decodable {
             firstAirDate = try values.decode(Date.self, forKey: .firstAirDate)
             homepage = try values.decode(String.self, forKey: .homepage)
             lastEpisodeToAir = try values.decode(Episode.self, forKey: .lastEpisodeToAir)
+            name = try values.decode(String.self, forKey: .name)
+            nextEpisodeToAir = try values.decode(Episode.self, forKey: .nextEpisodeToAir)
+            networks = try NSSet(array: values.decode([Network].self, forKey: .networks))
+            numberOfEpisodes = try values.decode(Int16.self, forKey: .numberOfEpisodes)
+            numberOfSeasons = try values.decode(Int16.self, forKey: .numberOfSeasons)
+            originCountry = try values.decode([String].self, forKey: .originCountry)
+            originalLanguage = try values.decode(String.self, forKey: .originalLanguage)
+            originalName = try values.decode(String.self, forKey: .originalName)
+            overview = try values.decode(String.self, forKey: .overview)
+            popularity = try values.decode(Double.self, forKey: .popularity)
+            posterPath = try values.decode(String.self, forKey: .posterPath)
+            seasons = NSSet(array: try values.decode([Season].self, forKey: .seasons))
+            status = try values.decode(String.self, forKey: .status)
+            type = try values.decode(String.self, forKey: .type)
+            voteAverage = try values.decode(Double.self, forKey: .voteAverage)
+            voteCount = try values.decode(Int16.self, forKey: .voteCount)
         }
     }
     
@@ -45,7 +61,7 @@ public class Show: NSManagedObject, Decodable {
         case nextEpisodeToAir = "next_episode_to_air"
         case networks = "networks"
         case numberOfEpisodes = "number_of_episodes"
-        case numberofSeasons = "number_of_seasons"
+        case numberOfSeasons = "number_of_seasons"
         case originCountry = "origin_country"
         case originalLanguage = "original_language"
         case originalName = "original_name"

@@ -65,10 +65,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         scheduleNotifications()
         
-        TVDBAPI.retrieveToken() {
-            PersistenceService.updateEpisodes()
-        }
-        
         let documentsDir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).last?.absoluteString ?? "Not found"
         os_log("Documents Directory: %@", log: .coredata, type: .info, documentsDir)
         os_log("Theme is %@", log: .userdefaults, type: .info, theme.description)
@@ -104,14 +100,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // MARK: - Handling Launch for Tasks
     private func handleShowUpdate(task: BGProcessingTask) {
         scheduleShowUpdate()
+        // TODO: Implement backgrounding again
         
-        let api = TVDBAPI_Background()
-        api.backgroundTask = task
-        api.getToken()
-        
-        task.expirationHandler = {
-            api.downloadTask.cancel()
-        }
+//        let api = TVDBAPI_Background()
+//        api.backgroundTask = task
+//        api.getToken()
+//
+//        task.expirationHandler = {
+//            api.downloadTask.cancel()
+//        }
     }
     
     private func handleScheduleNotification(task: BGAppRefreshTask) {
@@ -128,18 +125,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if (UserDefaults.standard.bool(forKey: "sendEpisodeNotifications")) {
             if let episodes = PersistenceService.getEpisodes(filterUpcoming: true) {
                 for episode in episodes {
-                    let show = PersistenceService.getShow(id: episode.seriesId!)
-                    let airDate = episode.firstAired
+                    let show = PersistenceService.getShow(id: episode.showID)
+                    let airDate = episode.airDate!
                     var dateComponents = Calendar.current.dateComponents([.year, .month, .day], from: airDate)
                     dateComponents.hour = 9
                     dateComponents.minute = 0
                     
                     let content = UNMutableNotificationContent()
-                    content.title = show?.seriesName ?? "Unknown series"
-                    content.body = "\(episode.episodeName ?? "Unknown Episode Name") airing today!"
+                    content.title = show?.name ?? "Unknown series"
+                    content.body = "\(episode.name ?? "Unknown Episode Name") airing today!"
                     
                     let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: false)
-                    let request = UNNotificationRequest(identifier: "com.greeny.Seasons.episodeAiring.\(episode.seriesId!).\(episode.id)", content: content, trigger: trigger)
+                    let request = UNNotificationRequest(identifier: "com.greeny.Seasons.episodeAiring.\(episode.showID).\(episode.id)", content: content, trigger: trigger)
                     
                     UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
                 }

@@ -10,7 +10,7 @@ import UIKit
 
 class ScheduleTableViewController: UITableViewController {
     
-    var episodes: [TVEpisode]?
+    var episodes: [Episode]?
     var airDates: [Date]?
     
     @IBOutlet weak var segmentedControl: UISegmentedControl!
@@ -47,7 +47,7 @@ class ScheduleTableViewController: UITableViewController {
         }
         
         if let eps = episodes {
-            self.airDates = Array(Set(eps.map { $0.firstAired })).sorted {
+            self.airDates = Array(Set(eps.map { $0.airDate! })).sorted {
                 return $1 >= $0
             }
         }
@@ -73,7 +73,7 @@ class ScheduleTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if let rowCount = episodes?.filter({ $0.firstAired == airDates![section]}).count {
+        if let rowCount = episodes?.filter({ $0.airDate == airDates![section]}).count {
             return rowCount
         }
         return 0
@@ -83,10 +83,10 @@ class ScheduleTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "showCell", for: indexPath) as! ShowTableViewCell
         if !episodes!.isEmpty {
             let section = airDates![indexPath.section]
-            let filteredEpisodes = episodes!.filter { $0.firstAired == section }
+            let filteredEpisodes = episodes!.filter { $0.airDate == section }
             // FIXME: This holds up the UI for quite a bit, perhaps try one of those fancy background contexts?
-            let show = PersistenceService.getShow(id: filteredEpisodes[indexPath.row].seriesId!)
-            cell.titleLabel.text = "\(filteredEpisodes[indexPath.row].episodeName ?? "Unknown Episode Name") - \(show?.seriesName! ?? "Unknown Show Name")"
+            let show = PersistenceService.getShow(id: filteredEpisodes[indexPath.row].showID)
+            cell.titleLabel.text = "\(filteredEpisodes[indexPath.row].name ?? "Unknown Episode Name") - \(show?.name! ?? "Unknown Show Name")"
             cell.detailLabel.text = filteredEpisodes[indexPath.row].overview ?? "No Description" // DateFormatter().string(from: episode.firstAired!)
         }
         return cell
@@ -101,7 +101,7 @@ class ScheduleTableViewController: UITableViewController {
             else { preconditionFailure("Expected a EpisodeTableViewController") }
         
         if segue.identifier == "scheduleToEpisode" {
-            let sectionEpisodes = episodes!.filter { $0.firstAired == airDates![indexPath.section] }
+            let sectionEpisodes = episodes!.filter { $0.airDate == airDates![indexPath.section] }
             episodeVC.episode = sectionEpisodes[indexPath.row]
         }
     }
@@ -114,9 +114,9 @@ class ScheduleTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         if (segmentedControl.selectedSegmentIndex == 1) {
             let section = airDates![indexPath.section]
-            let episode = episodes!.filter { $0.firstAired == section }[indexPath.row]
+            let episode = episodes!.filter { $0.airDate == section }[indexPath.row]
             
-            if let _ = PersistenceService.getShow(id: episode.seriesId!) {
+            if let _ = PersistenceService.getShow(id: episode.showID) {
                 let watchItem = UIContextualAction(style: .normal, title: "Watched") { (action, view, success) in
                     self.episodes![indexPath.row].hasWatched = true
                     PersistenceService.markEpisode(id: episode.id, watched: true)

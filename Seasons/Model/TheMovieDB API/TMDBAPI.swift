@@ -28,7 +28,7 @@ class TMDBAPI {
         return request
     }
     
-    static func getShow(id: Int32, completion: @escaping (TMShow?) -> Void) {
+    static func getShow(id: Int32, completion: @escaping (Show?) -> Void) {
         let showEndpoint = "https://api.themoviedb.org/3/tv/\(id)?api_key=\(TMDBAPIKey)&language=en-US"
         
         guard let seriesURL = URL(string: showEndpoint) else {
@@ -49,7 +49,7 @@ class TMDBAPI {
             }
             
             do {
-                let showInfo = try JSONDecoder().decode(TMShow.self, from: responseData)
+                let showInfo = try JSONDecoder().decode(Show.self, from: responseData)
                 os_log("Retrieved data for %@", log: .networking, type: .info, showInfo.debugDescription)
                 completion(showInfo)
             } catch {
@@ -129,7 +129,7 @@ class TMDBAPI {
             }
             
             do {
-                let seasonDetails = try JSONDecoder().decode(TMSeasonDetails.self, from: responseData)
+                let seasonDetails = try JSONDecoder().decode(Season.self, from: responseData)
                 
                 guard let episodes = seasonDetails.episodes else {
                     os_log("No shows returned from search.", log: .networking, type: .info)
@@ -137,7 +137,7 @@ class TMDBAPI {
                     return
                 }
                 
-                completion(episodes)
+                completion(episodes.allObjects as? [Episode])
             } catch {
                 os_log("Failed to decode response with: %@", log: .networking, type: .error, error.localizedDescription)
             }
@@ -157,74 +157,5 @@ class TMDBAPI {
         }
         
         return nil
-    }
-    
-    // MARK: - Migration Functions
-    static func migration() {
-        let currentFavouriteIDs = PersistenceService.getShowIDs()
-        var newFavouriteIDs = [Int32]()
-        
-        let dispatchGroup = DispatchGroup()
-        dispatchGroup.enter()
-        for id in currentFavouriteIDs {
-            getIDFromTVDB(id: id) { (newID) in
-                if let newID = newID {
-                    newFavouriteIDs.append(newID)
-                }
-                
-                if currentFavouriteIDs.last == id {
-                    dispatchGroup.leave()
-                }
-            }
-        }
-        
-        dispatchGroup.notify(queue: .main) {
-            for id in newFavouriteIDs {
-                self.getShow(id: id) { (show) in
-                    // TODO: Add show to CoreData
-                    let coreShow = Show(context: PersistenceService.context)
-
-                    PersistenceService.saveContext()
-                }
-            }
-        }
-    }
-    
-    private static func getIDFromTVDB(id: Int32, completion: @escaping (Int32?) -> Void) {
-        let findEndpoint = "https://api.themoviedb.org/3/find/\(id)?api_key=\(TMDBAPIKey)&language=en-US&external_source=tvdb_id"
-        
-        guard let findURL = URL(string: findEndpoint) else {
-            os_log("Failed to create URL for %@", log: .networking, type: .error, #function)
-            return
-        }
-        
-        let request = createRequest(with: findURL, method: .get)
-        
-        let findTask = URLSession.shared.dataTask(with: request) { (data, response, error) in
-            
-            os_log("Getting show with ID: %d", log: .networking, type: .info, id)
-            
-            // make sure we got data
-            guard let responseData = data else {
-                os_log("Did not receive any data for %@", log: .networking, type: .error, #function)
-                return
-            }
-            
-            do {
-                let findInfo = try JSONDecoder().decode(TMFind.self, from: responseData)
-                os_log("Retrieved data from /find with ID %d", log: .networking, type: .info, id)
-                
-                if let findResult = findInfo.tvResults.first {
-                    completion(Int32(findResult.id))
-                } else {
-                    completion(nil)
-                }
-            } catch {
-                os_log("Failed to decode response with: %@", log: .networking, type: .error, error.localizedDescription)
-            }
-        }
-        findTask.countOfBytesClientExpectsToReceive = 800 // round up from ~751
-        findTask.countOfBytesClientExpectsToReceive = 0
-        findTask.resume()
     }
 }

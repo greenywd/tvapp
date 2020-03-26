@@ -14,7 +14,7 @@ class EpisodeTableViewCell : UITableViewCell {
     @IBOutlet var titleLabel: UILabel!
     @IBOutlet var detailLabel: UILabel!
     
-    var episode: TVEpisode? { didSet { updateCell() } }
+    var episode: Episode? { didSet { updateCell() } }
     
     override func prepareForReuse() {
         super.prepareForReuse()
@@ -23,10 +23,10 @@ class EpisodeTableViewCell : UITableViewCell {
     
     func updateCell() {
         if let episode = episode {
-            titleLabel.text = episode.episodeName
+            titleLabel.text = episode.name
             detailLabel.text = episode.overview
             
-            if (episode.filename?.count == 0) {
+            if (episode.stillPath?.count == 0) {
                 backgroundImageView.image = nil
                 return
             }
@@ -36,7 +36,7 @@ class EpisodeTableViewCell : UITableViewCell {
                 return
             }
             
-            if let url = URL(string: "https://www.thetvdb.com/banners/" + episode.filename!) {
+            if let url = URL(string: "https://www.thetvdb.com/banners/" + episode.stillPath!) {
                 if backgroundImageView.image == nil {
                     DispatchQueue.global(qos: .utility).async {
                         let dataForImage = try? Data(contentsOf: url)

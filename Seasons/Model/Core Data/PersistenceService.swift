@@ -145,7 +145,7 @@ class PersistenceService {
         }
     }
     
-    static func markEpisodes(for showID: Int32, inSeason airedSeason: Int32, watched: Bool) {
+    static func markEpisodes(for showID: Int32, inSeason airedSeason: Int16, watched: Bool) {
         DispatchQueue.global(qos: .userInitiated).async {
             do {
                 let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: episodeEntity)
@@ -159,7 +159,7 @@ class PersistenceService {
                 for ep in episode {
                     ep.setValue(watched, forKey: "hasWatched")
                 }
-
+                
                 PersistenceService.saveContext()
                 
             } catch {
@@ -179,7 +179,7 @@ class PersistenceService {
                 for ep in episode {
                     ep.setValue(watched, forKey: "hasWatched")
                 }
-
+                
                 PersistenceService.saveContext()
                 
             } catch {
@@ -234,7 +234,7 @@ class PersistenceService {
     static func getShowIDs() -> [Int32] {
         var ids = [Int32]()
         
-        let fetchRequest: NSFetchRequest<CD_Show> = CD_Show.fetchRequest()
+        let fetchRequest: NSFetchRequest<Show> = Show.fetchRequest()
         do {
             let cIDs = try PersistenceService.context.fetch(fetchRequest)
             
@@ -250,33 +250,32 @@ class PersistenceService {
     
     /// Retrieve a `Show` using its `id` from CoreData.
     /// - Parameter id: The `id` of the Show.
-    static func getShow(id: Int32) -> TVShow? {
+    static func getShow(id: Int32) -> Show? {
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: showEntity)
         fetchRequest.predicate = NSPredicate(format: "id = %@", NSNumber(value: id))
         
-        var show: TVShow?
+        var favouriteShow: Show?
         
         do {
             let result = try self.context.fetch(fetchRequest)
-            
-            for data in result as! [CD_Show] {
-                show = TVShow(from: data)
+            assert(result.count <= 1, "Expected either 0 or 1. Got \(result.count) instead.")
+            for show in result as! [Show] {
+                favouriteShow = show
             }
-        }
-        catch {
+        } catch {
             os_log("Failed to execute the fetch request (%@) with %@.", log: .coredata, type: .error, #function , error.localizedDescription)
         }
         
-        return show
+        return favouriteShow
     }
     
     /// Retrieve all Episodes for a specific Show from CoreData.
     /// - Parameter id: Identifier of the `Show` that Episodes are retrieved from.
-    static func getEpisodes(show id: Int32) -> [TVEpisode]? {
+    static func getEpisodes(show id: Int32) -> [Episode]? {
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: episodeEntity)
         fetchRequest.predicate = NSPredicate(format: "seriesId = %@", NSNumber(value: id))
         
-        var episodes = [TVEpisode]()
+        var episodes = [Episode]()
         
         do {
             let result = try self.context.fetch(fetchRequest)
@@ -286,8 +285,8 @@ class PersistenceService {
                 return nil
             }
             
-            for ep in result as! [CD_Episode] {
-                episodes.append(TVEpisode(from: ep))
+            for ep in result as! [Episode] {
+                episodes.append(ep)
             }
             
             return episodes
@@ -297,14 +296,14 @@ class PersistenceService {
         return nil
     }
     
-    static func getEpisodes(show id: Int32, season airedSeason: Int32) -> [TVEpisode]? {
+    static func getEpisodes(show id: Int32, season airedSeason: Int16) -> [Episode]? {
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: episodeEntity)
         
-        let showIDPredicate = NSPredicate(format: "seriesId = %@", NSNumber(value: id))
-        let airedSeasonPredicate = NSPredicate(format: "airedSeason = %@", NSNumber(value: airedSeason))
+        let showIDPredicate = NSPredicate(format: "showID = %@", NSNumber(value: id))
+        let airedSeasonPredicate = NSPredicate(format: "seasonNumber = %@", NSNumber(value: airedSeason))
         fetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [showIDPredicate, airedSeasonPredicate])
         
-        var episodes = [TVEpisode]()
+        var episodes = [Episode]()
         
         do {
             let result = try self.context.fetch(fetchRequest)
@@ -314,8 +313,8 @@ class PersistenceService {
                 return nil
             }
             
-            for ep in result as! [CD_Episode] {
-                episodes.append(TVEpisode(from: ep))
+            for ep in result as! [Episode] {
+                episodes.append(ep)
             }
             
             return episodes
@@ -326,22 +325,22 @@ class PersistenceService {
     }
     
     /// Get all episodes for all shows
-    static func getEpisodes(filterUnwatched: Bool? = false, filterUpcoming: Bool? = true) -> [TVEpisode]? {
-        var episodes = [TVEpisode]()
+    static func getEpisodes(filterUnwatched: Bool? = false, filterUpcoming: Bool? = true) -> [Episode]? {
+        var episodes = [Episode]()
         
-        let fetchRequest: NSFetchRequest<CD_Episode> = CD_Episode.fetchRequest()
-        let sortAirDate = NSSortDescriptor(key: #keyPath(CD_Episode.firstAired), ascending: true)
+        let fetchRequest: NSFetchRequest<Episode> = Episode.fetchRequest()
+        let sortAirDate = NSSortDescriptor(key: #keyPath(Episode.airDate), ascending: true)
         
         if (filterUnwatched == true && filterUpcoming == true) {
             let hasWatchedPredicate = NSPredicate(format: "hasWatched == %@", NSNumber(value: false))
-            let isUpcomingPredicate = NSPredicate(format: "firstAired >= %@", Date() as NSDate)
+            let isUpcomingPredicate = NSPredicate(format: "airDate >= %@", Date() as NSDate)
             fetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [hasWatchedPredicate, isUpcomingPredicate])
         } else if (filterUnwatched == true && filterUpcoming == false) {
             fetchRequest.predicate = NSPredicate(format: "hasWatched == %@", NSNumber(value: false))
         } else if (filterUnwatched == false && filterUpcoming == true) {
-            fetchRequest.predicate = NSPredicate(format: "firstAired >= %@", Date() as NSDate)
+            fetchRequest.predicate = NSPredicate(format: "airDate >= %@", Date() as NSDate)
         }
-
+        
         fetchRequest.sortDescriptors = [sortAirDate]
         do {
             let result = try self.context.fetch(fetchRequest)
@@ -352,7 +351,7 @@ class PersistenceService {
             }
             
             for ep in result {
-                episodes.append(TVEpisode(from: ep))
+                episodes.append(ep)
             }
             
             return episodes
@@ -364,8 +363,8 @@ class PersistenceService {
     
     /// Retrieve all Episodes for a list of Shows from CoreData.
     /// - Parameter ids: Identifier(s) of `Show`s that Episodes are retrieved from.
-    static func getEpisodes(show ids: [Int32]) -> [TVEpisode]? {
-        var episodes = [TVEpisode]()
+    static func getEpisodes(show ids: [Int32]) -> [Episode]? {
+        var episodes = [Episode]()
         
         for id in ids {
             let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: episodeEntity)
@@ -374,8 +373,8 @@ class PersistenceService {
             do {
                 let result = try self.context.fetch(fetchRequest)
                 
-                for ep in result as! [CD_Episode] {
-                    episodes.append(TVEpisode(id: ep.id, overview: ep.overview, airedEpisodeNumber: ep.airedEpisodeNumber, airedSeason: ep.airedSeason, episodeName: ep.episodeName, firstAired: ep.firstAired, filename: ep.filename, seriesId: ep.seriesId, hasWatched: ep.hasWatched))
+                for ep in result as! [Episode] {
+                    episodes.append(ep)
                 }
             } catch {
                 os_log("Failed to execute the fetch request (%@) with %@.", log: .coredata, type: .error, #function , error.localizedDescription)
@@ -392,24 +391,17 @@ class PersistenceService {
             let ids = favouriteShows.map { $0.id }
             
             for id in ids {
-                TVDBAPI.getShow(id: id) { (show) in
+                TMDBAPI.getShow(id: id) { (show) in
                     let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "CD_Show")
                     fetchRequest.predicate = NSPredicate(format: "id = %@", NSNumber(value: id))
                     
                     let CDShow = try! self.context.fetch(fetchRequest)
-                    let obj = CDShow[0] as! NSManagedObject
-
-                    obj.setValue(show?.banner, forKey: "banner")
-                    obj.setValue(show?.id, forKey: "id")
-                    obj.setValue(show?.network, forKey: "network")
-                    obj.setValue(show?.overview, forKey: "overview")
-                    obj.setValue(show?.runtime, forKey: "runtime")
-                    obj.setValue(show?.seriesName, forKey: "seriesName")
-                    obj.setValue(show?.siteRating, forKey: "siteRating")
-                    obj.setValue(show?.siteRatingCount, forKey: "siteRatingCount")
-                    obj.setValue(show?.status, forKey: "status")
+                    let show = CDShow[0] as! Show
                     
-                    updatedShows[id] = obj.changedValues().isEmpty
+                    // TODO: Add Show info
+                    
+                    
+                    updatedShows[id] = show.changedValues().isEmpty
                     self.saveContext()
                 }
             }
@@ -427,53 +419,56 @@ class PersistenceService {
             
             for id in ids {
                 // For each episode, make an API call
-                TVDBAPI.getEpisodes(show: id) { (episodes) in
-                    for ep in episodes! {
-                        // For each episode retrieved, setup a fetchRequest to retrieve an existing episode with an episode ID
-                        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "CD_Episode")
-                        fetchRequest.predicate = NSPredicate(format: "id = %@", NSNumber(value: ep.id))
-                        
-                        do {
-                            let CDEpisode = try self.context.fetch(fetchRequest)
+                let currentShow = favouriteShows.first(where: { $0.id == id })!
+                for season in currentShow.seasons! as! Set<Season> {
+                    TMDBAPI.getEpisodes(show: id, season: season.seasonNumber) { (episodes) in
+                        for ep in episodes! {
+                            // For each episode retrieved, setup a fetchRequest to retrieve an existing episode with an episode ID
+                            let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: episodeEntity)
+                            fetchRequest.predicate = NSPredicate(format: "id = %@", NSNumber(value: ep.id))
                             
-                            // If we find no episodes, we create one and add it to the current show
-                            // This can happen when new episodes are added while a show is favourited
-                            // If the episode already exists, overwrite it's contents with the data from the API call
-                            if (CDEpisode.count) == 0 {
-                                let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "CD_Show")
-                                fetchRequest.predicate = NSPredicate(format: "id = %@", NSNumber(value: id))
+                            do {
+                                let CDEpisode = try self.context.fetch(fetchRequest)
                                 
-                                let CDShow = try self.context.fetch(fetchRequest)
-                                let show = CDShow[0] as! CD_Show
+                                // If we find no episodes, we create one and add it to the current show
+                                // This can happen when new episodes are added while a show is favourited
+                                // If the episode already exists, overwrite it's contents with the data from the API call
+                                if (CDEpisode.count) == 0 {
+                                    let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "CD_Show")
+                                    fetchRequest.predicate = NSPredicate(format: "id = %@", NSNumber(value: id))
+                                    
+                                    let CDShow = try self.context.fetch(fetchRequest)
+                                    let show = CDShow[0] as! Show
+                                    
+                                    let episode = Episode(context: PersistenceService.context)
+                                    
+                                    episode.airedEpisodeNumber = ep.airedEpisodeNumber!
+                                    episode.airedSeason = ep.airedSeason!
+                                    episode.episodeName = ep.episodeName
+                                    episode.filename = ep.filename
+                                    episode.firstAired = ep.firstAired
+                                    episode.id = ep.id
+                                    episode.overview = ep.overview
+                                    episode.seriesId = ep.seriesId!
+                                    
+                                    show.addToEpisode(episode)
+                                    
+                                } else {
+                                    let episode = CDEpisode[0] as! CD_Episode
+                                    
+                                    episode.airedEpisodeNumber = ep.airedEpisodeNumber!
+                                    episode.airedSeason = ep.airedSeason!
+                                    episode.episodeName = ep.episodeName
+                                    episode.filename = ep.filename
+                                    episode.firstAired = ep.firstAired
+                                    episode.id = ep.id
+                                    episode.overview = ep.overview
+                                    episode.seriesId = ep.seriesId!
+                                }
                                 
-                                let episode = CD_Episode(context: PersistenceService.context)
-                                
-                                episode.airedEpisodeNumber = ep.airedEpisodeNumber!
-                                episode.airedSeason = ep.airedSeason!
-                                episode.episodeName = ep.episodeName
-                                episode.filename = ep.filename
-                                episode.firstAired = ep.firstAired
-                                episode.id = ep.id
-                                episode.overview = ep.overview
-                                episode.seriesId = ep.seriesId!
-                                
-                                show.addToEpisode(episode)
-
-                            } else {
-                                let episode = CDEpisode[0] as! CD_Episode
-                                
-                                episode.airedEpisodeNumber = ep.airedEpisodeNumber!
-                                episode.airedSeason = ep.airedSeason!
-                                episode.episodeName = ep.episodeName
-                                episode.filename = ep.filename
-                                episode.firstAired = ep.firstAired
-                                episode.id = ep.id
-                                episode.overview = ep.overview
-                                episode.seriesId = ep.seriesId!
+                            } catch {
+                                os_log("Failed to execute the fetch request (%@) with %@.", log: .coredata, type: .error, #function , error.localizedDescription)
                             }
-                            
-                        } catch {
-                            os_log("Failed to execute the fetch request (%@) with %@.", log: .coredata, type: .error, #function , error.localizedDescription)
                         }
                     }
                 }

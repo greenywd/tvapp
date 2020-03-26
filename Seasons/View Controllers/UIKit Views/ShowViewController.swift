@@ -23,7 +23,7 @@ class ShowViewController: UITableViewController {
     @IBOutlet var showDescriptionHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var showDescriptionBottomConstraint: NSLayoutConstraint!
     
-    var show: TVShow! {
+    var show: Show! {
         didSet {
             DispatchQueue.main.async {
                 if (self.showDescription.frame.height < 150) {
@@ -40,15 +40,13 @@ class ShowViewController: UITableViewController {
         }
     }
     
-    var showTM: TMShow!
-    
     var rightBarButtonItem = UIBarButtonItem()
     
     //MARK: - Methods
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        navigationItem.title = show.seriesName
+        navigationItem.title = show.name
         showDescription.text = show.overview
         showDescription.textContainer.lineBreakMode = .byTruncatingTail
         showMoreButton.addTarget(self, action: #selector(expandTextView), for: .touchUpInside)
@@ -58,60 +56,9 @@ class ShowViewController: UITableViewController {
         if (!PersistenceService.showExists(id: show!.id)) {
             setupRightBarButtonItem(isBusy: true)
             dispatchGroup.enter()
-            TVDBAPI.getShow(id: show!.id) { (showData) in
+            TMDBAPI.getShow(id: show!.id) { (showData) in
                 if let show = showData {
                     self.show = show
-                }
-            }
-            var preferredResolution: TVDBAPI.Resolution {
-                if UserDefaults.standard.bool(forKey: "preferFullHD") {
-                    return .FHD
-                }
-                return .HD
-            }
-            
-            TVDBAPI.getImageURLs(show: show.id, resolution: preferredResolution) { (images) in
-                if let url = images?.data?.first?.fileName {
-                    let url = URL(string: "https://www.thetvdb.com/banners/" + url)
-                    DispatchQueue.global(qos: .userInteractive).async {
-                        do {
-                            let data = try Data(contentsOf: url!)
-                            let header = UIImage(data: data)
-                            
-                            DispatchQueue.main.async {
-                                self.show.header = url?.absoluteString
-                                self.headerImageView?.image = header
-                                dispatchGroup.leave()
-                            }
-                            
-                        } catch {
-                            os_log("Failed to retrieve data at %@ with %@.", log: .networking, type: .error, url!.absoluteString, error.localizedDescription)
-                        }
-                    }
-                } else {
-                    os_log("Didn't find any %@ posters, trying %@.", log: .ui, type: .info, preferredResolution.rawValue, preferredResolution.reversed().rawValue)
-                    TVDBAPI.getImageURLs(show: self.show.id, resolution: preferredResolution.reversed()) { (images) in
-                        if let url = images?.data?.first?.fileName {
-                            let url = URL(string: "https://www.thetvdb.com/banners/" + url)
-                            DispatchQueue.global(qos: .userInteractive).async {
-                                do {
-                                    let data = try Data(contentsOf: url!)
-                                    let header = UIImage(data: data)
-                                    
-                                    DispatchQueue.main.async {
-                                        self.show.header = url?.absoluteString
-                                        self.headerImageView?.image = header
-                                        dispatchGroup.leave()
-                                    }
-                                    
-                                } catch {
-                                    os_log("Failed to retrieve data at %@ with %@.", log: .networking, type: .error, url!.absoluteString, error.localizedDescription)
-                                }
-                            }
-                        } else {
-                            dispatchGroup.leave()
-                        }
-                    }
                 }
             }
         } else {
@@ -121,7 +68,7 @@ class ShowViewController: UITableViewController {
             if let show = PersistenceService.getShow(id: id) {
                 self.show = show
                 
-                if let headerImage = show.headerImage, let header = UIImage(data: headerImage) {
+                if let headerImage = show.posterImage, let header = UIImage(data: headerImage) {
                     headerImageView?.image = header
                 }
             }
@@ -177,52 +124,22 @@ class ShowViewController: UITableViewController {
         let headerImage = self.headerImageView?.image?.pngData()
         
         DispatchQueue.global(qos: .userInteractive).async {
-            let favShow = CD_Show(context: PersistenceService.context)
-            favShow.id = Int32(self.show.id)
-            favShow.seriesName = self.show.seriesName
-            favShow.overview = self.show.overview
-            favShow.headerImage = headerImage
-            favShow.header = self.show.header
-            favShow.banner = self.show.banner
-            favShow.network = self.show.network
-            favShow.runtime = self.show.runtime
-            favShow.siteRating = self.show.siteRating ?? 0
-            favShow.siteRatingCount = self.show.siteRatingCount ?? 0
-            favShow.status = self.show.status
+            let favShow = Show(context: PersistenceService.context)
+            // TODO: Save show
             
             let dispatchGroup = DispatchGroup()
             dispatchGroup.enter()
             
             DispatchQueue.global(qos: .userInitiated).async {
-                let bannerURL = URL(string: "https://artworks.thetvdb.com/banners/" + self.show.banner!)
+                let bannerURL = URL(string: "https://image.tmdb.org/t/p/original" + self.show.backdropPath!)
                 let bannerImage = try? Data(contentsOf: bannerURL!)
                 
                 if let banner = bannerImage, let image = UIImage(data: banner) {
-                    favShow.bannerImage = image.pngData()
+                    favShow.backdropImage = image.pngData()
                 }
             }
             
-            TVDBAPI.getEpisodes(show: self.show.id) { (episodeList) in
-                if let episodes = episodeList {
-                    for episode in episodes {
-                        let cdEpisode = CD_Episode(context: PersistenceService.context)
-                        cdEpisode.episodeName = episode.episodeName
-                        cdEpisode.airedEpisodeNumber = episode.airedEpisodeNumber!
-                        cdEpisode.airedSeason = episode.airedSeason!
-                        cdEpisode.filename = episode.filename
-                        cdEpisode.firstAired = episode.firstAired
-                        cdEpisode.id = episode.id
-                        cdEpisode.overview = episode.overview
-                        cdEpisode.seriesId = episode.seriesId!
-                        // cdEpisode.image = try? Data(contentsOf: URL(string: "https://artworks.thetvdb.com/banners/" + episode.filename!)!)
-                        favShow.addToEpisode(cdEpisode)
-                    }
-                }
-                
-                if (favShow.bannerImage != nil) {
-                    dispatchGroup.leave()
-                }
-            }
+            // TODO: Save all episodes
             
             dispatchGroup.notify(queue: .main) {
                 PersistenceService.saveContext()

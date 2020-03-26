@@ -22,7 +22,7 @@ class EpisodeTableViewController: UITableViewController {
     @IBOutlet var showDescriptionHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var showDescriptionBottomConstraint: NSLayoutConstraint!
     
-    var episode: TVEpisode! {
+    var episode: Episode! {
         didSet {
             DispatchQueue.main.async {
                 if (self.showDescription.frame.height < 150) {
@@ -49,7 +49,7 @@ class EpisodeTableViewController: UITableViewController {
         super.viewDidLoad()
         
         // print(showDescriptionHeightConstraint.constant)
-        navigationItem.title = episode.episodeName
+        navigationItem.title = episode.name
         showDescription.text = episode.overview
         showDescription.textContainer.lineBreakMode = .byTruncatingTail
         showMoreButton.addTarget(self, action: #selector(expandTextView), for: .touchUpInside)
@@ -58,7 +58,7 @@ class EpisodeTableViewController: UITableViewController {
             bannerImageView?.image = image
         } else {
             DispatchQueue.global().async {
-                let data = try? Data(contentsOf: URL(string: "https://www.thetvdb.com/banners/" + self.episode.filename!)!)
+                let data = try? Data(contentsOf: URL(string: "https://image.tmdb.org/t/p/original" + self.episode.stillPath!)!)
                 
                 DispatchQueue.main.async {
                     if let image = data {

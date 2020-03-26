@@ -14,7 +14,7 @@ class ShowTableViewCell : UITableViewCell {
     @IBOutlet var titleLabel: UILabel!
     @IBOutlet var detailLabel: UILabel!
     
-    var show: TVShow? { didSet { updateCell() } }
+    var show: Show? { didSet { updateCell() } }
     
     override func prepareForReuse() {
         super.prepareForReuse()
@@ -24,15 +24,15 @@ class ShowTableViewCell : UITableViewCell {
     
     func updateCell() {
         if let show = show {
-            if (show.banner?.count == 0) {
+            if (show.backdropPath?.count == 0) {
                 return
             }
             
-            if let banner = show.bannerImage, let image = UIImage(data: banner) {
+            if let banner = show.image, let image = UIImage(data: banner) {
                 backgroundImageView.image = image
             } else {
-                if let bannerURL = show.banner {
-                    let url = URL(string: "https://artworks.thetvdb.com" + bannerURL)!
+                if let bannerURL = show.backdropPath {
+                    let url = URL(string: "https://image.tmdb.org/t/p/original/" + bannerURL)!
                     
                     if backgroundImageView.image == nil {
                         print("CELL URL \(bannerURL)")

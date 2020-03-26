@@ -15,8 +15,8 @@ import os
 
 class HomeViewController: UITableViewController {
     
-    var favouriteShows = [TVShow]()
-    var filteredFavouriteShows = [TVShow]()
+    var favouriteShows = [Show]()
+    var filteredFavouriteShows = [Show]()
     var searchController = UISearchController(searchResultsController: nil)
     
     override func viewDidLoad() {
@@ -89,7 +89,7 @@ class HomeViewController: UITableViewController {
     
     func updateFavouriteShows() {
         if let shows = PersistenceService.getShows() {
-            favouriteShows = shows.sorted(by: { $1.seriesName!.lowercased() > $0.seriesName!.lowercased() })
+            favouriteShows = shows.sorted(by: { $1.name!.lowercased() > $0.name!.lowercased() })
         } else {
             favouriteShows.removeAll()
             self.refreshControl?.endRefreshing()
@@ -116,7 +116,7 @@ extension HomeViewController : UISearchResultsUpdating, UISearchBarDelegate {
     
     func filterContentForSearchText(_ searchText: String, scope: String = "All") {
         filteredFavouriteShows = favouriteShows.filter({ show -> Bool in
-            return show.seriesName!.lowercased().contains(searchText.lowercased())
+            return show.name!.lowercased().contains(searchText.lowercased())
         })
         tableView.reloadData()
     }
@@ -154,10 +154,10 @@ extension HomeViewController : UISearchResultsUpdating, UISearchBarDelegate {
         } else {
             let show = isFiltering() ? filteredFavouriteShows[indexPath.row] : favouriteShows[indexPath.row]
             cell.show = show
-            cell.titleLabel.text = show.seriesName
+            cell.titleLabel.text = show.name
             cell.detailLabel.text = show.overview
             
-            if let backgroundImageData = show.bannerImage {
+            if let backgroundImageData = show.image {
                 if let backgroundImage = UIImage(data: backgroundImageData) {
                     cell.backgroundImageView.image = backgroundImage
                 }

@@ -11,12 +11,12 @@ import UIKit
 class ShowSeasonsTableViewController: UITableViewController {
     
     var showID: Int32!
-    var episodes: [TVEpisode]? {
+    var episodes: [Episode]? {
         didSet {
             self.tableView.reloadData()
         }
     }
-    var seasons: [Int32]?
+    var seasons: [Int16]?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,7 +25,7 @@ class ShowSeasonsTableViewController: UITableViewController {
         // If not, download them
         if let episodes = PersistenceService.getEpisodes(show: showID) {
             self.episodes = episodes
-            self.seasons = Set(episodes.map { $0.airedSeason ?? 999 }).sorted()
+            self.seasons = Set(episodes.map { $0.seasonNumber }).sorted()
             
             let markWatchedButtonItem = UIBarButtonItem(image: UIImage(systemName: "doc.plaintext"), style: .plain, target: self, action: #selector(markEpisodes))
             navigationItem.rightBarButtonItem = markWatchedButtonItem
@@ -90,10 +90,10 @@ class ShowSeasonsTableViewController: UITableViewController {
             cell.textLabel?.text = "Season \(seasons![indexPath.row])"
             
             // If the show doesn't have a 'Season 0' (i.e. special episodes), -1 the airedSeason so that season equals indexPath.row
-            if (self.episodes?.contains(where: { $0.airedSeason == 0 }) ?? false) {
-                cell.detailTextLabel?.text = "\(self.episodes!.filter{($0.airedSeason!) == indexPath.row}.count) Episodes"
+            if (self.episodes?.contains(where: { $0.seasonNumber == 0 }) ?? false) {
+                cell.detailTextLabel?.text = "\(self.episodes!.filter{($0.seasonNumber) == indexPath.row}.count) Episodes"
             } else {
-                cell.detailTextLabel?.text = "\(self.episodes!.filter{($0.airedSeason!-1) == indexPath.row}.count) Episodes"
+                cell.detailTextLabel?.text = "\(self.episodes!.filter{($0.seasonNumber-1) == indexPath.row}.count) Episodes"
             }
         }
         
@@ -121,10 +121,10 @@ class ShowSeasonsTableViewController: UITableViewController {
         
         if (segue.identifier == "seasonToShow") {
             episodeVC.showID = showID
-            if (self.episodes?.contains(where: { $0.airedSeason == 0 }) ?? false) {
-                episodeVC.episodes = self.episodes!.filter{ $0.airedSeason! == indexPath.row }
+            if (self.episodes?.contains(where: { $0.seasonNumber == 0 }) ?? false) {
+                episodeVC.episodes = self.episodes!.filter{ $0.seasonNumber == indexPath.row }
             } else {
-                episodeVC.episodes = self.episodes!.filter{ $0.airedSeason!-1 == indexPath.row }
+                episodeVC.episodes = self.episodes!.filter{ $0.seasonNumber-1 == indexPath.row }
             }
         }
     }
