@@ -49,10 +49,13 @@ class TMDBAPI {
             }
             
             do {
-                let showInfo = try JSONDecoder().decode(Show.self, from: responseData)
+                let decoder = JSONDecoder()
+                decoder.dateDecodingStrategy = .formatted(DateFormatter.yyyyMMdd)
+                let showInfo = try decoder.decode(Show.self, from: responseData)
                 os_log("Retrieved data for %@", log: .networking, type: .info, showInfo.debugDescription)
                 completion(showInfo)
             } catch {
+                print(error)
                 os_log("Failed to decode response with: %@", log: .networking, type: .error, error.localizedDescription)
             }
         }

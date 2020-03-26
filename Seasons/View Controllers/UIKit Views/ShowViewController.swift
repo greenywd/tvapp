@@ -59,6 +59,7 @@ class ShowViewController: UITableViewController {
             TMDBAPI.getShow(id: show!.id) { (showData) in
                 if let show = showData {
                     self.show = show
+                    dispatchGroup.leave()
                 }
             }
         } else {
@@ -167,6 +168,7 @@ class ShowViewController: UITableViewController {
         case let seasonsVC as ShowSeasonsTableViewController:
             if (segue.identifier == "showToSeasonEpisode") {
                 seasonsVC.showID = show.id
+                seasonsVC.seasons = show.seasons?.allObjects as? [Season]
             }
             
         default:

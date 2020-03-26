@@ -108,7 +108,7 @@ class SearchViewController : UITableViewController {
         
         if segue.identifier == "segueToShow" {
             let searchResult = searchResults[indexPath.row]
-            showVC.show = searchResult
+            showVC.show = searchResult.convertToShow()
         }
     }
 }

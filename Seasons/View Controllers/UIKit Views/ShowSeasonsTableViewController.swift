@@ -16,38 +16,20 @@ class ShowSeasonsTableViewController: UITableViewController {
             self.tableView.reloadData()
         }
     }
-    var seasons: [Int16]?
+    var seasons: [Season]?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         // Check to see if we've got the show favourited and load the episodes from CoreData if we do.
         // If not, download them
-        if let episodes = PersistenceService.getEpisodes(show: showID) {
-            self.episodes = episodes
-            self.seasons = Set(episodes.map { $0.seasonNumber }).sorted()
-            
-            let markWatchedButtonItem = UIBarButtonItem(image: UIImage(systemName: "doc.plaintext"), style: .plain, target: self, action: #selector(markEpisodes))
-            navigationItem.rightBarButtonItem = markWatchedButtonItem
-            
-        } else {
-            TVDBAPI.getEpisodes(show: showID) { (episodeList) in
-                if let episodes = episodeList {
-                    if !episodes.isEmpty {
-                        self.episodes = episodes
-                        
-                        // Get number of episodes in season
-                        self.seasons = Set((episodeList ?? []).compactMap { $0.airedSeason }).sorted()
-                        
-                        DispatchQueue.main.async {
-                            self.tableView.reloadData()
-                        }
-                    } else {
-                        let alert = UIAlertController(title: "Error", message: "No episodes available", preferredStyle: .alert)
-                        alert.addAction(UIAlertAction(title: "Dismiss", style: .default, handler: nil))
-                        self.present(alert, animated: true, completion: nil)
-                    }
-                }
+        if (seasons == nil) {
+            if let show = PersistenceService.getShow(id: showID) {
+                self.seasons = show.seasons?.allObjects as? [Season]
+                
+                let markWatchedButtonItem = UIBarButtonItem(image: UIImage(systemName: "doc.plaintext"), style: .plain, target: self, action: #selector(markEpisodes))
+                navigationItem.rightBarButtonItem = markWatchedButtonItem
+                
             }
         }
     }

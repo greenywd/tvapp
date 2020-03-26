@@ -422,53 +422,8 @@ class PersistenceService {
                 let currentShow = favouriteShows.first(where: { $0.id == id })!
                 for season in currentShow.seasons! as! Set<Season> {
                     TMDBAPI.getEpisodes(show: id, season: season.seasonNumber) { (episodes) in
-                        for ep in episodes! {
-                            // For each episode retrieved, setup a fetchRequest to retrieve an existing episode with an episode ID
-                            let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: episodeEntity)
-                            fetchRequest.predicate = NSPredicate(format: "id = %@", NSNumber(value: ep.id))
-                            
-                            do {
-                                let CDEpisode = try self.context.fetch(fetchRequest)
-                                
-                                // If we find no episodes, we create one and add it to the current show
-                                // This can happen when new episodes are added while a show is favourited
-                                // If the episode already exists, overwrite it's contents with the data from the API call
-                                if (CDEpisode.count) == 0 {
-                                    let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "CD_Show")
-                                    fetchRequest.predicate = NSPredicate(format: "id = %@", NSNumber(value: id))
-                                    
-                                    let CDShow = try self.context.fetch(fetchRequest)
-                                    let show = CDShow[0] as! Show
-                                    
-                                    let episode = Episode(context: PersistenceService.context)
-                                    
-                                    episode.airedEpisodeNumber = ep.airedEpisodeNumber!
-                                    episode.airedSeason = ep.airedSeason!
-                                    episode.episodeName = ep.episodeName
-                                    episode.filename = ep.filename
-                                    episode.firstAired = ep.firstAired
-                                    episode.id = ep.id
-                                    episode.overview = ep.overview
-                                    episode.seriesId = ep.seriesId!
-                                    
-                                    show.addToEpisode(episode)
-                                    
-                                } else {
-                                    let episode = CDEpisode[0] as! CD_Episode
-                                    
-                                    episode.airedEpisodeNumber = ep.airedEpisodeNumber!
-                                    episode.airedSeason = ep.airedSeason!
-                                    episode.episodeName = ep.episodeName
-                                    episode.filename = ep.filename
-                                    episode.firstAired = ep.firstAired
-                                    episode.id = ep.id
-                                    episode.overview = ep.overview
-                                    episode.seriesId = ep.seriesId!
-                                }
-                                
-                            } catch {
-                                os_log("Failed to execute the fetch request (%@) with %@.", log: .coredata, type: .error, #function , error.localizedDescription)
-                            }
+                        if let unwrappedEpisodes = episodes {
+                            season.addToEpisodes(NSSet(array: unwrappedEpisodes))
                         }
                     }
                 }

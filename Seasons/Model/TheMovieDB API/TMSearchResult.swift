@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CoreData
 
 struct TMSearchResult: Decodable {
     let originalName: String
@@ -36,5 +37,14 @@ struct TMSearchResult: Decodable {
         case voteAverage = "vote_average"
         case overview
         case posterPath = "poster_path"
+    }
+    
+    func convertToShow() -> Show {
+        let en = NSEntityDescription.entity(forEntityName: "Show", in: PersistenceService.context)
+        let show = Show(entity: en!, insertInto: nil)
+        show.name = self.name
+        show.overview = self.overview
+        show.id = Int32(self.id)
+        return show
     }
 }
