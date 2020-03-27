@@ -28,7 +28,7 @@ class ShowTableViewCell : UITableViewCell {
                 return
             }
             
-            if let banner = show.image, let image = UIImage(data: banner) {
+            if let banner = show.backdropImage, let image = UIImage(data: banner) {
                 backgroundImageView.image = image
             } else {
                 if let bannerURL = show.backdropPath {
