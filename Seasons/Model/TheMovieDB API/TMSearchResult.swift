@@ -40,8 +40,7 @@ struct TMSearchResult: Decodable {
     }
     
     func convertToShow() -> Show {
-        let en = NSEntityDescription.entity(forEntityName: "Show", in: PersistenceService.context)
-        let show = Show(entity: en!, insertInto: nil)
+        let show = Show(context: PersistenceService.temporaryContext)
         show.name = self.name
         show.overview = self.overview
         show.id = Int32(self.id)

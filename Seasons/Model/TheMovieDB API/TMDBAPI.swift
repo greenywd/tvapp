@@ -51,6 +51,7 @@ class TMDBAPI {
             do {
                 let decoder = JSONDecoder()
                 decoder.dateDecodingStrategy = .formatted(DateFormatter.yyyyMMdd)
+                decoder.userInfo[CodingUserInfoKey.context!] = PersistenceService.temporaryContext
                 let showInfo = try decoder.decode(Show.self, from: responseData)
                 os_log("Retrieved data for %@", log: .networking, type: .info, showInfo.debugDescription)
                 completion(showInfo)
