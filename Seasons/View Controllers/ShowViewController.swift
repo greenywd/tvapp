@@ -45,7 +45,7 @@ class ShowViewController: UITableViewController {
     //MARK: - Methods
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         navigationItem.title = show.name
         showDescription.text = show.overview
         showDescription.textContainer.lineBreakMode = .byTruncatingTail
@@ -59,7 +59,19 @@ class ShowViewController: UITableViewController {
             TMDBAPI.getShow(id: show!.id) { (showData) in
                 if let show = showData {
                     self.show = show
-                    dispatchGroup.leave()
+                    
+                    if let backdrop = self.show.backdropImage, let image = UIImage(data: backdrop) {
+                        self.show.backdropImage = image.pngData()
+                    } else {
+                        DispatchQueue.global(qos: .userInitiated).async {
+                            let bannerURL = URL(string: "https://image.tmdb.org/t/p/original" + self.show.backdropPath!)
+                            let bannerImage = try? Data(contentsOf: bannerURL!)
+                            DispatchQueue.main.async {
+                                self.headerImageView!.image = UIImage(data: bannerImage!)
+                                dispatchGroup.leave()
+                            }
+                        }
+                    }
                 }
             }
         } else {
@@ -99,7 +111,6 @@ class ShowViewController: UITableViewController {
         }
     }
     
-    
     func setupRightBarButtonItem(isBusy: Bool) {
         if (isBusy) {
             let indicator = UIActivityIndicatorView(style: .medium)
@@ -124,29 +135,23 @@ class ShowViewController: UITableViewController {
         setupRightBarButtonItem(isBusy: true)
         // Workaround for accessing UI from background thread
         let headerImage = self.headerImageView?.image?.pngData()
-        
+        self.show.backdropImage = headerImage
         DispatchQueue.global(qos: .userInteractive).async {
-            let favShow = self.show
-            PersistenceService.context.insert(favShow!)
-            PersistenceService.saveContext()
+            do {
+                try PersistenceService.temporaryContext.save()
+            } catch {
+                
+            }
             // TODO: Save show
             
             let dispatchGroup = DispatchGroup()
             dispatchGroup.enter()
             
-            DispatchQueue.global(qos: .userInitiated).async {
-                let bannerURL = URL(string: "https://image.tmdb.org/t/p/original" + self.show.backdropPath!)
-                let bannerImage = try? Data(contentsOf: bannerURL!)
-                
-                if let banner = bannerImage, let image = UIImage(data: banner) {
-                    // favShow.backdropImage = image.pngData()
-                }
-            }
-            
             // TODO: Save all episodes
             
+            dispatchGroup.leave()
+            
             dispatchGroup.notify(queue: .main) {
-                PersistenceService.saveContext()
                 self.setupRightBarButtonItem(isBusy: false)
                 self.rightBarButtonItem.image = UIImage(systemName: "star.fill")
                 self.rightBarButtonItem.action = #selector(self.removeShow)
