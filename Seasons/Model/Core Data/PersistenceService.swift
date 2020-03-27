@@ -20,6 +20,12 @@ class PersistenceService {
         return persistentContainer.viewContext
     }
     
+    static var temporaryContext: NSManagedObjectContext = {
+        let temporaryContext = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
+        temporaryContext.parent = PersistenceService.context
+        return temporaryContext
+    }()
+    
     static var persistentContainer: NSPersistentCloudKitContainer = {
         let container = NSPersistentCloudKitContainer(name: "Seasons")
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
