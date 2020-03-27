@@ -13,16 +13,15 @@ import CoreData
 @objc(Show)
 public class Show: NSManagedObject, Decodable {
     public required convenience init(from decoder: Decoder) throws {
-        // guard let context = decoder.userInfo[CodingUserInfoKey.context!] as? NSManagedObjectContext else { fatalError() }
-        guard let entity = NSEntityDescription.entity(forEntityName: "Show", in: PersistenceService.context) else { fatalError() }
+        guard let context = decoder.userInfo[CodingUserInfoKey.context!] as? NSManagedObjectContext else { fatalError() }
+        guard let entity = NSEntityDescription.entity(forEntityName: "Show", in: context) else { fatalError() }
 
-        self.init(entity: entity, insertInto: nil)
+        self.init(entity: entity, insertInto: context)
 
         let values = try decoder.container(keyedBy: CodingKeys.self)
         do {
             backdropPath = try values.decode(String.self, forKey: .backdropPath)
             createdBy = NSSet(array: try values.decode([Creator].self, forKey: .createdBy))
-            dump(createdBy)
             genres = NSSet(array: try values.decode([Genre].self, forKey: .genres))
             name = try values.decode(String.self, forKey: .name)
             firstAirDate = try values.decode(Date.self, forKey: .firstAirDate)

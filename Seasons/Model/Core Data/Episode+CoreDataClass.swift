@@ -14,10 +14,10 @@ import CoreData
 public class Episode: NSManagedObject, Decodable {
 
     public required convenience init(from decoder: Decoder) throws {
-        // guard let context = decoder.userInfo[CodingUserInfoKey.context!] as? NSManagedObjectContext else { fatalError() }
-        guard let entity = NSEntityDescription.entity(forEntityName: "Episode", in: PersistenceService.context) else { fatalError() }
+        guard let context = decoder.userInfo[CodingUserInfoKey.context!] as? NSManagedObjectContext else { fatalError() }
+        guard let entity = NSEntityDescription.entity(forEntityName: "Episode", in: context) else { fatalError() }
 
-        self.init(entity: entity, insertInto: nil)
+        self.init(entity: entity, insertInto: context)
 
         let values = try decoder.container(keyedBy: CodingKeys.self)
         do {
