@@ -82,7 +82,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         do {
             try BGTaskScheduler.shared.submit(request)
         } catch {
-            os_log("Scheduling task %@ failed with $@.", log: .backgrounding, type: .error, bgTaskShowUpdate, error.localizedDescription)
+            os_log("Scheduling task %@ failed with %@.", log: .backgrounding, type: .error, bgTaskShowUpdate, error.localizedDescription)
         }
     }
     
@@ -93,7 +93,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         do {
             try BGTaskScheduler.shared.submit(request)
         } catch {
-            os_log("Scheduling task %@ failed with $@.", log: .backgrounding, type: .error, bgTaskScheduleNotif, error.localizedDescription)
+            os_log("Scheduling task %@ failed with %@.", log: .backgrounding, type: .error, bgTaskScheduleNotif, error.localizedDescription)
         }
     }
     
