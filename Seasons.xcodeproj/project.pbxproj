@@ -173,14 +173,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		D6019C2E1E41A6F4009756F6 /* View Controllers */ = {
-			isa = PBXGroup;
-			children = (
-				D688950F2304DFA600E72342 /* UIKit Views */,
-			);
-			name = "View Controllers";
-			sourceTree = "<group>";
-		};
 		D61A03782287ACBF0002AA48 /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -239,6 +231,7 @@
 		D63D0A461E2845ED00D3F1CA /* Seasons */ = {
 			isa = PBXGroup;
 			children = (
+				D666614F242D90A200ED7088 /* View Controllers */,
 				D634139F23FCB4A200C7A92A /* Storyboards */,
 				D6811AB4231901220045944E /* Seasons.entitlements */,
 				D61A037B2287B3FB0002AA48 /* Extensions */,
@@ -246,7 +239,6 @@
 				D63D0A471E2845ED00D3F1CA /* AppDelegate.swift */,
 				D63E7863241223B300838E6B /* Log.swift */,
 				D6D64F43228CE2D1004BDD7E /* Custom Views */,
-				D6019C2E1E41A6F4009756F6 /* View Controllers */,
 				D63D0A501E2845ED00D3F1CA /* Assets.xcassets */,
 				D63D0A551E2845ED00D3F1CA /* Info.plist */,
 			);
@@ -291,15 +283,7 @@
 			path = "TheMovieDB API";
 			sourceTree = "<group>";
 		};
-		D6811AB5231901250045944E /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				D6811AB6231901250045944E /* CloudKit.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		D688950F2304DFA600E72342 /* UIKit Views */ = {
+		D666614F242D90A200ED7088 /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
 				D67BCB511E41A5CA00BA58EA /* HomeViewController.swift */,
@@ -312,8 +296,15 @@
 				D68530DB22CC78070002ED8D /* ScheduleTableViewController.swift */,
 				D6F6160423F798FD00E17DC1 /* SettingsRootViewController.swift */,
 			);
-			name = "UIKit Views";
-			path = "View Controllers/UIKit Views";
+			path = "View Controllers";
+			sourceTree = "<group>";
+		};
+		D6811AB5231901250045944E /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				D6811AB6231901250045944E /* CloudKit.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		D68ED9B7241B879900341346 /* SeasonsTests */ = {
