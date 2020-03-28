@@ -11,11 +11,6 @@ import UIKit
 class ShowSeasonsTableViewController: UITableViewController {
     
     var showID: Int32!
-    var episodes: [Episode]? {
-        didSet {
-            self.tableView.reloadData()
-        }
-    }
     var seasons: [Season]?
     
     override func viewDidLoad() {
@@ -23,13 +18,15 @@ class ShowSeasonsTableViewController: UITableViewController {
         
         // Check to see if we've got the show favourited and load the episodes from CoreData if we do.
         // If not, download them
-        if (seasons == nil) {
+        if let seasons = self.seasons {
             if let show = PersistenceService.getShow(id: showID) {
                 self.seasons = show.seasons?.allObjects as? [Season]
                 
                 let markWatchedButtonItem = UIBarButtonItem(image: UIImage(systemName: "doc.plaintext"), style: .plain, target: self, action: #selector(markEpisodes))
                 navigationItem.rightBarButtonItem = markWatchedButtonItem
                 
+            } else {
+                // TODO: Download seasons (from /tv/?)
             }
         }
     }
@@ -37,13 +34,11 @@ class ShowSeasonsTableViewController: UITableViewController {
     @objc func markEpisodes() {
         let alertSheet = UIAlertController(title: "Mark All Seasons as:", message: nil, preferredStyle: .actionSheet)
         alertSheet.addAction(UIAlertAction(title: "Watched", style: .default, handler: { (alertAction) in
-            PersistenceService.markEpisodes(ids: self.episodes!.map { $0.id }, watched: true)
-            self.episodes = PersistenceService.getEpisodes(show: self.showID)
+            // TODO: Mark all seasons as watched
         }))
         
-        alertSheet.addAction(UIAlertAction(title: "Watchn't", style: .default, handler: { (alertAction) in
-            PersistenceService.markEpisodes(ids: self.episodes!.map { $0.id }, watched: false)
-            self.episodes = PersistenceService.getEpisodes(show: self.showID)
+        alertSheet.addAction(UIAlertAction(title: "Unwatched", style: .default, handler: { (alertAction) in
+            // TODO: Mark all seasons as unwatched
         }))
         
         alertSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (alertAction) in
@@ -59,8 +54,8 @@ class ShowSeasonsTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if let s = seasons {
-            return s.count
+        if let seasons = self.seasons {
+            return seasons.count
         }
         return 0
     }
@@ -68,19 +63,11 @@ class ShowSeasonsTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "seasonCell", for: indexPath)
         
-        if let _ = seasons {
-            cell.textLabel?.text = "Season \(seasons![indexPath.row])"
-            
-            // If the show doesn't have a 'Season 0' (i.e. special episodes), -1 the airedSeason so that season equals indexPath.row
-            if (self.episodes?.contains(where: { $0.seasonNumber == 0 }) ?? false) {
-                cell.detailTextLabel?.text = "\(self.episodes!.filter{($0.seasonNumber) == indexPath.row}.count) Episodes"
-            } else {
-                cell.detailTextLabel?.text = "\(self.episodes!.filter{($0.seasonNumber-1) == indexPath.row}.count) Episodes"
-            }
+        // TODO: Setup cells
+        if let seasons = self.seasons {
+            cell.textLabel!.text = "Season \(seasons[indexPath.row].seasonNumber)"
+            cell.detailTextLabel!.text = "\(seasons[indexPath.row].episodeCount) episodes"
         }
-        
-        // Configure the cell...
-        print("configured cell")
         return cell
     }
     
@@ -103,11 +90,6 @@ class ShowSeasonsTableViewController: UITableViewController {
         
         if (segue.identifier == "seasonToShow") {
             episodeVC.showID = showID
-            if (self.episodes?.contains(where: { $0.seasonNumber == 0 }) ?? false) {
-                episodeVC.episodes = self.episodes!.filter{ $0.seasonNumber == indexPath.row }
-            } else {
-                episodeVC.episodes = self.episodes!.filter{ $0.seasonNumber-1 == indexPath.row }
-            }
         }
     }
     
