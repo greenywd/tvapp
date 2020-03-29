@@ -22,6 +22,11 @@ public class Season: NSManagedObject, Decodable {
         do {
             airDate = try values.decode(Date.self, forKey: .airDate)
             episodeCount = try values.decode(Int16.self, forKey: .episodeCount)
+            id = try values.decode(Int32.self, forKey: .id)
+            name = try values.decode(String.self, forKey: .name)
+            overview = try values.decode(String.self, forKey: .overview)
+            posterPath = try values.decode(String.self, forKey: .posterPath)
+            seasonNumber = try values.decode(Int16.self, forKey: .seasonNumber)
         }
     }
     
