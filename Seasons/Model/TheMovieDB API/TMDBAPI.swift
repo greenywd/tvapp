@@ -48,6 +48,8 @@ class TMDBAPI {
                 return
             }
             
+            print(String(data: responseData, encoding: .utf8))
+            
             do {
                 let decoder = JSONDecoder()
                 decoder.dateDecodingStrategy = .formatted(DateFormatter.yyyyMMdd)
@@ -92,7 +94,9 @@ class TMDBAPI {
             }
             
             do {
-                let search = try JSONDecoder().decode(TMSearch.self, from: responseData)
+                let decoder = JSONDecoder()
+                decoder.dateDecodingStrategy = .formatted(DateFormatter.yyyyMMdd)
+                let search = try decoder.decode(TMSearch.self, from: responseData)
                 
                 guard let searchResults = search.results else {
                     os_log("No shows returned from search.", log: .networking, type: .info)
@@ -100,8 +104,10 @@ class TMDBAPI {
                     return
                 }
                 
+                dump(searchResults)
                 completion(searchResults)
             } catch {
+                print(error)
                 os_log("Failed to decode response with: %@", log: .networking, type: .error, error.localizedDescription)
             }
         }
