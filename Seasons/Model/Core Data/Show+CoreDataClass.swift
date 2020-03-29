@@ -26,7 +26,10 @@ public class Show: NSManagedObject, Decodable {
             name = try values.decode(String.self, forKey: .name)
             firstAirDate = try values.decode(Date.self, forKey: .firstAirDate)
             homepage = try values.decode(String.self, forKey: .homepage)
+            lastAirDate = try values.decode(Date.self, forKey: .lastAirDate)
             lastEpisodeToAir = try values.decodeIfPresent(Episode.self, forKey: .lastEpisodeToAir)
+            // episode run time
+            // languages
             id = try values.decode(Int32.self, forKey: .id)
             inProduction = try values.decode(Bool.self, forKey: .inProduction)
             name = try values.decode(String.self, forKey: .name)
