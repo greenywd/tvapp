@@ -81,7 +81,7 @@ class ShowViewController: UITableViewController {
             if let show = PersistenceService.getShow(id: id) {
                 self.show = show
                 
-                if let headerImage = show.posterImage, let header = UIImage(data: headerImage) {
+                if let headerImage = show.backdropImage, let header = UIImage(data: headerImage) {
                     headerImageView?.image = header
                 }
             }
@@ -137,21 +137,29 @@ class ShowViewController: UITableViewController {
         let headerImage = self.headerImageView?.image?.pngData()
         self.show.backdropImage = headerImage
         DispatchQueue.global(qos: .userInteractive).async {
-            do {
-                try PersistenceService.temporaryContext.save()
-            } catch {
-                
-            }
-            // TODO: Save show
-            
+
             let dispatchGroup = DispatchGroup()
             dispatchGroup.enter()
             
-            // TODO: Save all episodes
-            
-            dispatchGroup.leave()
+            for season in self.show.seasons as! Set<Season> {
+                TMDBAPI.getEpisodes(show: self.show.id, season: season.seasonNumber) { (episodes) in
+                    if let episodes = episodes {
+                        season.addToEpisodes(NSSet(array: episodes))
+                    }
+                }
+                
+                if season.seasonNumber == self.show.numberOfSeasons {
+                    dispatchGroup.leave()
+                }
+            }
             
             dispatchGroup.notify(queue: .main) {
+                do {
+                    try PersistenceService.temporaryContext.save()
+                    try PersistenceService.context.save()
+                } catch {
+                    os_log("Failed to save context temporaryContext with %@", log: .networking, type: .error, error.localizedDescription)
+                }
                 self.setupRightBarButtonItem(isBusy: false)
                 self.rightBarButtonItem.image = UIImage(systemName: "star.fill")
                 self.rightBarButtonItem.action = #selector(self.removeShow)
