@@ -24,7 +24,7 @@ class SeasonsTests: XCTestCase {
         if let path = Bundle(for: type(of: self)).path(forResource: "Show", ofType: "json") {
             do {
                 let data = try Data(contentsOf: URL(fileURLWithPath: path), options: .mappedIfSafe)
-                let json = try JSONDecoder().decode(TMShow.self, from: data)
+                let json = try JSONDecoder().decode(Show.self, from: data)
                 XCTAssertNotNil(json)
                 
             } catch {
