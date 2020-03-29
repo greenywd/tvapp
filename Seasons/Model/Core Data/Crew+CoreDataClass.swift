@@ -26,7 +26,7 @@ public class Crew: NSManagedObject, Decodable {
             id = try values.decode(Int32.self, forKey: .id)
             job = try values.decode(String.self, forKey: .job)
             name = try values.decode(String.self, forKey: .name)
-            profilePath = try values.decode(String.self, forKey: .profilePath)
+            profilePath = try values.decodeIfPresent(String.self, forKey: .profilePath)
         }
     }
     

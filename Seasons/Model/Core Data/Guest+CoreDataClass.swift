@@ -22,11 +22,11 @@ public class Guest: NSManagedObject, Decodable {
         do {
             character = try values.decode(String.self, forKey: .character)
             creditID = try values.decode(String.self, forKey: .creditID)
-            gender = try values.decode(Int16.self, forKey: .gender)
+            gender = try values.decodeIfPresent(Int16.self, forKey: .gender) ?? 0
             id = try values.decode(Int32.self, forKey: .id)
             name = try values.decode(String.self, forKey: .name)
             order = try values.decode(Int16.self, forKey: .order)
-            profilePath = try values.decode(String.self, forKey: .profilePath)
+            profilePath = try values.decodeIfPresent(String.self, forKey: .profilePath) ?? ""
         }
     }
     
