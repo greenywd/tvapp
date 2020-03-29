@@ -91,9 +91,6 @@ class SearchViewController : UITableViewController {
                 DispatchQueue.main.async {
                     self.tableView.reloadData()
                 }
-                for result in showResults {
-                    os_log("Show Name: %@", log: .networking, type: .debug, result.name)
-                }
             }
         }
     }

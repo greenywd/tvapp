@@ -54,7 +54,6 @@ class ScheduleTableViewController: UITableViewController {
     }
     
     @objc func segmentedControlChanged(sender: UISegmentedControl) {
-        print(sender.selectedSegmentIndex)
         updateEpisodeDataSource()
         tableView.reloadData()
     }
@@ -125,7 +124,6 @@ class ScheduleTableViewController: UITableViewController {
                     self.episodes = self.episodes?.filter { $0.id != episode.id }
                     
                     if self.episodes!.isEmpty {
-                        dump(self.episodes)
                         tableView.deleteRows(at: [indexPath], with: .automatic)
                     } else {
                         tableView.deleteRows(at: [indexPath], with: .automatic)

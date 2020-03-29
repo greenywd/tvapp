@@ -47,7 +47,6 @@ class SettingsRootViewController : UITableViewController, SFSafariViewController
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print(indexPath)
         if (indexPath.section == 2 && indexPath.row == 0) {
             let sfvc = SFSafariViewController(url: URL(string: "https://www.github.com/greenywd/tvapp/issues")!)
             sfvc.delegate = self
