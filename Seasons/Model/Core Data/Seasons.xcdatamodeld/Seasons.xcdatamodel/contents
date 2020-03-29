@@ -32,8 +32,8 @@
         <attribute name="stillPath" optional="YES" attributeType="String"/>
         <attribute name="voteAverage" optional="YES" attributeType="Double" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="voteCount" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
-        <relationship name="crew" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Crew" inverseName="episode" inverseEntity="Crew"/>
-        <relationship name="guestStars" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Guest" inverseName="episode" inverseEntity="Guest"/>
+        <relationship name="crew" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Crew" inverseName="episode" inverseEntity="Crew"/>
+        <relationship name="guestStars" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Guest" inverseName="episode" inverseEntity="Guest"/>
         <relationship name="lastEpisodeForShow" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Show" inverseName="lastEpisodeToAir" inverseEntity="Show"/>
         <relationship name="nextEpisodeForShow" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Show" inverseName="nextEpisodeToAir" inverseEntity="Show"/>
         <relationship name="season" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Season" inverseName="episodes" inverseEntity="Season"/>
@@ -68,7 +68,7 @@
         <attribute name="overview" optional="YES" attributeType="String"/>
         <attribute name="posterPath" optional="YES" attributeType="String"/>
         <attribute name="seasonNumber" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
-        <relationship name="episodes" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Episode" inverseName="season" inverseEntity="Episode"/>
+        <relationship name="episodes" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Episode" inverseName="season" inverseEntity="Episode"/>
         <relationship name="showSeason" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Show" inverseName="seasons" inverseEntity="Show"/>
     </entity>
     <entity name="Show" representedClassName="Show" syncable="YES" codeGenerationType="category">
@@ -95,12 +95,12 @@
         <attribute name="type" optional="YES" attributeType="String"/>
         <attribute name="voteAverage" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="voteCount" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
-        <relationship name="createdBy" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Creator" inverseName="createdShow" inverseEntity="Creator"/>
-        <relationship name="genres" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Genre" inverseName="show" inverseEntity="Genre"/>
-        <relationship name="lastEpisodeToAir" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Episode" inverseName="lastEpisodeForShow" inverseEntity="Episode"/>
-        <relationship name="networks" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Network" inverseName="show" inverseEntity="Network"/>
-        <relationship name="nextEpisodeToAir" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Episode" inverseName="nextEpisodeForShow" inverseEntity="Episode"/>
-        <relationship name="seasons" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Season" inverseName="showSeason" inverseEntity="Season"/>
+        <relationship name="createdBy" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Creator" inverseName="createdShow" inverseEntity="Creator"/>
+        <relationship name="genres" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Genre" inverseName="show" inverseEntity="Genre"/>
+        <relationship name="lastEpisodeToAir" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="Episode" inverseName="lastEpisodeForShow" inverseEntity="Episode"/>
+        <relationship name="networks" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Network" inverseName="show" inverseEntity="Network"/>
+        <relationship name="nextEpisodeToAir" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="Episode" inverseName="nextEpisodeForShow" inverseEntity="Episode"/>
+        <relationship name="seasons" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Season" inverseName="showSeason" inverseEntity="Season"/>
     </entity>
     <elements>
         <element name="Creator" positionX="-540" positionY="195" width="128" height="133"/>
@@ -109,7 +109,7 @@
         <element name="Genre" positionX="-537" positionY="365" width="128" height="88"/>
         <element name="Guest" positionX="273" positionY="369" width="128" height="163"/>
         <element name="Network" positionX="-510" positionY="514" width="128" height="118"/>
-        <element name="Season" positionX="-104.2421875" positionY="336.828125" width="128" height="178"/>
+        <element name="Season" positionX="-104.2421875" positionY="336.828125" width="128" height="28"/>
         <element name="Show" positionX="-278" positionY="220" width="128" height="478"/>
     </elements>
 </model>
