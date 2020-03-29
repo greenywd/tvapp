@@ -48,8 +48,6 @@ class TMDBAPI {
                 return
             }
             
-            print(String(data: responseData, encoding: .utf8))
-            
             do {
                 let decoder = JSONDecoder()
                 decoder.dateDecodingStrategy = .formatted(DateFormatter.yyyyMMdd)
@@ -104,11 +102,10 @@ class TMDBAPI {
                     return
                 }
                 
-                dump(searchResults)
                 completion(searchResults)
             } catch {
                 print(error)
-                os_log("Failed to decode response with: %@", log: .networking, type: .error, error.localizedDescription)
+                os_log("Failed to decode response with: '%@' in %@", log: .networking, type: .error, error.localizedDescription, #function)
             }
         }
         
@@ -139,17 +136,21 @@ class TMDBAPI {
             }
             
             do {
-                let seasonDetails = try JSONDecoder().decode(Season.self, from: responseData)
+                let decoder = JSONDecoder()
+                decoder.dateDecodingStrategy = .formatted(DateFormatter.yyyyMMdd)
+                decoder.userInfo[CodingUserInfoKey.context!] = PersistenceService.temporaryContext
+                let seasonDetails = try decoder.decode(Season.self, from: responseData)
                 
                 guard let episodes = seasonDetails.episodes else {
                     os_log("No shows returned from search.", log: .networking, type: .info)
                     completion(nil)
                     return
                 }
-                
+                os_log("Successfully retrieved %d episodes for show with id %d in %@", log: .networking, type: .info, episodes.count, show, #function)
                 completion(episodes.allObjects as? [Episode])
             } catch {
-                os_log("Failed to decode response with: %@", log: .networking, type: .error, error.localizedDescription)
+                print(error)
+                os_log("Failed to decode response with: '%@' in %@ with parameters (%d, %d)", log: .networking, type: .error, error.localizedDescription, #function, show, season)
             }
         }
         
