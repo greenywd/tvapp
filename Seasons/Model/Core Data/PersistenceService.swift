@@ -85,12 +85,12 @@ class PersistenceService {
             let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: showEntity)
             fetchRequest.predicate = NSPredicate(format: "id = %@", NSNumber(value: id))
             
-            let shows = try PersistenceService.context.fetch(fetchRequest)
-            PersistenceService.context.delete(shows.first as! NSManagedObject)
+            let shows = try self.context.fetch(fetchRequest)
+            self.context.delete(shows.first as! NSManagedObject)
             
             removeScheduledNotifications(for: id)
             
-            PersistenceService.saveContext()
+            self.saveContext()
             
         } catch {
             os_log("Failed to execute the fetch request (%@) with %@.", log: .coredata, type: .error, #function , error.localizedDescription)
@@ -104,9 +104,9 @@ class PersistenceService {
             let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: episodeEntity)
             fetchRequest.predicate = NSPredicate(format: "seriesId = %@", NSNumber(value: id))
             
-            let episodes = try PersistenceService.context.fetch(fetchRequest)
+            let episodes = try self.context.fetch(fetchRequest)
             for episode in episodes {
-                PersistenceService.context.delete(episode as! NSManagedObject)
+                self.context.delete(episode as! NSManagedObject)
             }
             PersistenceService.saveContext()
             
@@ -121,9 +121,9 @@ class PersistenceService {
                 let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: episodeEntity)
                 fetchRequest.predicate = NSPredicate(format: "id = %@", NSNumber(value: id))
                 
-                let episode = try PersistenceService.context.fetch(fetchRequest).first as! NSManagedObject
-                dump(episode)
-                episode.setValue(watched, forKey: "hasWatched")
+                let episode = try self.context.fetch(fetchRequest).first as! Episode
+
+                episode.hasWatched = watched
                 PersistenceService.saveContext()
                 
             } catch {
@@ -139,9 +139,9 @@ class PersistenceService {
                     let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: episodeEntity)
                     fetchRequest.predicate = NSPredicate(format: "id = %@", NSNumber(value: id))
                     
-                    let episode = try PersistenceService.context.fetch(fetchRequest).first as! NSManagedObject
-                    dump(episode)
-                    episode.setValue(watched, forKey: "hasWatched")
+                    let episode = try self.context.fetch(fetchRequest).first as! Episode
+
+                    episode.hasWatched = watched
                     PersistenceService.saveContext()
                     
                 } catch {
@@ -156,14 +156,14 @@ class PersistenceService {
             do {
                 let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: episodeEntity)
                 
-                let seriesIDPredicate = NSPredicate(format: "seriesId = %@", NSNumber(value: showID))
-                let airedSeasonPredicate = NSPredicate(format: "airedSeason = %@", NSNumber(value: airedSeason))
+                let seriesIDPredicate = NSPredicate(format: "showID = %@", NSNumber(value: showID))
+                let airedSeasonPredicate = NSPredicate(format: "seasonNumber = %@", NSNumber(value: airedSeason))
                 fetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [seriesIDPredicate, airedSeasonPredicate])
                 
-                let episode = try PersistenceService.context.fetch(fetchRequest) as! [NSManagedObject]
+                let episode = try PersistenceService.context.fetch(fetchRequest) as! [Episode]
                 
                 for ep in episode {
-                    ep.setValue(watched, forKey: "hasWatched")
+                    ep.hasWatched = watched
                 }
                 
                 PersistenceService.saveContext()
@@ -178,18 +178,18 @@ class PersistenceService {
         DispatchQueue.global(qos: .userInitiated).async {
             do {
                 let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: episodeEntity)
-                fetchRequest.predicate = NSPredicate(format: "seriesId = %@", NSNumber(value: showID))
+                fetchRequest.predicate = NSPredicate(format: "showID = %@", NSNumber(value: showID))
                 
-                let episode = try PersistenceService.context.fetch(fetchRequest) as! [NSManagedObject]
+                let episode = try PersistenceService.context.fetch(fetchRequest) as! [Episode]
                 
                 for ep in episode {
-                    ep.setValue(watched, forKey: "hasWatched")
+                    ep.hasWatched = watched
                 }
                 
                 PersistenceService.saveContext()
                 
             } catch {
-                print(error, error.localizedDescription)
+                os_log("Failed to execute the fetch request (%@) with %@.", log: .coredata, type: .error, #function , error.localizedDescription)
             }
         }
     }
@@ -200,7 +200,7 @@ class PersistenceService {
                 let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: episodeEntity)
                 
                 let episode = try PersistenceService.context.fetch(fetchRequest).first as! NSManagedObject
-                dump(episode)
+
                 episode.setValue(watched, forKey: "hasWatched")
                 PersistenceService.saveContext()
                 
@@ -216,7 +216,7 @@ class PersistenceService {
         
         let fetchRequest: NSFetchRequest<Show> = Show.fetchRequest()
         do {
-            let shows = try PersistenceService.context.fetch(fetchRequest)
+            let shows = try self.context.fetch(fetchRequest)
             
             if shows.count == 0 {
                 return nil
