@@ -27,6 +27,8 @@ public class Show: NSManagedObject, Decodable {
             firstAirDate = try values.decode(Date.self, forKey: .firstAirDate)
             homepage = try values.decode(String.self, forKey: .homepage)
             lastEpisodeToAir = try values.decodeIfPresent(Episode.self, forKey: .lastEpisodeToAir)
+            id = try values.decode(Int32.self, forKey: .id)
+            inProduction = try values.decode(Bool.self, forKey: .inProduction)
             name = try values.decode(String.self, forKey: .name)
             nextEpisodeToAir = try values.decodeIfPresent(Episode.self, forKey: .nextEpisodeToAir)
             networks = NSSet(array: try values.decode([Network].self, forKey: .networks))
