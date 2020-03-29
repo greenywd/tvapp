@@ -11,11 +11,10 @@ import UIKit
 class ShowEpisodeViewController: UITableViewController {
     
     var showID: Int32?
-    var airedSeason: Int16?
+    var seasonNumber: Int16?
     
     var episodes: [Episode]? {
         didSet {
-            self.airedSeason = episodes?.first?.seasonNumber
             episodes = episodes?.sorted(by: { (ep1, ep2) -> Bool in
                 ep1.episodeNumber < ep2.episodeNumber
             })
@@ -26,7 +25,7 @@ class ShowEpisodeViewController: UITableViewController {
         super.viewDidLoad()
         
         if episodes == nil {
-            TMDBAPI.getEpisodes(show: showID!, season: airedSeason!, completion: { (episodes) in
+            TMDBAPI.getEpisodes(show: showID!, season: seasonNumber!, completion: { (episodes) in
                 if let unwrappedEpisodes = episodes {
                     self.episodes = unwrappedEpisodes
                     
@@ -64,13 +63,15 @@ class ShowEpisodeViewController: UITableViewController {
         let alertSheet = UIAlertController(title: "Mark All Episodes as:", message: nil, preferredStyle: .actionSheet)
         alertSheet.addAction(UIAlertAction(title: "Watched", style: .default, handler: { (alertAction) in
             
-            PersistenceService.markEpisodes(for: self.showID!, inSeason: self.airedSeason!, watched: true)
-            self.episodes = PersistenceService.getEpisodes(show: self.showID!, season: self.airedSeason!)
+            PersistenceService.markEpisodes(for: self.showID!, inSeason: self.seasonNumber!, watched: true)
+            // TODO: Watch episodes
+//            self.episodes = PersistenceService.getEpisodes(show: self.showID!, season: self.airedSeason!)
         }))
         
         alertSheet.addAction(UIAlertAction(title: "Watchn't", style: .default, handler: { (alertAction) in
-            PersistenceService.markEpisodes(for: self.showID!, inSeason: self.airedSeason!, watched: false)
-            self.episodes = PersistenceService.getEpisodes(show: self.showID!, season: self.airedSeason!)
+            PersistenceService.markEpisodes(for: self.showID!, inSeason: self.seasonNumber!, watched: false)
+            // TODO: Unwatch episodes
+//            self.episodes = PersistenceService.getEpisodes(show: self.showID!, season: self.airedSeason!)
         }))
         
         alertSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (alertAction) in

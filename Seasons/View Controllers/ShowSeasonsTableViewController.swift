@@ -11,11 +11,17 @@ import UIKit
 class ShowSeasonsTableViewController: UITableViewController {
     
     var showID: Int32!
-    var seasons: [Season]?
+    var seasons: [Season]? {
+        didSet {
+            self.seasons = self.seasons?.sorted(by: { (s1, s2) -> Bool in
+                s2.seasonNumber > s1.seasonNumber
+            })
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.navigationItem.title = "Seasons"
         // Check to see if we've got the show favourited and load the episodes from CoreData if we do.
         // If not, download them
         if let seasons = self.seasons {
@@ -65,8 +71,9 @@ class ShowSeasonsTableViewController: UITableViewController {
         
         // TODO: Setup cells
         if let seasons = self.seasons {
-            cell.textLabel!.text = "Season \(seasons[indexPath.row].seasonNumber)"
-            cell.detailTextLabel!.text = "\(seasons[indexPath.row].episodeCount) episodes"
+            let season = seasons[indexPath.row]
+            cell.textLabel!.text = season.seasonNumber == 0 ? "Specials/Extras" : "Season \(season.seasonNumber)"
+            cell.detailTextLabel!.text = "\(season.episodeCount) episodes"
         }
         return cell
     }
@@ -90,6 +97,7 @@ class ShowSeasonsTableViewController: UITableViewController {
         
         if (segue.identifier == "seasonToShow") {
             episodeVC.showID = showID
+            episodeVC.seasonNumber = seasons![indexPath.row].seasonNumber
         }
     }
     
