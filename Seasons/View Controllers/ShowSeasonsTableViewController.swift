@@ -24,27 +24,25 @@ class ShowSeasonsTableViewController: UITableViewController {
         self.navigationItem.title = "Seasons"
         // Check to see if we've got the show favourited and load the episodes from CoreData if we do.
         // If not, download them
-        if let seasons = self.seasons {
-            if let show = PersistenceService.getShow(id: showID) {
-                self.seasons = show.seasons?.allObjects as? [Season]
-                
-                let markWatchedButtonItem = UIBarButtonItem(image: UIImage(systemName: "doc.plaintext"), style: .plain, target: self, action: #selector(markEpisodes))
-                navigationItem.rightBarButtonItem = markWatchedButtonItem
-                
-            } else {
-                // TODO: Download seasons (from /tv/?)
-            }
+        if let show = PersistenceService.getShow(id: showID) {
+            self.seasons = show.seasons?.allObjects as? [Season]
+            
+            let markWatchedButtonItem = UIBarButtonItem(image: UIImage(systemName: "doc.plaintext"), style: .plain, target: self, action: #selector(markEpisodes))
+            navigationItem.rightBarButtonItem = markWatchedButtonItem
+            
+        } else {
+            // TODO: Download seasons (from /tv/?)
         }
     }
     
     @objc func markEpisodes() {
         let alertSheet = UIAlertController(title: "Mark All Seasons as:", message: nil, preferredStyle: .actionSheet)
         alertSheet.addAction(UIAlertAction(title: "Watched", style: .default, handler: { (alertAction) in
-            // TODO: Mark all seasons as watched
+            PersistenceService.markEpisodes(for: self.showID, watched: true)
         }))
         
         alertSheet.addAction(UIAlertAction(title: "Unwatched", style: .default, handler: { (alertAction) in
-            // TODO: Mark all seasons as unwatched
+            PersistenceService.markEpisodes(for: self.showID, watched: false)
         }))
         
         alertSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (alertAction) in
@@ -69,7 +67,6 @@ class ShowSeasonsTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "seasonCell", for: indexPath)
         
-        // TODO: Setup cells
         if let seasons = self.seasons {
             let season = seasons[indexPath.row]
             cell.textLabel!.text = season.seasonNumber == 0 ? "Specials/Extras" : "Season \(season.seasonNumber)"
