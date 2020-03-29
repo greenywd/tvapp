@@ -16,7 +16,7 @@ struct TMSearchResult: Decodable {
     let popularity: Double
     let originCountry: [String]
     let voteCount: Int
-    let firstAirDate: String
+    let firstAirDate: String?
     let backdropPath: String?
     let originalLanguage: String
     let id: Int
