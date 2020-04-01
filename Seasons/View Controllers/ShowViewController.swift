@@ -61,7 +61,7 @@ class ShowViewController: UITableViewController {
                     self.show = show
                     
                     if let backdrop = self.show.backdropImage, let image = UIImage(data: backdrop) {
-                        self.show.backdropImage = image.pngData()
+                        self.show.backdropImage = image.jpegData(compressionQuality: 0.85)
                     } else {
                         DispatchQueue.global(qos: .userInitiated).async {
                             let bannerURL = URL(string: "https://image.tmdb.org/t/p/original" + self.show.backdropPath!)
@@ -134,7 +134,7 @@ class ShowViewController: UITableViewController {
         
         setupRightBarButtonItem(isBusy: true)
         // Workaround for accessing UI from background thread
-        let headerImage = self.headerImageView?.image?.pngData()
+        let headerImage = self.headerImageView?.image?.jpegData(compressionQuality: 0.85)
         self.show.backdropImage = headerImage
         DispatchQueue.global(qos: .userInteractive).async {
 
@@ -145,11 +145,11 @@ class ShowViewController: UITableViewController {
                 TMDBAPI.getEpisodes(show: self.show.id, season: season.seasonNumber) { (episodes) in
                     if let episodes = episodes {
                         season.addToEpisodes(NSSet(array: episodes))
+                        
+                        if season.seasonNumber == self.show.numberOfSeasons {
+                            dispatchGroup.leave()
+                        }
                     }
-                }
-                
-                if season.seasonNumber == self.show.numberOfSeasons {
-                    dispatchGroup.leave()
                 }
             }
             
