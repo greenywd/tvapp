@@ -109,7 +109,7 @@
         <element name="Genre" positionX="-537" positionY="365" width="128" height="88"/>
         <element name="Guest" positionX="273" positionY="369" width="128" height="163"/>
         <element name="Network" positionX="-510" positionY="514" width="128" height="118"/>
-        <element name="Season" positionX="-104.2421875" positionY="336.828125" width="128" height="28"/>
+        <element name="Season" positionX="-104.2421875" positionY="336.828125" width="128" height="178"/>
         <element name="Show" positionX="-278" positionY="220" width="128" height="478"/>
     </elements>
 </model>

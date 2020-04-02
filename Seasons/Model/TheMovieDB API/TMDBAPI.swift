@@ -148,6 +148,7 @@ class TMDBAPI {
                 }
                 os_log("Successfully retrieved %d episodes for show with id %d in %@", log: .networking, type: .info, episodes.count, show, #function)
                 completion(episodes.allObjects as? [Episode])
+                PersistenceService.temporaryContext.delete(seasonDetails)
             } catch {
                 print(error)
                 os_log("Failed to decode response with: '%@' in %@ with parameters (%d, %d)", log: .networking, type: .error, error.localizedDescription, #function, show, season)
