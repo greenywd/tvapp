@@ -41,6 +41,8 @@ class SearchViewController : UITableViewController {
         "Breaking Bad"
     ]
     
+    let cache = NSCache<NSString, UIImage>()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -120,7 +122,7 @@ extension SearchViewController : UISearchResultsUpdating, UISearchBarDelegate {
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         tableView.beginUpdates()
-
+        
         for i in 0..<searchResults.count {
             let indexPath = IndexPath(row: i, section: 0)
             tableView.deleteRows(at: [indexPath], with: .right)
@@ -145,6 +147,21 @@ extension SearchViewController : UISearchResultsUpdating, UISearchBarDelegate {
             // cell.show = show
             cell.titleLabel.text = show.name
             cell.detailLabel.text = show.overview
+            if let backdropPath = show.backdropPath {
+                if let cachedImage = self.cache.object(forKey: NSString(string: "\(show.id)")) {
+                    cell.backgroundImageView.image = cachedImage
+                } else {
+                    DispatchQueue.global(qos: .userInteractive).async {
+                        let dataForImage = try? Data(contentsOf: TMDBAPI.createImageURL(path: backdropPath)!)
+                        if let image = dataForImage {
+                            DispatchQueue.main.async {
+                                cell.backgroundImageView.image = UIImage(data: image)
+                                self.cache.setObject(cell.backgroundImageView.image!, forKey: NSString(string: "\(show.id)"))
+                            }
+                        }
+                    }
+                }
+            }
         }
         
         return cell
