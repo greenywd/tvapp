@@ -139,7 +139,7 @@ extension HomeViewController : UISearchResultsUpdating, UISearchBarDelegate {
             cell = noFavouritesRow
         } else {
             let show = isFiltering() ? filteredFavouriteShows[indexPath.row] : favouriteShows[indexPath.row]
-            cell.show = show
+
             cell.titleLabel.text = show.name
             cell.detailLabel.text = show.overview
             

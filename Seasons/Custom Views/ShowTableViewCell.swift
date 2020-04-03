@@ -14,40 +14,12 @@ class ShowTableViewCell : UITableViewCell {
     @IBOutlet var titleLabel: UILabel!
     @IBOutlet var detailLabel: UILabel!
     
-    var show: Show? { didSet { updateCell() } }
+    var backgroundURL: URL?
     
     override func prepareForReuse() {
         super.prepareForReuse()
+        titleLabel.text = nil
+        detailLabel.text = nil
         backgroundImageView.image = nil
-        show = nil
-    }
-    
-    func updateCell() {
-        if let show = show {
-            if (show.backdropPath?.count == 0) {
-                return
-            }
-            
-            if let banner = show.backdropImage, let image = UIImage(data: banner) {
-                backgroundImageView.image = image
-            } else {
-                if let bannerURL = show.backdropPath {
-                    let url = URL(string: "https://image.tmdb.org/t/p/original/" + bannerURL)!
-                    
-                    if backgroundImageView.image == nil {
-                        print("CELL URL \(bannerURL)")
-                        DispatchQueue.global(qos: .userInteractive).async {
-                            let dataForImage = try? Data(contentsOf: url)
-                            
-                            DispatchQueue.main.async {
-                                if let image = dataForImage {
-                                    self.backgroundImageView.image = UIImage(data: image)
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
     }
 }
