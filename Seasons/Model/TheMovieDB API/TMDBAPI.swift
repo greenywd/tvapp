@@ -163,7 +163,7 @@ class TMDBAPI {
         case backdrop, logo, poster, profile
     }
     
-    static func createImageURL(path: String, imageType: ImageType) -> URL? {
+    static func createImageURL(path: String) -> URL? {
         if let fullURL = URL(string: "https://image.tmdb.org/t/p/original\(path)") {
             return fullURL
         }
