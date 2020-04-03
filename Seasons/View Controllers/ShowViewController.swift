@@ -143,7 +143,23 @@ class ShowViewController: UITableViewController {
             
             for season in self.show.seasons as! Set<Season> {
                 TMDBAPI.getEpisodes(show: self.show.id, season: season.seasonNumber) { (episodes) in
-                    if let episodes = episodes {
+                    if var episodes = episodes {
+                        for episode in episodes {
+                            if (episode.id == self.show.lastEpisodeToAir?.id) {
+                                if let _ = self.show.lastEpisodeToAir {
+                                    self.show.lastEpisodeToAir = episode
+                                    season.addToEpisodes(self.show.lastEpisodeToAir!)
+                                    episodes.remove(at: episodes.firstIndex(of: episode)!)
+                                }
+                            } else if (episode.id == self.show.nextEpisodeToAir?.id) {
+                                if let _ = self.show.nextEpisodeToAir {
+                                    self.show.nextEpisodeToAir = episode
+                                    season.addToEpisodes(self.show.nextEpisodeToAir!)
+                                    episodes.remove(at: episodes.firstIndex(of: episode)!)
+                                }
+                            }
+                        }
+
                         season.addToEpisodes(NSSet(array: episodes))
                         
                         if season.seasonNumber == self.show.numberOfSeasons {
