@@ -10,8 +10,8 @@ import UIKit
 
 class ShowEpisodeViewController: UITableViewController {
     
-    var showID: Int32?
-    var seasonNumber: Int16?
+    var showID: Int32 = 0
+    var seasonNumber: Int16 = 0
     
     var episodes: [Episode]? {
         didSet {
@@ -21,11 +21,17 @@ class ShowEpisodeViewController: UITableViewController {
         }
     }
     
+    let cache = NSCache<NSString, UIImage>()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.navigationItem.title = seasonNumber == 0 ? "Specials/Extras" : "Season \(seasonNumber)"
+        if (PersistenceService.showExists(id: showID)) {
+            episodes = PersistenceService.getEpisodes(show: showID, season: seasonNumber)
+        }
         
         if episodes == nil {
-            TMDBAPI.getEpisodes(show: showID!, season: seasonNumber!, completion: { (episodes) in
+            TMDBAPI.getEpisodes(show: showID, season: seasonNumber, completion: { (episodes) in
                 if let unwrappedEpisodes = episodes {
                     self.episodes = unwrappedEpisodes
                     
@@ -36,12 +42,12 @@ class ShowEpisodeViewController: UITableViewController {
             })
         }
         
-        if (PersistenceService.showExists(id: showID!)) {
+        if (PersistenceService.showExists(id: showID)) {
             let markWatchedButtonItem = UIBarButtonItem(image: UIImage(systemName: "doc.plaintext"), style: .plain, target: self, action: #selector(markEpisodes))
             navigationItem.rightBarButtonItem = markWatchedButtonItem
         }
         
-        tableView.register(UINib(nibName: "EpisodeTableViewCell", bundle: nil), forCellReuseIdentifier: "episodeCell")
+        tableView.register(UINib(nibName: "ShowTableViewCell", bundle: nil), forCellReuseIdentifier: "showCell")
         
         tableView.dataSource = self
         tableView.delegate = self
@@ -63,13 +69,13 @@ class ShowEpisodeViewController: UITableViewController {
         let alertSheet = UIAlertController(title: "Mark All Episodes as:", message: nil, preferredStyle: .actionSheet)
         alertSheet.addAction(UIAlertAction(title: "Watched", style: .default, handler: { (alertAction) in
             
-            PersistenceService.markEpisodes(for: self.showID!, inSeason: self.seasonNumber!, watched: true)
+            PersistenceService.markEpisodes(for: self.showID, inSeason: self.seasonNumber, watched: true)
             // TODO: Watch episodes
 //            self.episodes = PersistenceService.getEpisodes(show: self.showID!, season: self.airedSeason!)
         }))
         
         alertSheet.addAction(UIAlertAction(title: "Watchn't", style: .default, handler: { (alertAction) in
-            PersistenceService.markEpisodes(for: self.showID!, inSeason: self.seasonNumber!, watched: false)
+            PersistenceService.markEpisodes(for: self.showID, inSeason: self.seasonNumber, watched: false)
             // TODO: Unwatch episodes
 //            self.episodes = PersistenceService.getEpisodes(show: self.showID!, season: self.airedSeason!)
         }))
@@ -81,7 +87,7 @@ class ShowEpisodeViewController: UITableViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        guard let selectedTableViewCell = sender as? EpisodeTableViewCell,
+        guard let selectedTableViewCell = sender as? ShowTableViewCell,
             let indexPath = tableView.indexPath(for: selectedTableViewCell)
             else { preconditionFailure("Expected sender to be a EpisodeTableViewCell") }
         
@@ -102,10 +108,29 @@ class ShowEpisodeViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "episodeCell") as! EpisodeTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "showCell") as! ShowTableViewCell
         
         if let episodes = self.episodes {
-            cell.episode = episodes[indexPath.row]
+            let episode = episodes[indexPath.row]
+            
+            cell.titleLabel.text = episode.name
+            cell.detailLabel.text = episode.overview
+            
+            if let stillPath = episode.stillPath {
+                if let cachedImage = self.cache.object(forKey: NSString(string: "\(episode.id)")) {
+                    cell.backgroundImageView.image = cachedImage
+                } else {
+                    DispatchQueue.global(qos: .userInteractive).async {
+                        let dataForImage = try? Data(contentsOf: TMDBAPI.createImageURL(path: stillPath)!)
+                        if let image = dataForImage {
+                            DispatchQueue.main.async {
+                                cell.backgroundImageView.image = UIImage(data: image)
+                                self.cache.setObject(cell.backgroundImageView.image!, forKey: NSString(string: "\(episode.id)"))
+                            }
+                        }
+                    }
+                }
+            }
         }
         
         return cell
@@ -113,7 +138,7 @@ class ShowEpisodeViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         if(!episodes!.isEmpty) {
-            if let _ = PersistenceService.getShow(id: showID!) {
+            if let _ = PersistenceService.getShow(id: showID) {
                 let episode = episodes![indexPath.row]
                 
                 if (episode.hasWatched == true) {
