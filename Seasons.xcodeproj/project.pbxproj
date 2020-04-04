@@ -13,8 +13,6 @@
 		D618197022BCF5AE0080D62F /* SeasonsHeaderImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D618196F22BCF5AE0080D62F /* SeasonsHeaderImageView.swift */; };
 		D61FFE05226B2F72004A0F46 /* URLResponse+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D61FFE04226B2F72004A0F46 /* URLResponse+Extensions.swift */; };
 		D626ED742387FC4400C8EAE8 /* TVDBAPI+Background.swift in Sources */ = {isa = PBXBuildFile; fileRef = D626ED732387FC4400C8EAE8 /* TVDBAPI+Background.swift */; };
-		D62CD16722C49D78004721F6 /* EpisodeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D62CD16622C49D78004721F6 /* EpisodeTableViewCell.swift */; };
-		D62CD16922C49FEB004721F6 /* EpisodeTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D62CD16822C49FEB004721F6 /* EpisodeTableViewCell.xib */; };
 		D62CD16B22C4A387004721F6 /* EpisodeTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D62CD16A22C4A387004721F6 /* EpisodeTableViewController.swift */; };
 		D634139E23FCB28600C7A92A /* Settings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D634139D23FCB28600C7A92A /* Settings.storyboard */; };
 		D637D9A9240F45AE00A3F094 /* SettingsSupportTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D637D9A8240F45AE00A3F094 /* SettingsSupportTableViewController.swift */; };
@@ -83,8 +81,6 @@
 		D618196F22BCF5AE0080D62F /* SeasonsHeaderImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeasonsHeaderImageView.swift; sourceTree = "<group>"; };
 		D61FFE04226B2F72004A0F46 /* URLResponse+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLResponse+Extensions.swift"; sourceTree = "<group>"; };
 		D626ED732387FC4400C8EAE8 /* TVDBAPI+Background.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TVDBAPI+Background.swift"; sourceTree = "<group>"; };
-		D62CD16622C49D78004721F6 /* EpisodeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EpisodeTableViewCell.swift; sourceTree = "<group>"; };
-		D62CD16822C49FEB004721F6 /* EpisodeTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EpisodeTableViewCell.xib; sourceTree = "<group>"; };
 		D62CD16A22C4A387004721F6 /* EpisodeTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EpisodeTableViewController.swift; sourceTree = "<group>"; };
 		D634139D23FCB28600C7A92A /* Settings.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Settings.storyboard; sourceTree = "<group>"; };
 		D637D9A8240F45AE00A3F094 /* SettingsSupportTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsSupportTableViewController.swift; sourceTree = "<group>"; };
@@ -284,8 +280,6 @@
 				D6D94ABB2286ED2900A405B5 /* ShowTableViewCell.swift */,
 				D64FC0FD229FD9D8007281BF /* ShowTableViewCell.xib */,
 				D618196F22BCF5AE0080D62F /* SeasonsHeaderImageView.swift */,
-				D62CD16622C49D78004721F6 /* EpisodeTableViewCell.swift */,
-				D62CD16822C49FEB004721F6 /* EpisodeTableViewCell.xib */,
 			);
 			path = "Custom Views";
 			sourceTree = "<group>";
@@ -382,7 +376,6 @@
 				D60E823122CC83F400310FE0 /* Main.storyboard in Resources */,
 				D63D0A541E2845ED00D3F1CA /* LaunchScreen.storyboard in Resources */,
 				D634139E23FCB28600C7A92A /* Settings.storyboard in Resources */,
-				D62CD16922C49FEB004721F6 /* EpisodeTableViewCell.xib in Resources */,
 				D63D0A511E2845ED00D3F1CA /* Assets.xcassets in Resources */,
 				D64C7CCE23FF5EE4004C8053 /* Show.storyboard in Resources */,
 			);
@@ -440,7 +433,6 @@
 				D6145519228AECC000F842C6 /* UILabel+Extensions.swift in Sources */,
 				D6EBBB932286E1A7005321C3 /* ShowEpisodeViewController.swift in Sources */,
 				D6A94E8F22FD886300EC9C47 /* DateFormatter+Extensions.swift in Sources */,
-				D62CD16722C49D78004721F6 /* EpisodeTableViewCell.swift in Sources */,
 				D64C8B66228C236D00049F86 /* Seasons.xcdatamodeld in Sources */,
 				D6D94ABC2286ED2900A405B5 /* ShowTableViewCell.swift in Sources */,
 				D6523B0C241DB6FD002C88D8 /* TMSearchResult.swift in Sources */,
