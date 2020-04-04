@@ -14,8 +14,6 @@ class ShowTableViewCell : UITableViewCell {
     @IBOutlet var titleLabel: UILabel!
     @IBOutlet var detailLabel: UILabel!
     
-    var backgroundURL: URL?
-    
     override func prepareForReuse() {
         super.prepareForReuse()
         titleLabel.text = nil
