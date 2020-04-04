@@ -143,7 +143,7 @@ extension HomeViewController : UISearchResultsUpdating, UISearchBarDelegate {
             cell.titleLabel.text = show.name
             cell.detailLabel.text = show.overview
             
-            if let backgroundImageData = show.image {
+            if let backgroundImageData = show.backdropImage {
                 if let backgroundImage = UIImage(data: backgroundImageData) {
                     cell.backgroundImageView.image = backgroundImage
                 }
