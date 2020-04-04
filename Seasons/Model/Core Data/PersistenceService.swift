@@ -214,7 +214,7 @@ class PersistenceService {
     static func getShows() -> [Show]? {
         var favouriteShows = [Show]()
         
-        let fetchRequest: NSFetchRequest<Show> = Show.fetchRequest()
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: showEntity)
         do {
             let shows = try self.context.fetch(fetchRequest)
             
@@ -223,7 +223,7 @@ class PersistenceService {
             }
             
             for show in shows {
-                favouriteShows.append(show)
+                favouriteShows.append(show as! Show)
             }
             
             os_log("Got %d shows for fetch request %@.", log: .coredata, shows.count, #function)

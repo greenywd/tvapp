@@ -20,13 +20,13 @@ public class Season: NSManagedObject, Decodable {
         
         let values = try decoder.container(keyedBy: CodingKeys.self)
         do {
-            airDate = try values.decode(Date.self, forKey: .airDate)
+            airDate = try values.decodeIfPresent(Date.self, forKey: .airDate)
             episodeCount = try values.decodeIfPresent(Int16.self, forKey: .episodeCount) ?? 0
             id = try values.decode(Int32.self, forKey: .id)
             name = try values.decode(String.self, forKey: .name)
             episodes = NSSet(array: try values.decodeIfPresent([Episode].self, forKey: .episodes) ?? [])
             overview = try values.decode(String.self, forKey: .overview)
-            posterPath = try values.decode(String.self, forKey: .posterPath)
+            posterPath = try values.decodeIfPresent(String.self, forKey: .posterPath)
             seasonNumber = try values.decode(Int16.self, forKey: .seasonNumber)
         }
     }
