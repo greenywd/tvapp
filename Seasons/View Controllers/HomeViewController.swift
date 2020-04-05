@@ -34,15 +34,15 @@ class HomeViewController: UITableViewController {
         
         refreshControl?.addTarget(self, action: #selector(refresh), for: UIControl.Event.valueChanged)
         
-        NotificationCenter.default.addObserver(self, selector: #selector(contextObjectsDidChange(_:)), name: .NSManagedObjectContextObjectsDidChange, object: nil)
+        // NotificationCenter.default.addObserver(self, selector: #selector(contextObjectsDidChange(_:)), name: .NSManagedObjectContextObjectsDidChange, object: nil)
     }
     
-    @objc func contextObjectsDidChange(_ notification: Notification) {
-        os_log("Received notification: %@.", log: .ui, notification.debugDescription)
-        DispatchQueue.main.async {
-            self.updateFavouriteShows()
-        }
-    }
+//    @objc func contextObjectsDidChange(_ notification: Notification) {
+//        os_log("Received notification: %@.", log: .ui, notification..)
+//        DispatchQueue.main.async {
+//            self.updateFavouriteShows()
+//        }
+//    }
     
     @objc func refresh() {
         PersistenceService.context.refreshAllObjects()

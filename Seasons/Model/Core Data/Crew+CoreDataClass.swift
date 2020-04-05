@@ -22,7 +22,7 @@ public class Crew: NSManagedObject, Decodable {
         do {
             creditID = try values.decode(String.self, forKey: .creditID)
             department = try values.decode(String.self, forKey: .department)
-            gender = try values.decode(Int16.self, forKey: .gender)
+            gender = try values.decodeIfPresent(Int16.self, forKey: .gender) ?? 0
             id = try values.decode(Int32.self, forKey: .id)
             job = try values.decode(String.self, forKey: .job)
             name = try values.decode(String.self, forKey: .name)
