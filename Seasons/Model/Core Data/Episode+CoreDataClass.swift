@@ -31,7 +31,7 @@ public class Episode: NSManagedObject, Decodable {
             productionCode = try values.decode(String.self, forKey: .productionCode)
             seasonNumber = try values.decode(Int16.self, forKey: .seasonNumber)
             showID = try values.decode(Int32.self, forKey: .showID)
-            stillPath = try values.decode(String.self, forKey: .stillPath)
+            stillPath = try values.decodeIfPresent(String.self, forKey: .stillPath)
             voteAverage = try values.decode(Double.self, forKey: .voteAverage)
             voteCount = try values.decode(Int16.self, forKey: .voteCount)
         }
