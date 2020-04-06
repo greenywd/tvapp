@@ -166,7 +166,13 @@ class ShowViewController: UITableViewController {
             
             dispatchGroup.notify(queue: .main) {
                 do {
-                    try PersistenceService.temporaryContext.save()
+                    PersistenceService.temporaryContext.perform {
+                        do {
+                            try PersistenceService.temporaryContext.save()
+                        } catch {
+                            os_log("Failed to save context temporaryContext with %@", log: .networking, type: .error, error.localizedDescription)
+                        }
+                    }
                     try PersistenceService.context.save()
                 } catch {
                     os_log("Failed to save context temporaryContext with %@", log: .networking, type: .error, error.localizedDescription)
