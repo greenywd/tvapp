@@ -112,7 +112,7 @@ class TMDBAPI {
         showTask.resume()
     }
     
-    static func getEpisodes(show: Int32, season: Int16, completion: @escaping ([Episode]?) -> Void) {
+    static func getEpisodes(show: Int32, season: Int16, isSaving: Bool = false, completion: @escaping ([Episode]?) -> Void) {
         let episodeURLString = "https://api.themoviedb.org/3/tv/\(show)/season/\(season)?api_key=\(TMDBAPIKey)&language=en-US"
         
         guard let episodesURL = URL(string: episodeURLString) else {
@@ -142,13 +142,16 @@ class TMDBAPI {
                 let seasonDetails = try decoder.decode(Season.self, from: responseData)
                 
                 guard let episodes = seasonDetails.episodes else {
-                    os_log("No shows returned from search.", log: .networking, type: .info)
+                    os_log("No episodes returned from season %d.", log: .networking, type: .info, seasonDetails.seasonNumber)
                     completion(nil)
                     return
                 }
                 os_log("Successfully retrieved %d episodes for show with id %d in %@", log: .networking, type: .info, episodes.count, show, #function)
-                completion(episodes.allObjects as? [Episode])
-                PersistenceService.temporaryContext.delete(seasonDetails)
+                let copiedEpisodes = episodes.allObjects as? [Episode]
+                completion(copiedEpisodes)
+                if (isSaving) {
+                    PersistenceService.temporaryContext.delete(seasonDetails)
+                }
             } catch {
                 print(error)
                 os_log("Failed to decode response with: '%@' in %@ with parameters (%d, %d)", log: .networking, type: .error, error.localizedDescription, #function, show, season)

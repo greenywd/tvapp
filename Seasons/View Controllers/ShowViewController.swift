@@ -143,7 +143,7 @@ class ShowViewController: UITableViewController {
             dispatchGroup.enter()
             
             for season in self.show.seasons as! Set<Season> {
-                TMDBAPI.getEpisodes(show: self.show.id, season: season.seasonNumber) { (fetchedEpisodes) in
+                TMDBAPI.getEpisodes(show: self.show.id, season: season.seasonNumber, isSaving: true) { (fetchedEpisodes) in
                     if var episodes = fetchedEpisodes {
                         for episode in episodes {
                             if (episode.id == self.show.lastEpisodeToAir?.id) {
