@@ -9,8 +9,6 @@
 import os
 import Foundation
 
-
-
 extension OSLog {
     private static let subsystem = Bundle.main.bundleIdentifier!
     static let networking = OSLog(subsystem: subsystem, category: "Networking")
