@@ -22,9 +22,7 @@ public class Episode: NSManagedObject, Decodable {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         do {
             airDate = try values.decodeIfPresent(Date.self, forKey: .airDate)
-            crew = NSSet(array: try values.decodeIfPresent([Crew].self, forKey: .crew) ?? [])
             episodeNumber = try values.decode(Int32.self, forKey: .episodeNumber)
-            guestStars = NSSet(array: try values.decodeIfPresent([Guest].self, forKey: .guestStars) ?? [])
             id = try values.decode(Int32.self, forKey: .id)
             name = try values.decode(String.self, forKey: .name)
             overview = try values.decode(String.self, forKey: .overview)

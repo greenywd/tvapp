@@ -111,34 +111,34 @@ class ScheduleTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        if (segmentedControl.selectedSegmentIndex == 1) {
-            let section = airDates![indexPath.section]
-            let episode = episodes!.filter { $0.airDate == section }[indexPath.row]
-            
-            if let _ = PersistenceService.getShow(id: episode.showID) {
-                let watchItem = UIContextualAction(style: .normal, title: "Watched") { (action, view, success) in
-                    self.episodes![indexPath.row].hasWatched = true
-                    PersistenceService.markEpisode(id: episode.id, watched: true)
-                    
-                    // Perhaps use multi-dimensional arrays instead? Should be a bit faster than filtering over everything.
-                    self.episodes = self.episodes?.filter { $0.id != episode.id }
-                    
-                    if self.episodes!.isEmpty {
-                        tableView.deleteRows(at: [indexPath], with: .automatic)
-                    } else {
-                        tableView.deleteRows(at: [indexPath], with: .automatic)
-                        
-                        if (tableView.numberOfRows(inSection: indexPath.section) == 0) {
-                            self.airDates?.remove(at: indexPath.section)
-                            tableView.deleteSections([indexPath.section], with: .automatic)
-                        }
-                    }
-                    
-                    success(true)
-                }
-                return UISwipeActionsConfiguration(actions: [watchItem])
-            }
-        }
+//        if (segmentedControl.selectedSegmentIndex == 1) {
+//            let section = airDates![indexPath.section]
+//            let episode = episodes!.filter { $0.airDate == section }[indexPath.row]
+//            
+//            if let _ = PersistenceService.getShow(id: episode.showID) {
+//                let watchItem = UIContextualAction(style: .normal, title: "Watched") { (action, view, success) in
+//                    self.episodes![indexPath.row].hasWatched = true
+//                    PersistenceService.markEpisode(id: episode.id, watched: true)
+//                    
+//                    // Perhaps use multi-dimensional arrays instead? Should be a bit faster than filtering over everything.
+//                    self.episodes = self.episodes?.filter { $0.id != episode.id }
+//                    
+//                    if self.episodes!.isEmpty {
+//                        tableView.deleteRows(at: [indexPath], with: .automatic)
+//                    } else {
+//                        tableView.deleteRows(at: [indexPath], with: .automatic)
+//                        
+//                        if (tableView.numberOfRows(inSection: indexPath.section) == 0) {
+//                            self.airDates?.remove(at: indexPath.section)
+//                            tableView.deleteSections([indexPath.section], with: .automatic)
+//                        }
+//                    }
+//                    
+//                    success(true)
+//                }
+//                return UISwipeActionsConfiguration(actions: [watchItem])
+//            }
+//        }
         return nil
     }
 }

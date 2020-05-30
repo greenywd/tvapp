@@ -179,22 +179,22 @@ extension HomeViewController : UISearchResultsUpdating, UISearchBarDelegate {
     }
     
     override func tableView(_ tableView: UITableView, contextMenuConfigurationForRowAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
-        if (!favouriteShows.isEmpty) {
-            let showID = favouriteShows[indexPath.row].id
-            
-            return UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { suggestedActions in
-                
-                let watched = UIAction(title: "Watched", image: UIImage(systemName: "tv.fill")) { action in
-                    PersistenceService.markEpisodes(for: showID, watched: true)
-                }
-                
-                let unwatched = UIAction(title: "Watchn't", image: UIImage(systemName: "tv")) { action in
-                    PersistenceService.markEpisodes(for: showID, watched: false)
-                }
-                
-                return UIMenu(title: "Mark Show as:", children: [watched, unwatched])
-            }
-        }
+//        if (!favouriteShows.isEmpty) {
+//            let showID = favouriteShows[indexPath.row].id
+//            
+//            return UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { suggestedActions in
+//                
+//                let watched = UIAction(title: "Watched", image: UIImage(systemName: "tv.fill")) { action in
+//                    PersistenceService.markEpisodes(for: showID, watched: true)
+//                }
+//                
+//                let unwatched = UIAction(title: "Watchn't", image: UIImage(systemName: "tv")) { action in
+//                    PersistenceService.markEpisodes(for: showID, watched: false)
+//                }
+//                
+//                return UIMenu(title: "Mark Show as:", children: [watched, unwatched])
+//            }
+//        }
         return nil
     }
     

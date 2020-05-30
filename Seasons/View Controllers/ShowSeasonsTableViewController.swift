@@ -38,11 +38,11 @@ class ShowSeasonsTableViewController: UITableViewController {
     @objc func markEpisodes() {
         let alertSheet = UIAlertController(title: "Mark All Seasons as:", message: nil, preferredStyle: .actionSheet)
         alertSheet.addAction(UIAlertAction(title: "Watched", style: .default, handler: { (alertAction) in
-            PersistenceService.markEpisodes(for: self.showID, watched: true)
+            // PersistenceService.markEpisodes(for: self.showID, watched: true)
         }))
         
         alertSheet.addAction(UIAlertAction(title: "Unwatched", style: .default, handler: { (alertAction) in
-            PersistenceService.markEpisodes(for: self.showID, watched: false)
+            // PersistenceService.markEpisodes(for: self.showID, watched: false)
         }))
         
         alertSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (alertAction) in

@@ -115,84 +115,86 @@ class PersistenceService {
         }
     }
     
-    static func markEpisode(id: Int32, watched: Bool) {
-        DispatchQueue.global(qos: .userInitiated).async {
-            do {
-                let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: episodeEntity)
-                fetchRequest.predicate = NSPredicate(format: "id = %@", NSNumber(value: id))
-                
-                let episode = try self.context.fetch(fetchRequest).first as! Episode
+// TODO: This thing
+    
+//    static func markEpisode(id: Int32, watched: Bool) {
+//        DispatchQueue.global(qos: .userInitiated).async {
+//            do {
+//                let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: episodeEntity)
+//                fetchRequest.predicate = NSPredicate(format: "id = %@", NSNumber(value: id))
+//
+//                let episode = try self.context.fetch(fetchRequest).first as! Episode
+//
+//                episode.hasWatched = watched
+//                PersistenceService.saveContext()
+//
+//            } catch {
+//                os_log("Failed to execute the fetch request (%@) with %@.", log: .coredata, type: .error, #function , error.localizedDescription)
+//            }
+//        }
+//    }
+//
+//    static func markEpisodes(ids: [Int32], watched: Bool) {
+//        DispatchQueue.global(qos: .userInitiated).async {
+//            for id in ids {
+//                do {
+//                    let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: episodeEntity)
+//                    fetchRequest.predicate = NSPredicate(format: "id = %@", NSNumber(value: id))
+//
+//                    let episode = try self.context.fetch(fetchRequest).first as! Episode
+//
+//                    episode.hasWatched = watched
+//                    PersistenceService.saveContext()
+//
+//                } catch {
+//                    os_log("Failed to execute the fetch request (%@) with %@.", log: .coredata, type: .error, #function , error.localizedDescription)
+//                }
+//            }
+//        }
+//    }
+//
+//    static func markEpisodes(for showID: Int32, inSeason airedSeason: Int16, watched: Bool) {
+//        DispatchQueue.global(qos: .userInitiated).async {
+//            do {
+//                let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: episodeEntity)
+//
+//                let seriesIDPredicate = NSPredicate(format: "showID = %@", NSNumber(value: showID))
+//                let airedSeasonPredicate = NSPredicate(format: "seasonNumber = %@", NSNumber(value: airedSeason))
+//                fetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [seriesIDPredicate, airedSeasonPredicate])
+//
+//                let episode = try PersistenceService.context.fetch(fetchRequest) as! [Episode]
+//
+//                for ep in episode {
+//                    ep.hasWatched = watched
+//                }
+//
+//                PersistenceService.saveContext()
+//
+//            } catch {
+//                os_log("Failed to execute the fetch request (%@) with %@.", log: .coredata, type: .error, #function , error.localizedDescription)
+//            }
+//        }
+//    }
 
-                episode.hasWatched = watched
-                PersistenceService.saveContext()
-                
-            } catch {
-                os_log("Failed to execute the fetch request (%@) with %@.", log: .coredata, type: .error, #function , error.localizedDescription)
-            }
-        }
-    }
-    
-    static func markEpisodes(ids: [Int32], watched: Bool) {
-        DispatchQueue.global(qos: .userInitiated).async {
-            for id in ids {
-                do {
-                    let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: episodeEntity)
-                    fetchRequest.predicate = NSPredicate(format: "id = %@", NSNumber(value: id))
-                    
-                    let episode = try self.context.fetch(fetchRequest).first as! Episode
-
-                    episode.hasWatched = watched
-                    PersistenceService.saveContext()
-                    
-                } catch {
-                    os_log("Failed to execute the fetch request (%@) with %@.", log: .coredata, type: .error, #function , error.localizedDescription)
-                }
-            }
-        }
-    }
-    
-    static func markEpisodes(for showID: Int32, inSeason airedSeason: Int16, watched: Bool) {
-        DispatchQueue.global(qos: .userInitiated).async {
-            do {
-                let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: episodeEntity)
-                
-                let seriesIDPredicate = NSPredicate(format: "showID = %@", NSNumber(value: showID))
-                let airedSeasonPredicate = NSPredicate(format: "seasonNumber = %@", NSNumber(value: airedSeason))
-                fetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [seriesIDPredicate, airedSeasonPredicate])
-                
-                let episode = try PersistenceService.context.fetch(fetchRequest) as! [Episode]
-                
-                for ep in episode {
-                    ep.hasWatched = watched
-                }
-                
-                PersistenceService.saveContext()
-                
-            } catch {
-                os_log("Failed to execute the fetch request (%@) with %@.", log: .coredata, type: .error, #function , error.localizedDescription)
-            }
-        }
-    }
-    
-    static func markEpisodes(for showID: Int32, watched: Bool) {
-        DispatchQueue.global(qos: .userInitiated).async {
-            do {
-                let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: episodeEntity)
-                fetchRequest.predicate = NSPredicate(format: "showID = %@", NSNumber(value: showID))
-                
-                let episode = try PersistenceService.context.fetch(fetchRequest) as! [Episode]
-                
-                for ep in episode {
-                    ep.hasWatched = watched
-                }
-                
-                PersistenceService.saveContext()
-                
-            } catch {
-                os_log("Failed to execute the fetch request (%@) with %@.", log: .coredata, type: .error, #function , error.localizedDescription)
-            }
-        }
-    }
+//    static func markEpisodes(for showID: Int32, watched: Bool) {
+//        DispatchQueue.global(qos: .userInitiated).async {
+//            do {
+//                let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: episodeEntity)
+//                fetchRequest.predicate = NSPredicate(format: "showID = %@", NSNumber(value: showID))
+//
+//                let episode = try PersistenceService.context.fetch(fetchRequest) as! [Episode]
+//
+//                for ep in episode {
+//                    ep.hasWatched = watched
+//                }
+//
+//                PersistenceService.saveContext()
+//
+//            } catch {
+//                os_log("Failed to execute the fetch request (%@) with %@.", log: .coredata, type: .error, #function , error.localizedDescription)
+//            }
+//        }
+//    }
     
     static func markAllEpisodes(watched: Bool) {
         DispatchQueue.global(qos: .userInitiated).async {
@@ -412,28 +414,6 @@ class PersistenceService {
                 }
             }
             completion(updatedShows)
-        }
-    }
-    
-    /// Force update all episodes of favourite shows
-    /// - Parameter completion: <#completion description#>
-    static func updateEpisodes(completion: ([Int32 : Bool]) -> () = {_ in}) {
-        // Get all current favourite shows' IDs
-        if let favouriteShows = self.getShows() {
-            // Create an array of all IDs
-            let ids = favouriteShows.map { $0.id }
-            
-            for id in ids {
-                // For each episode, make an API call
-                let currentShow = favouriteShows.first(where: { $0.id == id })!
-                for season in currentShow.seasons! as! Set<Season> {
-                    TMDBAPI.getEpisodes(show: id, season: season.seasonNumber) { (episodes) in
-                        if let unwrappedEpisodes = episodes {
-                            season.addToEpisodes(NSSet(array: unwrappedEpisodes))
-                        }
-                    }
-                }
-            }
         }
     }
     

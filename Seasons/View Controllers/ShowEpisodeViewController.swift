@@ -27,22 +27,15 @@ class ShowEpisodeViewController: UITableViewController {
         super.viewDidLoad()
         self.navigationItem.title = seasonNumber == 0 ? "Specials/Extras" : "Season \(seasonNumber)"
         
-        if (PersistenceService.showExists(id: showID)) {
-            episodes = PersistenceService.getEpisodes(show: showID, season: seasonNumber)
-            
-            let markWatchedButtonItem = UIBarButtonItem(image: UIImage(systemName: "doc.plaintext"), style: .plain, target: self, action: #selector(markEpisodes))
-            navigationItem.rightBarButtonItem = markWatchedButtonItem
-        } else {
-            TMDBAPI.getEpisodes(show: showID, season: seasonNumber, completion: { (episodes) in
-                if let unwrappedEpisodes = episodes {
-                    self.episodes = unwrappedEpisodes
-                    
-                    DispatchQueue.main.async {
-                        self.tableView.reloadData()
-                    }
+        TMDBAPI.getEpisodes(show: showID, season: seasonNumber, completion: { (episodes) in
+            if let unwrappedEpisodes = episodes {
+                self.episodes = unwrappedEpisodes
+                
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
                 }
-            })
-        }
+            }
+        })
         
         tableView.register(UINib(nibName: "ShowTableViewCell", bundle: nil), forCellReuseIdentifier: "showCell")
         
@@ -65,12 +58,11 @@ class ShowEpisodeViewController: UITableViewController {
     @objc func markEpisodes() {
         let alertSheet = UIAlertController(title: "Mark All Episodes as:", message: nil, preferredStyle: .actionSheet)
         alertSheet.addAction(UIAlertAction(title: "Watched", style: .default, handler: { (alertAction) in
-            
-            PersistenceService.markEpisodes(for: self.showID, inSeason: self.seasonNumber, watched: true)
+            // PersistenceService.markEpisodes(for: self.showID, inSeason: self.seasonNumber, watched: true)
         }))
         
         alertSheet.addAction(UIAlertAction(title: "Unwatched", style: .default, handler: { (alertAction) in
-            PersistenceService.markEpisodes(for: self.showID, inSeason: self.seasonNumber, watched: false)
+            // PersistenceService.markEpisodes(for: self.showID, inSeason: self.seasonNumber, watched: false)
         }))
         
         alertSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (alertAction) in
@@ -130,27 +122,27 @@ class ShowEpisodeViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        if(!episodes!.isEmpty) {
-            if let _ = PersistenceService.getShow(id: showID) {
-                let episode = episodes![indexPath.row]
-                
-                if (episode.hasWatched == true) {
-                    let unwatchItem = UIContextualAction(style: .normal, title: "Watchn't") { (action, view, success) in
-                        self.episodes![indexPath.row].hasWatched = false
-                        PersistenceService.markEpisode(id: episode.id, watched: false)
-                        success(true)
-                    }
-                    return UISwipeActionsConfiguration(actions: [unwatchItem])
-                } else {
-                    let watchItem = UIContextualAction(style: .normal, title: "Watched") { (action, view, success) in
-                        self.episodes![indexPath.row].hasWatched = true
-                        PersistenceService.markEpisode(id: episode.id, watched: true)
-                        success(true)
-                    }
-                    return UISwipeActionsConfiguration(actions: [watchItem])
-                }
-            }
-        }
+//        if(!episodes!.isEmpty) {
+//            if let _ = PersistenceService.getShow(id: showID) {
+//                let episode = episodes![indexPath.row]
+//                
+//                if (episode.hasWatched == true) {
+//                    let unwatchItem = UIContextualAction(style: .normal, title: "Watchn't") { (action, view, success) in
+//                        self.episodes![indexPath.row].hasWatched = false
+//                        PersistenceService.markEpisode(id: episode.id, watched: false)
+//                        success(true)
+//                    }
+//                    return UISwipeActionsConfiguration(actions: [unwatchItem])
+//                } else {
+//                    let watchItem = UIContextualAction(style: .normal, title: "Watched") { (action, view, success) in
+//                        self.episodes![indexPath.row].hasWatched = true
+//                        PersistenceService.markEpisode(id: episode.id, watched: true)
+//                        success(true)
+//                    }
+//                    return UISwipeActionsConfiguration(actions: [watchItem])
+//                }
+//            }
+//        }
         return nil
     }
     

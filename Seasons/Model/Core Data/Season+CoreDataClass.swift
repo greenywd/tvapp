@@ -24,7 +24,6 @@ public class Season: NSManagedObject, Decodable {
             episodeCount = try values.decodeIfPresent(Int16.self, forKey: .episodeCount) ?? 0
             id = try values.decode(Int32.self, forKey: .id)
             name = try values.decode(String.self, forKey: .name)
-            episodes = NSSet(array: try values.decodeIfPresent([Episode].self, forKey: .episodes) ?? [])
             overview = try values.decode(String.self, forKey: .overview)
             posterPath = try values.decodeIfPresent(String.self, forKey: .posterPath)
             seasonNumber = try values.decode(Int16.self, forKey: .seasonNumber)

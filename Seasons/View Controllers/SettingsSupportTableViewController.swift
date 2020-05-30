@@ -15,7 +15,8 @@ class SettingsSupportTableViewController : UITableViewController {
         case 0:
             PersistenceService.updateShows()
         case 1:
-            PersistenceService.updateEpisodes()
+            break
+            // PersistenceService.updateEpisodes()
         case 2:
             let alert = UIAlertController(title: "Are you sure?", message: "This will remove all of your favourite shows. Would you like to continue?", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "No", style: .default, handler: nil))
