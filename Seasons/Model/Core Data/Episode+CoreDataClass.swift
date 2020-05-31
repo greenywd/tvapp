@@ -49,3 +49,9 @@ public class Episode: NSManagedObject, Decodable {
         case guestStars = "guest_stars"
     }
 }
+
+extension Episode : Comparable {
+    public static func < (lhs: Episode, rhs: Episode) -> Bool {
+        lhs.episodeNumber < rhs.episodeNumber
+    }
+}
