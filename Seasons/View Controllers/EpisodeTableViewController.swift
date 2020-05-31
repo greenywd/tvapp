@@ -58,13 +58,15 @@ class EpisodeTableViewController: UITableViewController {
             bannerImageView?.image = image
         } else {
             DispatchQueue.global().async {
-                let data = try? Data(contentsOf: URL(string: "https://image.tmdb.org/t/p/original" + self.episode.stillPath!)!)
-                
-                DispatchQueue.main.async {
-                    if let image = data {
-                        let banner = UIImage(data: image)
-                        self.bannerImageView?.image = banner
-                        self.tableView.reloadData()
+                if let imgPath = self.episode.stillPath {
+                    let data = try? Data(contentsOf: URL(string: "https://image.tmdb.org/t/p/original" + imgPath)!)
+                    
+                    DispatchQueue.main.async {
+                        if let image = data {
+                            let banner = UIImage(data: image)
+                            self.bannerImageView?.image = banner
+                            self.tableView.reloadData()
+                        }
                     }
                 }
             }
