@@ -35,7 +35,6 @@
 		D67FD587242B45EF003F2A96 /* Season+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = D67FD57B242B45EF003F2A96 /* Season+CoreDataClass.swift */; };
 		D67FD589242B45EF003F2A96 /* Episode+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = D67FD57D242B45EF003F2A96 /* Episode+CoreDataClass.swift */; };
 		D67FD58B242B45EF003F2A96 /* Genre+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = D67FD57F242B45EF003F2A96 /* Genre+CoreDataClass.swift */; };
-		D67FD58D242B45EF003F2A96 /* Crew+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = D67FD581242B45EF003F2A96 /* Crew+CoreDataClass.swift */; };
 		D67FD58F242B45EF003F2A96 /* Network+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = D67FD583242B45EF003F2A96 /* Network+CoreDataClass.swift */; };
 		D67FD591242B45EF003F2A96 /* Guest+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = D67FD585242B45EF003F2A96 /* Guest+CoreDataClass.swift */; };
 		D6811AB7231901250045944E /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D6811AB6231901250045944E /* CloudKit.framework */; };
@@ -105,7 +104,6 @@
 		D67FD57B242B45EF003F2A96 /* Season+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Season+CoreDataClass.swift"; sourceTree = "<group>"; };
 		D67FD57D242B45EF003F2A96 /* Episode+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Episode+CoreDataClass.swift"; sourceTree = "<group>"; };
 		D67FD57F242B45EF003F2A96 /* Genre+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Genre+CoreDataClass.swift"; sourceTree = "<group>"; };
-		D67FD581242B45EF003F2A96 /* Crew+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Crew+CoreDataClass.swift"; sourceTree = "<group>"; };
 		D67FD583242B45EF003F2A96 /* Network+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Network+CoreDataClass.swift"; sourceTree = "<group>"; };
 		D67FD585242B45EF003F2A96 /* Guest+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Guest+CoreDataClass.swift"; sourceTree = "<group>"; };
 		D6811AB4231901220045944E /* Seasons.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Seasons.entitlements; sourceTree = "<group>"; };
@@ -219,7 +217,6 @@
 				D67FD57B242B45EF003F2A96 /* Season+CoreDataClass.swift */,
 				D67FD57D242B45EF003F2A96 /* Episode+CoreDataClass.swift */,
 				D67FD57F242B45EF003F2A96 /* Genre+CoreDataClass.swift */,
-				D67FD581242B45EF003F2A96 /* Crew+CoreDataClass.swift */,
 				D67FD583242B45EF003F2A96 /* Network+CoreDataClass.swift */,
 				D67FD585242B45EF003F2A96 /* Guest+CoreDataClass.swift */,
 				D67FD577242B4339003F2A96 /* Creator+CoreDataClass.swift */,
@@ -420,7 +417,6 @@
 				D6B9F4C5229A9C4B00EDE1D9 /* UITextView+Extensions.swift in Sources */,
 				D6523B0A241DB6F4002C88D8 /* TMSearch.swift in Sources */,
 				D6BEC1A81E443AB8001B211B /* SearchViewController.swift in Sources */,
-				D67FD58D242B45EF003F2A96 /* Crew+CoreDataClass.swift in Sources */,
 				D67FD575242B3FC8003F2A96 /* Show+CoreDataClass.swift in Sources */,
 				D62CD16B22C4A387004721F6 /* EpisodeTableViewController.swift in Sources */,
 				D6F6160523F798FD00E17DC1 /* SettingsRootViewController.swift in Sources */,
