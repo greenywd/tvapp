@@ -20,7 +20,12 @@ public class Season: NSManagedObject, Decodable {
         
         let values = try decoder.container(keyedBy: CodingKeys.self)
         do {
-            airDate = try values.decodeIfPresent(Date.self, forKey: .airDate)
+            do {
+                airDate = try values.decodeIfPresent(Date.self, forKey: .airDate)
+            } catch {
+                airDate = nil
+            }
+            
             episodeCount = try values.decodeIfPresent(Int16.self, forKey: .episodeCount) ?? 0
             id = try values.decode(Int32.self, forKey: .id)
             name = try values.decode(String.self, forKey: .name)
@@ -37,5 +42,11 @@ public class Season: NSManagedObject, Decodable {
         case id, name, overview, episodes
         case posterPath = "poster_path"
         case seasonNumber = "season_number"
+    }
+}
+
+extension Season : Comparable {
+    public static func < (lhs: Season, rhs: Season) -> Bool {
+        lhs.seasonNumber < rhs.seasonNumber
     }
 }
