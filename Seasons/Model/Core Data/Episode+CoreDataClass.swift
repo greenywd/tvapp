@@ -12,19 +12,17 @@ import CoreData
 
 @objc(Episode)
 public class Episode: NSManagedObject, Decodable {
-
     public required convenience init(from decoder: Decoder) throws {
         guard let context = decoder.userInfo[CodingUserInfoKey.context!] as? NSManagedObjectContext else { fatalError() }
         guard let entity = NSEntityDescription.entity(forEntityName: "Episode", in: context) else { fatalError() }
 
         self.init(entity: entity, insertInto: context)
-
+        
         let values = try decoder.container(keyedBy: CodingKeys.self)
         do {
             airDate = try values.decodeIfPresent(Date.self, forKey: .airDate)
-            crew = NSSet(array: try values.decodeIfPresent([Crew].self, forKey: .crew) ?? [])
             episodeNumber = try values.decode(Int32.self, forKey: .episodeNumber)
-            guestStars = NSSet(array: try values.decodeIfPresent([Guest].self, forKey: .guestStars) ?? [])
+            // guestStars = NSSet(array: try values.decodeIfPresent([Guest].self, forKey: .guestStars) ?? [])
             id = try values.decode(Int32.self, forKey: .id)
             name = try values.decode(String.self, forKey: .name)
             overview = try values.decode(String.self, forKey: .overview)

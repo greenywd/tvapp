@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="16119" systemVersion="19E266" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="YES" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="16119" systemVersion="19F96" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="YES" userDefinedModelVersionIdentifier="">
     <entity name="Creator" representedClassName="Creator" syncable="YES" codeGenerationType="category">
         <attribute name="creditID" optional="YES" attributeType="String"/>
         <attribute name="gender" optional="YES" attributeType="Integer 16" defaultValueString="0.0" usesScalarValueType="YES"/>
@@ -7,16 +7,6 @@
         <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="profilePath" optional="YES" attributeType="String"/>
         <relationship name="createdShow" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Show" inverseName="createdBy" inverseEntity="Show"/>
-    </entity>
-    <entity name="Crew" representedClassName="Crew" syncable="YES" codeGenerationType="category">
-        <attribute name="creditID" optional="YES" attributeType="String"/>
-        <attribute name="department" optional="YES" attributeType="String"/>
-        <attribute name="gender" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="id" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="job" optional="YES" attributeType="String"/>
-        <attribute name="name" optional="YES" attributeType="String"/>
-        <attribute name="profilePath" optional="YES" attributeType="String"/>
-        <relationship name="episode" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Episode" inverseName="crew" inverseEntity="Episode"/>
     </entity>
     <entity name="Episode" representedClassName="Episode" syncable="YES" codeGenerationType="category">
         <attribute name="airDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
@@ -32,8 +22,6 @@
         <attribute name="stillPath" optional="YES" attributeType="String"/>
         <attribute name="voteAverage" optional="YES" attributeType="Double" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="voteCount" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
-        <relationship name="crew" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Crew" inverseName="episode" inverseEntity="Crew"/>
-        <relationship name="guestStars" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Guest" inverseName="episode" inverseEntity="Guest"/>
         <relationship name="lastEpisodeForShow" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Show" inverseName="lastEpisodeToAir" inverseEntity="Show"/>
         <relationship name="nextEpisodeForShow" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Show" inverseName="nextEpisodeToAir" inverseEntity="Show"/>
         <relationship name="season" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Season" inverseName="episodes" inverseEntity="Season"/>
@@ -42,16 +30,6 @@
         <attribute name="id" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="name" optional="YES" attributeType="String"/>
         <relationship name="show" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Show" inverseName="genres" inverseEntity="Show"/>
-    </entity>
-    <entity name="Guest" representedClassName="Guest" syncable="YES" codeGenerationType="category">
-        <attribute name="character" optional="YES" attributeType="String"/>
-        <attribute name="creditID" optional="YES" attributeType="String"/>
-        <attribute name="gender" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="id" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="name" optional="YES" attributeType="String"/>
-        <attribute name="order" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="profilePath" optional="YES" attributeType="String"/>
-        <relationship name="episode" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Episode" inverseName="guestStars" inverseEntity="Episode"/>
     </entity>
     <entity name="Network" representedClassName="Network" syncable="YES" codeGenerationType="category">
         <attribute name="id" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
@@ -104,10 +82,8 @@
     </entity>
     <elements>
         <element name="Creator" positionX="-540" positionY="195" width="128" height="133"/>
-        <element name="Crew" positionX="274" positionY="181" width="128" height="163"/>
-        <element name="Episode" positionX="98" positionY="187" width="128" height="313"/>
+        <element name="Episode" positionX="57" positionY="288" width="128" height="283"/>
         <element name="Genre" positionX="-537" positionY="365" width="128" height="88"/>
-        <element name="Guest" positionX="273" positionY="369" width="128" height="163"/>
         <element name="Network" positionX="-510" positionY="514" width="128" height="118"/>
         <element name="Season" positionX="-104.2421875" positionY="336.828125" width="128" height="178"/>
         <element name="Show" positionX="-278" positionY="220" width="128" height="478"/>

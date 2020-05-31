@@ -18,16 +18,16 @@ public class Guest: NSManagedObject, Decodable {
 
         self.init(entity: entity, insertInto: context)
 
-        let values = try decoder.container(keyedBy: CodingKeys.self)
-        do {
-            character = try values.decode(String.self, forKey: .character)
-            creditID = try values.decode(String.self, forKey: .creditID)
-            gender = try values.decodeIfPresent(Int16.self, forKey: .gender) ?? 0
-            id = try values.decode(Int32.self, forKey: .id)
-            name = try values.decode(String.self, forKey: .name)
-            order = try values.decode(Int16.self, forKey: .order)
-            profilePath = try values.decodeIfPresent(String.self, forKey: .profilePath) ?? ""
-        }
+//        let values = try decoder.container(keyedBy: CodingKeys.self)
+//        do {
+//            character = try values.decode(String.self, forKey: .character)
+//            creditID = try values.decode(String.self, forKey: .creditID)
+//            gender = try values.decodeIfPresent(Int16.self, forKey: .gender) ?? 0
+//            id = try values.decode(Int32.self, forKey: .id)
+//            name = try values.decode(String.self, forKey: .name)
+//            order = try values.decode(Int16.self, forKey: .order)
+//            profilePath = try values.decodeIfPresent(String.self, forKey: .profilePath) ?? ""
+//        }
     }
     
     enum CodingKeys: String, CodingKey {
