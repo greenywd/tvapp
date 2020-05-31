@@ -154,7 +154,7 @@ class TMDBAPI {
                 }
             } catch {
                 print(error)
-                os_log("Failed to decode response with: '%@' in %@ with parameters (%d, %d)", log: .networking, type: .error, error.localizedDescription, #function, show, season)
+                os_log("Failed to decode episodes response with: '%@' in %@ with parameters (showID: %d, seasonNumber: %d)", log: .networking, type: .error, error.localizedDescription, #function, show, season)
             }
         }
         
