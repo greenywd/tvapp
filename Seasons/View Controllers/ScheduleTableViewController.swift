@@ -11,7 +11,7 @@ import UIKit
 class ScheduleTableViewController: UITableViewController {
     
     var episodes: [Episode]?
-    var airDates: [Date]?
+    var airDates: [Date?]?
     
     @IBOutlet weak var segmentedControl: UISegmentedControl!
     
@@ -47,9 +47,8 @@ class ScheduleTableViewController: UITableViewController {
         }
         
         if let eps = episodes {
-            // TODO: This crashes when episodes with no airDates are saved.
-            self.airDates = Array(Set(eps.map { $0.airDate! })).sorted {
-                return $1 >= $0
+            self.airDates = Array(Set(eps.map { $0.airDate })).sorted { (lhs, rhs) -> Bool in
+                return (lhs ?? Date.distantPast) > (rhs ?? Date.distantPast)
             }
         }
     }
@@ -69,7 +68,15 @@ class ScheduleTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return DateFormatter.cached(type: .friendly).string(from: airDates![section])
+        guard let dates = airDates else {
+            return "Unknown Date"
+        }
+        
+        guard let date = dates[section] else {
+            return "Unknown Date"
+        }
+        
+        return DateFormatter.cached(type: .friendly).string(from: date)
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
