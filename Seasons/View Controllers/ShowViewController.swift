@@ -142,7 +142,8 @@ class ShowViewController: UITableViewController {
             let dispatchGroup = DispatchGroup()
             dispatchGroup.enter()
             
-            for season in self.show.seasons as! Set<Season> {
+            let seasons = (self.show.seasons as! Set<Season>).sorted()
+            for season in seasons {
                 TMDBAPI.getEpisodes(show: self.show.id, season: season.seasonNumber, isSaving: true) { (fetchedEpisodes) in
                     if var episodes = fetchedEpisodes {
                         for episode in episodes {
@@ -154,9 +155,10 @@ class ShowViewController: UITableViewController {
                                 episodes.remove(at: episodes.firstIndex(of: episode)!)
                             }
                         }
-
+                        
                         season.addToEpisodes(NSSet(array: episodes))
                         
+                        os_log("Saving season %d out of %d.", log: .networking, type: .info, season.seasonNumber, self.show.numberOfSeasons)
                         if season.seasonNumber == self.show.numberOfSeasons {
                             dispatchGroup.leave()
                         }
@@ -166,20 +168,15 @@ class ShowViewController: UITableViewController {
             
             dispatchGroup.notify(queue: .main) {
                 do {
-                    PersistenceService.temporaryContext.perform {
-                        do {
-                            try PersistenceService.temporaryContext.save()
-                        } catch {
-                            os_log("Failed to save context temporaryContext with %@", log: .networking, type: .error, error.localizedDescription)
-                        }
-                    }
+                    try PersistenceService.temporaryContext.save()
                     try PersistenceService.context.save()
+                    self.rightBarButtonItem.image = UIImage(systemName: "star.fill")
+                    self.rightBarButtonItem.action = #selector(self.removeShow)
                 } catch {
                     os_log("Failed to save context temporaryContext with %@", log: .networking, type: .error, error.localizedDescription)
                 }
                 self.setupRightBarButtonItem(isBusy: false)
-                self.rightBarButtonItem.image = UIImage(systemName: "star.fill")
-                self.rightBarButtonItem.action = #selector(self.removeShow)
+
             }
         }
     }

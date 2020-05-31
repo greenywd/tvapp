@@ -47,6 +47,7 @@ class ScheduleTableViewController: UITableViewController {
         }
         
         if let eps = episodes {
+            // TODO: This crashes when episodes with no airDates are saved.
             self.airDates = Array(Set(eps.map { $0.airDate! })).sorted {
                 return $1 >= $0
             }
