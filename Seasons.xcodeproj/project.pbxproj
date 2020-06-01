@@ -12,7 +12,6 @@
 		D6145519228AECC000F842C6 /* UILabel+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6145518228AECC000F842C6 /* UILabel+Extensions.swift */; };
 		D618197022BCF5AE0080D62F /* SeasonsHeaderImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D618196F22BCF5AE0080D62F /* SeasonsHeaderImageView.swift */; };
 		D61FFE05226B2F72004A0F46 /* URLResponse+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D61FFE04226B2F72004A0F46 /* URLResponse+Extensions.swift */; };
-		D626ED742387FC4400C8EAE8 /* TVDBAPI+Background.swift in Sources */ = {isa = PBXBuildFile; fileRef = D626ED732387FC4400C8EAE8 /* TVDBAPI+Background.swift */; };
 		D62CD16B22C4A387004721F6 /* EpisodeTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D62CD16A22C4A387004721F6 /* EpisodeTableViewController.swift */; };
 		D634139E23FCB28600C7A92A /* Settings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D634139D23FCB28600C7A92A /* Settings.storyboard */; };
 		D637D9A9240F45AE00A3F094 /* SettingsSupportTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D637D9A8240F45AE00A3F094 /* SettingsSupportTableViewController.swift */; };
@@ -79,7 +78,6 @@
 		D6145518228AECC000F842C6 /* UILabel+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+Extensions.swift"; sourceTree = "<group>"; };
 		D618196F22BCF5AE0080D62F /* SeasonsHeaderImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeasonsHeaderImageView.swift; sourceTree = "<group>"; };
 		D61FFE04226B2F72004A0F46 /* URLResponse+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLResponse+Extensions.swift"; sourceTree = "<group>"; };
-		D626ED732387FC4400C8EAE8 /* TVDBAPI+Background.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TVDBAPI+Background.swift"; sourceTree = "<group>"; };
 		D62CD16A22C4A387004721F6 /* EpisodeTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EpisodeTableViewController.swift; sourceTree = "<group>"; };
 		D634139D23FCB28600C7A92A /* Settings.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Settings.storyboard; sourceTree = "<group>"; };
 		D637D9A8240F45AE00A3F094 /* SettingsSupportTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsSupportTableViewController.swift; sourceTree = "<group>"; };
@@ -147,7 +145,6 @@
 				D64D94DB242B3CEC00B4CA58 /* Core Data */,
 				D6523B06241DB6C9002C88D8 /* TheMovieDB API */,
 				D613EB2822B3A39B00ADCD53 /* APIKey.swift */,
-				D626ED732387FC4400C8EAE8 /* TVDBAPI+Background.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -433,7 +430,6 @@
 				D6D94ABC2286ED2900A405B5 /* ShowTableViewCell.swift in Sources */,
 				D6523B0C241DB6FD002C88D8 /* TMSearchResult.swift in Sources */,
 				D63D0A481E2845ED00D3F1CA /* AppDelegate.swift in Sources */,
-				D626ED742387FC4400C8EAE8 /* TVDBAPI+Background.swift in Sources */,
 				D67FD591242B45EF003F2A96 /* Guest+CoreDataClass.swift in Sources */,
 				D64C8B68228C2ADB00049F86 /* PersistenceService.swift in Sources */,
 				D61FFE05226B2F72004A0F46 /* URLResponse+Extensions.swift in Sources */,
