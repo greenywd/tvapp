@@ -95,6 +95,10 @@ class ScheduleTableViewController: UITableViewController {
             let show = PersistenceService.getShow(id: filteredEpisodes[indexPath.row].showID)
             cell.titleLabel.text = "\(filteredEpisodes[indexPath.row].name ?? "Unknown Episode Name") - \(show?.name! ?? "Unknown Show Name")"
             cell.detailLabel.text = filteredEpisodes[indexPath.row].overview ?? "No Description" // DateFormatter().string(from: episode.firstAired!)
+            
+            if let image = filteredEpisodes[indexPath.row].image {
+                cell.backgroundImageView.image = UIImage(data: image)
+            }
         }
         return cell
     }
