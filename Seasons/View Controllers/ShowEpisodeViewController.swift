@@ -109,16 +109,27 @@ class ShowEpisodeViewController: UITableViewController {
             cell.titleLabel.text = episode.name
             cell.detailLabel.text = episode.overview
             
-            if let stillPath = episode.stillPath {
-                if let cachedImage = self.cache.object(forKey: NSString(string: "\(episode.id)")) {
-                    cell.backgroundImageView.image = cachedImage
-                } else {
-                    DispatchQueue.global(qos: .userInteractive).async {
-                        let dataForImage = try? Data(contentsOf: TMDBAPI.createImageURL(path: stillPath)!)
-                        if let image = dataForImage {
-                            DispatchQueue.main.async {
-                                cell.backgroundImageView.image = UIImage(data: image)
-                                self.cache.setObject(cell.backgroundImageView.image!, forKey: NSString(string: "\(episode.id)"))
+            if let image = episode.image {
+                cell.backgroundImageView.image = UIImage(data: image)
+            } else {
+                if let stillPath = episode.stillPath {
+                    if let cachedImage = self.cache.object(forKey: NSString(string: "\(episode.id)")) {
+                        cell.backgroundImageView.image = cachedImage
+                    } else {
+                        DispatchQueue.global(qos: .userInteractive).async {
+                            let dataForImage = try? Data(contentsOf: TMDBAPI.createImageURL(path: stillPath)!)
+                            if let image = dataForImage {
+                                let compressedImage = UIImage(data: image)!.jpegData(compressionQuality: 0.85)!
+                                DispatchQueue.main.async {
+                                    if PersistenceService.showExists(id: episode.showID) {
+                                        episode.image = compressedImage
+                                        PersistenceService.saveContext()
+                                    }
+                                    
+                                    cell.backgroundImageView.image = UIImage(data: compressedImage)
+                                    self.cache.setObject(cell.backgroundImageView.image!, forKey: NSString(string: "\(episode.id)"))
+                                    
+                                }
                             }
                         }
                     }
