@@ -140,10 +140,10 @@ class ShowViewController: UITableViewController {
         DispatchQueue.global(qos: .userInteractive).async {
 
             let dispatchGroup = DispatchGroup()
-            dispatchGroup.enter()
-            
+
             let seasons = (self.show.seasons as! Set<Season>).sorted()
             for season in seasons {
+                dispatchGroup.enter()
                 TMDBAPI.getEpisodes(show: self.show.id, season: season.seasonNumber, isSaving: true) { (fetchedEpisodes) in
                     if var episodes = fetchedEpisodes {
                         for episode in episodes {
@@ -157,11 +157,11 @@ class ShowViewController: UITableViewController {
                         }
                         
                         season.addToEpisodes(NSSet(array: episodes))
-                        
+                        dispatchGroup.leave()
                         os_log("Saving season %d out of %d.", log: .networking, type: .info, season.seasonNumber, self.show.numberOfSeasons)
-                        if season.seasonNumber == self.show.numberOfSeasons {
-                            dispatchGroup.leave()
-                        }
+//                        if season.seasonNumber == self.show.numberOfSeasons {
+//                            
+//                        }
                     }
                 }
             }

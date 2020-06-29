@@ -21,7 +21,7 @@ class PersistenceService {
     }
     
     static var temporaryContext: NSManagedObjectContext = {
-        let temporaryContext = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
+        let temporaryContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
         temporaryContext.parent = PersistenceService.context
         return temporaryContext
     }()
