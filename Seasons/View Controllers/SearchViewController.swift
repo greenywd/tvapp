@@ -76,25 +76,7 @@ class SearchViewController : UITableViewController {
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         
-        guard let query = searchBar.text else {
-            return
-        }
         
-        for cell in (tableView.visibleCells as? [ShowTableViewCell])! {
-            cell.backgroundImageView.image = nil
-        }
-        searchResults.removeAll()
-        tableView.reloadData()
-        
-        TMDBAPI.searchShows(query: query) { results in
-            if let showResults = results {
-                self.searchResults = showResults
-                
-                DispatchQueue.main.async {
-                    self.tableView.reloadData()
-                }
-            }
-        }
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -117,7 +99,25 @@ class SearchViewController : UITableViewController {
 // MARK: - Delegate/Helper Methods
 extension SearchViewController : UISearchResultsUpdating, UISearchBarDelegate {
     func updateSearchResults(for searchController: UISearchController) {
-        return
+        guard let query = searchController.searchBar.text else {
+            return
+        }
+        
+        for cell in (tableView.visibleCells as? [ShowTableViewCell])! {
+            cell.backgroundImageView.image = nil
+        }
+        searchResults.removeAll()
+        tableView.reloadData()
+        
+        TMDBAPI.shared.searchShows(query: query) { results in
+            if let showResults = results {
+                self.searchResults = showResults
+                
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                }
+            }
+        }
     }
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
@@ -144,19 +144,19 @@ extension SearchViewController : UISearchResultsUpdating, UISearchBarDelegate {
         
         if searchResults.count != 0 {
             let show = searchResults[indexPath.row]
-            // cell.show = show
+
             cell.titleLabel.text = show.name
             cell.detailLabel.text = show.overview
             if let backdropPath = show.backdropPath {
                 if let cachedImage = self.cache.object(forKey: NSString(string: "\(show.id)")) {
                     cell.backgroundImageView.image = cachedImage
                 } else {
-                    DispatchQueue.global(qos: .userInteractive).async {
-                        let dataForImage = try? Data(contentsOf: TMDBAPI.createImageURL(path: backdropPath)!)
-                        if let image = dataForImage {
+                    
+                    TMDBAPI.shared.getImage(from: backdropPath) { [weak self] (imageData) in
+                        if let image = imageData {
                             DispatchQueue.main.async {
                                 cell.backgroundImageView.image = UIImage(data: image)
-                                self.cache.setObject(cell.backgroundImageView.image!, forKey: NSString(string: "\(show.id)"))
+                                self?.cache.setObject(cell.backgroundImageView.image!, forKey: NSString(string: "\(show.id)"))
                             }
                         }
                     }
